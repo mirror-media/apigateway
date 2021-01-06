@@ -7,7 +7,7 @@ import (
 	firebase "firebase.google.com/go/v4"
 	"firebase.google.com/go/v4/auth"
 	"github.com/gin-gonic/gin"
-	"github.com/mirror-media/apigateway/config"
+	"github.com/mirror-media/mm-apigateway/config"
 	log "github.com/sirupsen/logrus"
 	"google.golang.org/api/option"
 )

@@ -1,4 +1,4 @@
-module github.com/mirror-media/apigateway
+module github.com/mirror-media/mm-apigateway
 
 go 1.15
 

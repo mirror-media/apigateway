@@ -11,100 +11,80 @@ import (
 	"net/url"
 	"strconv"
 	"strings"
+	"time"
+
+	"github.com/mirror-media/mm-apigateway/middleware"
+	"github.com/mirror-media/mm-apigateway/token"
 
 	log "github.com/sirupsen/logrus"
 
 	"github.com/gin-gonic/gin"
 
 	"github.com/99designs/gqlgen/graphql/handler"
-	"github.com/mirror-media/apigateway/graph"
-	"github.com/mirror-media/apigateway/graph/generated"
+	"github.com/mirror-media/mm-apigateway/graph"
+	"github.com/mirror-media/mm-apigateway/graph/generated"
 )
 
-const localfile = "/Users/chiu/dev/mm/usersrv/static"
-
-const (
-	UserStateActivated              = 200
-	UserStateDisabled               = 100
-	UserStateMissingInProvider      = 300
-	UserStateMissingInMirrorMedia   = 401
-	UserStateRegistrationIncomplete = 402 // Not used currently
-	UserStateRefreshTokenRevoked    = 501
-)
-
-// SetIDTokenStateOnly is a middleware to verify to idToken and save the result to the context
-func SetIDTokenStateOnly(server *Server) gin.HandlerFunc {
+// GetIDTokenOnly is a middleware to construct the token.Token interface
+func GetIDTokenOnly(server *Server) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		logger := log.WithFields(log.Fields{
 			"path": c.FullPath(),
 		})
-		const BearerSchema = "Bearer "
+		// Create a Token Instance
 		authHeader := c.GetHeader("Authorization")
-
-		if !strings.HasPrefix(authHeader, BearerSchema) {
-			c.Set("IDTokenState", "Not a Bearer token")
-			c.Next()
-			return
-		}
-		idToken := authHeader[len(BearerSchema):]
-		// verify IfToken
 		firebaseClient := server.FirebaseClient
-
-		// Verify IDToken is valid
-		cCtx := c.Copy()
-		_, err := firebaseClient.VerifyIDTokenAndCheckRevoked(cCtx, idToken)
+		token, err := token.NewFirebaseToken(&authHeader, firebaseClient)
 		if err != nil {
-			logger.Printf("error verifying ID token: %v\n", err)
-			c.Set("IDTokenState", err.Error())
+			logger.Info(err)
 			c.Next()
 			return
 		}
-		c.Set("IDTokenState", "OK")
+		c.Set(middleware.GCtxTokenKey, token)
+		c.Next()
 	}
 }
 
-// VerifyIDToken is a middleware to authenticate the request and save the result to the context
-func VerifyIDToken(server *Server) gin.HandlerFunc {
+// AuthenticateIDToken is a middleware to authenticate the request and save the result to the context
+func AuthenticateIDToken(server *Server) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		logger := log.WithFields(log.Fields{
 			"path": c.FullPath(),
 		})
-		const BearerSchema = "Bearer "
-		authHeader := c.GetHeader("Authorization")
-
-		// exit if token is not valid
-		if !strings.HasPrefix(authHeader, BearerSchema) {
-			c.Set("IDTokenState", "Not a Bearer token")
-			c.AbortWithStatusJSON(http.StatusForbidden, ErrorReply{
-				Errors: []Error{{Message: "Not a Bearer token"}},
-			})
-			return
-		}
-		idToken := authHeader[len(BearerSchema):]
-		// Token Verifycation
-		firebaseClient := server.FirebaseClient
-		// Verify IDToken
-		// exit if it's not valid
-		cCtx := c.Copy()
-		token, err := firebaseClient.VerifyIDTokenAndCheckRevoked(cCtx, idToken)
-		if err != nil {
-			logger.Printf("error verifying ID token: %v\n", err)
-			c.Set("IDTokenState", err.Error())
+		// Create a Token Instance
+		t := c.Value(middleware.GCtxTokenKey)
+		if t == nil {
+			err := errors.New("no token provided")
+			logger.Info(err)
 			c.AbortWithStatusJSON(http.StatusForbidden, ErrorReply{
 				Errors: []Error{{Message: err.Error()}},
 			})
 			return
 		}
+		tt := t.(token.Token)
 
-		c.Set("IDTokenState", "OK")
-		c.Set("UserID", token.Subject)
+		if tt.GetTokenState() != token.OK {
+			logger.Info(tt.GetTokenState())
+			c.AbortWithStatusJSON(http.StatusForbidden, ErrorReply{
+				Errors: []Error{{Message: tt.GetTokenState()}},
+			})
+			return
+		}
+
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+		// Because GetTokenState() already fetch the public key and cache it. Here VerifyIDToken() would only verify the signature.
+		firebaseClient := server.FirebaseClient
+		tokenString, _ := tt.GetTokenString()
+		idToken, _ := firebaseClient.VerifyIDToken(ctx, tokenString)
+		c.Set(middleware.GCtxUserIDKey, idToken.Subject)
 		c.Next()
 	}
 }
 
 func GinContextToContextMiddleware(server *Server) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		ctx := context.WithValue(c.Request.Context(), "GinContextKey", c)
+		ctx := context.WithValue(c.Request.Context(), middleware.CtxGinContexKey, c)
 		c.Request = c.Request.WithContext(ctx)
 		c.Next()
 	}
@@ -112,7 +92,7 @@ func GinContextToContextMiddleware(server *Server) gin.HandlerFunc {
 
 func FirebaseClientToContextMiddleware(server *Server) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		ctx := context.WithValue(c.Request.Context(), "FirebaseClient", server.FirebaseClient)
+		ctx := context.WithValue(c.Request.Context(), middleware.CtxFirebaseClient, server.FirebaseClient)
 		c.Request = c.Request.WithContext(ctx)
 		c.Next()
 	}
@@ -161,7 +141,14 @@ func ModifyReverseProxyResponse(c *gin.Context) func(*http.Response) error {
 			return err
 		}
 
-		tokenState, _ := c.Get("IDTokenState")
+		var tokenState string
+
+		tokenSaved, exist := c.Get(middleware.GCtxTokenKey)
+		if !exist {
+			tokenState = "No Bearer token available"
+		} else {
+			tokenState = tokenSaved.(token.Token).GetTokenState()
+		}
 
 		b, err := json.Marshal(Reply{
 			TokenState: tokenState,
@@ -246,17 +233,23 @@ func SetRoute(server *Server) error {
 	// Public API
 	// v1 api
 	v1Router := apiRouter.Group("/v1")
-	v1tokenStateRouter := v1Router.Use(SetIDTokenStateOnly(server))
+	v1tokenStateRouter := v1Router.Use(GetIDTokenOnly(server))
 	v1tokenStateRouter.GET("/tokenState", func(c *gin.Context) {
-		state, _ := c.Get("IDTokenState")
+		t := c.Value(middleware.GCtxTokenKey).(token.Token)
+		if t == nil {
+			c.JSON(http.StatusBadRequest, Reply{
+				TokenState: nil,
+			})
+			return
+		}
 		c.JSON(http.StatusOK, Reply{
-			TokenState: state,
+			TokenState: t.GetTokenState(),
 		})
 	})
 
 	// Private API
 	// v1 User
-	v1TokenAuthenticatedWithFirebaseRouter := v1Router.Use(VerifyIDToken(server), GinContextToContextMiddleware(server), FirebaseClientToContextMiddleware(server))
+	v1TokenAuthenticatedWithFirebaseRouter := v1Router.Use(AuthenticateIDToken(server), GinContextToContextMiddleware(server), FirebaseClientToContextMiddleware(server))
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{
 		UserSrvURL: server.conf.ServiceEndpoints.UserGraphQL,
 	}}))
@@ -264,418 +257,13 @@ func SetRoute(server *Server) error {
 
 	// v0 api proxy every request to the restful serverce
 	v0Router := apiRouter.Group("/v0")
-	v0tokenStateRouter := v0Router.Use(SetIDTokenStateOnly(server))
+	v0tokenStateRouter := v0Router.Use(GetIDTokenOnly(server))
 	proxyURL, err := url.Parse(server.conf.V0RESTfulSrvTargetURL)
 	if err != nil {
 		return err
 	}
 
 	v0tokenStateRouter.Any("/*wildcard", NewSingleHostReverseProxy(proxyURL, v0Router.BasePath()))
-
-	// ===== Legacy DEMO code =====
-
-	// r := server.Engine
-	// r.Use(static.Serve("/", static.LocalFile(localfile, false)))
-
-	// apiRouter.GET("/verifyToken", func(c *gin.Context) {
-	// 	apiLogger := log.WithFields(log.Fields{
-	// 		"path": c.FullPath(),
-	// 	})
-	// })
-
-	// legacy user server below
-
-	// apiRouter.GET("/verifyToken", func(c *gin.Context) {
-	// 	apiLogger := log.WithFields(log.Fields{
-	// 		"path": c.FullPath(),
-	// 	})
-
-	// 	const BearerSchema = "Bearer "
-	// 	authHeader := c.GetHeader("Authorization")
-	// 	idToken := authHeader[len(BearerSchema):]
-
-	// 	token, err := firebaseClient.VerifyIDToken(c, idToken)
-	// 	if err != nil {
-	// 		apiLogger.Infof("error verifying ID token: %v", err)
-	// 		// apiLogger.Infof("token: %v", idToken)
-	// 		c.AbortWithStatus(http.StatusForbidden)
-	// 		return
-	// 	}
-
-	// 	apiLogger.Infof("Verified ID token: %v", token)
-	// 	c.Status(http.StatusOK)
-	// })
-
-	// apiRouter.GET("/users/:userID/attributes/state", func(c *gin.Context) {
-	// 	apiLogger := log.WithFields(log.Fields{
-	// 		"path": c.FullPath(),
-	// 	})
-
-	// 	firebaseID := c.Param("userID")
-
-	// 	// Get user info from firebase
-	// 	firebaseUser, err := firebaseClient.GetUser(c, firebaseID)
-	// 	if err != nil {
-	// 		apiLogger.Infof("firebase get user(%s) error: %v", firebaseID, err)
-	// 		c.AbortWithStatusJSON(http.StatusBadRequest, map[string]int{"state": UserStateMissingInProvider})
-	// 		return
-	// 	}
-
-	// 	// Get user info from db
-
-	// 	type User struct {
-	// 		ID    *int
-	// 		State *int
-	// 		Email *string
-	// 	}
-	// 	// TODO move db to server
-	// 	db, err := NewDB()
-	// 	if err != nil {
-	// 		apiLogger.Infof("db open error: %v", err)
-	// 		c.AbortWithStatus(http.StatusInternalServerError)
-	// 		return
-	// 	}
-	// 	var user User
-	// 	db.Where("firebase_id = ?", firebaseID).First(&user)
-
-	// 	var stateToReturn int
-	// 	if firebaseUser.Disabled {
-	// 		stateToReturn = UserStateDisabled
-	// 	} else if user.ID == nil {
-	// 		stateToReturn = UserStateMissingInMirrorMedia
-	// 	} else if user.Email == nil || *user.Email == "" {
-	// 		stateToReturn = UserStateRegistrationIncomplete
-	// 	} else {
-	// 		stateToReturn = *user.State
-	// 	}
-	// 	c.JSON(http.StatusOK, map[string]int{"state": stateToReturn})
-	// })
-
-	// apiRouter.GET("/users/:userID", func(c *gin.Context) {
-	// 	apiLogger := log.WithFields(log.Fields{
-	// 		"path": c.FullPath(),
-	// 	})
-
-	// 	firebaseID := c.Param("userID")
-
-	// 	type Address struct {
-	// 		ID            *int64     `json:"-"`
-	// 		Nationality   *string    `json:",omitempty"`
-	// 		State         *string    `json:",omitempty"`
-	// 		City          *string    `json:",omitempty"`
-	// 		ZipCode       *string    `json:",omitempty"`
-	// 		District      *string    `json:",omitempty"`
-	// 		StreetAddress *string    `json:",omitempty"`
-	// 		CreatedAt     *time.Time `json:",omitempty"`
-	// 		UpdatedAt     *time.Time `json:",omitempty"`
-	// 	}
-
-	// 	type Image struct {
-	// 		ID        *int64     `json:"-"`
-	// 		URL       *string    `json:",omitempty"`
-	// 		CreatedAt *time.Time `json:",omitempty"`
-	// 		UpdatedAt *time.Time `json:",omitempty"`
-	// 	}
-	// 	type User struct {
-	// 		FirebaseID            *string
-	// 		Email                 *string
-	// 		Name                  *string    `json:",omitempty"`
-	// 		Nickname              *string    `json:",omitempty"`
-	// 		Bio                   *string    `json:",omitempty"`
-	// 		State                 *int       `json:",omitempty"`
-	// 		Birthday              *time.Time `json:",omitempty"`
-	// 		ImageID               *int64     `json:"-"`
-	// 		Image                 *Image     `json:",omitempty"`
-	// 		Gender                *int       `json:",omitempty"`
-	// 		Phone                 *string    `json:",omitempty"`
-	// 		AddressID             *int64     `json:"-"`
-	// 		Address               *Address   `json:",omitempty"`
-	// 		Point                 *int       `json:",omitempty"`
-	// 		CreatedAt             *time.Time `json:",omitempty"`
-	// 		UpdatedAt             *time.Time `json:",omitempty"`
-	// 		MembershipValidBefore *time.Time `json:",omitempty"`
-	// 		MembershipType        *int       `json:",omitempty"`
-	// 		MembershipValidAfter  *time.Time `json:",omitempty"`
-	// 		CreatedByOperator     *int64     `json:",omitempty"`
-	// 	}
-
-	// 	db, err := NewDB()
-	// 	if err != nil {
-	// 		apiLogger.Infof("db open error: %v", err)
-	// 		c.AbortWithStatus(http.StatusInternalServerError)
-	// 		return
-	// 	}
-	// 	var user User
-	// 	db.Joins("Image").Joins("Address").Where("firebase_id = ?", firebaseID).First(&user)
-	// 	apiLogger.Infof("firebase_id(%s):%+v", firebaseID, user)
-	// 	apiLogger.Infof("firebase_id(%s)Image:%+v", firebaseID, user.Image)
-	// 	if user.FirebaseID == nil {
-	// 		c.AbortWithStatus(http.StatusBadRequest)
-	// 		return
-	// 	}
-	// 	c.JSON(http.StatusOK, user)
-	// })
-
-	// apiRouter.POST("/users", func(c *gin.Context) {
-	// 	apiLogger := log.WithFields(log.Fields{
-	// 		"path": c.FullPath(),
-	// 	})
-
-	// 	type Address struct {
-	// 		ID            *int64 `json:"-"`
-	// 		Nationality   *string
-	// 		State         *string
-	// 		City          *string
-	// 		ZipCode       *string
-	// 		District      *string
-	// 		StreetAddress *string
-	// 		CreatedAt     *time.Time `json:"-"`
-	// 		UpdatedAt     *time.Time `json:"-"`
-	// 	}
-
-	// 	type Image struct {
-	// 		ID        *int64 `json:"-"`
-	// 		URL       *string
-	// 		CreatedAt *time.Time `json:"-"`
-	// 		UpdatedAt *time.Time `json:"-"`
-	// 	}
-	// 	type User struct {
-	// 		FirebaseID            *string
-	// 		Email                 *string
-	// 		Name                  *string
-	// 		Nickname              *string
-	// 		Bio                   *string
-	// 		State                 *int
-	// 		Birthday              *time.Time
-	// 		ImageID               *int64 `json:"-"`
-	// 		Image                 *Image
-	// 		Gender                *int
-	// 		Phone                 *string
-	// 		AddressID             *int64 `json:"-"`
-	// 		Address               *Address
-	// 		Point                 *int
-	// 		CreatedAt             *time.Time `json:"-"`
-	// 		UpdatedAt             *time.Time `json:"-"`
-	// 		MembershipValidBefore *time.Time
-	// 		MembershipType        *int
-	// 		MembershipValidAfter  *time.Time
-	// 		CreatedByOperator     *int64
-	// 	}
-
-	// 	var user User
-
-	// 	err = c.BindJSON(&user)
-	// 	if err != nil {
-	// 		apiLogger.Infof("parsing error: %v", err)
-	// 		c.AbortWithStatus(http.StatusBadRequest)
-	// 		return
-	// 	}
-
-	// 	// validate user
-	// 	if user.FirebaseID == nil {
-	// 		apiLogger.Info("firebase_id isn't provided")
-	// 		c.AbortWithStatus(http.StatusBadRequest)
-	// 		return
-	// 	} else if user.Email == nil {
-	// 		apiLogger.Infof("email is not provided for firebase_id(%s)", *user.FirebaseID)
-	// 		c.AbortWithStatus(http.StatusBadRequest)
-	// 		return
-	// 	}
-
-	// 	firebaseUserToUpdate := &auth.UserToUpdate{}
-	// 	if user.Email != nil {
-	// 		firebaseUserToUpdate.Email(*user.Email)
-	// 	}
-
-	// 	if user.Name != nil {
-	// 		firebaseUserToUpdate.DisplayName(*user.Name)
-	// 	}
-
-	// 	if user.Phone != nil {
-	// 		firebaseUserToUpdate.PhoneNumber(*user.Phone)
-	// 	}
-
-	// 	// TODO Update image
-
-	// 	_, err = firebaseClient.UpdateUser(
-	// 		context.Background(),
-	// 		*user.FirebaseID,
-	// 		firebaseUserToUpdate,
-	// 	)
-	// 	if err != nil {
-	// 		apiLogger.Errorf("error updating firebase user: %v\n", err)
-	// 		c.AbortWithStatusJSON(http.StatusBadRequest, map[string]string{"error": fmt.Sprintf("error updating firebase user: %v\n", err)})
-	// 		return
-	// 	}
-
-	// 	// TODO move to server
-	// 	db, err := NewDB()
-	// 	if err != nil {
-	// 		apiLogger.Infof("db open error: %v", err)
-	// 		c.AbortWithStatus(http.StatusInternalServerError)
-	// 		return
-	// 	}
-
-	// 	result := db.Create(&user)
-
-	// 	if result.RowsAffected != 1 {
-	// 		apiLogger.Infof("user with firebase_id(%s) is not created: %v", *user.FirebaseID, result.Error)
-	// 		c.AbortWithStatus(http.StatusBadRequest)
-	// 		return
-	// 	}
-
-	// 	c.Status(http.StatusOK)
-	// })
-
-	// apiRouter.DELETE("/users/:userID", func(c *gin.Context) {
-	// 	apiLogger := log.WithFields(log.Fields{
-	// 		"path": c.FullPath(),
-	// 	})
-
-	// 	firebaseID := c.Param("userID")
-	// 	_, err := firebaseClient.UpdateUser(context.Background(), firebaseID, (&auth.UserToUpdate{}).Disabled(true))
-	// 	if err != nil {
-	// 		apiLogger.Infof("Disabling firebase_id(%s) failed: %v", firebaseID, err)
-	// 		c.AbortWithStatusJSON(http.StatusBadRequest, map[string]string{"error": fmt.Sprintf("Disabling firebase_id(%s) failed: %v", firebaseID, err)})
-	// 		return
-	// 	}
-
-	// 	// TODO move to server
-	// 	db, err := NewDB()
-	// 	if err != nil {
-	// 		apiLogger.Infof("db open error: %v", err)
-	// 		c.AbortWithStatus(http.StatusInternalServerError)
-	// 		return
-	// 	}
-
-	// 	type User struct {
-	// 		State int
-	// 	}
-
-	// 	db.Model(&User{}).Where("firebase_id = ?", firebaseID).Update("state", UserStateDisabled)
-
-	// })
-
-	// apiRouter.PATCH("/users/:userID", func(c *gin.Context) {
-	// 	apiLogger := log.WithFields(log.Fields{
-	// 		"path": c.FullPath(),
-	// 	})
-
-	// 	firebaseID := c.Param("userID")
-
-	// 	type Address struct {
-	// 		ID            *int64 `json:"-"`
-	// 		Nationality   *string
-	// 		State         *string
-	// 		City          *string
-	// 		ZipCode       *string
-	// 		District      *string
-	// 		StreetAddress *string
-	// 		CreatedAt     *time.Time `json:"-"`
-	// 		UpdatedAt     *time.Time `json:"-"`
-	// 	}
-
-	// 	type Image struct {
-	// 		ID        *int64 `json:"-"`
-	// 		URL       *string
-	// 		CreatedAt *time.Time `json:"-"`
-	// 		UpdatedAt *time.Time `json:"-"`
-	// 	}
-	// 	type User struct {
-	// 		Email                 *string
-	// 		Name                  *string
-	// 		Nickname              *string
-	// 		Bio                   *string
-	// 		State                 *int
-	// 		Birthday              *time.Time
-	// 		ImageID               *int64 `json:"-"`
-	// 		Image                 *Image
-	// 		Gender                *int
-	// 		Phone                 *string
-	// 		AddressID             *int64 `json:"-"`
-	// 		Address               *Address
-	// 		Point                 *int
-	// 		CreatedAt             *time.Time `json:"-"`
-	// 		UpdatedAt             *time.Time `json:"-"`
-	// 		MembershipValidBefore *time.Time
-	// 		MembershipType        *int
-	// 		MembershipValidAfter  *time.Time
-	// 		CreatedByOperator     *int64
-	// 	}
-
-	// 	var user User
-
-	// 	err = c.BindJSON(&user)
-	// 	if err != nil {
-	// 		apiLogger.Infof("user with firebase_id(%s) is not updated: %v", firebaseID, err)
-	// 		c.AbortWithStatus(http.StatusBadRequest)
-	// 		return
-	// 	}
-
-	// 	// Get user info from firebase
-	// 	firebaseUser, err := firebaseClient.GetUser(c, firebaseID)
-	// 	if err != nil {
-	// 		c.AbortWithStatus(http.StatusInternalServerError)
-	// 		return
-	// 	} else if firebaseUser == nil {
-	// 		c.AbortWithStatusJSON(http.StatusBadRequest, map[string]int{"state": UserStateMissingInProvider})
-	// 		return
-	// 	}
-
-	// 	firebaseUserToUpdate := &auth.UserToUpdate{}
-	// 	if user.Email != nil {
-	// 		*user.State = UserStateActivated
-
-	// 		firebaseUserToUpdate.Email(*user.Email)
-	// 	} else {
-	// 		user.State = nil
-	// 	}
-
-	// 	if user.Name != nil {
-	// 		firebaseUserToUpdate.DisplayName(*user.Name)
-	// 	}
-
-	// 	if user.Phone != nil {
-	// 		firebaseUserToUpdate.PhoneNumber(*user.Phone)
-	// 	}
-
-	// 	// TODO Update image
-
-	// 	_, err = firebaseClient.UpdateUser(
-	// 		context.Background(),
-	// 		firebaseID,
-	// 		firebaseUserToUpdate,
-	// 	)
-	// 	if err != nil {
-	// 		apiLogger.Errorf("error updating user: %v\n", err)
-	// 		c.AbortWithStatusJSON(http.StatusBadRequest, map[string]string{"error": fmt.Sprintf("error updating firebase user: %v\n", err)})
-	// 		return
-	// 	}
-
-	// 	// TODO move to server
-	// 	db, err := NewDB()
-	// 	if err != nil {
-	// 		apiLogger.Infof("db open error: %v", err)
-	// 		c.AbortWithStatus(http.StatusInternalServerError)
-	// 		return
-	// 	}
-
-	// 	result := db.Model(&user).Where("firebase_id = ?", firebaseID).Updates(user)
-
-	// 	if result.RowsAffected != 1 {
-	// 		apiLogger.Infof("user with firebase_id(%s) is not updated: %v", firebaseID, result.Error)
-	// 		c.AbortWithStatus(http.StatusBadRequest)
-	// 		return
-	// 	}
-
-	// 	c.Status(http.StatusOK)
-	// })
-
-	// apiRouter.DELETE("/users/:userID", func(c *gin.Context) {
-	// 	apiLogger := log.WithFields(log.Fields{
-	// 		"path": c.FullPath(),
-	// 	})
-	// }
 
 	return nil
 }

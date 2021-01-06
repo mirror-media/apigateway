@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/mirror-media/apigateway"
-	"github.com/mirror-media/apigateway/config"
+	apigateway "github.com/mirror-media/mm-apigateway"
+	"github.com/mirror-media/mm-apigateway/config"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
