@@ -5,7 +5,6 @@ import (
 	"fmt"
 
 	"github.com/99designs/gqlgen/graphql"
-	"github.com/mirror-media/mm-apigateway/middleware"
 	log "github.com/sirupsen/logrus"
 
 	"firebase.google.com/go/v4/auth"
@@ -20,21 +19,21 @@ type Resolver struct {
 	UserSrvURL string
 }
 
-func (r Resolver) IsRequestMatchingRequesterFirebaseID(ctx context.Context, userID string) (bool, error) {
+func (r Resolver) IsRequestMatchingRequesterFirebaseID(ctx context.Context, firebaseID string) (bool, error) {
 
 	gCTX, err := GinContextFromContext(ctx)
 	if err != nil {
 		return false, err
 	}
 
-	if userID != gCTX.Value(middleware.GCtxUserIDKey).(string) {
-		return false, fmt.Errorf("member id(%s) is not allowed to perfrom action against member id(%s)", gCTX.Value(middleware.GCtxUserIDKey), userID)
+	if firebaseID != gCTX.Value("UserID").(string) {
+		return false, fmt.Errorf("member id(%s) is not allowed to perfrom action against member id(%s)", gCTX.Value("UserID"), firebaseID)
 	}
 	return true, nil
 }
 
 func GinContextFromContext(ctx context.Context) (*gin.Context, error) {
-	ginContext := ctx.Value(middleware.CtxGinContexKey)
+	ginContext := ctx.Value("GinContextKey")
 	if ginContext == nil {
 		err := fmt.Errorf("could not retrieve gin.Context")
 		log.Error(err)
@@ -59,7 +58,7 @@ func FirebaseClientFromContext(ctx context.Context) (*auth.Client, error) {
 	logger := log.WithFields(log.Fields{
 		"path": gCTX.FullPath(),
 	})
-	firebaseClientCtx := ctx.Value(middleware.CtxFirebaseClient)
+	firebaseClientCtx := ctx.Value("FirebaseClient")
 
 	client, ok := firebaseClientCtx.(*auth.Client)
 	if !ok {

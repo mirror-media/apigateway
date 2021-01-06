@@ -9,8 +9,8 @@ import (
 	"strings"
 
 	"github.com/machinebox/graphql"
-	"github.com/mirror-media/mm-apigateway/graph/generated"
-	"github.com/mirror-media/mm-apigateway/graph/model"
+	"github.com/mirror-media/apigateway/graph/generated"
+	"github.com/mirror-media/apigateway/graph/model"
 )
 
 func (r *mutationResolver) Member(ctx context.Context) (*model.MemberType, error) {
