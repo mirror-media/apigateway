@@ -1,0 +1,457 @@
+openapi: "3.0.0"
+info:
+  title: Mirror Media Subscription API
+  version: 1.0.0
+paths:
+  /subscriptions/{customer_id}/posts/{slug}:
+    get:
+      security:
+        - bearerAuth: []
+      operationId: get one post subscription
+      summary: Get one post subscription for a customer
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+          required: true
+        - name: customer_id
+          in: path
+          description: customer id
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: slug
+          in: path
+          description: post slug
+          required: true
+          schema:
+            type: string
+        - name: env
+          in: query
+          description: environment of API
+          schema:
+            type: string
+            enum: ['dev', 'staging', 'prod']
+            default: prod
+        - name: available_date
+          in: query
+          description: subscription will be returned only if `available_date` is in the range between subscription `start_date` and `end_date`
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: subscription is created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      start_date:
+                        type: string
+                        format: date
+                      end_date:
+                        type: string
+                        format: date
+                    required:
+                      - start_date
+                      - end_date
+                required:
+                  - status
+                  - data
+              example:
+                status: success
+                data:
+                  start_date: '2021-07-22'
+                  end_date: '2021-08-01'
+        '401':
+          description: Access token is missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientError'
+              example:
+                status: fail
+                data:
+                  request.headers.authorization: access token is missing or invalid
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientError'
+              example:
+                status: fail
+                data:
+                  request.headers.authorization: forbidden to access this post subscription
+        '404':
+          description: NotFound
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientError'
+              example:
+                status: fail
+                data: null
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+              example:
+                status: error
+                message: 'database connection timeout'
+                code: 500
+    post:
+      security:
+        - bearerAuth: []
+      operationId: create one post subscription
+      summary: Create one post subscription for a customer
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+          required: true
+        - name: customer_id
+          in: path
+          description: customer id
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: slug
+          in: path
+          description: post slug
+          required: true
+          schema:
+            type: string
+        - name: env
+          in: query
+          description: environment of API
+          schema:
+            type: string
+            enum: ['dev', 'staging', 'prod']
+            default: prod
+      requestBody:
+        description: Request body to create one post subscription for a customer
+        required: true
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                promote_code:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                desc:
+                  type: string
+                note:
+                  type: string
+                  maxLength: 255
+              required:
+                - email
+            example:
+              email: nickhsine@mirrormedia.mg
+              promote_code: 771adff
+              desc: 訂閱詳細說明
+              note: 訂閱附註說明
+      responses:
+        '201':
+          description: subscription is created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      customer_id:
+                        type: string
+                        format: uuid
+                        example: bb6e8dc2-f609-4927-8cb1-e7f0172bf997
+                      email:
+                        type: string
+                        format: email
+                        example: 'nickhsine@mirrormedia.mg'
+                      amount:
+                        type: integer
+                        maximum: 1
+                        example: 1
+                      promote_code:
+                        type: string
+                        example: 771adff
+                      desc:
+                        type: string
+                        example: 訂閱詳細說明
+                      note:
+                        type: string
+                        maxLength: 255
+                        example: 訂閱附註說明
+                      newebpay_post_body:
+                        $ref: '#/components/schemas/NewebpayOneTimePayment'
+                      newebpay_api_gateway:
+                        type: string
+                        format: uri
+                        enum: ['https://ccore.newebpay.com/MPG/mpg_gateway', 'https://core.newebpay.com/MPG/mpg_gateway']
+                        example: https://core.newebpay.com/MPG/mpg_gateway
+                    required:
+                      - customer_id
+                      - email
+                      - amount
+                      - newebpay_post_body
+                      - newebpay_api_gateway
+                required:
+                  - status
+                  - data
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientError'
+              examples:
+                missing_email:
+                  value:
+                    status: fail
+                    data:
+                      request.body.email: email is required
+                invalid_email:
+                  value:
+                    status: fail
+                    data:
+                      request.body.email: invalid email
+                post_is_subscribed:
+                  value:
+                    status: fail
+                    data:
+                      request.url: post is already subscribed
+        '401':
+          description: Access token is missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientError'
+              example:
+                status: fail
+                data:
+                  request.headers.authorization: access tokn is missing or invalid
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+              example:
+                status: error
+                message: 'database connection timeout'
+                code: 500
+
+  #/subscriptions/yearly:
+  #  post:
+  #    security:
+  #      - bearerAuth: []
+  #    operationId: createASubscription
+  #    summary: Create a yearly subscription for a customer
+  #    requestBody:
+  #      description: yearly subscription to create for a customer
+  #      required: true
+  #      content:
+  #        'application/json':
+  #          schema:
+  #            type: object
+  #            properties:
+  #              customer_id:
+  #                type: string
+  #                format: uuid
+  #                required: true
+  #              promote_code:
+  #                type: string
+  #              email:
+  #                type: string
+  #                format: email
+  #                required: true
+  #              desc:
+  #                type: string
+  #              note:
+  #                type: string
+  #                maxLength: 255
+  #          example:
+  #            customer_id: bb6e8dc2-f609-4927-8cb1-e7f0172bf997
+  #            email: nickhsine@mirrormedia.mg
+  #            frequency: yearly
+  #            promote_code: 771adff
+  #            desc: 訂閱詳細說明
+  #            note: 訂閱附註說明
+  #    responses:
+  #      '201':
+  #      '401':
+  #        $ref: '#/components/responses/UnauthorizedError'
+
+
+
+              #monthly_plan:
+              #  customer_id: bb6e8dc2-f609-4927-8cb1-e7f0172bf997
+              #  email: nickhsine@mirrormedia.mg
+              #  frequency: monthly
+              #  promote_code: 771adff
+              #  desc: 訂閱方案詳細說明
+              #  note: 訂閱附註說明
+              #one_time_plan:
+              #  customer_id: bb6e8dc2-f609-4927-8cb1-e7f0172bf997
+              #  email: nickhsine@mirrormedia.mg
+              #  frequency: monthly
+              #  post_slug: mm-20210706ent042
+              #  promote_code: 771adff
+              #  order_desc: 訂閱方案詳細說明
+              #  order_note: 訂閱附註說明
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    NewebpayOneTimePayment:
+      type: object
+      properties:
+        MerchantID:
+          type: string
+          example: 3430112
+        RespondType:
+          type: string
+          example: JSON
+        TimeStamp:
+          type: string
+          example: 1626938041
+        Version:
+          type: string
+          example: 1.6
+        MerchantOrderNo:
+          type: string
+          example: 20200722151653443
+        Amt:
+          type: integer
+          maximum: 1
+          example: 1
+        ItemDesc:
+          type: string
+          example: 訂閱單篇文章，訂閱時間為：2020-07-22 到 2020-08-02。
+        NotifyURL:
+          type: string
+          format: uri
+          example: https://payment.mirrormedia.mg/newebpay/ont_time/notify
+        ReturnULR:
+          type: string
+          format: uri
+          example: https://mirrormedia.mg/subscribe/result
+        Email:
+          type: string
+          format: email
+          example: nickhsine@mirrormedia.mg
+        EmailModify:
+          type: integer
+          enum: [0, 1] # 0: able to change email; 1: unable to change email
+          example: 1
+        LoginType:
+          type: integer
+          enum: [0, 1] # 0: don't need to login newebpay; 1: need to login newebpay
+          example: 0
+        TradeLimit:
+          type: integer
+          minimum: 0
+          maximum: 900 # 900 seconds
+          example: 0 # 0 means no trade limitation
+        TokenTerm:
+          type: string
+          format: uuid
+          example: fd0a672d-4eb9-4b5f-a976-2c0b0e9036d9
+      required:
+        - MerchantID
+        - RespondType
+        - TimeStamp
+        - Version
+        - MerchantOrderNo
+        - Amt
+        - ItemDesc
+        - NotifyURL
+        - Email
+        - LoginType
+    Promote:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 10
+        code:
+          type: string
+          example: 771adff
+        plan:
+          type: string
+          enum: [yearly, monthly, post]
+        state:
+          type: integer
+          enum: [0, 1] # 0 not used; 1: already used;
+        start_at:
+          type: string
+          format: date
+          example: '2021-07-22'
+        end_at:
+          type: string
+          format: date
+          example: '2021-08-22'
+        discount:
+          type: number
+          format: float
+          example: 0.8 # 80% discount
+    ResponseBody:
+      type: object
+      properties:
+        status:
+          type: string
+        data:
+          type: object
+      required:
+        - status
+        - data
+    ClientError:
+      type: object
+      properties:
+        status:
+          type: string
+        data:
+          type: object
+      required:
+        - status
+        - data
+    ServerError:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        code:
+          type: integer
+        data:
+          type: object
+      required:
+        - status
+        - message
