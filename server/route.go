@@ -29,6 +29,9 @@ import (
 	"github.com/mirror-media/mm-apigateway/graph/generated"
 )
 
+// TODO remove me and use the state from Israfil only
+const MemberStateNone = "none"
+
 // GetIDTokenOnly is a middleware to construct the token.Token interface
 func GetIDTokenOnly(server *Server) gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -241,8 +244,9 @@ func ModifyReverseProxyResponse(c *gin.Context, rdb Rediser, cacheTTL int) func(
 		}
 
 		b, err := json.Marshal(Reply{
-			TokenState: tokenState,
-			Data:       json.RawMessage(body),
+			TokenState:  tokenState,
+			MemberState: MemberStateNone,
+			Data:        json.RawMessage(body),
 		})
 
 		if err != nil {
@@ -314,8 +318,9 @@ func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb Redi
 			}
 
 			c.AbortWithStatusJSON(http.StatusOK, Reply{
-				TokenState: tokenState,
-				Data:       json.RawMessage(body),
+				TokenState:  tokenState,
+				MemberState: MemberStateNone,
+				Data:        json.RawMessage(body),
 			})
 			return
 		}
@@ -327,8 +332,9 @@ func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb Redi
 }
 
 type Reply struct {
-	TokenState interface{} `json:"tokenState"`
-	Data       interface{} `json:"data,omitempty"`
+	TokenState  interface{} `json:"tokenState"`
+	MemberState interface{} `json:"memberState"`
+	Data        interface{} `json:"data,omitempty"`
 }
 
 type Error struct {
@@ -370,7 +376,8 @@ func SetRoute(server *Server) error {
 			return
 		}
 		c.JSON(http.StatusOK, Reply{
-			TokenState: t.GetTokenState(),
+			TokenState:  t.GetTokenState(),
+			MemberState: MemberStateNone,
 		})
 	})
 
