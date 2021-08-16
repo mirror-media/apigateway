@@ -2294,23 +2294,16 @@ input SubscriptionsUpdateInput {
 
 input subscriptionCreateInput {
   member: memberRelateToOneInput!
-  payment_method: subscriptionPaymentMethodType
+  payment_method: subscriptionPaymentMethodType!
   newebpay_payment: newebpay_paymentRelateToManyInput
   applepay_payment: applepay_paymentRelateToManyInput
   androidpay_payment: androidpay_paymentRelateToManyInput
-  status: subscriptionStatusType
-  amount: Int
-  currency: String
-  desc: String
-  email: String
-  order_number: String
-  frequency: subscriptionFrequencyType
-  period_last_success_datetime: String
-  period_next_pay_datetime: String
-  period_create_datetime: String
-  period_first_datetime: String
-  period_end_datetime: String
-  change_plan_datetime: String
+  status: subscriptionStatusType!
+  amount: Int!
+  currency: String!
+  desc: String!
+  email: String!
+  frequency: subscriptionFrequencyType!
   note: String
   promote_id: Int
   post_slug: String
