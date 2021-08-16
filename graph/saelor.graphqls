@@ -1,0 +1,166 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type ArchiveAccount {
+  success: Boolean
+  errors: ExpectedErrorType
+}
+
+type CreateMember {
+  member: member
+  success: Boolean
+  msg: String
+}
+
+enum CustomUserGender {
+  A_1
+  A_2
+  A_0
+  A_3
+}
+
+scalar Date
+
+scalar DateTime
+
+type DeleteMember {
+  success: Boolean
+}
+
+scalar ExpectedErrorType
+
+scalar GenericScalar
+
+type Mutation {
+  tokenCreate(password: String!, email: String, username: String): ObtainJSONWebToken
+  tokenRefresh(refreshToken: String!): RefreshToken
+  tokenVerify(token: String!): VerifyToken
+  member: member
+  createMember(email: String, firebaseId: String!): CreateMember
+  updateMember(address: String, birthday: Date, city: String, country: String, district: String, firebaseId: String!, gender: Int, name: String, nickname: String, phone: String, profileImage: String): UpdateMember
+  deleteMember(firebaseId: String!): DeleteMember
+  verifyMember(token: String!): VerifyAccount
+  archiveAccount(password: String!): ArchiveAccount
+  sendSecondaryEmailActivation(email: String!, password: String!): SendSecondaryEmailActivation
+  verifySecondaryEmail(token: String!): VerifySecondaryEmail
+  swapEmails(password: String!): SwapEmails
+  tokenAuth(password: String!, email: String, username: String): ObtainJSONWebToken
+  verifyToken(token: String!): VerifyToken
+  refreshToken(refreshToken: String!): RefreshToken
+  revokeToken(refreshToken: String!): RevokeToken
+}
+
+interface Node {
+  id: ID!
+}
+
+type ObtainJSONWebToken {
+  payload: GenericScalar!
+  refreshExpiresIn: Int!
+  success: Boolean
+  errors: ExpectedErrorType
+  user: UserNode
+  unarchiving: Boolean
+  token: String!
+  refreshToken: String!
+}
+
+type Query {
+  member(firebaseId: String!): member
+}
+
+type RefreshToken {
+  payload: GenericScalar!
+  refreshExpiresIn: Int!
+  success: Boolean
+  errors: ExpectedErrorType
+  token: String!
+  refreshToken: String!
+}
+
+type RevokeToken {
+  revoked: Int!
+  success: Boolean
+  errors: ExpectedErrorType
+}
+
+type SendSecondaryEmailActivation {
+  success: Boolean
+  errors: ExpectedErrorType
+}
+
+type SwapEmails {
+  success: Boolean
+  errors: ExpectedErrorType
+}
+
+type UpdateMember {
+  member: member
+  success: Boolean
+}
+
+type UserNode implements Node {
+  id: ID!
+  lastLogin: DateTime
+  username: String!
+  firstName: String!
+  lastName: String!
+  isStaff: Boolean!
+  isActive: Boolean!
+  dateJoined: DateTime!
+  email: String
+  firebaseId: String
+  nickname: String
+  name: String
+  gender: CustomUserGender!
+  phone: String
+  birthday: Date
+  country: String
+  city: String
+  district: String
+  address: String
+  profileImage: String
+  pk: Int
+  archived: Boolean
+  verified: Boolean
+  secondaryEmail: String
+}
+
+type VerifyAccount {
+  success: Boolean
+  errors: ExpectedErrorType
+}
+
+type VerifySecondaryEmail {
+  success: Boolean
+  errors: ExpectedErrorType
+}
+
+type VerifyToken {
+  payload: GenericScalar!
+  success: Boolean
+  errors: ExpectedErrorType
+}
+
+type member {
+  id: ID!
+  lastLogin: DateTime
+  username: String!
+  isStaff: Boolean!
+  isActive: Boolean!
+  dateJoined: DateTime!
+  email: String
+  firebaseId: String
+  nickname: String
+  name: String
+  gender: CustomUserGender!
+  phone: String
+  birthday: Date
+  country: String
+  city: String
+  district: String
+  address: String
+  isSuperuser: Boolean!
+}
