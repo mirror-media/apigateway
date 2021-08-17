@@ -2060,6 +2060,11 @@ type subscription {
   updatedAt: String
 }
 
+type subscriptionCreation {
+  subscription: subscription!
+  newebpayPayload: String
+}
+
 enum subscriptionPaymentMethodType {
   newebpay
   applepay
@@ -2074,6 +2079,10 @@ enum subscriptionStatusType {
   stopped
   canceled
   invalid
+}
+
+enum createSubscriptionStatusType {
+  paying
 }
 
 enum subscriptionCurrencyType {
@@ -2450,9 +2459,7 @@ input subscriptionCreateInput {
   newebpayPayment: newebpayPaymentRelateToManyInput
   applepayPayment: applepayPaymentRelateToManyInput
   androidpayPayment: androidpayPaymentRelateToManyInput
-  status: subscriptionStatusType
-  amount: Int
-  currency: subscriptionCurrencyType
+  status: createSubscriptionStatusType
   desc: String
   email: String
   orderNumber: String
@@ -2470,6 +2477,29 @@ input subscriptionCreateInput {
   oneTimeEndDatetime: String
   createdAt: String
   updatedAt: String
+}
+
+input subscriptionRecurringCreateInput {
+  paymentMethod: subscriptionPaymentMethodType!
+  applepayPayment: applepayPaymentRelateToManyInput
+  status: createSubscriptionStatusType!
+  desc: String
+  email: String!
+  frequency: subscriptionFrequencyType!
+  note: String
+  promoteId: Int
+}
+
+
+input subscriptionOneTimeCreateInput {
+  paymentMethod: subscriptionPaymentMethodType!
+  applepayPayment: applepayPaymentRelateToManyInput
+  status: createSubscriptionStatusType!
+  desc: String
+  email: String!
+  note: String
+  promoteId: Int
+  postSlug: String!
 }
 
 input SubscriptionsCreateInput {
@@ -2932,7 +2962,8 @@ input SubscriptionHistoriesCreateInput {
 type Mutation {
   createmember(data: memberCreateInput): member
   updatemember(id: ID!, data: memberUpdateInput): member
-  createsubscription(data: subscriptionCreateInput): subscription
+  creatergSubscriptionRecurrin(data: subscriptionRecurringCreateInput): subscriptionCreation
+  createsSubscriptionOneTime(data: subscriptionOneTimeCreateInput): subscriptionCreation
   updatesubscription(id: ID!, data: subscriptionUpdateInput): subscription
 }
 
