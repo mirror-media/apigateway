@@ -5,16 +5,16 @@ enum OrderDirection {
 
 type invoice {
   id: ID!
-  newebpay_payment: newebpay_payment
-  applepay_payment: applepay_payment
-  androidpay_payment: androidpay_payment
-  amount: Float
+  newebpayPayment: newebpayPayment
+  applepayPayment: applepayPayment
+  androidpayPayment: androidpayPayment
+  amount: Int
   email: String
   desc: String
-  invoice_no: String
+  invoiceNo: String
   status: invoiceStatusType
-  created_at: String
-  updated_at: String
+  createdAt: String
+  updatedAt: String
 }
 
 enum invoiceStatusType {
@@ -34,20 +34,20 @@ input invoiceWhereInput {
   id_gte: ID
   id_in: [ID!]
   id_not_in: [ID!]
-  newebpay_payment: newebpay_paymentWhereInput
-  newebpay_payment_is_null: Boolean
-  applepay_payment: applepay_paymentWhereInput
-  applepay_payment_is_null: Boolean
-  androidpay_payment: androidpay_paymentWhereInput
-  androidpay_payment_is_null: Boolean
-  amount: Float
-  amount_not: Float
-  amount_lt: Float
-  amount_lte: Float
-  amount_gt: Float
-  amount_gte: Float
-  amount_in: [Float]
-  amount_not_in: [Float]
+  newebpayPayment: newebpayPaymentWhereInput
+  newebpayPayment_is_null: Boolean
+  applepayPayment: applepayPaymentWhereInput
+  applepayPayment_is_null: Boolean
+  androidpayPayment: androidpayPaymentWhereInput
+  androidpayPayment_is_null: Boolean
+  amount: Int
+  amount_not: Int
+  amount_lt: Int
+  amount_lte: Int
+  amount_gt: Int
+  amount_gte: Int
+  amount_in: [Int]
+  amount_not_in: [Int]
   email: String
   email_not: String
   email_contains: String
@@ -84,49 +84,51 @@ input invoiceWhereInput {
   desc_not_ends_with_i: String
   desc_in: [String]
   desc_not_in: [String]
-  invoice_no: String
-  invoice_no_not: String
-  invoice_no_contains: String
-  invoice_no_not_contains: String
-  invoice_no_starts_with: String
-  invoice_no_not_starts_with: String
-  invoice_no_ends_with: String
-  invoice_no_not_ends_with: String
-  invoice_no_i: String
-  invoice_no_not_i: String
-  invoice_no_contains_i: String
-  invoice_no_not_contains_i: String
-  invoice_no_starts_with_i: String
-  invoice_no_not_starts_with_i: String
-  invoice_no_ends_with_i: String
-  invoice_no_not_ends_with_i: String
-  invoice_no_in: [String]
-  invoice_no_not_in: [String]
+  invoiceNo: String
+  invoiceNo_not: String
+  invoiceNo_contains: String
+  invoiceNo_not_contains: String
+  invoiceNo_starts_with: String
+  invoiceNo_not_starts_with: String
+  invoiceNo_ends_with: String
+  invoiceNo_not_ends_with: String
+  invoiceNo_i: String
+  invoiceNo_not_i: String
+  invoiceNo_contains_i: String
+  invoiceNo_not_contains_i: String
+  invoiceNo_starts_with_i: String
+  invoiceNo_not_starts_with_i: String
+  invoiceNo_ends_with_i: String
+  invoiceNo_not_ends_with_i: String
+  invoiceNo_in: [String]
+  invoiceNo_not_in: [String]
   status: invoiceStatusType
   status_not: invoiceStatusType
   status_in: [invoiceStatusType]
   status_not_in: [invoiceStatusType]
-  created_at: String
-  created_at_not: String
-  created_at_lt: String
-  created_at_lte: String
-  created_at_gt: String
-  created_at_gte: String
-  created_at_in: [String]
-  created_at_not_in: [String]
-  updated_at: String
-  updated_at_not: String
-  updated_at_lt: String
-  updated_at_lte: String
-  updated_at_gt: String
-  updated_at_gte: String
-  updated_at_in: [String]
-  updated_at_not_in: [String]
+  createdAt: String
+  createdAt_not: String
+  createdAt_lt: String
+  createdAt_lte: String
+  createdAt_gt: String
+  createdAt_gte: String
+  createdAt_in: [String]
+  createdAt_not_in: [String]
+  updatedAt: String
+  updatedAt_not: String
+  updatedAt_lt: String
+  updatedAt_lte: String
+  updatedAt_gt: String
+  updatedAt_gte: String
+  updatedAt_in: [String]
+  updatedAt_not_in: [String]
+  createdBy_is_null: Boolean
+  updatedBy_is_null: Boolean
 }
 
 input invoiceWhereUniqueInput {
   id: ID
-  invoice_no: String
+  invoiceNo: String
 }
 
 enum SortInvoicesBy {
@@ -138,14 +140,14 @@ enum SortInvoicesBy {
   email_DESC
   desc_ASC
   desc_DESC
-  invoice_no_ASC
-  invoice_no_DESC
+  invoiceNo_ASC
+  invoiceNo_DESC
   status_ASC
   status_DESC
-  created_at_ASC
-  created_at_DESC
-  updated_at_ASC
-  updated_at_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
 }
 
 input invoiceOrderByInput {
@@ -153,43 +155,43 @@ input invoiceOrderByInput {
   amount: OrderDirection
   email: OrderDirection
   desc: OrderDirection
-  invoice_no: OrderDirection
+  invoiceNo: OrderDirection
   status: OrderDirection
-  created_at: OrderDirection
-  updated_at: OrderDirection
+  createdAt: OrderDirection
+  updatedAt: OrderDirection
 }
 
 input invoiceUpdateInput {
-  newebpay_payment: newebpay_paymentRelateToOneInput
-  applepay_payment: applepay_paymentRelateToOneInput
-  androidpay_payment: androidpay_paymentRelateToOneInput
-  amount: Float
+  newebpayPayment: newebpayPaymentRelateToOneInput
+  applepayPayment: applepayPaymentRelateToOneInput
+  androidpayPayment: androidpayPaymentRelateToOneInput
+  amount: Int
   email: String
   desc: String
-  invoice_no: String
+  invoiceNo: String
   status: invoiceStatusType
-  created_at: String
-  updated_at: String
+  createdAt: String
+  updatedAt: String
 }
 
-input newebpay_paymentRelateToOneInput {
-  create: newebpay_paymentCreateInput
-  connect: newebpay_paymentWhereUniqueInput
-  disconnect: newebpay_paymentWhereUniqueInput
+input newebpayPaymentRelateToOneInput {
+  create: newebpayPaymentCreateInput
+  connect: newebpayPaymentWhereUniqueInput
+  disconnect: newebpayPaymentWhereUniqueInput
   disconnectAll: Boolean
 }
 
-input applepay_paymentRelateToOneInput {
-  create: applepay_paymentCreateInput
-  connect: applepay_paymentWhereUniqueInput
-  disconnect: applepay_paymentWhereUniqueInput
+input applepayPaymentRelateToOneInput {
+  create: applepayPaymentCreateInput
+  connect: applepayPaymentWhereUniqueInput
+  disconnect: applepayPaymentWhereUniqueInput
   disconnectAll: Boolean
 }
 
-input androidpay_paymentRelateToOneInput {
-  create: androidpay_paymentCreateInput
-  connect: androidpay_paymentWhereUniqueInput
-  disconnect: androidpay_paymentWhereUniqueInput
+input androidpayPaymentRelateToOneInput {
+  create: androidpayPaymentCreateInput
+  connect: androidpayPaymentWhereUniqueInput
+  disconnect: androidpayPaymentWhereUniqueInput
   disconnectAll: Boolean
 }
 
@@ -199,47 +201,42 @@ input InvoicesUpdateInput {
 }
 
 input invoiceCreateInput {
-  newebpay_payment: newebpay_paymentRelateToOneInput
-  applepay_payment: applepay_paymentRelateToOneInput
-  androidpay_payment: androidpay_paymentRelateToOneInput
-  amount: Float
+  newebpayPayment: newebpayPaymentRelateToOneInput
+  applepayPayment: applepayPaymentRelateToOneInput
+  androidpayPayment: androidpayPaymentRelateToOneInput
+  amount: Int
   email: String
   desc: String
-  invoice_no: String
+  invoiceNo: String
   status: invoiceStatusType
-  created_at: String
-  updated_at: String
+  createdAt: String
+  updatedAt: String
 }
 
 input InvoicesCreateInput {
   data: invoiceCreateInput
 }
 
-""" There's no username for the new type """
 type member {
   id: ID!
-  """ firebase_id """
-  firebaseId: String!
+  firebaseId: String
   email: String
-  marketing_membership: marketing_membership
+  marketingMembership: marketingMembership
   type: memberTypeType
   state: memberStateType
   tos: Boolean
-  email_verified: Boolean
-  """ last_login """
+  emailVerified: Boolean
   lastLogin: String
-  first_name: String
-  last_name: String
-  """ date_joined """
+  firstName: String
+  lastName: String
   dateJoined: String
   name: String
-  """ gender enum is changed!!! """
   gender: memberGenderType
   phone: String
   birthday: String
   address: String
   nickname: String
-  profile_image: String
+  profileImage: String
   city: String
   country: String
   district: String
@@ -251,8 +248,8 @@ type member {
     skip: Int! = 0
   ): [subscription!]
   subscriptionCount(where: subscriptionWhereInput! = {}): Int
-  created_at: String
-  updated_at: String
+  createdAt: String
+  updatedAt: String
 }
 
 enum memberTypeType {
@@ -272,6 +269,10 @@ enum memberGenderType {
   NA
 }
 
+type _QueryMeta {
+  count: Int
+}
+
 input memberWhereInput {
   AND: [memberWhereInput!]
   OR: [memberWhereInput!]
@@ -283,24 +284,24 @@ input memberWhereInput {
   id_gte: ID
   id_in: [ID!]
   id_not_in: [ID!]
-  firebase_id: String
-  firebase_id_not: String
-  firebase_id_contains: String
-  firebase_id_not_contains: String
-  firebase_id_starts_with: String
-  firebase_id_not_starts_with: String
-  firebase_id_ends_with: String
-  firebase_id_not_ends_with: String
-  firebase_id_i: String
-  firebase_id_not_i: String
-  firebase_id_contains_i: String
-  firebase_id_not_contains_i: String
-  firebase_id_starts_with_i: String
-  firebase_id_not_starts_with_i: String
-  firebase_id_ends_with_i: String
-  firebase_id_not_ends_with_i: String
-  firebase_id_in: [String]
-  firebase_id_not_in: [String]
+  firebaseId: String
+  firebaseId_not: String
+  firebaseId_contains: String
+  firebaseId_not_contains: String
+  firebaseId_starts_with: String
+  firebaseId_not_starts_with: String
+  firebaseId_ends_with: String
+  firebaseId_not_ends_with: String
+  firebaseId_i: String
+  firebaseId_not_i: String
+  firebaseId_contains_i: String
+  firebaseId_not_contains_i: String
+  firebaseId_starts_with_i: String
+  firebaseId_not_starts_with_i: String
+  firebaseId_ends_with_i: String
+  firebaseId_not_ends_with_i: String
+  firebaseId_in: [String]
+  firebaseId_not_in: [String]
   email: String
   email_not: String
   email_contains: String
@@ -319,8 +320,8 @@ input memberWhereInput {
   email_not_ends_with_i: String
   email_in: [String]
   email_not_in: [String]
-  marketing_membership: marketing_membershipWhereInput
-  marketing_membership_is_null: Boolean
+  marketingMembership: marketingMembershipWhereInput
+  marketingMembership_is_null: Boolean
   type: memberTypeType
   type_not: memberTypeType
   type_in: [memberTypeType]
@@ -331,60 +332,60 @@ input memberWhereInput {
   state_not_in: [memberStateType]
   tos: Boolean
   tos_not: Boolean
-  email_verified: Boolean
-  email_verified_not: Boolean
-  last_login: String
-  last_login_not: String
-  last_login_lt: String
-  last_login_lte: String
-  last_login_gt: String
-  last_login_gte: String
-  last_login_in: [String]
-  last_login_not_in: [String]
-  first_name: String
-  first_name_not: String
-  first_name_contains: String
-  first_name_not_contains: String
-  first_name_starts_with: String
-  first_name_not_starts_with: String
-  first_name_ends_with: String
-  first_name_not_ends_with: String
-  first_name_i: String
-  first_name_not_i: String
-  first_name_contains_i: String
-  first_name_not_contains_i: String
-  first_name_starts_with_i: String
-  first_name_not_starts_with_i: String
-  first_name_ends_with_i: String
-  first_name_not_ends_with_i: String
-  first_name_in: [String]
-  first_name_not_in: [String]
-  last_name: String
-  last_name_not: String
-  last_name_contains: String
-  last_name_not_contains: String
-  last_name_starts_with: String
-  last_name_not_starts_with: String
-  last_name_ends_with: String
-  last_name_not_ends_with: String
-  last_name_i: String
-  last_name_not_i: String
-  last_name_contains_i: String
-  last_name_not_contains_i: String
-  last_name_starts_with_i: String
-  last_name_not_starts_with_i: String
-  last_name_ends_with_i: String
-  last_name_not_ends_with_i: String
-  last_name_in: [String]
-  last_name_not_in: [String]
-  date_joined: String
-  date_joined_not: String
-  date_joined_lt: String
-  date_joined_lte: String
-  date_joined_gt: String
-  date_joined_gte: String
-  date_joined_in: [String]
-  date_joined_not_in: [String]
+  emailVerified: Boolean
+  emailVerified_not: Boolean
+  lastLogin: String
+  lastLogin_not: String
+  lastLogin_lt: String
+  lastLogin_lte: String
+  lastLogin_gt: String
+  lastLogin_gte: String
+  lastLogin_in: [String]
+  lastLogin_not_in: [String]
+  firstName: String
+  firstName_not: String
+  firstName_contains: String
+  firstName_not_contains: String
+  firstName_starts_with: String
+  firstName_not_starts_with: String
+  firstName_ends_with: String
+  firstName_not_ends_with: String
+  firstName_i: String
+  firstName_not_i: String
+  firstName_contains_i: String
+  firstName_not_contains_i: String
+  firstName_starts_with_i: String
+  firstName_not_starts_with_i: String
+  firstName_ends_with_i: String
+  firstName_not_ends_with_i: String
+  firstName_in: [String]
+  firstName_not_in: [String]
+  lastName: String
+  lastName_not: String
+  lastName_contains: String
+  lastName_not_contains: String
+  lastName_starts_with: String
+  lastName_not_starts_with: String
+  lastName_ends_with: String
+  lastName_not_ends_with: String
+  lastName_i: String
+  lastName_not_i: String
+  lastName_contains_i: String
+  lastName_not_contains_i: String
+  lastName_starts_with_i: String
+  lastName_not_starts_with_i: String
+  lastName_ends_with_i: String
+  lastName_not_ends_with_i: String
+  lastName_in: [String]
+  lastName_not_in: [String]
+  dateJoined: String
+  dateJoined_not: String
+  dateJoined_lt: String
+  dateJoined_lte: String
+  dateJoined_gt: String
+  dateJoined_gte: String
+  dateJoined_in: [String]
+  dateJoined_not_in: [String]
   name: String
   name_not: String
   name_contains: String
@@ -469,24 +470,24 @@ input memberWhereInput {
   nickname_not_ends_with_i: String
   nickname_in: [String]
   nickname_not_in: [String]
-  profile_image: String
-  profile_image_not: String
-  profile_image_contains: String
-  profile_image_not_contains: String
-  profile_image_starts_with: String
-  profile_image_not_starts_with: String
-  profile_image_ends_with: String
-  profile_image_not_ends_with: String
-  profile_image_i: String
-  profile_image_not_i: String
-  profile_image_contains_i: String
-  profile_image_not_contains_i: String
-  profile_image_starts_with_i: String
-  profile_image_not_starts_with_i: String
-  profile_image_ends_with_i: String
-  profile_image_not_ends_with_i: String
-  profile_image_in: [String]
-  profile_image_not_in: [String]
+  profileImage: String
+  profileImage_not: String
+  profileImage_contains: String
+  profileImage_not_contains: String
+  profileImage_starts_with: String
+  profileImage_not_starts_with: String
+  profileImage_ends_with: String
+  profileImage_not_ends_with: String
+  profileImage_i: String
+  profileImage_not_i: String
+  profileImage_contains_i: String
+  profileImage_not_contains_i: String
+  profileImage_starts_with_i: String
+  profileImage_not_starts_with_i: String
+  profileImage_ends_with_i: String
+  profileImage_not_ends_with_i: String
+  profileImage_in: [String]
+  profileImage_not_in: [String]
   city: String
   city_not: String
   city_contains: String
@@ -544,35 +545,37 @@ input memberWhereInput {
   subscription_every: subscriptionWhereInput
   subscription_some: subscriptionWhereInput
   subscription_none: subscriptionWhereInput
-  created_at: String
-  created_at_not: String
-  created_at_lt: String
-  created_at_lte: String
-  created_at_gt: String
-  created_at_gte: String
-  created_at_in: [String]
-  created_at_not_in: [String]
-  updated_at: String
-  updated_at_not: String
-  updated_at_lt: String
-  updated_at_lte: String
-  updated_at_gt: String
-  updated_at_gte: String
-  updated_at_in: [String]
-  updated_at_not_in: [String]
+  createdAt: String
+  createdAt_not: String
+  createdAt_lt: String
+  createdAt_lte: String
+  createdAt_gt: String
+  createdAt_gte: String
+  createdAt_in: [String]
+  createdAt_not_in: [String]
+  updatedAt: String
+  updatedAt_not: String
+  updatedAt_lt: String
+  updatedAt_lte: String
+  updatedAt_gt: String
+  updatedAt_gte: String
+  updatedAt_in: [String]
+  updatedAt_not_in: [String]
+  createdBy_is_null: Boolean
+  updatedBy_is_null: Boolean
 }
 
 input memberWhereUniqueInput {
   id: ID
-  firebase_id: String!
+  firebaseId: String
   email: String
 }
 
 enum SortMembersBy {
   id_ASC
   id_DESC
-  firebase_id_ASC
-  firebase_id_DESC
+  firebaseId_ASC
+  firebaseId_DESC
   email_ASC
   email_DESC
   type_ASC
@@ -581,16 +584,16 @@ enum SortMembersBy {
   state_DESC
   tos_ASC
   tos_DESC
-  email_verified_ASC
-  email_verified_DESC
-  last_login_ASC
-  last_login_DESC
-  first_name_ASC
-  first_name_DESC
-  last_name_ASC
-  last_name_DESC
-  date_joined_ASC
-  date_joined_DESC
+  emailVerified_ASC
+  emailVerified_DESC
+  lastLogin_ASC
+  lastLogin_DESC
+  firstName_ASC
+  firstName_DESC
+  lastName_ASC
+  lastName_DESC
+  dateJoined_ASC
+  dateJoined_DESC
   name_ASC
   name_DESC
   gender_ASC
@@ -603,76 +606,77 @@ enum SortMembersBy {
   address_DESC
   nickname_ASC
   nickname_DESC
-  profile_image_ASC
-  profile_image_DESC
+  profileImage_ASC
+  profileImage_DESC
   city_ASC
   city_DESC
   country_ASC
   country_DESC
   district_ASC
   district_DESC
-  created_at_ASC
-  created_at_DESC
-  updated_at_ASC
-  updated_at_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
 }
 
 input memberOrderByInput {
   id: OrderDirection
-  firebase_id: OrderDirection
+  firebaseId: OrderDirection
   email: OrderDirection
   type: OrderDirection
   state: OrderDirection
   tos: OrderDirection
-  email_verified: OrderDirection
-  last_login: OrderDirection
-  first_name: OrderDirection
-  last_name: OrderDirection
-  date_joined: OrderDirection
+  emailVerified: OrderDirection
+  lastLogin: OrderDirection
+  firstName: OrderDirection
+  lastName: OrderDirection
+  dateJoined: OrderDirection
   name: OrderDirection
   gender: OrderDirection
   phone: OrderDirection
   birthday: OrderDirection
   address: OrderDirection
   nickname: OrderDirection
-  profile_image: OrderDirection
+  profileImage: OrderDirection
   city: OrderDirection
   country: OrderDirection
   district: OrderDirection
-  created_at: OrderDirection
-  updated_at: OrderDirection
+  createdAt: OrderDirection
+  updatedAt: OrderDirection
 }
 
 input memberUpdateInput {
+  firebaseId: String
   email: String
-  marketing_membership: marketing_membershipRelateToOneInput
+  marketingMembership: marketingMembershipRelateToOneInput
   type: memberTypeType
   state: memberStateType
   tos: Boolean
-  email_verified: Boolean
-  last_login: String
-  first_name: String
-  last_name: String
-  date_joined: String
+  emailVerified: Boolean
+  lastLogin: String
+  firstName: String
+  lastName: String
+  dateJoined: String
   name: String
   gender: memberGenderType
   phone: String
   birthday: String
   address: String
   nickname: String
-  profile_image: String
+  profileImage: String
   city: String
   country: String
   district: String
   subscription: subscriptionRelateToManyInput
-  created_at: String
-  updated_at: String
+  createdAt: String
+  updatedAt: String
 }
 
-input marketing_membershipRelateToOneInput {
-  create: marketing_membershipCreateInput
-  connect: marketing_membershipWhereUniqueInput
-  disconnect: marketing_membershipWhereUniqueInput
+input marketingMembershipRelateToOneInput {
+  create: marketingMembershipCreateInput
+  connect: marketingMembershipWhereUniqueInput
+  disconnect: marketingMembershipWhereUniqueInput
   disconnectAll: Boolean
 }
 
@@ -689,56 +693,217 @@ input MembersUpdateInput {
 }
 
 input memberCreateInput {
-  firebase_id: String!
+  firebaseId: String
   email: String
-  marketing_membership: marketing_membershipRelateToOneInput
+  marketingMembership: marketingMembershipRelateToOneInput
   type: memberTypeType
   state: memberStateType
   tos: Boolean
-  email_verified: Boolean
-  last_login: String
-  first_name: String
-  last_name: String
-  date_joined: String
+  emailVerified: Boolean
+  lastLogin: String
+  firstName: String
+  lastName: String
+  dateJoined: String
   name: String
   gender: memberGenderType
   phone: String
   birthday: String
   address: String
   nickname: String
-  profile_image: String
+  profileImage: String
   city: String
   country: String
   district: String
   subscription: subscriptionRelateToManyInput
-  created_at: String
-  updated_at: String
+  createdAt: String
+  updatedAt: String
 }
 
 input MembersCreateInput {
   data: memberCreateInput
 }
 
-type marketing_membership {
+type merchandise {
   id: ID!
-  member: member
-  status: marketing_membershipStatusType
-  start_date: String
-  end_date: String
-  requester_email: String
-  approved_by: String
-  created_at: String
-  updated_at: String
+  name: String
+  code: String
+  price: Float
+  currency: merchandiseCurrencyType
+  isActive: Boolean
+  createdAt: String
+  updatedAt: String
 }
 
-enum marketing_membershipStatusType {
+enum merchandiseCurrencyType {
+  NTD
+}
+
+input merchandiseWhereInput {
+  AND: [merchandiseWhereInput!]
+  OR: [merchandiseWhereInput!]
+  id: ID
+  id_not: ID
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  name: String
+  name_not: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  name_i: String
+  name_not_i: String
+  name_contains_i: String
+  name_not_contains_i: String
+  name_starts_with_i: String
+  name_not_starts_with_i: String
+  name_ends_with_i: String
+  name_not_ends_with_i: String
+  name_in: [String]
+  name_not_in: [String]
+  code: String
+  code_not: String
+  code_contains: String
+  code_not_contains: String
+  code_starts_with: String
+  code_not_starts_with: String
+  code_ends_with: String
+  code_not_ends_with: String
+  code_i: String
+  code_not_i: String
+  code_contains_i: String
+  code_not_contains_i: String
+  code_starts_with_i: String
+  code_not_starts_with_i: String
+  code_ends_with_i: String
+  code_not_ends_with_i: String
+  code_in: [String]
+  code_not_in: [String]
+  price: Float
+  price_not: Float
+  price_lt: Float
+  price_lte: Float
+  price_gt: Float
+  price_gte: Float
+  price_in: [Float]
+  price_not_in: [Float]
+  currency: merchandiseCurrencyType
+  currency_not: merchandiseCurrencyType
+  currency_in: [merchandiseCurrencyType]
+  currency_not_in: [merchandiseCurrencyType]
+  isActive: Boolean
+  isActive_not: Boolean
+  createdAt: String
+  createdAt_not: String
+  createdAt_lt: String
+  createdAt_lte: String
+  createdAt_gt: String
+  createdAt_gte: String
+  createdAt_in: [String]
+  createdAt_not_in: [String]
+  updatedAt: String
+  updatedAt_not: String
+  updatedAt_lt: String
+  updatedAt_lte: String
+  updatedAt_gt: String
+  updatedAt_gte: String
+  updatedAt_in: [String]
+  updatedAt_not_in: [String]
+  createdBy_is_null: Boolean
+  updatedBy_is_null: Boolean
+}
+
+input merchandiseWhereUniqueInput {
+  id: ID
+  name: String
+  code: String
+}
+
+enum SortMerchandisesBy {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  code_ASC
+  code_DESC
+  price_ASC
+  price_DESC
+  currency_ASC
+  currency_DESC
+  isActive_ASC
+  isActive_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+input merchandiseOrderByInput {
+  id: OrderDirection
+  name: OrderDirection
+  code: OrderDirection
+  price: OrderDirection
+  currency: OrderDirection
+  isActive: OrderDirection
+  createdAt: OrderDirection
+  updatedAt: OrderDirection
+}
+
+input merchandiseUpdateInput {
+  name: String
+  code: String
+  price: Float
+  currency: merchandiseCurrencyType
+  isActive: Boolean
+  createdAt: String
+  updatedAt: String
+}
+
+input MerchandisesUpdateInput {
+  id: ID!
+  data: merchandiseUpdateInput
+}
+
+input merchandiseCreateInput {
+  name: String
+  code: String
+  price: Float
+  currency: merchandiseCurrencyType
+  isActive: Boolean
+  createdAt: String
+  updatedAt: String
+}
+
+input MerchandisesCreateInput {
+  data: merchandiseCreateInput
+}
+
+type marketingMembership {
+  id: ID!
+  member: member
+  status: marketingMembershipStatusType
+  startDate: String
+  endDate: String
+  requesterEmail: String
+  approvedBy: String
+  createdAt: String
+  updatedAt: String
+}
+
+enum marketingMembershipStatusType {
   active
   inactive
 }
 
-input marketing_membershipWhereInput {
-  AND: [marketing_membershipWhereInput!]
-  OR: [marketing_membershipWhereInput!]
+input marketingMembershipWhereInput {
+  AND: [marketingMembershipWhereInput!]
+  OR: [marketingMembershipWhereInput!]
   id: ID
   id_not: ID
   id_lt: ID
@@ -749,81 +914,83 @@ input marketing_membershipWhereInput {
   id_not_in: [ID!]
   member: memberWhereInput
   member_is_null: Boolean
-  status: marketing_membershipStatusType
-  status_not: marketing_membershipStatusType
-  status_in: [marketing_membershipStatusType]
-  status_not_in: [marketing_membershipStatusType]
-  start_date: String
-  start_date_not: String
-  start_date_lt: String
-  start_date_lte: String
-  start_date_gt: String
-  start_date_gte: String
-  start_date_in: [String]
-  start_date_not_in: [String]
-  end_date: String
-  end_date_not: String
-  end_date_lt: String
-  end_date_lte: String
-  end_date_gt: String
-  end_date_gte: String
-  end_date_in: [String]
-  end_date_not_in: [String]
-  requester_email: String
-  requester_email_not: String
-  requester_email_contains: String
-  requester_email_not_contains: String
-  requester_email_starts_with: String
-  requester_email_not_starts_with: String
-  requester_email_ends_with: String
-  requester_email_not_ends_with: String
-  requester_email_i: String
-  requester_email_not_i: String
-  requester_email_contains_i: String
-  requester_email_not_contains_i: String
-  requester_email_starts_with_i: String
-  requester_email_not_starts_with_i: String
-  requester_email_ends_with_i: String
-  requester_email_not_ends_with_i: String
-  requester_email_in: [String]
-  requester_email_not_in: [String]
-  approved_by: String
-  approved_by_not: String
-  approved_by_contains: String
-  approved_by_not_contains: String
-  approved_by_starts_with: String
-  approved_by_not_starts_with: String
-  approved_by_ends_with: String
-  approved_by_not_ends_with: String
-  approved_by_i: String
-  approved_by_not_i: String
-  approved_by_contains_i: String
-  approved_by_not_contains_i: String
-  approved_by_starts_with_i: String
-  approved_by_not_starts_with_i: String
-  approved_by_ends_with_i: String
-  approved_by_not_ends_with_i: String
-  approved_by_in: [String]
-  approved_by_not_in: [String]
-  created_at: String
-  created_at_not: String
-  created_at_lt: String
-  created_at_lte: String
-  created_at_gt: String
-  created_at_gte: String
-  created_at_in: [String]
-  created_at_not_in: [String]
-  updated_at: String
-  updated_at_not: String
-  updated_at_lt: String
-  updated_at_lte: String
-  updated_at_gt: String
-  updated_at_gte: String
-  updated_at_in: [String]
-  updated_at_not_in: [String]
+  status: marketingMembershipStatusType
+  status_not: marketingMembershipStatusType
+  status_in: [marketingMembershipStatusType]
+  status_not_in: [marketingMembershipStatusType]
+  startDate: String
+  startDate_not: String
+  startDate_lt: String
+  startDate_lte: String
+  startDate_gt: String
+  startDate_gte: String
+  startDate_in: [String]
+  startDate_not_in: [String]
+  endDate: String
+  endDate_not: String
+  endDate_lt: String
+  endDate_lte: String
+  endDate_gt: String
+  endDate_gte: String
+  endDate_in: [String]
+  endDate_not_in: [String]
+  requesterEmail: String
+  requesterEmail_not: String
+  requesterEmail_contains: String
+  requesterEmail_not_contains: String
+  requesterEmail_starts_with: String
+  requesterEmail_not_starts_with: String
+  requesterEmail_ends_with: String
+  requesterEmail_not_ends_with: String
+  requesterEmail_i: String
+  requesterEmail_not_i: String
+  requesterEmail_contains_i: String
+  requesterEmail_not_contains_i: String
+  requesterEmail_starts_with_i: String
+  requesterEmail_not_starts_with_i: String
+  requesterEmail_ends_with_i: String
+  requesterEmail_not_ends_with_i: String
+  requesterEmail_in: [String]
+  requesterEmail_not_in: [String]
+  approvedBy: String
+  approvedBy_not: String
+  approvedBy_contains: String
+  approvedBy_not_contains: String
+  approvedBy_starts_with: String
+  approvedBy_not_starts_with: String
+  approvedBy_ends_with: String
+  approvedBy_not_ends_with: String
+  approvedBy_i: String
+  approvedBy_not_i: String
+  approvedBy_contains_i: String
+  approvedBy_not_contains_i: String
+  approvedBy_starts_with_i: String
+  approvedBy_not_starts_with_i: String
+  approvedBy_ends_with_i: String
+  approvedBy_not_ends_with_i: String
+  approvedBy_in: [String]
+  approvedBy_not_in: [String]
+  createdAt: String
+  createdAt_not: String
+  createdAt_lt: String
+  createdAt_lte: String
+  createdAt_gt: String
+  createdAt_gte: String
+  createdAt_in: [String]
+  createdAt_not_in: [String]
+  updatedAt: String
+  updatedAt_not: String
+  updatedAt_lt: String
+  updatedAt_lte: String
+  updatedAt_gt: String
+  updatedAt_gte: String
+  updatedAt_in: [String]
+  updatedAt_not_in: [String]
+  createdBy_is_null: Boolean
+  updatedBy_is_null: Boolean
 }
 
-input marketing_membershipWhereUniqueInput {
+input marketingMembershipWhereUniqueInput {
   id: ID
 }
 
@@ -832,79 +999,82 @@ enum SortMarketingMembershipsBy {
   id_DESC
   status_ASC
   status_DESC
-  start_date_ASC
-  start_date_DESC
-  end_date_ASC
-  end_date_DESC
-  requester_email_ASC
-  requester_email_DESC
-  approved_by_ASC
-  approved_by_DESC
-  created_at_ASC
-  created_at_DESC
-  updated_at_ASC
-  updated_at_DESC
+  startDate_ASC
+  startDate_DESC
+  endDate_ASC
+  endDate_DESC
+  requesterEmail_ASC
+  requesterEmail_DESC
+  approvedBy_ASC
+  approvedBy_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
 }
 
-input marketing_membershipOrderByInput {
+input marketingMembershipOrderByInput {
   id: OrderDirection
   status: OrderDirection
-  start_date: OrderDirection
-  end_date: OrderDirection
-  requester_email: OrderDirection
-  approved_by: OrderDirection
-  created_at: OrderDirection
-  updated_at: OrderDirection
+  startDate: OrderDirection
+  endDate: OrderDirection
+  requesterEmail: OrderDirection
+  approvedBy: OrderDirection
+  createdAt: OrderDirection
+  updatedAt: OrderDirection
 }
 
-input marketing_membershipUpdateInput {
+input marketingMembershipUpdateInput {
   member: memberRelateToOneInput
-  status: marketing_membershipStatusType
-  start_date: String
-  end_date: String
-  requester_email: String
-  approved_by: String
-  created_at: String
-  updated_at: String
+  status: marketingMembershipStatusType
+  startDate: String
+  endDate: String
+  requesterEmail: String
+  approvedBy: String
+  createdAt: String
+  updatedAt: String
 }
 
 input memberRelateToOneInput {
-  connect: memberWhereUniqueInput!
+  create: memberCreateInput
+  connect: memberWhereUniqueInput
+  disconnect: memberWhereUniqueInput
+  disconnectAll: Boolean
 }
 
 input MarketingMembershipsUpdateInput {
   id: ID!
-  data: marketing_membershipUpdateInput
+  data: marketingMembershipUpdateInput
 }
 
-input marketing_membershipCreateInput {
+input marketingMembershipCreateInput {
   member: memberRelateToOneInput
-  status: marketing_membershipStatusType
-  start_date: String
-  end_date: String
-  requester_email: String
-  approved_by: String
-  created_at: String
-  updated_at: String
+  status: marketingMembershipStatusType
+  startDate: String
+  endDate: String
+  requesterEmail: String
+  approvedBy: String
+  createdAt: String
+  updatedAt: String
 }
 
 input MarketingMembershipsCreateInput {
-  data: marketing_membershipCreateInput
+  data: marketingMembershipCreateInput
 }
 
-type newebpay_payment_info {
+type newebpayPaymentInfo {
   id: ID!
-  newebpay_payment: newebpay_payment
-  token_term: String
-  token_value: String
-  token_life: String
-  created_at: String
-  updated_at: String
+  newebpayPayment: newebpayPayment
+  tokenTerm: String
+  tokenValue: String
+  tokenLife: String
+  createdAt: String
+  updatedAt: String
 }
 
-input newebpay_payment_infoWhereInput {
-  AND: [newebpay_payment_infoWhereInput!]
-  OR: [newebpay_payment_infoWhereInput!]
+input newebpayPaymentInfoWhereInput {
+  AND: [newebpayPaymentInfoWhereInput!]
+  OR: [newebpayPaymentInfoWhereInput!]
   id: ID
   id_not: ID
   id_lt: ID
@@ -913,153 +1083,155 @@ input newebpay_payment_infoWhereInput {
   id_gte: ID
   id_in: [ID!]
   id_not_in: [ID!]
-  newebpay_payment: newebpay_paymentWhereInput
-  newebpay_payment_is_null: Boolean
-  token_term: String
-  token_term_not: String
-  token_term_contains: String
-  token_term_not_contains: String
-  token_term_starts_with: String
-  token_term_not_starts_with: String
-  token_term_ends_with: String
-  token_term_not_ends_with: String
-  token_term_i: String
-  token_term_not_i: String
-  token_term_contains_i: String
-  token_term_not_contains_i: String
-  token_term_starts_with_i: String
-  token_term_not_starts_with_i: String
-  token_term_ends_with_i: String
-  token_term_not_ends_with_i: String
-  token_term_in: [String]
-  token_term_not_in: [String]
-  token_value: String
-  token_value_not: String
-  token_value_contains: String
-  token_value_not_contains: String
-  token_value_starts_with: String
-  token_value_not_starts_with: String
-  token_value_ends_with: String
-  token_value_not_ends_with: String
-  token_value_i: String
-  token_value_not_i: String
-  token_value_contains_i: String
-  token_value_not_contains_i: String
-  token_value_starts_with_i: String
-  token_value_not_starts_with_i: String
-  token_value_ends_with_i: String
-  token_value_not_ends_with_i: String
-  token_value_in: [String]
-  token_value_not_in: [String]
-  token_life: String
-  token_life_not: String
-  token_life_lt: String
-  token_life_lte: String
-  token_life_gt: String
-  token_life_gte: String
-  token_life_in: [String]
-  token_life_not_in: [String]
-  created_at: String
-  created_at_not: String
-  created_at_lt: String
-  created_at_lte: String
-  created_at_gt: String
-  created_at_gte: String
-  created_at_in: [String]
-  created_at_not_in: [String]
-  updated_at: String
-  updated_at_not: String
-  updated_at_lt: String
-  updated_at_lte: String
-  updated_at_gt: String
-  updated_at_gte: String
-  updated_at_in: [String]
-  updated_at_not_in: [String]
+  newebpayPayment: newebpayPaymentWhereInput
+  newebpayPayment_is_null: Boolean
+  tokenTerm: String
+  tokenTerm_not: String
+  tokenTerm_contains: String
+  tokenTerm_not_contains: String
+  tokenTerm_starts_with: String
+  tokenTerm_not_starts_with: String
+  tokenTerm_ends_with: String
+  tokenTerm_not_ends_with: String
+  tokenTerm_i: String
+  tokenTerm_not_i: String
+  tokenTerm_contains_i: String
+  tokenTerm_not_contains_i: String
+  tokenTerm_starts_with_i: String
+  tokenTerm_not_starts_with_i: String
+  tokenTerm_ends_with_i: String
+  tokenTerm_not_ends_with_i: String
+  tokenTerm_in: [String]
+  tokenTerm_not_in: [String]
+  tokenValue: String
+  tokenValue_not: String
+  tokenValue_contains: String
+  tokenValue_not_contains: String
+  tokenValue_starts_with: String
+  tokenValue_not_starts_with: String
+  tokenValue_ends_with: String
+  tokenValue_not_ends_with: String
+  tokenValue_i: String
+  tokenValue_not_i: String
+  tokenValue_contains_i: String
+  tokenValue_not_contains_i: String
+  tokenValue_starts_with_i: String
+  tokenValue_not_starts_with_i: String
+  tokenValue_ends_with_i: String
+  tokenValue_not_ends_with_i: String
+  tokenValue_in: [String]
+  tokenValue_not_in: [String]
+  tokenLife: String
+  tokenLife_not: String
+  tokenLife_lt: String
+  tokenLife_lte: String
+  tokenLife_gt: String
+  tokenLife_gte: String
+  tokenLife_in: [String]
+  tokenLife_not_in: [String]
+  createdAt: String
+  createdAt_not: String
+  createdAt_lt: String
+  createdAt_lte: String
+  createdAt_gt: String
+  createdAt_gte: String
+  createdAt_in: [String]
+  createdAt_not_in: [String]
+  updatedAt: String
+  updatedAt_not: String
+  updatedAt_lt: String
+  updatedAt_lte: String
+  updatedAt_gt: String
+  updatedAt_gte: String
+  updatedAt_in: [String]
+  updatedAt_not_in: [String]
+  createdBy_is_null: Boolean
+  updatedBy_is_null: Boolean
 }
 
-input newebpay_payment_infoWhereUniqueInput {
+input newebpayPaymentInfoWhereUniqueInput {
   id: ID
 }
 
 enum SortNewebpayPaymentInfosBy {
   id_ASC
   id_DESC
-  token_term_ASC
-  token_term_DESC
-  token_value_ASC
-  token_value_DESC
-  token_life_ASC
-  token_life_DESC
-  created_at_ASC
-  created_at_DESC
-  updated_at_ASC
-  updated_at_DESC
+  tokenTerm_ASC
+  tokenTerm_DESC
+  tokenValue_ASC
+  tokenValue_DESC
+  tokenLife_ASC
+  tokenLife_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
 }
 
-input newebpay_payment_infoOrderByInput {
+input newebpayPaymentInfoOrderByInput {
   id: OrderDirection
-  token_term: OrderDirection
-  token_value: OrderDirection
-  token_life: OrderDirection
-  created_at: OrderDirection
-  updated_at: OrderDirection
+  tokenTerm: OrderDirection
+  tokenValue: OrderDirection
+  tokenLife: OrderDirection
+  createdAt: OrderDirection
+  updatedAt: OrderDirection
 }
 
-input newebpay_payment_infoUpdateInput {
-  newebpay_payment: newebpay_paymentRelateToOneInput
-  token_term: String
-  token_value: String
-  token_life: String
-  created_at: String
-  updated_at: String
+input newebpayPaymentInfoUpdateInput {
+  newebpayPayment: newebpayPaymentRelateToOneInput
+  tokenTerm: String
+  tokenValue: String
+  tokenLife: String
+  createdAt: String
+  updatedAt: String
 }
 
 input NewebpayPaymentInfosUpdateInput {
   id: ID!
-  data: newebpay_payment_infoUpdateInput
+  data: newebpayPaymentInfoUpdateInput
 }
 
-input newebpay_payment_infoCreateInput {
-  newebpay_payment: newebpay_paymentRelateToOneInput
-  token_term: String
-  token_value: String
-  token_life: String
-  created_at: String
-  updated_at: String
+input newebpayPaymentInfoCreateInput {
+  newebpayPayment: newebpayPaymentRelateToOneInput
+  tokenTerm: String
+  tokenValue: String
+  tokenLife: String
+  createdAt: String
+  updatedAt: String
 }
 
 input NewebpayPaymentInfosCreateInput {
-  data: newebpay_payment_infoCreateInput
+  data: newebpayPaymentInfoCreateInput
 }
 
-type newebpay_payment {
+type newebpayPayment {
   id: ID!
   subscription: subscription
   invoice: invoice
-  newebpay_payment_info: newebpay_payment_info
-  amount: String
+  newebpayPaymentInfo: newebpayPaymentInfo
+  amount: Int
   status: String
-  payment_method: String
-  payment_time: String
-  trade_number: String
+  paymentMethod: String
+  paymentTime: String
+  tradeNumber: String
   message: String
-  merchant_id: String
-  order_number: String
-  token_use_status: String
-  respond_code: String
+  merchantId: String
+  orderNumber: String
+  tokenUseStatus: Int
+  respondCode: String
   ECI: String
-  auth_code: String
-  auth_bank: String
-  card_info_last_four: String
-  card_info_first_six: String
-  card_info_exp: String
-  created_at: String
-  updated_at: String
+  authCode: String
+  authBank: String
+  cardInfoLastFour: String
+  cardInfoFirstSix: String
+  cardInfoExp: String
+  createdAt: String
+  updatedAt: String
 }
 
-input newebpay_paymentWhereInput {
-  AND: [newebpay_paymentWhereInput!]
-  OR: [newebpay_paymentWhereInput!]
+input newebpayPaymentWhereInput {
+  AND: [newebpayPaymentWhereInput!]
+  OR: [newebpayPaymentWhereInput!]
   id: ID
   id_not: ID
   id_lt: ID
@@ -1072,26 +1244,16 @@ input newebpay_paymentWhereInput {
   subscription_is_null: Boolean
   invoice: invoiceWhereInput
   invoice_is_null: Boolean
-  newebpay_payment_info: newebpay_payment_infoWhereInput
-  newebpay_payment_info_is_null: Boolean
-  amount: String
-  amount_not: String
-  amount_contains: String
-  amount_not_contains: String
-  amount_starts_with: String
-  amount_not_starts_with: String
-  amount_ends_with: String
-  amount_not_ends_with: String
-  amount_i: String
-  amount_not_i: String
-  amount_contains_i: String
-  amount_not_contains_i: String
-  amount_starts_with_i: String
-  amount_not_starts_with_i: String
-  amount_ends_with_i: String
-  amount_not_ends_with_i: String
-  amount_in: [String]
-  amount_not_in: [String]
+  newebpayPaymentInfo: newebpayPaymentInfoWhereInput
+  newebpayPaymentInfo_is_null: Boolean
+  amount: Int
+  amount_not: Int
+  amount_lt: Int
+  amount_lte: Int
+  amount_gt: Int
+  amount_gte: Int
+  amount_in: [Int]
+  amount_not_in: [Int]
   status: String
   status_not: String
   status_contains: String
@@ -1110,50 +1272,50 @@ input newebpay_paymentWhereInput {
   status_not_ends_with_i: String
   status_in: [String]
   status_not_in: [String]
-  payment_method: String
-  payment_method_not: String
-  payment_method_contains: String
-  payment_method_not_contains: String
-  payment_method_starts_with: String
-  payment_method_not_starts_with: String
-  payment_method_ends_with: String
-  payment_method_not_ends_with: String
-  payment_method_i: String
-  payment_method_not_i: String
-  payment_method_contains_i: String
-  payment_method_not_contains_i: String
-  payment_method_starts_with_i: String
-  payment_method_not_starts_with_i: String
-  payment_method_ends_with_i: String
-  payment_method_not_ends_with_i: String
-  payment_method_in: [String]
-  payment_method_not_in: [String]
-  payment_time: String
-  payment_time_not: String
-  payment_time_lt: String
-  payment_time_lte: String
-  payment_time_gt: String
-  payment_time_gte: String
-  payment_time_in: [String]
-  payment_time_not_in: [String]
-  trade_number: String
-  trade_number_not: String
-  trade_number_contains: String
-  trade_number_not_contains: String
-  trade_number_starts_with: String
-  trade_number_not_starts_with: String
-  trade_number_ends_with: String
-  trade_number_not_ends_with: String
-  trade_number_i: String
-  trade_number_not_i: String
-  trade_number_contains_i: String
-  trade_number_not_contains_i: String
-  trade_number_starts_with_i: String
-  trade_number_not_starts_with_i: String
-  trade_number_ends_with_i: String
-  trade_number_not_ends_with_i: String
-  trade_number_in: [String]
-  trade_number_not_in: [String]
+  paymentMethod: String
+  paymentMethod_not: String
+  paymentMethod_contains: String
+  paymentMethod_not_contains: String
+  paymentMethod_starts_with: String
+  paymentMethod_not_starts_with: String
+  paymentMethod_ends_with: String
+  paymentMethod_not_ends_with: String
+  paymentMethod_i: String
+  paymentMethod_not_i: String
+  paymentMethod_contains_i: String
+  paymentMethod_not_contains_i: String
+  paymentMethod_starts_with_i: String
+  paymentMethod_not_starts_with_i: String
+  paymentMethod_ends_with_i: String
+  paymentMethod_not_ends_with_i: String
+  paymentMethod_in: [String]
+  paymentMethod_not_in: [String]
+  paymentTime: String
+  paymentTime_not: String
+  paymentTime_lt: String
+  paymentTime_lte: String
+  paymentTime_gt: String
+  paymentTime_gte: String
+  paymentTime_in: [String]
+  paymentTime_not_in: [String]
+  tradeNumber: String
+  tradeNumber_not: String
+  tradeNumber_contains: String
+  tradeNumber_not_contains: String
+  tradeNumber_starts_with: String
+  tradeNumber_not_starts_with: String
+  tradeNumber_ends_with: String
+  tradeNumber_not_ends_with: String
+  tradeNumber_i: String
+  tradeNumber_not_i: String
+  tradeNumber_contains_i: String
+  tradeNumber_not_contains_i: String
+  tradeNumber_starts_with_i: String
+  tradeNumber_not_starts_with_i: String
+  tradeNumber_ends_with_i: String
+  tradeNumber_not_ends_with_i: String
+  tradeNumber_in: [String]
+  tradeNumber_not_in: [String]
   message: String
   message_not: String
   message_contains: String
@@ -1172,78 +1334,68 @@ input newebpay_paymentWhereInput {
   message_not_ends_with_i: String
   message_in: [String]
   message_not_in: [String]
-  merchant_id: String
-  merchant_id_not: String
-  merchant_id_contains: String
-  merchant_id_not_contains: String
-  merchant_id_starts_with: String
-  merchant_id_not_starts_with: String
-  merchant_id_ends_with: String
-  merchant_id_not_ends_with: String
-  merchant_id_i: String
-  merchant_id_not_i: String
-  merchant_id_contains_i: String
-  merchant_id_not_contains_i: String
-  merchant_id_starts_with_i: String
-  merchant_id_not_starts_with_i: String
-  merchant_id_ends_with_i: String
-  merchant_id_not_ends_with_i: String
-  merchant_id_in: [String]
-  merchant_id_not_in: [String]
-  order_number: String
-  order_number_not: String
-  order_number_contains: String
-  order_number_not_contains: String
-  order_number_starts_with: String
-  order_number_not_starts_with: String
-  order_number_ends_with: String
-  order_number_not_ends_with: String
-  order_number_i: String
-  order_number_not_i: String
-  order_number_contains_i: String
-  order_number_not_contains_i: String
-  order_number_starts_with_i: String
-  order_number_not_starts_with_i: String
-  order_number_ends_with_i: String
-  order_number_not_ends_with_i: String
-  order_number_in: [String]
-  order_number_not_in: [String]
-  token_use_status: String
-  token_use_status_not: String
-  token_use_status_contains: String
-  token_use_status_not_contains: String
-  token_use_status_starts_with: String
-  token_use_status_not_starts_with: String
-  token_use_status_ends_with: String
-  token_use_status_not_ends_with: String
-  token_use_status_i: String
-  token_use_status_not_i: String
-  token_use_status_contains_i: String
-  token_use_status_not_contains_i: String
-  token_use_status_starts_with_i: String
-  token_use_status_not_starts_with_i: String
-  token_use_status_ends_with_i: String
-  token_use_status_not_ends_with_i: String
-  token_use_status_in: [String]
-  token_use_status_not_in: [String]
-  respond_code: String
-  respond_code_not: String
-  respond_code_contains: String
-  respond_code_not_contains: String
-  respond_code_starts_with: String
-  respond_code_not_starts_with: String
-  respond_code_ends_with: String
-  respond_code_not_ends_with: String
-  respond_code_i: String
-  respond_code_not_i: String
-  respond_code_contains_i: String
-  respond_code_not_contains_i: String
-  respond_code_starts_with_i: String
-  respond_code_not_starts_with_i: String
-  respond_code_ends_with_i: String
-  respond_code_not_ends_with_i: String
-  respond_code_in: [String]
-  respond_code_not_in: [String]
+  merchantId: String
+  merchantId_not: String
+  merchantId_contains: String
+  merchantId_not_contains: String
+  merchantId_starts_with: String
+  merchantId_not_starts_with: String
+  merchantId_ends_with: String
+  merchantId_not_ends_with: String
+  merchantId_i: String
+  merchantId_not_i: String
+  merchantId_contains_i: String
+  merchantId_not_contains_i: String
+  merchantId_starts_with_i: String
+  merchantId_not_starts_with_i: String
+  merchantId_ends_with_i: String
+  merchantId_not_ends_with_i: String
+  merchantId_in: [String]
+  merchantId_not_in: [String]
+  orderNumber: String
+  orderNumber_not: String
+  orderNumber_contains: String
+  orderNumber_not_contains: String
+  orderNumber_starts_with: String
+  orderNumber_not_starts_with: String
+  orderNumber_ends_with: String
+  orderNumber_not_ends_with: String
+  orderNumber_i: String
+  orderNumber_not_i: String
+  orderNumber_contains_i: String
+  orderNumber_not_contains_i: String
+  orderNumber_starts_with_i: String
+  orderNumber_not_starts_with_i: String
+  orderNumber_ends_with_i: String
+  orderNumber_not_ends_with_i: String
+  orderNumber_in: [String]
+  orderNumber_not_in: [String]
+  tokenUseStatus: Int
+  tokenUseStatus_not: Int
+  tokenUseStatus_lt: Int
+  tokenUseStatus_lte: Int
+  tokenUseStatus_gt: Int
+  tokenUseStatus_gte: Int
+  tokenUseStatus_in: [Int]
+  tokenUseStatus_not_in: [Int]
+  respondCode: String
+  respondCode_not: String
+  respondCode_contains: String
+  respondCode_not_contains: String
+  respondCode_starts_with: String
+  respondCode_not_starts_with: String
+  respondCode_ends_with: String
+  respondCode_not_ends_with: String
+  respondCode_i: String
+  respondCode_not_i: String
+  respondCode_contains_i: String
+  respondCode_not_contains_i: String
+  respondCode_starts_with_i: String
+  respondCode_not_starts_with_i: String
+  respondCode_ends_with_i: String
+  respondCode_not_ends_with_i: String
+  respondCode_in: [String]
+  respondCode_not_in: [String]
   ECI: String
   ECI_not: String
   ECI_contains: String
@@ -1262,115 +1414,117 @@ input newebpay_paymentWhereInput {
   ECI_not_ends_with_i: String
   ECI_in: [String]
   ECI_not_in: [String]
-  auth_code: String
-  auth_code_not: String
-  auth_code_contains: String
-  auth_code_not_contains: String
-  auth_code_starts_with: String
-  auth_code_not_starts_with: String
-  auth_code_ends_with: String
-  auth_code_not_ends_with: String
-  auth_code_i: String
-  auth_code_not_i: String
-  auth_code_contains_i: String
-  auth_code_not_contains_i: String
-  auth_code_starts_with_i: String
-  auth_code_not_starts_with_i: String
-  auth_code_ends_with_i: String
-  auth_code_not_ends_with_i: String
-  auth_code_in: [String]
-  auth_code_not_in: [String]
-  auth_bank: String
-  auth_bank_not: String
-  auth_bank_contains: String
-  auth_bank_not_contains: String
-  auth_bank_starts_with: String
-  auth_bank_not_starts_with: String
-  auth_bank_ends_with: String
-  auth_bank_not_ends_with: String
-  auth_bank_i: String
-  auth_bank_not_i: String
-  auth_bank_contains_i: String
-  auth_bank_not_contains_i: String
-  auth_bank_starts_with_i: String
-  auth_bank_not_starts_with_i: String
-  auth_bank_ends_with_i: String
-  auth_bank_not_ends_with_i: String
-  auth_bank_in: [String]
-  auth_bank_not_in: [String]
-  card_info_last_four: String
-  card_info_last_four_not: String
-  card_info_last_four_contains: String
-  card_info_last_four_not_contains: String
-  card_info_last_four_starts_with: String
-  card_info_last_four_not_starts_with: String
-  card_info_last_four_ends_with: String
-  card_info_last_four_not_ends_with: String
-  card_info_last_four_i: String
-  card_info_last_four_not_i: String
-  card_info_last_four_contains_i: String
-  card_info_last_four_not_contains_i: String
-  card_info_last_four_starts_with_i: String
-  card_info_last_four_not_starts_with_i: String
-  card_info_last_four_ends_with_i: String
-  card_info_last_four_not_ends_with_i: String
-  card_info_last_four_in: [String]
-  card_info_last_four_not_in: [String]
-  card_info_first_six: String
-  card_info_first_six_not: String
-  card_info_first_six_contains: String
-  card_info_first_six_not_contains: String
-  card_info_first_six_starts_with: String
-  card_info_first_six_not_starts_with: String
-  card_info_first_six_ends_with: String
-  card_info_first_six_not_ends_with: String
-  card_info_first_six_i: String
-  card_info_first_six_not_i: String
-  card_info_first_six_contains_i: String
-  card_info_first_six_not_contains_i: String
-  card_info_first_six_starts_with_i: String
-  card_info_first_six_not_starts_with_i: String
-  card_info_first_six_ends_with_i: String
-  card_info_first_six_not_ends_with_i: String
-  card_info_first_six_in: [String]
-  card_info_first_six_not_in: [String]
-  card_info_exp: String
-  card_info_exp_not: String
-  card_info_exp_contains: String
-  card_info_exp_not_contains: String
-  card_info_exp_starts_with: String
-  card_info_exp_not_starts_with: String
-  card_info_exp_ends_with: String
-  card_info_exp_not_ends_with: String
-  card_info_exp_i: String
-  card_info_exp_not_i: String
-  card_info_exp_contains_i: String
-  card_info_exp_not_contains_i: String
-  card_info_exp_starts_with_i: String
-  card_info_exp_not_starts_with_i: String
-  card_info_exp_ends_with_i: String
-  card_info_exp_not_ends_with_i: String
-  card_info_exp_in: [String]
-  card_info_exp_not_in: [String]
-  created_at: String
-  created_at_not: String
-  created_at_lt: String
-  created_at_lte: String
-  created_at_gt: String
-  created_at_gte: String
-  created_at_in: [String]
-  created_at_not_in: [String]
-  updated_at: String
-  updated_at_not: String
-  updated_at_lt: String
-  updated_at_lte: String
-  updated_at_gt: String
-  updated_at_gte: String
-  updated_at_in: [String]
-  updated_at_not_in: [String]
+  authCode: String
+  authCode_not: String
+  authCode_contains: String
+  authCode_not_contains: String
+  authCode_starts_with: String
+  authCode_not_starts_with: String
+  authCode_ends_with: String
+  authCode_not_ends_with: String
+  authCode_i: String
+  authCode_not_i: String
+  authCode_contains_i: String
+  authCode_not_contains_i: String
+  authCode_starts_with_i: String
+  authCode_not_starts_with_i: String
+  authCode_ends_with_i: String
+  authCode_not_ends_with_i: String
+  authCode_in: [String]
+  authCode_not_in: [String]
+  authBank: String
+  authBank_not: String
+  authBank_contains: String
+  authBank_not_contains: String
+  authBank_starts_with: String
+  authBank_not_starts_with: String
+  authBank_ends_with: String
+  authBank_not_ends_with: String
+  authBank_i: String
+  authBank_not_i: String
+  authBank_contains_i: String
+  authBank_not_contains_i: String
+  authBank_starts_with_i: String
+  authBank_not_starts_with_i: String
+  authBank_ends_with_i: String
+  authBank_not_ends_with_i: String
+  authBank_in: [String]
+  authBank_not_in: [String]
+  cardInfoLastFour: String
+  cardInfoLastFour_not: String
+  cardInfoLastFour_contains: String
+  cardInfoLastFour_not_contains: String
+  cardInfoLastFour_starts_with: String
+  cardInfoLastFour_not_starts_with: String
+  cardInfoLastFour_ends_with: String
+  cardInfoLastFour_not_ends_with: String
+  cardInfoLastFour_i: String
+  cardInfoLastFour_not_i: String
+  cardInfoLastFour_contains_i: String
+  cardInfoLastFour_not_contains_i: String
+  cardInfoLastFour_starts_with_i: String
+  cardInfoLastFour_not_starts_with_i: String
+  cardInfoLastFour_ends_with_i: String
+  cardInfoLastFour_not_ends_with_i: String
+  cardInfoLastFour_in: [String]
+  cardInfoLastFour_not_in: [String]
+  cardInfoFirstSix: String
+  cardInfoFirstSix_not: String
+  cardInfoFirstSix_contains: String
+  cardInfoFirstSix_not_contains: String
+  cardInfoFirstSix_starts_with: String
+  cardInfoFirstSix_not_starts_with: String
+  cardInfoFirstSix_ends_with: String
+  cardInfoFirstSix_not_ends_with: String
+  cardInfoFirstSix_i: String
+  cardInfoFirstSix_not_i: String
+  cardInfoFirstSix_contains_i: String
+  cardInfoFirstSix_not_contains_i: String
+  cardInfoFirstSix_starts_with_i: String
+  cardInfoFirstSix_not_starts_with_i: String
+  cardInfoFirstSix_ends_with_i: String
+  cardInfoFirstSix_not_ends_with_i: String
+  cardInfoFirstSix_in: [String]
+  cardInfoFirstSix_not_in: [String]
+  cardInfoExp: String
+  cardInfoExp_not: String
+  cardInfoExp_contains: String
+  cardInfoExp_not_contains: String
+  cardInfoExp_starts_with: String
+  cardInfoExp_not_starts_with: String
+  cardInfoExp_ends_with: String
+  cardInfoExp_not_ends_with: String
+  cardInfoExp_i: String
+  cardInfoExp_not_i: String
+  cardInfoExp_contains_i: String
+  cardInfoExp_not_contains_i: String
+  cardInfoExp_starts_with_i: String
+  cardInfoExp_not_starts_with_i: String
+  cardInfoExp_ends_with_i: String
+  cardInfoExp_not_ends_with_i: String
+  cardInfoExp_in: [String]
+  cardInfoExp_not_in: [String]
+  createdAt: String
+  createdAt_not: String
+  createdAt_lt: String
+  createdAt_lte: String
+  createdAt_gt: String
+  createdAt_gte: String
+  createdAt_in: [String]
+  createdAt_not_in: [String]
+  updatedAt: String
+  updatedAt_not: String
+  updatedAt_lt: String
+  updatedAt_lte: String
+  updatedAt_gt: String
+  updatedAt_gte: String
+  updatedAt_in: [String]
+  updatedAt_not_in: [String]
+  createdBy_is_null: Boolean
+  updatedBy_is_null: Boolean
 }
 
-input newebpay_paymentWhereUniqueInput {
+input newebpayPaymentWhereUniqueInput {
   id: ID
 }
 
@@ -1381,84 +1535,84 @@ enum SortNewebpayPaymentsBy {
   amount_DESC
   status_ASC
   status_DESC
-  payment_method_ASC
-  payment_method_DESC
-  payment_time_ASC
-  payment_time_DESC
-  trade_number_ASC
-  trade_number_DESC
+  paymentMethod_ASC
+  paymentMethod_DESC
+  paymentTime_ASC
+  paymentTime_DESC
+  tradeNumber_ASC
+  tradeNumber_DESC
   message_ASC
   message_DESC
-  merchant_id_ASC
-  merchant_id_DESC
-  order_number_ASC
-  order_number_DESC
-  token_use_status_ASC
-  token_use_status_DESC
-  respond_code_ASC
-  respond_code_DESC
+  merchantId_ASC
+  merchantId_DESC
+  orderNumber_ASC
+  orderNumber_DESC
+  tokenUseStatus_ASC
+  tokenUseStatus_DESC
+  respondCode_ASC
+  respondCode_DESC
   ECI_ASC
   ECI_DESC
-  auth_code_ASC
-  auth_code_DESC
-  auth_bank_ASC
-  auth_bank_DESC
-  card_info_last_four_ASC
-  card_info_last_four_DESC
-  card_info_first_six_ASC
-  card_info_first_six_DESC
-  card_info_exp_ASC
-  card_info_exp_DESC
-  created_at_ASC
-  created_at_DESC
-  updated_at_ASC
-  updated_at_DESC
+  authCode_ASC
+  authCode_DESC
+  authBank_ASC
+  authBank_DESC
+  cardInfoLastFour_ASC
+  cardInfoLastFour_DESC
+  cardInfoFirstSix_ASC
+  cardInfoFirstSix_DESC
+  cardInfoExp_ASC
+  cardInfoExp_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
 }
 
-input newebpay_paymentOrderByInput {
+input newebpayPaymentOrderByInput {
   id: OrderDirection
   amount: OrderDirection
   status: OrderDirection
-  payment_method: OrderDirection
-  payment_time: OrderDirection
-  trade_number: OrderDirection
+  paymentMethod: OrderDirection
+  paymentTime: OrderDirection
+  tradeNumber: OrderDirection
   message: OrderDirection
-  merchant_id: OrderDirection
-  order_number: OrderDirection
-  token_use_status: OrderDirection
-  respond_code: OrderDirection
+  merchantId: OrderDirection
+  orderNumber: OrderDirection
+  tokenUseStatus: OrderDirection
+  respondCode: OrderDirection
   ECI: OrderDirection
-  auth_code: OrderDirection
-  auth_bank: OrderDirection
-  card_info_last_four: OrderDirection
-  card_info_first_six: OrderDirection
-  card_info_exp: OrderDirection
-  created_at: OrderDirection
-  updated_at: OrderDirection
+  authCode: OrderDirection
+  authBank: OrderDirection
+  cardInfoLastFour: OrderDirection
+  cardInfoFirstSix: OrderDirection
+  cardInfoExp: OrderDirection
+  createdAt: OrderDirection
+  updatedAt: OrderDirection
 }
 
-input newebpay_paymentUpdateInput {
+input newebpayPaymentUpdateInput {
   subscription: subscriptionRelateToOneInput
   invoice: invoiceRelateToOneInput
-  newebpay_payment_info: newebpay_payment_infoRelateToOneInput
-  amount: String
+  newebpayPaymentInfo: newebpayPaymentInfoRelateToOneInput
+  amount: Int
   status: String
-  payment_method: String
-  payment_time: String
-  trade_number: String
+  paymentMethod: String
+  paymentTime: String
+  tradeNumber: String
   message: String
-  merchant_id: String
-  order_number: String
-  token_use_status: String
-  respond_code: String
+  merchantId: String
+  orderNumber: String
+  tokenUseStatus: Int
+  respondCode: String
   ECI: String
-  auth_code: String
-  auth_bank: String
-  card_info_last_four: String
-  card_info_first_six: String
-  card_info_exp: String
-  created_at: String
-  updated_at: String
+  authCode: String
+  authBank: String
+  cardInfoLastFour: String
+  cardInfoFirstSix: String
+  cardInfoExp: String
+  createdAt: String
+  updatedAt: String
 }
 
 input subscriptionRelateToOneInput {
@@ -1475,57 +1629,57 @@ input invoiceRelateToOneInput {
   disconnectAll: Boolean
 }
 
-input newebpay_payment_infoRelateToOneInput {
-  create: newebpay_payment_infoCreateInput
-  connect: newebpay_payment_infoWhereUniqueInput
-  disconnect: newebpay_payment_infoWhereUniqueInput
+input newebpayPaymentInfoRelateToOneInput {
+  create: newebpayPaymentInfoCreateInput
+  connect: newebpayPaymentInfoWhereUniqueInput
+  disconnect: newebpayPaymentInfoWhereUniqueInput
   disconnectAll: Boolean
 }
 
 input NewebpayPaymentsUpdateInput {
   id: ID!
-  data: newebpay_paymentUpdateInput
+  data: newebpayPaymentUpdateInput
 }
 
-input newebpay_paymentCreateInput {
+input newebpayPaymentCreateInput {
   subscription: subscriptionRelateToOneInput
   invoice: invoiceRelateToOneInput
-  newebpay_payment_info: newebpay_payment_infoRelateToOneInput
-  amount: String
+  newebpayPaymentInfo: newebpayPaymentInfoRelateToOneInput
+  amount: Int
   status: String
-  payment_method: String
-  payment_time: String
-  trade_number: String
+  paymentMethod: String
+  paymentTime: String
+  tradeNumber: String
   message: String
-  merchant_id: String
-  order_number: String
-  token_use_status: String
-  respond_code: String
+  merchantId: String
+  orderNumber: String
+  tokenUseStatus: Int
+  respondCode: String
   ECI: String
-  auth_code: String
-  auth_bank: String
-  card_info_last_four: String
-  card_info_first_six: String
-  card_info_exp: String
-  created_at: String
-  updated_at: String
+  authCode: String
+  authBank: String
+  cardInfoLastFour: String
+  cardInfoFirstSix: String
+  cardInfoExp: String
+  createdAt: String
+  updatedAt: String
 }
 
 input NewebpayPaymentsCreateInput {
-  data: newebpay_paymentCreateInput
+  data: newebpayPaymentCreateInput
 }
 
-type applepay_payment {
+type applepayPayment {
   id: ID!
   subscription: subscription
   invoice: invoice
-  created_at: String
-  updated_at: String
+  createdAt: String
+  updatedAt: String
 }
 
-input applepay_paymentWhereInput {
-  AND: [applepay_paymentWhereInput!]
-  OR: [applepay_paymentWhereInput!]
+input applepayPaymentWhereInput {
+  AND: [applepayPaymentWhereInput!]
+  OR: [applepayPaymentWhereInput!]
   id: ID
   id_not: ID
   id_lt: ID
@@ -1538,77 +1692,79 @@ input applepay_paymentWhereInput {
   subscription_is_null: Boolean
   invoice: invoiceWhereInput
   invoice_is_null: Boolean
-  created_at: String
-  created_at_not: String
-  created_at_lt: String
-  created_at_lte: String
-  created_at_gt: String
-  created_at_gte: String
-  created_at_in: [String]
-  created_at_not_in: [String]
-  updated_at: String
-  updated_at_not: String
-  updated_at_lt: String
-  updated_at_lte: String
-  updated_at_gt: String
-  updated_at_gte: String
-  updated_at_in: [String]
-  updated_at_not_in: [String]
+  createdAt: String
+  createdAt_not: String
+  createdAt_lt: String
+  createdAt_lte: String
+  createdAt_gt: String
+  createdAt_gte: String
+  createdAt_in: [String]
+  createdAt_not_in: [String]
+  updatedAt: String
+  updatedAt_not: String
+  updatedAt_lt: String
+  updatedAt_lte: String
+  updatedAt_gt: String
+  updatedAt_gte: String
+  updatedAt_in: [String]
+  updatedAt_not_in: [String]
+  createdBy_is_null: Boolean
+  updatedBy_is_null: Boolean
 }
 
-input applepay_paymentWhereUniqueInput {
+input applepayPaymentWhereUniqueInput {
   id: ID
 }
 
 enum SortApplepayPaymentsBy {
   id_ASC
   id_DESC
-  created_at_ASC
-  created_at_DESC
-  updated_at_ASC
-  updated_at_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
 }
 
-input applepay_paymentOrderByInput {
+input applepayPaymentOrderByInput {
   id: OrderDirection
-  created_at: OrderDirection
-  updated_at: OrderDirection
+  createdAt: OrderDirection
+  updatedAt: OrderDirection
 }
 
-input applepay_paymentUpdateInput {
+input applepayPaymentUpdateInput {
   subscription: subscriptionRelateToOneInput
   invoice: invoiceRelateToOneInput
-  created_at: String
-  updated_at: String
+  createdAt: String
+  updatedAt: String
 }
 
 input ApplepayPaymentsUpdateInput {
   id: ID!
-  data: applepay_paymentUpdateInput
+  data: applepayPaymentUpdateInput
 }
 
-input applepay_paymentCreateInput {
+input applepayPaymentCreateInput {
   subscription: subscriptionRelateToOneInput
   invoice: invoiceRelateToOneInput
-  created_at: String
-  updated_at: String
+  createdAt: String
+  updatedAt: String
 }
 
 input ApplepayPaymentsCreateInput {
-  data: applepay_paymentCreateInput
+  data: applepayPaymentCreateInput
 }
 
-type androidpay_payment {
+type androidpayPayment {
   id: ID!
   subscription: subscription
   invoice: invoice
-  created_at: String
-  updated_at: String
+  createdAt: String
+  updatedAt: String
 }
 
-input androidpay_paymentWhereInput {
-  AND: [androidpay_paymentWhereInput!]
-  OR: [androidpay_paymentWhereInput!]
+input androidpayPaymentWhereInput {
+  AND: [androidpayPaymentWhereInput!]
+  OR: [androidpayPaymentWhereInput!]
   id: ID
   id_not: ID
   id_lt: ID
@@ -1621,64 +1777,66 @@ input androidpay_paymentWhereInput {
   subscription_is_null: Boolean
   invoice: invoiceWhereInput
   invoice_is_null: Boolean
-  created_at: String
-  created_at_not: String
-  created_at_lt: String
-  created_at_lte: String
-  created_at_gt: String
-  created_at_gte: String
-  created_at_in: [String]
-  created_at_not_in: [String]
-  updated_at: String
-  updated_at_not: String
-  updated_at_lt: String
-  updated_at_lte: String
-  updated_at_gt: String
-  updated_at_gte: String
-  updated_at_in: [String]
-  updated_at_not_in: [String]
+  createdAt: String
+  createdAt_not: String
+  createdAt_lt: String
+  createdAt_lte: String
+  createdAt_gt: String
+  createdAt_gte: String
+  createdAt_in: [String]
+  createdAt_not_in: [String]
+  updatedAt: String
+  updatedAt_not: String
+  updatedAt_lt: String
+  updatedAt_lte: String
+  updatedAt_gt: String
+  updatedAt_gte: String
+  updatedAt_in: [String]
+  updatedAt_not_in: [String]
+  createdBy_is_null: Boolean
+  updatedBy_is_null: Boolean
 }
 
-input androidpay_paymentWhereUniqueInput {
+input androidpayPaymentWhereUniqueInput {
   id: ID
 }
 
 enum SortAndroidpayPaymentsBy {
   id_ASC
   id_DESC
-  created_at_ASC
-  created_at_DESC
-  updated_at_ASC
-  updated_at_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
 }
 
-input androidpay_paymentOrderByInput {
+input androidpayPaymentOrderByInput {
   id: OrderDirection
-  created_at: OrderDirection
-  updated_at: OrderDirection
+  createdAt: OrderDirection
+  updatedAt: OrderDirection
 }
 
-input androidpay_paymentUpdateInput {
+input androidpayPaymentUpdateInput {
   subscription: subscriptionRelateToOneInput
   invoice: invoiceRelateToOneInput
-  created_at: String
-  updated_at: String
+  createdAt: String
+  updatedAt: String
 }
 
 input AndroidpayPaymentsUpdateInput {
   id: ID!
-  data: androidpay_paymentUpdateInput
+  data: androidpayPaymentUpdateInput
 }
 
-input androidpay_paymentCreateInput {
+input androidpayPaymentCreateInput {
   subscription: subscriptionRelateToOneInput
   invoice: invoiceRelateToOneInput
-  created_at: String
-  updated_at: String
+  createdAt: String
+  updatedAt: String
 }
 
 input AndroidpayPaymentsCreateInput {
-  data: androidpay_paymentCreateInput
+  data: androidpayPaymentCreateInput
 }
 
 type promotion {
@@ -1686,11 +1844,11 @@ type promotion {
   code: String
   plan: promotionPlanType
   state: promotionStateType
-  start_at: String
-  end_at: String
+  startAt: String
+  endAt: String
   discount: Float
-  created_at: String
-  updated_at: String
+  createdAt: String
+  updatedAt: String
 }
 
 enum promotionPlanType {
@@ -1740,22 +1898,22 @@ input promotionWhereInput {
   state_not: promotionStateType
   state_in: [promotionStateType]
   state_not_in: [promotionStateType]
-  start_at: String
-  start_at_not: String
-  start_at_lt: String
-  start_at_lte: String
-  start_at_gt: String
-  start_at_gte: String
-  start_at_in: [String]
-  start_at_not_in: [String]
-  end_at: String
-  end_at_not: String
-  end_at_lt: String
-  end_at_lte: String
-  end_at_gt: String
-  end_at_gte: String
-  end_at_in: [String]
-  end_at_not_in: [String]
+  startAt: String
+  startAt_not: String
+  startAt_lt: String
+  startAt_lte: String
+  startAt_gt: String
+  startAt_gte: String
+  startAt_in: [String]
+  startAt_not_in: [String]
+  endAt: String
+  endAt_not: String
+  endAt_lt: String
+  endAt_lte: String
+  endAt_gt: String
+  endAt_gte: String
+  endAt_in: [String]
+  endAt_not_in: [String]
   discount: Float
   discount_not: Float
   discount_lt: Float
@@ -1764,22 +1922,24 @@ input promotionWhereInput {
   discount_gte: Float
   discount_in: [Float]
   discount_not_in: [Float]
-  created_at: String
-  created_at_not: String
-  created_at_lt: String
-  created_at_lte: String
-  created_at_gt: String
-  created_at_gte: String
-  created_at_in: [String]
-  created_at_not_in: [String]
-  updated_at: String
-  updated_at_not: String
-  updated_at_lt: String
-  updated_at_lte: String
-  updated_at_gt: String
-  updated_at_gte: String
-  updated_at_in: [String]
-  updated_at_not_in: [String]
+  createdAt: String
+  createdAt_not: String
+  createdAt_lt: String
+  createdAt_lte: String
+  createdAt_gt: String
+  createdAt_gte: String
+  createdAt_in: [String]
+  createdAt_not_in: [String]
+  updatedAt: String
+  updatedAt_not: String
+  updatedAt_lt: String
+  updatedAt_lte: String
+  updatedAt_gt: String
+  updatedAt_gte: String
+  updatedAt_in: [String]
+  updatedAt_not_in: [String]
+  createdBy_is_null: Boolean
+  updatedBy_is_null: Boolean
 }
 
 input promotionWhereUniqueInput {
@@ -1795,16 +1955,16 @@ enum SortPromotionsBy {
   plan_DESC
   state_ASC
   state_DESC
-  start_at_ASC
-  start_at_DESC
-  end_at_ASC
-  end_at_DESC
+  startAt_ASC
+  startAt_DESC
+  endAt_ASC
+  endAt_DESC
   discount_ASC
   discount_DESC
-  created_at_ASC
-  created_at_DESC
-  updated_at_ASC
-  updated_at_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
 }
 
 input promotionOrderByInput {
@@ -1812,22 +1972,22 @@ input promotionOrderByInput {
   code: OrderDirection
   plan: OrderDirection
   state: OrderDirection
-  start_at: OrderDirection
-  end_at: OrderDirection
+  startAt: OrderDirection
+  endAt: OrderDirection
   discount: OrderDirection
-  created_at: OrderDirection
-  updated_at: OrderDirection
+  createdAt: OrderDirection
+  updatedAt: OrderDirection
 }
 
 input promotionUpdateInput {
   code: String
   plan: promotionPlanType
   state: promotionStateType
-  start_at: String
-  end_at: String
+  startAt: String
+  endAt: String
   discount: Float
-  created_at: String
-  updated_at: String
+  createdAt: String
+  updatedAt: String
 }
 
 input PromotionsUpdateInput {
@@ -1839,11 +1999,11 @@ input promotionCreateInput {
   code: String
   plan: promotionPlanType
   state: promotionStateType
-  start_at: String
-  end_at: String
+  startAt: String
+  endAt: String
   discount: Float
-  created_at: String
-  updated_at: String
+  createdAt: String
+  updatedAt: String
 }
 
 input PromotionsCreateInput {
@@ -1853,51 +2013,51 @@ input PromotionsCreateInput {
 type subscription {
   id: ID!
   member: member
-  payment_method: subscriptionPaymentMethodType
-  newebpay_payment(
-    where: newebpay_paymentWhereInput! = {}
+  paymentMethod: subscriptionPaymentMethodType
+  newebpayPayment(
+    where: newebpayPaymentWhereInput! = {}
     search: String
-    orderBy: [newebpay_paymentOrderByInput!]! = []
+    orderBy: [newebpayPaymentOrderByInput!]! = []
     first: Int
     skip: Int! = 0
-  ): [newebpay_payment!]
-  newebpay_paymentCount(where: newebpay_paymentWhereInput! = {}): Int
-  applepay_payment(
-    where: applepay_paymentWhereInput! = {}
+  ): [newebpayPayment!]
+  newebpayPaymentCount(where: newebpayPaymentWhereInput! = {}): Int
+  applepayPayment(
+    where: applepayPaymentWhereInput! = {}
     search: String
-    orderBy: [applepay_paymentOrderByInput!]! = []
+    orderBy: [applepayPaymentOrderByInput!]! = []
     first: Int
     skip: Int! = 0
-  ): [applepay_payment!]
-  applepay_paymentCount(where: applepay_paymentWhereInput! = {}): Int
-  androidpay_payment(
-    where: androidpay_paymentWhereInput! = {}
+  ): [applepayPayment!]
+  applepayPaymentCount(where: applepayPaymentWhereInput! = {}): Int
+  androidpayPayment(
+    where: androidpayPaymentWhereInput! = {}
     search: String
-    orderBy: [androidpay_paymentOrderByInput!]! = []
+    orderBy: [androidpayPaymentOrderByInput!]! = []
     first: Int
     skip: Int! = 0
-  ): [androidpay_payment!]
-  androidpay_paymentCount(where: androidpay_paymentWhereInput! = {}): Int
+  ): [androidpayPayment!]
+  androidpayPaymentCount(where: androidpayPaymentWhereInput! = {}): Int
   status: subscriptionStatusType
   amount: Int
-  currency: String
+  currency: subscriptionCurrencyType
   desc: String
   email: String
-  order_number: String
+  orderNumber: String
   frequency: subscriptionFrequencyType
-  period_last_success_datetime: String
-  period_next_pay_datetime: String
-  period_create_datetime: String
-  period_first_datetime: String
-  period_end_datetime: String
-  change_plan_datetime: String
+  periodLastSuccessDatetime: String
+  periodNextPayDatetime: String
+  periodCreateDatetime: String
+  periodFirstDatetime: String
+  periodEndDatetime: String
+  changePlanDatetime: String
   note: String
-  promote_id: Int
-  post_slug: String
-  one_time_start_datetime: String
-  one_time_end_datetime: String
-  created_at: String
-  updated_at: String
+  promoteId: Int
+  postSlug: String
+  oneTimeStartDatetime: String
+  oneTimeEndDatetime: String
+  createdAt: String
+  updatedAt: String
 }
 
 enum subscriptionPaymentMethodType {
@@ -1914,6 +2074,10 @@ enum subscriptionStatusType {
   stopped
   canceled
   invalid
+}
+
+enum subscriptionCurrencyType {
+  TWD
 }
 
 enum subscriptionFrequencyType {
@@ -1935,19 +2099,19 @@ input subscriptionWhereInput {
   id_not_in: [ID!]
   member: memberWhereInput
   member_is_null: Boolean
-  payment_method: subscriptionPaymentMethodType
-  payment_method_not: subscriptionPaymentMethodType
-  payment_method_in: [subscriptionPaymentMethodType]
-  payment_method_not_in: [subscriptionPaymentMethodType]
-  newebpay_payment_every: newebpay_paymentWhereInput
-  newebpay_payment_some: newebpay_paymentWhereInput
-  newebpay_payment_none: newebpay_paymentWhereInput
-  applepay_payment_every: applepay_paymentWhereInput
-  applepay_payment_some: applepay_paymentWhereInput
-  applepay_payment_none: applepay_paymentWhereInput
-  androidpay_payment_every: androidpay_paymentWhereInput
-  androidpay_payment_some: androidpay_paymentWhereInput
-  androidpay_payment_none: androidpay_paymentWhereInput
+  paymentMethod: subscriptionPaymentMethodType
+  paymentMethod_not: subscriptionPaymentMethodType
+  paymentMethod_in: [subscriptionPaymentMethodType]
+  paymentMethod_not_in: [subscriptionPaymentMethodType]
+  newebpayPayment_every: newebpayPaymentWhereInput
+  newebpayPayment_some: newebpayPaymentWhereInput
+  newebpayPayment_none: newebpayPaymentWhereInput
+  applepayPayment_every: applepayPaymentWhereInput
+  applepayPayment_some: applepayPaymentWhereInput
+  applepayPayment_none: applepayPaymentWhereInput
+  androidpayPayment_every: androidpayPaymentWhereInput
+  androidpayPayment_some: androidpayPaymentWhereInput
+  androidpayPayment_none: androidpayPaymentWhereInput
   status: subscriptionStatusType
   status_not: subscriptionStatusType
   status_in: [subscriptionStatusType]
@@ -1960,24 +2124,10 @@ input subscriptionWhereInput {
   amount_gte: Int
   amount_in: [Int]
   amount_not_in: [Int]
-  currency: String
-  currency_not: String
-  currency_contains: String
-  currency_not_contains: String
-  currency_starts_with: String
-  currency_not_starts_with: String
-  currency_ends_with: String
-  currency_not_ends_with: String
-  currency_i: String
-  currency_not_i: String
-  currency_contains_i: String
-  currency_not_contains_i: String
-  currency_starts_with_i: String
-  currency_not_starts_with_i: String
-  currency_ends_with_i: String
-  currency_not_ends_with_i: String
-  currency_in: [String]
-  currency_not_in: [String]
+  currency: subscriptionCurrencyType
+  currency_not: subscriptionCurrencyType
+  currency_in: [subscriptionCurrencyType]
+  currency_not_in: [subscriptionCurrencyType]
   desc: String
   desc_not: String
   desc_contains: String
@@ -2014,76 +2164,76 @@ input subscriptionWhereInput {
   email_not_ends_with_i: String
   email_in: [String]
   email_not_in: [String]
-  order_number: String
-  order_number_not: String
-  order_number_contains: String
-  order_number_not_contains: String
-  order_number_starts_with: String
-  order_number_not_starts_with: String
-  order_number_ends_with: String
-  order_number_not_ends_with: String
-  order_number_i: String
-  order_number_not_i: String
-  order_number_contains_i: String
-  order_number_not_contains_i: String
-  order_number_starts_with_i: String
-  order_number_not_starts_with_i: String
-  order_number_ends_with_i: String
-  order_number_not_ends_with_i: String
-  order_number_in: [String]
-  order_number_not_in: [String]
+  orderNumber: String
+  orderNumber_not: String
+  orderNumber_contains: String
+  orderNumber_not_contains: String
+  orderNumber_starts_with: String
+  orderNumber_not_starts_with: String
+  orderNumber_ends_with: String
+  orderNumber_not_ends_with: String
+  orderNumber_i: String
+  orderNumber_not_i: String
+  orderNumber_contains_i: String
+  orderNumber_not_contains_i: String
+  orderNumber_starts_with_i: String
+  orderNumber_not_starts_with_i: String
+  orderNumber_ends_with_i: String
+  orderNumber_not_ends_with_i: String
+  orderNumber_in: [String]
+  orderNumber_not_in: [String]
   frequency: subscriptionFrequencyType
   frequency_not: subscriptionFrequencyType
   frequency_in: [subscriptionFrequencyType]
   frequency_not_in: [subscriptionFrequencyType]
-  period_last_success_datetime: String
-  period_last_success_datetime_not: String
-  period_last_success_datetime_lt: String
-  period_last_success_datetime_lte: String
-  period_last_success_datetime_gt: String
-  period_last_success_datetime_gte: String
-  period_last_success_datetime_in: [String]
-  period_last_success_datetime_not_in: [String]
-  period_next_pay_datetime: String
-  period_next_pay_datetime_not: String
-  period_next_pay_datetime_lt: String
-  period_next_pay_datetime_lte: String
-  period_next_pay_datetime_gt: String
-  period_next_pay_datetime_gte: String
-  period_next_pay_datetime_in: [String]
-  period_next_pay_datetime_not_in: [String]
-  period_create_datetime: String
-  period_create_datetime_not: String
-  period_create_datetime_lt: String
-  period_create_datetime_lte: String
-  period_create_datetime_gt: String
-  period_create_datetime_gte: String
-  period_create_datetime_in: [String]
-  period_create_datetime_not_in: [String]
-  period_first_datetime: String
-  period_first_datetime_not: String
-  period_first_datetime_lt: String
-  period_first_datetime_lte: String
-  period_first_datetime_gt: String
-  period_first_datetime_gte: String
-  period_first_datetime_in: [String]
-  period_first_datetime_not_in: [String]
-  period_end_datetime: String
-  period_end_datetime_not: String
-  period_end_datetime_lt: String
-  period_end_datetime_lte: String
-  period_end_datetime_gt: String
-  period_end_datetime_gte: String
-  period_end_datetime_in: [String]
-  period_end_datetime_not_in: [String]
-  change_plan_datetime: String
-  change_plan_datetime_not: String
-  change_plan_datetime_lt: String
-  change_plan_datetime_lte: String
-  change_plan_datetime_gt: String
-  change_plan_datetime_gte: String
-  change_plan_datetime_in: [String]
-  change_plan_datetime_not_in: [String]
+  periodLastSuccessDatetime: String
+  periodLastSuccessDatetime_not: String
+  periodLastSuccessDatetime_lt: String
+  periodLastSuccessDatetime_lte: String
+  periodLastSuccessDatetime_gt: String
+  periodLastSuccessDatetime_gte: String
+  periodLastSuccessDatetime_in: [String]
+  periodLastSuccessDatetime_not_in: [String]
+  periodNextPayDatetime: String
+  periodNextPayDatetime_not: String
+  periodNextPayDatetime_lt: String
+  periodNextPayDatetime_lte: String
+  periodNextPayDatetime_gt: String
+  periodNextPayDatetime_gte: String
+  periodNextPayDatetime_in: [String]
+  periodNextPayDatetime_not_in: [String]
+  periodCreateDatetime: String
+  periodCreateDatetime_not: String
+  periodCreateDatetime_lt: String
+  periodCreateDatetime_lte: String
+  periodCreateDatetime_gt: String
+  periodCreateDatetime_gte: String
+  periodCreateDatetime_in: [String]
+  periodCreateDatetime_not_in: [String]
+  periodFirstDatetime: String
+  periodFirstDatetime_not: String
+  periodFirstDatetime_lt: String
+  periodFirstDatetime_lte: String
+  periodFirstDatetime_gt: String
+  periodFirstDatetime_gte: String
+  periodFirstDatetime_in: [String]
+  periodFirstDatetime_not_in: [String]
+  periodEndDatetime: String
+  periodEndDatetime_not: String
+  periodEndDatetime_lt: String
+  periodEndDatetime_lte: String
+  periodEndDatetime_gt: String
+  periodEndDatetime_gte: String
+  periodEndDatetime_in: [String]
+  periodEndDatetime_not_in: [String]
+  changePlanDatetime: String
+  changePlanDatetime_not: String
+  changePlanDatetime_lt: String
+  changePlanDatetime_lte: String
+  changePlanDatetime_gt: String
+  changePlanDatetime_gte: String
+  changePlanDatetime_in: [String]
+  changePlanDatetime_not_in: [String]
   note: String
   note_not: String
   note_contains: String
@@ -2102,64 +2252,66 @@ input subscriptionWhereInput {
   note_not_ends_with_i: String
   note_in: [String]
   note_not_in: [String]
-  promote_id: Int
-  promote_id_not: Int
-  promote_id_lt: Int
-  promote_id_lte: Int
-  promote_id_gt: Int
-  promote_id_gte: Int
-  promote_id_in: [Int]
-  promote_id_not_in: [Int]
-  post_slug: String
-  post_slug_not: String
-  post_slug_contains: String
-  post_slug_not_contains: String
-  post_slug_starts_with: String
-  post_slug_not_starts_with: String
-  post_slug_ends_with: String
-  post_slug_not_ends_with: String
-  post_slug_i: String
-  post_slug_not_i: String
-  post_slug_contains_i: String
-  post_slug_not_contains_i: String
-  post_slug_starts_with_i: String
-  post_slug_not_starts_with_i: String
-  post_slug_ends_with_i: String
-  post_slug_not_ends_with_i: String
-  post_slug_in: [String]
-  post_slug_not_in: [String]
-  one_time_start_datetime: String
-  one_time_start_datetime_not: String
-  one_time_start_datetime_lt: String
-  one_time_start_datetime_lte: String
-  one_time_start_datetime_gt: String
-  one_time_start_datetime_gte: String
-  one_time_start_datetime_in: [String]
-  one_time_start_datetime_not_in: [String]
-  one_time_end_datetime: String
-  one_time_end_datetime_not: String
-  one_time_end_datetime_lt: String
-  one_time_end_datetime_lte: String
-  one_time_end_datetime_gt: String
-  one_time_end_datetime_gte: String
-  one_time_end_datetime_in: [String]
-  one_time_end_datetime_not_in: [String]
-  created_at: String
-  created_at_not: String
-  created_at_lt: String
-  created_at_lte: String
-  created_at_gt: String
-  created_at_gte: String
-  created_at_in: [String]
-  created_at_not_in: [String]
-  updated_at: String
-  updated_at_not: String
-  updated_at_lt: String
-  updated_at_lte: String
-  updated_at_gt: String
-  updated_at_gte: String
-  updated_at_in: [String]
-  updated_at_not_in: [String]
+  promoteId: Int
+  promoteId_not: Int
+  promoteId_lt: Int
+  promoteId_lte: Int
+  promoteId_gt: Int
+  promoteId_gte: Int
+  promoteId_in: [Int]
+  promoteId_not_in: [Int]
+  postSlug: String
+  postSlug_not: String
+  postSlug_contains: String
+  postSlug_not_contains: String
+  postSlug_starts_with: String
+  postSlug_not_starts_with: String
+  postSlug_ends_with: String
+  postSlug_not_ends_with: String
+  postSlug_i: String
+  postSlug_not_i: String
+  postSlug_contains_i: String
+  postSlug_not_contains_i: String
+  postSlug_starts_with_i: String
+  postSlug_not_starts_with_i: String
+  postSlug_ends_with_i: String
+  postSlug_not_ends_with_i: String
+  postSlug_in: [String]
+  postSlug_not_in: [String]
+  oneTimeStartDatetime: String
+  oneTimeStartDatetime_not: String
+  oneTimeStartDatetime_lt: String
+  oneTimeStartDatetime_lte: String
+  oneTimeStartDatetime_gt: String
+  oneTimeStartDatetime_gte: String
+  oneTimeStartDatetime_in: [String]
+  oneTimeStartDatetime_not_in: [String]
+  oneTimeEndDatetime: String
+  oneTimeEndDatetime_not: String
+  oneTimeEndDatetime_lt: String
+  oneTimeEndDatetime_lte: String
+  oneTimeEndDatetime_gt: String
+  oneTimeEndDatetime_gte: String
+  oneTimeEndDatetime_in: [String]
+  oneTimeEndDatetime_not_in: [String]
+  createdAt: String
+  createdAt_not: String
+  createdAt_lt: String
+  createdAt_lte: String
+  createdAt_gt: String
+  createdAt_gte: String
+  createdAt_in: [String]
+  createdAt_not_in: [String]
+  updatedAt: String
+  updatedAt_not: String
+  updatedAt_lt: String
+  updatedAt_lte: String
+  updatedAt_gt: String
+  updatedAt_gte: String
+  updatedAt_in: [String]
+  updatedAt_not_in: [String]
+  createdBy_is_null: Boolean
+  updatedBy_is_null: Boolean
 }
 
 input subscriptionWhereUniqueInput {
@@ -2169,8 +2321,8 @@ input subscriptionWhereUniqueInput {
 enum SortSubscriptionsBy {
   id_ASC
   id_DESC
-  payment_method_ASC
-  payment_method_DESC
+  paymentMethod_ASC
+  paymentMethod_DESC
   status_ASC
   status_DESC
   amount_ASC
@@ -2181,109 +2333,109 @@ enum SortSubscriptionsBy {
   desc_DESC
   email_ASC
   email_DESC
-  order_number_ASC
-  order_number_DESC
+  orderNumber_ASC
+  orderNumber_DESC
   frequency_ASC
   frequency_DESC
-  period_last_success_datetime_ASC
-  period_last_success_datetime_DESC
-  period_next_pay_datetime_ASC
-  period_next_pay_datetime_DESC
-  period_create_datetime_ASC
-  period_create_datetime_DESC
-  period_first_datetime_ASC
-  period_first_datetime_DESC
-  period_end_datetime_ASC
-  period_end_datetime_DESC
-  change_plan_datetime_ASC
-  change_plan_datetime_DESC
+  periodLastSuccessDatetime_ASC
+  periodLastSuccessDatetime_DESC
+  periodNextPayDatetime_ASC
+  periodNextPayDatetime_DESC
+  periodCreateDatetime_ASC
+  periodCreateDatetime_DESC
+  periodFirstDatetime_ASC
+  periodFirstDatetime_DESC
+  periodEndDatetime_ASC
+  periodEndDatetime_DESC
+  changePlanDatetime_ASC
+  changePlanDatetime_DESC
   note_ASC
   note_DESC
-  promote_id_ASC
-  promote_id_DESC
-  post_slug_ASC
-  post_slug_DESC
-  one_time_start_datetime_ASC
-  one_time_start_datetime_DESC
-  one_time_end_datetime_ASC
-  one_time_end_datetime_DESC
-  created_at_ASC
-  created_at_DESC
-  updated_at_ASC
-  updated_at_DESC
+  promoteId_ASC
+  promoteId_DESC
+  postSlug_ASC
+  postSlug_DESC
+  oneTimeStartDatetime_ASC
+  oneTimeStartDatetime_DESC
+  oneTimeEndDatetime_ASC
+  oneTimeEndDatetime_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
 }
 
 input subscriptionOrderByInput {
   id: OrderDirection
-  payment_method: OrderDirection
+  paymentMethod: OrderDirection
   status: OrderDirection
   amount: OrderDirection
   currency: OrderDirection
   desc: OrderDirection
   email: OrderDirection
-  order_number: OrderDirection
+  orderNumber: OrderDirection
   frequency: OrderDirection
-  period_last_success_datetime: OrderDirection
-  period_next_pay_datetime: OrderDirection
-  period_create_datetime: OrderDirection
-  period_first_datetime: OrderDirection
-  period_end_datetime: OrderDirection
-  change_plan_datetime: OrderDirection
+  periodLastSuccessDatetime: OrderDirection
+  periodNextPayDatetime: OrderDirection
+  periodCreateDatetime: OrderDirection
+  periodFirstDatetime: OrderDirection
+  periodEndDatetime: OrderDirection
+  changePlanDatetime: OrderDirection
   note: OrderDirection
-  promote_id: OrderDirection
-  post_slug: OrderDirection
-  one_time_start_datetime: OrderDirection
-  one_time_end_datetime: OrderDirection
-  created_at: OrderDirection
-  updated_at: OrderDirection
+  promoteId: OrderDirection
+  postSlug: OrderDirection
+  oneTimeStartDatetime: OrderDirection
+  oneTimeEndDatetime: OrderDirection
+  createdAt: OrderDirection
+  updatedAt: OrderDirection
 }
 
 input subscriptionUpdateInput {
   member: memberRelateToOneInput
-  payment_method: subscriptionPaymentMethodType
-  newebpay_payment: newebpay_paymentRelateToManyInput
-  applepay_payment: applepay_paymentRelateToManyInput
-  androidpay_payment: androidpay_paymentRelateToManyInput
+  paymentMethod: subscriptionPaymentMethodType
+  newebpayPayment: newebpayPaymentRelateToManyInput
+  applepayPayment: applepayPaymentRelateToManyInput
+  androidpayPayment: androidpayPaymentRelateToManyInput
   status: subscriptionStatusType
   amount: Int
-  currency: String
+  currency: subscriptionCurrencyType
   desc: String
   email: String
-  order_number: String
+  orderNumber: String
   frequency: subscriptionFrequencyType
-  period_last_success_datetime: String
-  period_next_pay_datetime: String
-  period_create_datetime: String
-  period_first_datetime: String
-  period_end_datetime: String
-  change_plan_datetime: String
+  periodLastSuccessDatetime: String
+  periodNextPayDatetime: String
+  periodCreateDatetime: String
+  periodFirstDatetime: String
+  periodEndDatetime: String
+  changePlanDatetime: String
   note: String
-  promote_id: Int
-  post_slug: String
-  one_time_start_datetime: String
-  one_time_end_datetime: String
-  created_at: String
-  updated_at: String
+  promoteId: Int
+  postSlug: String
+  oneTimeStartDatetime: String
+  oneTimeEndDatetime: String
+  createdAt: String
+  updatedAt: String
 }
 
-input newebpay_paymentRelateToManyInput {
-  create: [newebpay_paymentCreateInput]
-  connect: [newebpay_paymentWhereUniqueInput]
-  disconnect: [newebpay_paymentWhereUniqueInput]
+input newebpayPaymentRelateToManyInput {
+  create: [newebpayPaymentCreateInput]
+  connect: [newebpayPaymentWhereUniqueInput]
+  disconnect: [newebpayPaymentWhereUniqueInput]
   disconnectAll: Boolean
 }
 
-input applepay_paymentRelateToManyInput {
-  create: [applepay_paymentCreateInput]
-  connect: [applepay_paymentWhereUniqueInput]
-  disconnect: [applepay_paymentWhereUniqueInput]
+input applepayPaymentRelateToManyInput {
+  create: [applepayPaymentCreateInput]
+  connect: [applepayPaymentWhereUniqueInput]
+  disconnect: [applepayPaymentWhereUniqueInput]
   disconnectAll: Boolean
 }
 
-input androidpay_paymentRelateToManyInput {
-  create: [androidpay_paymentCreateInput]
-  connect: [androidpay_paymentWhereUniqueInput]
-  disconnect: [androidpay_paymentWhereUniqueInput]
+input androidpayPaymentRelateToManyInput {
+  create: [androidpayPaymentCreateInput]
+  connect: [androidpayPaymentWhereUniqueInput]
+  disconnect: [androidpayPaymentWhereUniqueInput]
   disconnectAll: Boolean
 }
 
@@ -2293,59 +2445,66 @@ input SubscriptionsUpdateInput {
 }
 
 input subscriptionCreateInput {
-  member: memberRelateToOneInput!
-  payment_method: subscriptionPaymentMethodType!
-  newebpay_payment: newebpay_paymentRelateToManyInput
-  applepay_payment: applepay_paymentRelateToManyInput
-  androidpay_payment: androidpay_paymentRelateToManyInput
-  status: subscriptionStatusType!
-  amount: Int!
-  currency: String!
-  desc: String!
-  email: String!
-  frequency: subscriptionFrequencyType!
+  member: memberRelateToOneInput
+  paymentMethod: subscriptionPaymentMethodType
+  newebpayPayment: newebpayPaymentRelateToManyInput
+  applepayPayment: applepayPaymentRelateToManyInput
+  androidpayPayment: androidpayPaymentRelateToManyInput
+  status: subscriptionStatusType
+  amount: Int
+  currency: subscriptionCurrencyType
+  desc: String
+  email: String
+  orderNumber: String
+  frequency: subscriptionFrequencyType
+  periodLastSuccessDatetime: String
+  periodNextPayDatetime: String
+  periodCreateDatetime: String
+  periodFirstDatetime: String
+  periodEndDatetime: String
+  changePlanDatetime: String
   note: String
-  promote_id: Int
-  post_slug: String
-  one_time_start_datetime: String
-  one_time_end_datetime: String
-  created_at: String
-  updated_at: String
+  promoteId: Int
+  postSlug: String
+  oneTimeStartDatetime: String
+  oneTimeEndDatetime: String
+  createdAt: String
+  updatedAt: String
 }
 
 input SubscriptionsCreateInput {
   data: subscriptionCreateInput
 }
 
-type subscription_history {
+type subscriptionHistory {
   id: ID!
   subscription: subscription
-  subscription_created_at: String
-  subscription_updated_at: String
+  subscriptionCreatedAt: String
+  subscriptionUpdatedAt: String
   member: member
-  status: subscription_historyStatusType
+  status: subscriptionHistoryStatusType
   amount: Int
-  currency: String
+  currency: subscriptionHistoryCurrencyType
   desc: String
   email: String
-  order_number: String
-  frequency: subscription_historyFrequencyType
-  token_value: String
-  token_life: String
-  token_term: String
-  period_last_success_date: String
-  period_next_pay_date: String
-  period_first_date: String
-  change_plan_datetime: String
+  orderNumber: String
+  frequency: subscriptionHistoryFrequencyType
+  tokenValue: String
+  tokenLife: String
+  tokenTerm: String
+  periodLastSuccessDate: String
+  periodNextPayDate: String
+  periodFirstDate: String
+  changePlanDatetime: String
   note: String
-  promote_id: Int
-  post_slug: String
-  one_time_start_date: String
-  one_time_end_date: String
-  action: subscription_historyActionType
+  promoteId: Int
+  postSlug: String
+  oneTimeStartDate: String
+  oneTimeEndDate: String
+  action: subscriptionHistoryActionType
 }
 
-enum subscription_historyStatusType {
+enum subscriptionHistoryStatusType {
   to_pay
   paying
   paid
@@ -2355,21 +2514,25 @@ enum subscription_historyStatusType {
   invalid
 }
 
-enum subscription_historyFrequencyType {
+enum subscriptionHistoryCurrencyType {
+  TWD
+}
+
+enum subscriptionHistoryFrequencyType {
   one_time
   yearly
   monthly
 }
 
-enum subscription_historyActionType {
+enum subscriptionHistoryActionType {
   purge
   upgrade
   canceled
 }
 
-input subscription_historyWhereInput {
-  AND: [subscription_historyWhereInput!]
-  OR: [subscription_historyWhereInput!]
+input subscriptionHistoryWhereInput {
+  AND: [subscriptionHistoryWhereInput!]
+  OR: [subscriptionHistoryWhereInput!]
   id: ID
   id_not: ID
   id_lt: ID
@@ -2380,28 +2543,28 @@ input subscription_historyWhereInput {
   id_not_in: [ID!]
   subscription: subscriptionWhereInput
   subscription_is_null: Boolean
-  subscription_created_at: String
-  subscription_created_at_not: String
-  subscription_created_at_lt: String
-  subscription_created_at_lte: String
-  subscription_created_at_gt: String
-  subscription_created_at_gte: String
-  subscription_created_at_in: [String]
-  subscription_created_at_not_in: [String]
-  subscription_updated_at: String
-  subscription_updated_at_not: String
-  subscription_updated_at_lt: String
-  subscription_updated_at_lte: String
-  subscription_updated_at_gt: String
-  subscription_updated_at_gte: String
-  subscription_updated_at_in: [String]
-  subscription_updated_at_not_in: [String]
+  subscriptionCreatedAt: String
+  subscriptionCreatedAt_not: String
+  subscriptionCreatedAt_lt: String
+  subscriptionCreatedAt_lte: String
+  subscriptionCreatedAt_gt: String
+  subscriptionCreatedAt_gte: String
+  subscriptionCreatedAt_in: [String]
+  subscriptionCreatedAt_not_in: [String]
+  subscriptionUpdatedAt: String
+  subscriptionUpdatedAt_not: String
+  subscriptionUpdatedAt_lt: String
+  subscriptionUpdatedAt_lte: String
+  subscriptionUpdatedAt_gt: String
+  subscriptionUpdatedAt_gte: String
+  subscriptionUpdatedAt_in: [String]
+  subscriptionUpdatedAt_not_in: [String]
   member: memberWhereInput
   member_is_null: Boolean
-  status: subscription_historyStatusType
-  status_not: subscription_historyStatusType
-  status_in: [subscription_historyStatusType]
-  status_not_in: [subscription_historyStatusType]
+  status: subscriptionHistoryStatusType
+  status_not: subscriptionHistoryStatusType
+  status_in: [subscriptionHistoryStatusType]
+  status_not_in: [subscriptionHistoryStatusType]
   amount: Int
   amount_not: Int
   amount_lt: Int
@@ -2410,24 +2573,10 @@ input subscription_historyWhereInput {
   amount_gte: Int
   amount_in: [Int]
   amount_not_in: [Int]
-  currency: String
-  currency_not: String
-  currency_contains: String
-  currency_not_contains: String
-  currency_starts_with: String
-  currency_not_starts_with: String
-  currency_ends_with: String
-  currency_not_ends_with: String
-  currency_i: String
-  currency_not_i: String
-  currency_contains_i: String
-  currency_not_contains_i: String
-  currency_starts_with_i: String
-  currency_not_starts_with_i: String
-  currency_ends_with_i: String
-  currency_not_ends_with_i: String
-  currency_in: [String]
-  currency_not_in: [String]
+  currency: subscriptionHistoryCurrencyType
+  currency_not: subscriptionHistoryCurrencyType
+  currency_in: [subscriptionHistoryCurrencyType]
+  currency_not_in: [subscriptionHistoryCurrencyType]
   desc: String
   desc_not: String
   desc_contains: String
@@ -2464,114 +2613,114 @@ input subscription_historyWhereInput {
   email_not_ends_with_i: String
   email_in: [String]
   email_not_in: [String]
-  order_number: String
-  order_number_not: String
-  order_number_contains: String
-  order_number_not_contains: String
-  order_number_starts_with: String
-  order_number_not_starts_with: String
-  order_number_ends_with: String
-  order_number_not_ends_with: String
-  order_number_i: String
-  order_number_not_i: String
-  order_number_contains_i: String
-  order_number_not_contains_i: String
-  order_number_starts_with_i: String
-  order_number_not_starts_with_i: String
-  order_number_ends_with_i: String
-  order_number_not_ends_with_i: String
-  order_number_in: [String]
-  order_number_not_in: [String]
-  frequency: subscription_historyFrequencyType
-  frequency_not: subscription_historyFrequencyType
-  frequency_in: [subscription_historyFrequencyType]
-  frequency_not_in: [subscription_historyFrequencyType]
-  token_value: String
-  token_value_not: String
-  token_value_contains: String
-  token_value_not_contains: String
-  token_value_starts_with: String
-  token_value_not_starts_with: String
-  token_value_ends_with: String
-  token_value_not_ends_with: String
-  token_value_i: String
-  token_value_not_i: String
-  token_value_contains_i: String
-  token_value_not_contains_i: String
-  token_value_starts_with_i: String
-  token_value_not_starts_with_i: String
-  token_value_ends_with_i: String
-  token_value_not_ends_with_i: String
-  token_value_in: [String]
-  token_value_not_in: [String]
-  token_life: String
-  token_life_not: String
-  token_life_contains: String
-  token_life_not_contains: String
-  token_life_starts_with: String
-  token_life_not_starts_with: String
-  token_life_ends_with: String
-  token_life_not_ends_with: String
-  token_life_i: String
-  token_life_not_i: String
-  token_life_contains_i: String
-  token_life_not_contains_i: String
-  token_life_starts_with_i: String
-  token_life_not_starts_with_i: String
-  token_life_ends_with_i: String
-  token_life_not_ends_with_i: String
-  token_life_in: [String]
-  token_life_not_in: [String]
-  token_term: String
-  token_term_not: String
-  token_term_contains: String
-  token_term_not_contains: String
-  token_term_starts_with: String
-  token_term_not_starts_with: String
-  token_term_ends_with: String
-  token_term_not_ends_with: String
-  token_term_i: String
-  token_term_not_i: String
-  token_term_contains_i: String
-  token_term_not_contains_i: String
-  token_term_starts_with_i: String
-  token_term_not_starts_with_i: String
-  token_term_ends_with_i: String
-  token_term_not_ends_with_i: String
-  token_term_in: [String]
-  token_term_not_in: [String]
-  period_last_success_date: String
-  period_last_success_date_not: String
-  period_last_success_date_lt: String
-  period_last_success_date_lte: String
-  period_last_success_date_gt: String
-  period_last_success_date_gte: String
-  period_last_success_date_in: [String]
-  period_last_success_date_not_in: [String]
-  period_next_pay_date: String
-  period_next_pay_date_not: String
-  period_next_pay_date_lt: String
-  period_next_pay_date_lte: String
-  period_next_pay_date_gt: String
-  period_next_pay_date_gte: String
-  period_next_pay_date_in: [String]
-  period_next_pay_date_not_in: [String]
-  period_first_date: String
-  period_first_date_not: String
-  period_first_date_lt: String
-  period_first_date_lte: String
-  period_first_date_gt: String
-  period_first_date_gte: String
-  period_first_date_in: [String]
-  period_first_date_not_in: [String]
-  change_plan_datetime: String
-  change_plan_datetime_not: String
-  change_plan_datetime_lt: String
-  change_plan_datetime_lte: String
-  change_plan_datetime_gt: String
-  change_plan_datetime_gte: String
-  change_plan_datetime_in: [String]
-  change_plan_datetime_not_in: [String]
+  orderNumber: String
+  orderNumber_not: String
+  orderNumber_contains: String
+  orderNumber_not_contains: String
+  orderNumber_starts_with: String
+  orderNumber_not_starts_with: String
+  orderNumber_ends_with: String
+  orderNumber_not_ends_with: String
+  orderNumber_i: String
+  orderNumber_not_i: String
+  orderNumber_contains_i: String
+  orderNumber_not_contains_i: String
+  orderNumber_starts_with_i: String
+  orderNumber_not_starts_with_i: String
+  orderNumber_ends_with_i: String
+  orderNumber_not_ends_with_i: String
+  orderNumber_in: [String]
+  orderNumber_not_in: [String]
+  frequency: subscriptionHistoryFrequencyType
+  frequency_not: subscriptionHistoryFrequencyType
+  frequency_in: [subscriptionHistoryFrequencyType]
+  frequency_not_in: [subscriptionHistoryFrequencyType]
+  tokenValue: String
+  tokenValue_not: String
+  tokenValue_contains: String
+  tokenValue_not_contains: String
+  tokenValue_starts_with: String
+  tokenValue_not_starts_with: String
+  tokenValue_ends_with: String
+  tokenValue_not_ends_with: String
+  tokenValue_i: String
+  tokenValue_not_i: String
+  tokenValue_contains_i: String
+  tokenValue_not_contains_i: String
+  tokenValue_starts_with_i: String
+  tokenValue_not_starts_with_i: String
+  tokenValue_ends_with_i: String
+  tokenValue_not_ends_with_i: String
+  tokenValue_in: [String]
+  tokenValue_not_in: [String]
+  tokenLife: String
+  tokenLife_not: String
+  tokenLife_contains: String
+  tokenLife_not_contains: String
+  tokenLife_starts_with: String
+  tokenLife_not_starts_with: String
+  tokenLife_ends_with: String
+  tokenLife_not_ends_with: String
+  tokenLife_i: String
+  tokenLife_not_i: String
+  tokenLife_contains_i: String
+  tokenLife_not_contains_i: String
+  tokenLife_starts_with_i: String
+  tokenLife_not_starts_with_i: String
+  tokenLife_ends_with_i: String
+  tokenLife_not_ends_with_i: String
+  tokenLife_in: [String]
+  tokenLife_not_in: [String]
+  tokenTerm: String
+  tokenTerm_not: String
+  tokenTerm_contains: String
+  tokenTerm_not_contains: String
+  tokenTerm_starts_with: String
+  tokenTerm_not_starts_with: String
+  tokenTerm_ends_with: String
+  tokenTerm_not_ends_with: String
+  tokenTerm_i: String
+  tokenTerm_not_i: String
+  tokenTerm_contains_i: String
+  tokenTerm_not_contains_i: String
+  tokenTerm_starts_with_i: String
+  tokenTerm_not_starts_with_i: String
+  tokenTerm_ends_with_i: String
+  tokenTerm_not_ends_with_i: String
+  tokenTerm_in: [String]
+  tokenTerm_not_in: [String]
+  periodLastSuccessDate: String
+  periodLastSuccessDate_not: String
+  periodLastSuccessDate_lt: String
+  periodLastSuccessDate_lte: String
+  periodLastSuccessDate_gt: String
+  periodLastSuccessDate_gte: String
+  periodLastSuccessDate_in: [String]
+  periodLastSuccessDate_not_in: [String]
+  periodNextPayDate: String
+  periodNextPayDate_not: String
+  periodNextPayDate_lt: String
+  periodNextPayDate_lte: String
+  periodNextPayDate_gt: String
+  periodNextPayDate_gte: String
+  periodNextPayDate_in: [String]
+  periodNextPayDate_not_in: [String]
+  periodFirstDate: String
+  periodFirstDate_not: String
+  periodFirstDate_lt: String
+  periodFirstDate_lte: String
+  periodFirstDate_gt: String
+  periodFirstDate_gte: String
+  periodFirstDate_in: [String]
+  periodFirstDate_not_in: [String]
+  changePlanDatetime: String
+  changePlanDatetime_not: String
+  changePlanDatetime_lt: String
+  changePlanDatetime_lte: String
+  changePlanDatetime_gt: String
+  changePlanDatetime_gte: String
+  changePlanDatetime_in: [String]
+  changePlanDatetime_not_in: [String]
   note: String
   note_not: String
   note_contains: String
@@ -2590,65 +2739,65 @@ input subscription_historyWhereInput {
   note_not_ends_with_i: String
   note_in: [String]
   note_not_in: [String]
-  promote_id: Int
-  promote_id_not: Int
-  promote_id_lt: Int
-  promote_id_lte: Int
-  promote_id_gt: Int
-  promote_id_gte: Int
-  promote_id_in: [Int]
-  promote_id_not_in: [Int]
-  post_slug: String
-  post_slug_not: String
-  post_slug_contains: String
-  post_slug_not_contains: String
-  post_slug_starts_with: String
-  post_slug_not_starts_with: String
-  post_slug_ends_with: String
-  post_slug_not_ends_with: String
-  post_slug_i: String
-  post_slug_not_i: String
-  post_slug_contains_i: String
-  post_slug_not_contains_i: String
-  post_slug_starts_with_i: String
-  post_slug_not_starts_with_i: String
-  post_slug_ends_with_i: String
-  post_slug_not_ends_with_i: String
-  post_slug_in: [String]
-  post_slug_not_in: [String]
-  one_time_start_date: String
-  one_time_start_date_not: String
-  one_time_start_date_lt: String
-  one_time_start_date_lte: String
-  one_time_start_date_gt: String
-  one_time_start_date_gte: String
-  one_time_start_date_in: [String]
-  one_time_start_date_not_in: [String]
-  one_time_end_date: String
-  one_time_end_date_not: String
-  one_time_end_date_lt: String
-  one_time_end_date_lte: String
-  one_time_end_date_gt: String
-  one_time_end_date_gte: String
-  one_time_end_date_in: [String]
-  one_time_end_date_not_in: [String]
-  action: subscription_historyActionType
-  action_not: subscription_historyActionType
-  action_in: [subscription_historyActionType]
-  action_not_in: [subscription_historyActionType]
+  promoteId: Int
+  promoteId_not: Int
+  promoteId_lt: Int
+  promoteId_lte: Int
+  promoteId_gt: Int
+  promoteId_gte: Int
+  promoteId_in: [Int]
+  promoteId_not_in: [Int]
+  postSlug: String
+  postSlug_not: String
+  postSlug_contains: String
+  postSlug_not_contains: String
+  postSlug_starts_with: String
+  postSlug_not_starts_with: String
+  postSlug_ends_with: String
+  postSlug_not_ends_with: String
+  postSlug_i: String
+  postSlug_not_i: String
+  postSlug_contains_i: String
+  postSlug_not_contains_i: String
+  postSlug_starts_with_i: String
+  postSlug_not_starts_with_i: String
+  postSlug_ends_with_i: String
+  postSlug_not_ends_with_i: String
+  postSlug_in: [String]
+  postSlug_not_in: [String]
+  oneTimeStartDate: String
+  oneTimeStartDate_not: String
+  oneTimeStartDate_lt: String
+  oneTimeStartDate_lte: String
+  oneTimeStartDate_gt: String
+  oneTimeStartDate_gte: String
+  oneTimeStartDate_in: [String]
+  oneTimeStartDate_not_in: [String]
+  oneTimeEndDate: String
+  oneTimeEndDate_not: String
+  oneTimeEndDate_lt: String
+  oneTimeEndDate_lte: String
+  oneTimeEndDate_gt: String
+  oneTimeEndDate_gte: String
+  oneTimeEndDate_in: [String]
+  oneTimeEndDate_not_in: [String]
+  action: subscriptionHistoryActionType
+  action_not: subscriptionHistoryActionType
+  action_in: [subscriptionHistoryActionType]
+  action_not_in: [subscriptionHistoryActionType]
 }
 
-input subscription_historyWhereUniqueInput {
+input subscriptionHistoryWhereUniqueInput {
   id: ID
 }
 
 enum SortSubscriptionHistoriesBy {
   id_ASC
   id_DESC
-  subscription_created_at_ASC
-  subscription_created_at_DESC
-  subscription_updated_at_ASC
-  subscription_updated_at_DESC
+  subscriptionCreatedAt_ASC
+  subscriptionCreatedAt_DESC
+  subscriptionUpdatedAt_ASC
+  subscriptionUpdatedAt_DESC
   status_ASC
   status_DESC
   amount_ASC
@@ -2659,182 +2808,143 @@ enum SortSubscriptionHistoriesBy {
   desc_DESC
   email_ASC
   email_DESC
-  order_number_ASC
-  order_number_DESC
+  orderNumber_ASC
+  orderNumber_DESC
   frequency_ASC
   frequency_DESC
-  token_value_ASC
-  token_value_DESC
-  token_life_ASC
-  token_life_DESC
-  token_term_ASC
-  token_term_DESC
-  period_last_success_date_ASC
-  period_last_success_date_DESC
-  period_next_pay_date_ASC
-  period_next_pay_date_DESC
-  period_first_date_ASC
-  period_first_date_DESC
-  change_plan_datetime_ASC
-  change_plan_datetime_DESC
+  tokenValue_ASC
+  tokenValue_DESC
+  tokenLife_ASC
+  tokenLife_DESC
+  tokenTerm_ASC
+  tokenTerm_DESC
+  periodLastSuccessDate_ASC
+  periodLastSuccessDate_DESC
+  periodNextPayDate_ASC
+  periodNextPayDate_DESC
+  periodFirstDate_ASC
+  periodFirstDate_DESC
+  changePlanDatetime_ASC
+  changePlanDatetime_DESC
   note_ASC
   note_DESC
-  promote_id_ASC
-  promote_id_DESC
-  post_slug_ASC
-  post_slug_DESC
-  one_time_start_date_ASC
-  one_time_start_date_DESC
-  one_time_end_date_ASC
-  one_time_end_date_DESC
+  promoteId_ASC
+  promoteId_DESC
+  postSlug_ASC
+  postSlug_DESC
+  oneTimeStartDate_ASC
+  oneTimeStartDate_DESC
+  oneTimeEndDate_ASC
+  oneTimeEndDate_DESC
   action_ASC
   action_DESC
 }
 
-input subscription_historyOrderByInput {
+input subscriptionHistoryOrderByInput {
   id: OrderDirection
-  subscription_created_at: OrderDirection
-  subscription_updated_at: OrderDirection
+  subscriptionCreatedAt: OrderDirection
+  subscriptionUpdatedAt: OrderDirection
   status: OrderDirection
   amount: OrderDirection
   currency: OrderDirection
   desc: OrderDirection
   email: OrderDirection
-  order_number: OrderDirection
+  orderNumber: OrderDirection
   frequency: OrderDirection
-  token_value: OrderDirection
-  token_life: OrderDirection
-  token_term: OrderDirection
-  period_last_success_date: OrderDirection
-  period_next_pay_date: OrderDirection
-  period_first_date: OrderDirection
-  change_plan_datetime: OrderDirection
+  tokenValue: OrderDirection
+  tokenLife: OrderDirection
+  tokenTerm: OrderDirection
+  periodLastSuccessDate: OrderDirection
+  periodNextPayDate: OrderDirection
+  periodFirstDate: OrderDirection
+  changePlanDatetime: OrderDirection
   note: OrderDirection
-  promote_id: OrderDirection
-  post_slug: OrderDirection
-  one_time_start_date: OrderDirection
-  one_time_end_date: OrderDirection
+  promoteId: OrderDirection
+  postSlug: OrderDirection
+  oneTimeStartDate: OrderDirection
+  oneTimeEndDate: OrderDirection
   action: OrderDirection
 }
 
-input subscription_historyUpdateInput {
+input subscriptionHistoryUpdateInput {
   subscription: subscriptionRelateToOneInput
-  subscription_created_at: String
-  subscription_updated_at: String
+  subscriptionCreatedAt: String
+  subscriptionUpdatedAt: String
   member: memberRelateToOneInput
-  status: subscription_historyStatusType
+  status: subscriptionHistoryStatusType
   amount: Int
-  currency: String
+  currency: subscriptionHistoryCurrencyType
   desc: String
   email: String
-  order_number: String
-  frequency: subscription_historyFrequencyType
-  token_value: String
-  token_life: String
-  token_term: String
-  period_last_success_date: String
-  period_next_pay_date: String
-  period_first_date: String
-  change_plan_datetime: String
+  orderNumber: String
+  frequency: subscriptionHistoryFrequencyType
+  tokenValue: String
+  tokenLife: String
+  tokenTerm: String
+  periodLastSuccessDate: String
+  periodNextPayDate: String
+  periodFirstDate: String
+  changePlanDatetime: String
   note: String
-  promote_id: Int
-  post_slug: String
-  one_time_start_date: String
-  one_time_end_date: String
-  action: subscription_historyActionType
+  promoteId: Int
+  postSlug: String
+  oneTimeStartDate: String
+  oneTimeEndDate: String
+  action: subscriptionHistoryActionType
 }
 
 input SubscriptionHistoriesUpdateInput {
   id: ID!
-  data: subscription_historyUpdateInput
+  data: subscriptionHistoryUpdateInput
 }
 
-input subscription_historyCreateInput {
+input subscriptionHistoryCreateInput {
   subscription: subscriptionRelateToOneInput
-  subscription_created_at: String
-  subscription_updated_at: String
+  subscriptionCreatedAt: String
+  subscriptionUpdatedAt: String
   member: memberRelateToOneInput
-  status: subscription_historyStatusType
+  status: subscriptionHistoryStatusType
   amount: Int
-  currency: String
+  currency: subscriptionHistoryCurrencyType
   desc: String
   email: String
-  order_number: String
-  frequency: subscription_historyFrequencyType
-  token_value: String
-  token_life: String
-  token_term: String
-  period_last_success_date: String
-  period_next_pay_date: String
-  period_first_date: String
-  change_plan_datetime: String
+  orderNumber: String
+  frequency: subscriptionHistoryFrequencyType
+  tokenValue: String
+  tokenLife: String
+  tokenTerm: String
+  periodLastSuccessDate: String
+  periodNextPayDate: String
+  periodFirstDate: String
+  changePlanDatetime: String
   note: String
-  promote_id: Int
-  post_slug: String
-  one_time_start_date: String
-  one_time_end_date: String
-  action: subscription_historyActionType
+  promoteId: Int
+  postSlug: String
+  oneTimeStartDate: String
+  oneTimeEndDate: String
+  action: subscriptionHistoryActionType
 }
 
 input SubscriptionHistoriesCreateInput {
-  data: subscription_historyCreateInput
+  data: subscriptionHistoryCreateInput
 }
-
-type newwebpayMGP {
-  """api version: 1.6 """
-  version: String!
-  """ 這裡的 merchantOrderNo 會是 null，請使用 subscriptionG 的 orderNumber """
-  merchantOrderNo: String
-  """ 0: 不須登入藍新金流會員 """
-  loginType: Int!
-  """ 1: 使用信用卡付款 """
-  credit: Int!
-  """ it will be the the Firebase ID """
-  tokenTerm: String!
-  """ TODO """
-  notifyUrl: String!
-  """ TODO """
-  returnUrl: String!
-}
-
-type newebpayAgreement {
-  """api version: 1.6 """
-  version: String!
-  """ 1: 約定信用卡付款授權交易 """
-  creditagreement: Int!
-  """ 0: 不須登入藍新金流會員 """
-  loginType: Int!
-  """ it will be the the Firebase ID """
-  tokenTerm: String!
-  """ TODO """
-  notifyUrl: String!
-  """ TODO """
-  returnUrl: String!
-}
-
-
-type subscriptionCreation{
-  subscription: subscription!
-  onetimePayment: newwebpayMGP
-  aggrementPayment: newebpayAgreement
-}
-
-"""
-The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
-"""
-scalar JSON
-  @specifiedBy(
-    url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf"
-  )
 
 type Mutation {
   createmember(data: memberCreateInput): member
   updatemember(id: ID!, data: memberUpdateInput): member
-  createsubscription(data: subscriptionCreateInput!): subscriptionCreation
-  updatesubscription(id: ID!, data: subscriptionUpdateInput!): subscription
+  createsubscription(data: subscriptionCreateInput): subscription
+  updatesubscription(id: ID!, data: subscriptionUpdateInput): subscription
 }
 
 type Query {
   __schema: __Schema
   member(where: memberWhereUniqueInput!): member
+  allMerchandises(
+    where: merchandiseWhereInput! = {isActive: true}
+    search: String
+    orderBy: [merchandiseOrderByInput!]! = []
+    first: Int
+    skip: Int! = 0
+  ): [merchandise!]
+  merchandise(where: merchandiseWhereUniqueInput!): merchandise
 }
