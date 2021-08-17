@@ -2085,6 +2085,10 @@ enum createSubscriptionStatusType {
   paying
 }
 
+enum updateSubscriptionStatusType {
+  canceled
+}
+
 enum subscriptionCurrencyType {
   TWD
 }
@@ -2093,6 +2097,10 @@ enum subscriptionFrequencyType {
   one_time
   yearly
   monthly
+}
+
+enum updateSubscriptionFrequencyType {
+  yearly
 }
 
 input subscriptionWhereInput {
@@ -2400,31 +2408,10 @@ input subscriptionOrderByInput {
 }
 
 input subscriptionUpdateInput {
-  member: memberRelateToOneInput
-  paymentMethod: subscriptionPaymentMethodType
-  newebpayPayment: newebpayPaymentRelateToManyInput
-  applepayPayment: applepayPaymentRelateToManyInput
-  androidpayPayment: androidpayPaymentRelateToManyInput
-  status: subscriptionStatusType
-  amount: Int
-  currency: subscriptionCurrencyType
+  status: updateSubscriptionStatusType
+  frequency: updateSubscriptionFrequencyType
   desc: String
-  email: String
-  orderNumber: String
-  frequency: subscriptionFrequencyType
-  periodLastSuccessDatetime: String
-  periodNextPayDatetime: String
-  periodCreateDatetime: String
-  periodFirstDatetime: String
-  periodEndDatetime: String
-  changePlanDatetime: String
   note: String
-  promoteId: Int
-  postSlug: String
-  oneTimeStartDatetime: String
-  oneTimeEndDatetime: String
-  createdAt: String
-  updatedAt: String
 }
 
 input newebpayPaymentRelateToManyInput {
