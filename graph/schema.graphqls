@@ -707,13 +707,18 @@ type merchandise {
   code: String
   price: Float
   currency: merchandiseCurrencyType
-  isActive: Boolean
+  state: merchandiseStateType
   createdAt: String
   updatedAt: String
 }
 
 enum merchandiseCurrencyType {
-  NTD
+  TWD
+}
+
+enum merchandiseStateType {
+  active
+  inactive
 }
 
 input merchandiseWhereInput {
@@ -775,8 +780,10 @@ input merchandiseWhereInput {
   currency_not: merchandiseCurrencyType
   currency_in: [merchandiseCurrencyType]
   currency_not_in: [merchandiseCurrencyType]
-  isActive: Boolean
-  isActive_not: Boolean
+  state: merchandiseStateType
+  state_not: merchandiseStateType
+  state_in: [merchandiseStateType]
+  state_not_in: [merchandiseStateType]
   createdAt: String
   createdAt_not: String
   createdAt_lt: String
@@ -814,8 +821,8 @@ enum SortMerchandisesBy {
   price_DESC
   currency_ASC
   currency_DESC
-  isActive_ASC
-  isActive_DESC
+  state_ASC
+  state_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -828,7 +835,7 @@ input merchandiseOrderByInput {
   code: OrderDirection
   price: OrderDirection
   currency: OrderDirection
-  isActive: OrderDirection
+  state: OrderDirection
   createdAt: OrderDirection
   updatedAt: OrderDirection
 }
@@ -838,7 +845,7 @@ input merchandiseUpdateInput {
   code: String
   price: Float
   currency: merchandiseCurrencyType
-  isActive: Boolean
+  state: merchandiseStateType
   createdAt: String
   updatedAt: String
 }
@@ -853,7 +860,7 @@ input merchandiseCreateInput {
   code: String
   price: Float
   currency: merchandiseCurrencyType
-  isActive: Boolean
+  state: merchandiseStateType
   createdAt: String
   updatedAt: String
 }
