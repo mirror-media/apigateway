@@ -2053,7 +2053,7 @@ type subscription {
   changePlanDatetime: String
   note: String
   promoteId: Int
-  postSlug: String
+  postId: String
   oneTimeStartDatetime: String
   oneTimeEndDatetime: String
   createdAt: String
@@ -2277,24 +2277,24 @@ input subscriptionWhereInput {
   promoteId_gte: Int
   promoteId_in: [Int]
   promoteId_not_in: [Int]
-  postSlug: String
-  postSlug_not: String
-  postSlug_contains: String
-  postSlug_not_contains: String
-  postSlug_starts_with: String
-  postSlug_not_starts_with: String
-  postSlug_ends_with: String
-  postSlug_not_ends_with: String
-  postSlug_i: String
-  postSlug_not_i: String
-  postSlug_contains_i: String
-  postSlug_not_contains_i: String
-  postSlug_starts_with_i: String
-  postSlug_not_starts_with_i: String
-  postSlug_ends_with_i: String
-  postSlug_not_ends_with_i: String
-  postSlug_in: [String]
-  postSlug_not_in: [String]
+  postId: String
+  postId_not: String
+  postId_contains: String
+  postId_not_contains: String
+  postId_starts_with: String
+  postId_not_starts_with: String
+  postId_ends_with: String
+  postId_not_ends_with: String
+  postId_i: String
+  postId_not_i: String
+  postId_contains_i: String
+  postId_not_contains_i: String
+  postId_starts_with_i: String
+  postId_not_starts_with_i: String
+  postId_ends_with_i: String
+  postId_not_ends_with_i: String
+  postId_in: [String]
+  postId_not_in: [String]
   oneTimeStartDatetime: String
   oneTimeStartDatetime_not: String
   oneTimeStartDatetime_lt: String
@@ -2370,8 +2370,8 @@ enum SortSubscriptionsBy {
   note_DESC
   promoteId_ASC
   promoteId_DESC
-  postSlug_ASC
-  postSlug_DESC
+  postId_ASC
+  postId_DESC
   oneTimeStartDatetime_ASC
   oneTimeStartDatetime_DESC
   oneTimeEndDatetime_ASC
@@ -2400,7 +2400,7 @@ input subscriptionOrderByInput {
   changePlanDatetime: OrderDirection
   note: OrderDirection
   promoteId: OrderDirection
-  postSlug: OrderDirection
+  postId: OrderDirection
   oneTimeStartDatetime: OrderDirection
   oneTimeEndDatetime: OrderDirection
   createdAt: OrderDirection
@@ -2459,7 +2459,7 @@ input subscriptionCreateInput {
   changePlanDatetime: String
   note: String
   promoteId: Int
-  postSlug: String
+  postId: String
   oneTimeStartDatetime: String
   oneTimeEndDatetime: String
   createdAt: String
@@ -2515,7 +2515,7 @@ type subscriptionHistory {
   changePlanDatetime: String
   note: String
   promoteId: Int
-  postSlug: String
+  postId: String
   oneTimeStartDate: String
   oneTimeEndDate: String
   action: subscriptionHistoryActionType
@@ -2764,24 +2764,24 @@ input subscriptionHistoryWhereInput {
   promoteId_gte: Int
   promoteId_in: [Int]
   promoteId_not_in: [Int]
-  postSlug: String
-  postSlug_not: String
-  postSlug_contains: String
-  postSlug_not_contains: String
-  postSlug_starts_with: String
-  postSlug_not_starts_with: String
-  postSlug_ends_with: String
-  postSlug_not_ends_with: String
-  postSlug_i: String
-  postSlug_not_i: String
-  postSlug_contains_i: String
-  postSlug_not_contains_i: String
-  postSlug_starts_with_i: String
-  postSlug_not_starts_with_i: String
-  postSlug_ends_with_i: String
-  postSlug_not_ends_with_i: String
-  postSlug_in: [String]
-  postSlug_not_in: [String]
+  postId: String
+  postId_not: String
+  postId_contains: String
+  postId_not_contains: String
+  postId_starts_with: String
+  postId_not_starts_with: String
+  postId_ends_with: String
+  postId_not_ends_with: String
+  postId_i: String
+  postId_not_i: String
+  postId_contains_i: String
+  postId_not_contains_i: String
+  postId_starts_with_i: String
+  postId_not_starts_with_i: String
+  postId_ends_with_i: String
+  postId_not_ends_with_i: String
+  postId_in: [String]
+  postId_not_in: [String]
   oneTimeStartDate: String
   oneTimeStartDate_not: String
   oneTimeStartDate_lt: String
@@ -2847,8 +2847,8 @@ enum SortSubscriptionHistoriesBy {
   note_DESC
   promoteId_ASC
   promoteId_DESC
-  postSlug_ASC
-  postSlug_DESC
+  postId_ASC
+  postId_DESC
   oneTimeStartDate_ASC
   oneTimeStartDate_DESC
   oneTimeEndDate_ASC
@@ -2877,7 +2877,7 @@ input subscriptionHistoryOrderByInput {
   changePlanDatetime: OrderDirection
   note: OrderDirection
   promoteId: OrderDirection
-  postSlug: OrderDirection
+  postId: OrderDirection
   oneTimeStartDate: OrderDirection
   oneTimeEndDate: OrderDirection
   action: OrderDirection
@@ -2904,7 +2904,7 @@ input subscriptionHistoryUpdateInput {
   changePlanDatetime: String
   note: String
   promoteId: Int
-  postSlug: String
+  postId: String
   oneTimeStartDate: String
   oneTimeEndDate: String
   action: subscriptionHistoryActionType
@@ -2936,7 +2936,7 @@ input subscriptionHistoryCreateInput {
   changePlanDatetime: String
   note: String
   promoteId: Int
-  postSlug: String
+  postId: String
   oneTimeStartDate: String
   oneTimeEndDate: String
   action: subscriptionHistoryActionType
