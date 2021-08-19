@@ -2917,7 +2917,7 @@ input SubscriptionHistoriesCreateInput {
 type Mutation {
   createmember(data: memberCreateInput): member
   updatemember(id: ID!, data: memberUpdateInput): member
-  creatergSubscriptionRecurring(data: subscriptionRecurringCreateInput): subscriptionCreation
+  createSubscriptionRecurring(data: subscriptionRecurringCreateInput): subscriptionCreation
   createsSubscriptionOneTime(data: subscriptionOneTimeCreateInput): subscriptionCreation
   updatesubscription(id: ID!, data: subscriptionUpdateInput): subscription
 }
