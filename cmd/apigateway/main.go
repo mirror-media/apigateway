@@ -36,33 +36,33 @@ func main() {
 		logrus.Fatalf("unable to decode into struct, %v", err)
 	}
 
-	srv, err := server.NewServer(cfg)
+	svr, err := server.NewServer(cfg)
 	if err != nil {
 		err = errors.Wrap(err, "failed to create new server")
 		logrus.Fatal(err)
 	}
-	err = server.SetHealthRoute(srv)
+	err = server.SetHealthRoute(svr)
 	if err != nil {
 		logrus.Fatalf("error setting up health route: %v", err)
 	}
 
-	err = server.SetRoute(srv)
+	err = server.SetRoute(svr)
 	if err != nil {
 		logrus.Fatalf("error setting up route: %v", err)
 	}
 
-	httpSRV := &http.Server{
-		Addr:    fmt.Sprintf("%s:%d", srv.Conf.Address, srv.Conf.Port),
-		Handler: srv.Engine,
+	httpSVR := &http.Server{
+		Addr:    fmt.Sprintf("%s:%d", svr.Conf.Address, svr.Conf.Port),
+		Handler: svr.Engine,
 	}
 
 	// Initializing the server in a goroutine so that
 	// it won't block the graceful shutdown handling below
 
 	go func() {
-		logrus.Infof("server listening to %s", httpSRV.Addr)
-		if err = httpSRV.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			err = errors.Wrap(shutdown(httpSRV, nil), err.Error())
+		logrus.Infof("server listening to %s", httpSVR.Addr)
+		if err = httpSVR.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			err = errors.Wrap(shutdown(httpSVR, nil), err.Error())
 			logrus.Fatalf("listen: %s\n", err)
 		} else if err != nil {
 			err = errors.Wrap(shutdown(nil, nil), err.Error())
@@ -79,7 +79,7 @@ func main() {
 	<-quit
 	logrus.Println("Shutting down server...")
 
-	if err := shutdown(httpSRV, nil); err != nil {
+	if err := shutdown(httpSVR, nil); err != nil {
 		logrus.Fatalf("Server forced to shutdown:", err)
 	}
 	os.Exit(0)

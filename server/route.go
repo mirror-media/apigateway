@@ -70,13 +70,13 @@ func SetRoute(server *Server) error {
 	// v1 User
 	// It will save FirebaseClient and FirebaseDBClient to *gin.context, and *gin.context to *context
 	v1TokenAuthenticatedWithFirebaseRouter := v1Router.Use(middleware.AuthenticateIDToken(server.firebaseClient), middleware.GinContextToContextMiddleware(), middleware.FirebaseClientToContextMiddleware(server.firebaseClient), middleware.FirebaseDBClientToContextMiddleware(server.firebaseDatabaseClient))
-	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{
+	svr := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{
 		Conf:       *server.Conf,
-		UserSrvURL: server.Conf.ServiceEndpoints.UserGraphQL,
-		// Token:      server.UserSrvToken,
+		UserSvrURL: server.Conf.ServiceEndpoints.UserGraphQL,
+		// Token:      server.UserSvrToken,
 		// TODO Temp workaround
 		Client: func() *graphql.Client {
-			tokenString, err := server.UserSrvToken.GetTokenString()
+			tokenString, err := server.UserSvrToken.GetTokenString()
 			if err != nil {
 				panic(err)
 			}
@@ -90,12 +90,12 @@ func SetRoute(server *Server) error {
 			return graphql.NewClient(server.Services.UserGraphQL, graphql.WithHTTPClient(httpClient))
 		}(),
 	}}))
-	v1TokenAuthenticatedWithFirebaseRouter.POST("/graphql/user", gin.WrapH(srv))
+	v1TokenAuthenticatedWithFirebaseRouter.POST("/graphql/user", gin.WrapH(svr))
 
 	// v0 api proxy every request to the restful serverce
 	v0Router := apiRouter.Group("/v0")
 	v0tokenStateRouter := v0Router.Use(middleware.GetIDTokenOnly(server.firebaseClient))
-	proxyURL, err := url.Parse(server.Conf.V0RESTfulSrvTargetURL)
+	proxyURL, err := url.Parse(server.Conf.V0RESTfulSvrTargetURL)
 	if err != nil {
 		return err
 	}

@@ -35,11 +35,11 @@ type Clients struct {
 	graphqlClient *graphql.Client
 }
 
-func (c *Clients) getGraphQLClient(userSrvToken string, serverConf config.Conf) (graphqlClient *graphql.Client, err error) {
+func (c *Clients) getGraphQLClient(userSvrToken string, serverConf config.Conf) (graphqlClient *graphql.Client, err error) {
 	c.Do(func() {
 		src := oauth2.StaticTokenSource(
 			&oauth2.Token{
-				AccessToken: userSrvToken,
+				AccessToken: userSvrToken,
 				TokenType:   token.TypeJWT,
 			},
 		)
@@ -159,7 +159,7 @@ func publishDeleteMemberMessage(parent context.Context, projectID string, topic 
 	return nil
 }
 
-func SubscribeDeleteMember(parent context.Context, c config.Conf, userSrvToken token.Token) error {
+func SubscribeDeleteMember(parent context.Context, c config.Conf, userSvrToken token.Token) error {
 	clientCTX, cancel := context.WithCancel(parent)
 	defer cancel()
 	client, err := pubsub.NewClient(clientCTX, c.ProjectID)
@@ -174,7 +174,7 @@ func SubscribeDeleteMember(parent context.Context, c config.Conf, userSrvToken t
 	cm := make(chan *pubsub.Message)
 	defer close(cm)
 
-	tokenString, err := userSrvToken.GetTokenString()
+	tokenString, err := userSvrToken.GetTokenString()
 	if err != nil {
 		panic(err)
 	}
@@ -195,7 +195,7 @@ func SubscribeDeleteMember(parent context.Context, c config.Conf, userSrvToken t
 
 			switch msg.Attributes[MsgAttrKeyAction] {
 			case MsgAttrValueDelete:
-				if err := requestToDeleteMember(userSrvToken, graphqlClient, firebaseID); err == nil {
+				if err := requestToDeleteMember(userSvrToken, graphqlClient, firebaseID); err == nil {
 					msg.Ack()
 				}
 			default:
@@ -222,7 +222,7 @@ func SubscribeDeleteMember(parent context.Context, c config.Conf, userSrvToken t
 
 }
 
-func requestToDeleteMember(userSrvToken token.Token, graphqlClient *graphql.Client, firebaseID string) (err error) {
+func requestToDeleteMember(userSvrToken token.Token, graphqlClient *graphql.Client, firebaseID string) (err error) {
 	logrus.Infof("Request Saleor-mirror to delete member: %s", firebaseID)
 
 	preGQL := []string{"mutation($firebaseId: String!) {", "deleteMember(firebaseId: $firebaseId) {"}

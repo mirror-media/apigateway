@@ -24,7 +24,7 @@ type Resolver struct {
 	// Token      token.Token
 	Client     *graphql.Client
 	Conf       config.Conf
-	UserSrvURL string
+	UserSvrURL string
 }
 
 func (r Resolver) IsRequestMatchingRequesterFirebaseID(ctx context.Context, userID string) (bool, error) {

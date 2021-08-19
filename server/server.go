@@ -29,7 +29,7 @@ type Server struct {
 	firebaseClient         *auth.Client
 	firebaseDatabaseClient *db.Client
 	Services               *ServiceEndpoints
-	UserSrvToken           token.Token
+	UserSvrToken           token.Token
 	Rdb                    cache.Rediser
 }
 
@@ -131,7 +131,7 @@ func NewServer(c config.Conf) (*Server, error) {
 		Services: &ServiceEndpoints{
 			UserGraphQL: c.ServiceEndpoints.UserGraphQL,
 		},
-		UserSrvToken: gatewayToken,
+		UserSvrToken: gatewayToken,
 	}
 	return s, nil
 }
