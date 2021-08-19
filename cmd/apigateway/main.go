@@ -10,10 +10,10 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
+	"github.com/sirupsen/logrus"
 
 	"github.com/mirror-media/mm-apigateway/config"
 	"github.com/mirror-media/mm-apigateway/server"
-	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
 
@@ -27,28 +27,28 @@ func main() {
 	err := viper.ReadInConfig()
 	// Handle errors reading the config file
 	if err != nil {
-		log.Fatalf("fatal error config file: %s", err)
+		logrus.Fatalf("fatal error config file: %s", err)
 	}
 
 	var cfg config.Conf
 	err = viper.Unmarshal(&cfg)
 	if err != nil {
-		log.Fatalf("unable to decode into struct, %v", err)
+		logrus.Fatalf("unable to decode into struct, %v", err)
 	}
 
 	srv, err := server.NewServer(cfg)
 	if err != nil {
 		err = errors.Wrap(err, "failed to create new server")
-		log.Fatal(err)
+		logrus.Fatal(err)
 	}
 	err = server.SetHealthRoute(srv)
 	if err != nil {
-		log.Fatalf("error setting up health route: %v", err)
+		logrus.Fatalf("error setting up health route: %v", err)
 	}
 
 	err = server.SetRoute(srv)
 	if err != nil {
-		log.Fatalf("error setting up route: %v", err)
+		logrus.Fatalf("error setting up route: %v", err)
 	}
 
 	httpSRV := &http.Server{
@@ -60,13 +60,13 @@ func main() {
 	// it won't block the graceful shutdown handling below
 
 	go func() {
-		log.Infof("server listening to %s", httpSRV.Addr)
+		logrus.Infof("server listening to %s", httpSRV.Addr)
 		if err = httpSRV.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			err = errors.Wrap(shutdown(httpSRV, nil), err.Error())
-			log.Fatalf("listen: %s\n", err)
+			logrus.Fatalf("listen: %s\n", err)
 		} else if err != nil {
 			err = errors.Wrap(shutdown(nil, nil), err.Error())
-			log.Fatalf("error server closed: %s\n", err)
+			logrus.Fatalf("error server closed: %s\n", err)
 		}
 	}()
 	// Wait for interrupt signal to gracefully shutdown the server with
@@ -77,10 +77,10 @@ func main() {
 	// kill -9 is syscall.SIGKILL but can't be catch, so don't need add it
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
-	log.Println("Shutting down server...")
+	logrus.Println("Shutting down server...")
 
 	if err := shutdown(httpSRV, nil); err != nil {
-		log.Fatalf("Server forced to shutdown:", err)
+		logrus.Fatalf("Server forced to shutdown:", err)
 	}
 	os.Exit(0)
 }

@@ -13,10 +13,10 @@ import (
 	"github.com/mirror-media/mm-apigateway/graph/model"
 	"github.com/mirror-media/mm-apigateway/member"
 	"github.com/pkg/errors"
-	log "github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 )
 
-var logger = log.New().WithField("type", "graphQL")
+var logger = logrus.New().WithField("type", "graphQL")
 
 func (r *mutationResolver) TokenCreate(ctx context.Context, password string, email *string, username *string) (*model.ObtainJSONWebToken, error) {
 	panic(fmt.Errorf("not implemented"))
@@ -117,21 +117,21 @@ func (r *mutationResolver) DeleteMember(ctx context.Context, firebaseID string) 
 	client, err := FirebaseClientFromContext(ctx)
 	if err != nil {
 		errors.WithMessage(err, "can't get FirebaseClient from context")
-		log.Error(err)
+		logrus.Error(err)
 		return nil, err
 	}
 
 	// disable firebase user before delete member to decrease response time
 	if err = member.DisableFirebaseUser(ctx, client, firebaseID); err != nil {
 		errors.WithMessage(err, fmt.Sprintf("can't disable Firebaseuser(%s)", firebaseID))
-		log.Error(err)
+		logrus.Error(err)
 		return nil, err
 	}
 
 	dbClient, err := FirebaseDatabaseClientFromContext(ctx)
 	if err != nil {
 		errors.WithMessage(err, "can't get FirebaseDatabaseClient from context")
-		log.Error(err)
+		logrus.Error(err)
 		return nil, err
 	}
 
@@ -141,12 +141,12 @@ func (r *mutationResolver) DeleteMember(ctx context.Context, firebaseID string) 
 		err = member.Delete(context.Background(), r.Conf, client, dbClient, firebaseID)
 		if err != nil {
 			err = errors.WithMessagef(err, "Failed to delete Firebase User(%s) or publish to delete the member", firebaseID)
-			log.Error(err)
+			logrus.Error(err)
 		}
 	}()
 
 	Success := true
-	log.Infof("Successfully disable the Firebase user(%s)", firebaseID)
+	logrus.Infof("Successfully disable the Firebase user(%s)", firebaseID)
 	return &model.DeleteMember{
 		Success: &Success,
 	}, err

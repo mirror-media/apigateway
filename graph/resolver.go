@@ -9,7 +9,7 @@ import (
 	"github.com/machinebox/graphql"
 	"github.com/mirror-media/mm-apigateway/config"
 	"github.com/mirror-media/mm-apigateway/middleware"
-	log "github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 
 	"firebase.google.com/go/v4/auth"
 	"firebase.google.com/go/v4/db"
@@ -44,14 +44,14 @@ func GinContextFromContext(ctx context.Context) (*gin.Context, error) {
 	ginContext := ctx.Value(middleware.CtxGinContexKey)
 	if ginContext == nil {
 		err := fmt.Errorf("could not retrieve gin.Context")
-		log.Error(err)
+		logrus.Error(err)
 		return nil, err
 	}
 
 	gc, ok := ginContext.(*gin.Context)
 	if !ok {
 		err := fmt.Errorf("gin.Context has wrong type")
-		log.Error(err)
+		logrus.Error(err)
 		return nil, err
 	}
 	return gc, nil
@@ -60,10 +60,10 @@ func GinContextFromContext(ctx context.Context) (*gin.Context, error) {
 func FirebaseClientFromContext(ctx context.Context) (*auth.Client, error) {
 	gCTX, err := GinContextFromContext(ctx)
 	if err != nil {
-		log.Error(err)
+		logrus.Error(err)
 		return nil, err
 	}
-	logger := log.WithFields(log.Fields{
+	logger := logrus.WithFields(logrus.Fields{
 		"path": gCTX.FullPath(),
 	})
 	firebaseClientCtx := ctx.Value(middleware.CtxFirebaseClientKey)
@@ -80,10 +80,10 @@ func FirebaseClientFromContext(ctx context.Context) (*auth.Client, error) {
 func FirebaseDatabaseClientFromContext(ctx context.Context) (*db.Client, error) {
 	gCTX, err := GinContextFromContext(ctx)
 	if err != nil {
-		log.Error(err)
+		logrus.Error(err)
 		return nil, err
 	}
-	logger := log.WithFields(log.Fields{
+	logger := logrus.WithFields(logrus.Fields{
 		"path": gCTX.FullPath(),
 	})
 	firebaseDatabaseClientCtx := ctx.Value(middleware.CtxFirebaseDatabaseClientKey)
@@ -129,7 +129,7 @@ func Map(vs []string, f func(string) string) []string {
 	return vsm
 }
 
-func checkAndPrintGraphQLError(logger *log.Entry, err error) {
+func checkAndPrintGraphQLError(logger *logrus.Entry, err error) {
 	if err != nil {
 		logger.Infof("GraphQL request received error from:%v", err)
 	}

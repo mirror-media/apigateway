@@ -10,7 +10,7 @@ import (
 	"firebase.google.com/go/v4/db"
 	"github.com/gin-gonic/gin"
 	"github.com/mirror-media/mm-apigateway/token"
-	log "github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 )
 
 type Reply struct {
@@ -29,7 +29,7 @@ type ErrorReply struct {
 // GetIDTokenOnly is a middleware to construct the token.Token interface
 func GetIDTokenOnly(firebaseClient *auth.Client) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		logger := log.WithFields(log.Fields{
+		logger := logrus.WithFields(logrus.Fields{
 			"path": c.FullPath(),
 		})
 		// Create a Token Instance
@@ -48,7 +48,7 @@ func GetIDTokenOnly(firebaseClient *auth.Client) gin.HandlerFunc {
 // AuthenticateIDToken is a middleware to authenticate the request and save the result to the context
 func AuthenticateIDToken(firebaseClient *auth.Client) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		logger := log.WithFields(log.Fields{
+		logger := logrus.WithFields(logrus.Fields{
 			"path": c.FullPath(),
 		})
 		// Create a Token Instance

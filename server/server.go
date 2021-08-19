@@ -14,7 +14,7 @@ import (
 	"github.com/mirror-media/mm-apigateway/config"
 	"github.com/mirror-media/mm-apigateway/token"
 	"github.com/pkg/errors"
-	log "github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 	"google.golang.org/api/option"
 )
 
@@ -34,8 +34,8 @@ type Server struct {
 }
 
 func init() {
-	log.SetFormatter(&log.JSONFormatter{})
-	log.SetReportCaller(true)
+	logrus.SetFormatter(&logrus.JSONFormatter{})
+	logrus.SetReportCaller(true)
 }
 
 func (s *Server) Run() error {
@@ -86,7 +86,7 @@ func NewServer(c config.Conf) (*Server, error) {
 		if len(c.RedisService.Addresses) == 0 {
 			return nil, errors.New("there's no redis address provided")
 		} else if len(c.RedisService.Addresses) > 1 {
-			log.Warnf("single type Redis accepts only the first address, but %d addresses are provided", len(c.RedisService.Addresses))
+			logrus.Warnf("single type Redis accepts only the first address, but %d addresses are provided", len(c.RedisService.Addresses))
 		}
 
 		// TODO refactor
