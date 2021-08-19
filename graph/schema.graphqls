@@ -629,13 +629,8 @@ input memberOrderByInput {
 }
 
 input memberUpdateInput {
-  firebaseId: String
   email: String
-  marketingMembership: marketingMembershipRelateToOneInput
-  type: memberTypeType
-  state: memberStateType
   tos: Boolean
-  dateJoined: String
   firstName: String
   lastName: String
   name: String
@@ -648,9 +643,6 @@ input memberUpdateInput {
   city: String
   country: String
   district: String
-  subscription: subscriptionRelateToManyInput
-  createdAt: String
-  updatedAt: String
 }
 
 input marketingMembershipRelateToOneInput {
@@ -673,13 +665,7 @@ input MembersUpdateInput {
 }
 
 input memberCreateInput {
-  firebaseId: String
-  email: String
-  marketingMembership: marketingMembershipRelateToOneInput
-  type: memberTypeType
-  state: memberStateType
   tos: Boolean
-  dateJoined: String
   firstName: String
   lastName: String
   name: String
@@ -692,9 +678,6 @@ input memberCreateInput {
   city: String
   country: String
   district: String
-  subscription: subscriptionRelateToManyInput
-  createdAt: String
-  updatedAt: String
 }
 
 input MembersCreateInput {
