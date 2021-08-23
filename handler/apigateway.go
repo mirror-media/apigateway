@@ -1,36 +1,31 @@
 package handler
 
 import (
-	"bytes"
-	"encoding/json"
+	"context"
 	"net/http"
 	"os"
+	"time"
 
-	"github.com/gobwas/ws"
+	http2 "github.com/jensneuse/graphql-go-tools/examples/federation/gateway/http"
+
 	"github.com/jensneuse/abstractlogger"
-	"github.com/jensneuse/graphql-go-tools/pkg/execution"
-	"github.com/jensneuse/graphql-go-tools/pkg/execution/datasource"
+	"github.com/jensneuse/graphql-go-tools/pkg/engine/datasource/graphql_datasource"
+	"github.com/jensneuse/graphql-go-tools/pkg/engine/datasource/httpclient"
 	"github.com/jensneuse/graphql-go-tools/pkg/graphql"
-	gqhttp "github.com/jensneuse/graphql-go-tools/pkg/http"
+	"github.com/jensneuse/graphql-go-tools/pkg/graphql/federation"
 	"github.com/sirupsen/logrus"
 )
 
-var graphqlDataSourceName = "graphql"
+var logger = abstractlogger.NewLogrusLogger(logrus.New(), abstractlogger.InfoLevel)
 
-var logger = abstractlogger.NewLogrusLogger(logrus.New(), abstractlogger.DebugLevel)
-
-var MemberQueryFields []string = []string{"__schema", "allMerchandises", "member", "merchandise"}
-var MemberMutationFields []string = []string{"createmember", "updatemember", "createSubscriptionRecurring", "createsSubscriptionOneTime", "updatesubscription"}
-
-func NewAPIGatewayGraphQLHandler() http.Handler {
-
-	typeFieldConfigs := []datasource.TypeFieldConfiguration{}
-
-	schemaString, err := os.ReadFile("/Users/chiu/dev/bcgodev/apigateway/graph/schema.graphqls")
+func NewAPIGatewayGraphQLHandler(memberUpstreamURL, schemaPath string) http.Handler {
+	schemaReader, err := os.Open(schemaPath)
 	if err != nil {
 		logrus.Panic(err)
 	}
-	schema, err := graphql.NewSchemaFromString(string(schemaString))
+
+	schema, err := graphql.NewSchemaFromReader(schemaReader)
+	schemaReader.Close()
 	if err != nil {
 		logrus.Panic(err)
 	}
@@ -43,94 +38,38 @@ func NewAPIGatewayGraphQLHandler() http.Handler {
 		logrus.Panic("schema is not valid:", validation.Errors.Error(), "first one is:", validation.Errors.ErrorByIndex(0))
 	}
 
-	buff := bytes.Buffer{}
-	schema.IntrospectionResponse(&buff)
+	defaultClient := httpclient.DefaultNetHttpClient
 
-	// schemaJSON := buff.String()
-
-	schemaConfig, _ := json.Marshal(datasource.SchemaDataSourcePlannerConfig{})
-
-	// logrus.Info("schemaJSON:" + schemaJSON)
-
-	graphqlTypeFieldConfigIntrospection := datasource.TypeFieldConfiguration{
-		TypeName:  "query",
-		FieldName: "__schema",
-		DataSource: datasource.SourceConfig{
-			Name:   "SchemaDataSource",
-			Config: schemaConfig,
+	factory := federation.NewEngineConfigV2Factory(
+		&http.Client{
+			Transport: &http.Transport{
+				MaxIdleConns:    10,
+				IdleConnTimeout: 30 * time.Second,
+			},
+			CheckRedirect: defaultClient.CheckRedirect,
+			Jar:           defaultClient.Jar,
+			Timeout:       defaultClient.Timeout,
 		},
-	}
-
-	typeFieldConfigs = append(typeFieldConfigs, graphqlTypeFieldConfigIntrospection)
-
-	// FIXME Use config
-	upstreamURL := "http://localhost:3000/api/graphql"
-
-	memberQueryGraphqlTypeFieldConfigs := make([]datasource.TypeFieldConfiguration, len(MemberQueryFields))
-
-	for _, f := range MemberQueryFields {
-		memberQueryGraphqlTypeFieldConfigs = append(memberQueryGraphqlTypeFieldConfigs, datasource.TypeFieldConfiguration{
-			TypeName:  "Query",
-			FieldName: f,
-			// Mapping: &datasource.MappingConfiguration{
-			// 	Disabled: false,
-			// 	Path:     "member",
-			// },
-			DataSource: datasource.SourceConfig{
-				Name: graphqlDataSourceName,
-				Config: jsonRawMessagify(map[string]interface{}{
-					"url":    upstreamURL,
-					"method": http.MethodPost,
-				}),
+		graphql_datasource.Configuration{
+			Fetch: graphql_datasource.FetchConfiguration{
+				URL: memberUpstreamURL,
 			},
-		})
-	}
-
-	typeFieldConfigs = append(typeFieldConfigs, memberQueryGraphqlTypeFieldConfigs...)
-
-	memberMutationGraphqlTypeFieldConfigs := make([]datasource.TypeFieldConfiguration, len(MemberMutationFields))
-	MemberMutationURL := "http://localhost:1234/v3/graphql/member"
-	for _, f := range MemberMutationFields {
-		memberMutationGraphqlTypeFieldConfigs = append(memberMutationGraphqlTypeFieldConfigs, datasource.TypeFieldConfiguration{
-			TypeName:  "Mutation",
-			FieldName: f,
-			DataSource: datasource.SourceConfig{
-				Name: graphqlDataSourceName,
-				Config: jsonRawMessagify(map[string]interface{}{
-					"url":    MemberMutationURL,
-					"method": http.MethodPost,
-				}),
+			Federation: graphql_datasource.FederationConfiguration{
+				Enabled:    false,
+				ServiceSDL: string(schema.Document()),
 			},
-		})
-	}
+		},
+	)
 
-	typeFieldConfigs = append(typeFieldConfigs, memberMutationGraphqlTypeFieldConfigs...)
-
-	plannerConfig := datasource.PlannerConfiguration{
-		TypeFieldConfigurations: typeFieldConfigs,
-	}
-	basePlanner, err := datasource.NewBaseDataSourcePlanner([]byte(schemaString), plannerConfig, logger)
+	engineConfig, err := factory.EngineV2Configuration()
 	if err != nil {
 		logrus.Panic(err)
 	}
 
-	err = basePlanner.RegisterDataSourcePlannerFactory(graphqlDataSourceName, &datasource.GraphQLDataSourcePlannerFactoryFactory{})
-	if err != nil {
-		logrus.Panic(err)
-	}
-	err = basePlanner.RegisterDataSourcePlannerFactory("SchemaDataSource", datasource.SchemaDataSourcePlannerFactoryFactory{})
-	if err != nil {
-		logrus.Panic(err)
-	}
+	executionEngine, _ := graphql.NewExecutionEngineV2(context.TODO(), logger, engineConfig)
 
-	executionHandler := execution.NewHandler(basePlanner, nil)
-
-	handler := gqhttp.NewGraphqlHTTPHandlerFunc(executionHandler, logger, &ws.DefaultHTTPUpgrader)
+	// TODO extract the handler wrapper from the example
+	handler := http2.NewGraphqlHTTPHandler(schema, executionEngine, nil, logger)
 
 	return handler
-}
-
-func jsonRawMessagify(any interface{}) []byte {
-	out, _ := json.Marshal(any)
-	return out
 }
