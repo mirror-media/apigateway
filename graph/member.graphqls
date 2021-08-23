@@ -554,9 +554,7 @@ input memberWhereInput {
 }
 
 input memberWhereUniqueInput {
-  id: ID
-  firebaseId: String
-  email: String
+  firebaseId: String!
 }
 
 enum SortMembersBy {
@@ -2923,7 +2921,7 @@ type Mutation {
 }
 
 type Query {
-  __schema: __Schema
+  # __schema: __Schema
   member(where: memberWhereUniqueInput!): member
   allMerchandises(
     where: merchandiseWhereInput! = {isActive: true}
