@@ -1,0 +1,11 @@
+type Query {
+  member(where: memberWhereUniqueInput!): member
+  allMerchandises(
+    where: merchandiseWhereInput! = {isActive: true}
+    search: String
+    orderBy: [merchandiseOrderByInput!]! = []
+    first: Int
+    skip: Int! = 0
+  ): [merchandise!]
+  merchandise(where: merchandiseWhereUniqueInput!): merchandise
+}
