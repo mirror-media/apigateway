@@ -7,6 +7,7 @@ import (
 	"net/url"
 
 	"github.com/machinebox/graphql"
+	"github.com/mirror-media/mm-apigateway/handler"
 	"github.com/mirror-media/mm-apigateway/middleware"
 	"github.com/mirror-media/mm-apigateway/token"
 	"golang.org/x/oauth2"
@@ -48,6 +49,16 @@ func SetHealthRoute(server *Server) error {
 // SetRoute sets the routing for the gin engine
 func SetRoute(server *Server) error {
 	apiRouter := server.Engine.Group("/api")
+
+	// v2 api
+	v2Router := apiRouter.Group("/v2")
+	v2tokenStateRouter := v2Router.Use(middleware.GetIDTokenOnly(server.firebaseClient))
+
+	v2TokenAuthenticatedWithFirebaseRouter := v2tokenStateRouter.Use(middleware.AuthenticateIDToken(server.firebaseClient), middleware.GinContextToContextMiddleware(), middleware.FirebaseClientToContextMiddleware(server.firebaseClient), middleware.FirebaseDBClientToContextMiddleware(server.firebaseDatabaseClient))
+
+	v2GraphHandler := handler.NewAPIGatewayGraphQLHandler("https://israfel.mirrormedia.mg/api/graphql", "http://localhost:8080/api/v2/graphql/member", "graph/member/type.graphql", "graph/member/query.graphql", "graph/member/mutation.graphql")
+
+	v2TokenAuthenticatedWithFirebaseRouter.POST("graphql/member", gin.WrapH(v2GraphHandler))
 
 	// Public API
 	// v1 api
