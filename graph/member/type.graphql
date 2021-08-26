@@ -988,7 +988,7 @@ input MarketingMembershipsCreateInput {
 
 type newebpayPaymentInfo {
   id: ID!
-  newebpayPayment: newebpayPayment
+  subscription: subscription
   tokenTerm: String
   tokenValue: String
   tokenLife: String
@@ -1007,8 +1007,8 @@ input newebpayPaymentInfoWhereInput {
   id_gte: ID
   id_in: [ID!]
   id_not_in: [ID!]
-  newebpayPayment: newebpayPaymentWhereInput
-  newebpayPayment_is_null: Boolean
+  subscription: subscriptionWhereInput
+  subscription_is_null: Boolean
   tokenTerm: String
   tokenTerm_not: String
   tokenTerm_contains: String
@@ -1102,12 +1102,19 @@ input newebpayPaymentInfoOrderByInput {
 }
 
 input newebpayPaymentInfoUpdateInput {
-  newebpayPayment: newebpayPaymentRelateToOneInput
+  subscription: subscriptionRelateToOneInput
   tokenTerm: String
   tokenValue: String
   tokenLife: String
   createdAt: String
   updatedAt: String
+}
+
+input subscriptionRelateToOneInput {
+  create: subscriptionCreateInput
+  connect: subscriptionWhereUniqueInput
+  disconnect: subscriptionWhereUniqueInput
+  disconnectAll: Boolean
 }
 
 input NewebpayPaymentInfosUpdateInput {
@@ -1116,7 +1123,7 @@ input NewebpayPaymentInfosUpdateInput {
 }
 
 input newebpayPaymentInfoCreateInput {
-  newebpayPayment: newebpayPaymentRelateToOneInput
+  subscription: subscriptionRelateToOneInput
   tokenTerm: String
   tokenValue: String
   tokenLife: String
@@ -1132,7 +1139,6 @@ type newebpayPayment {
   id: ID!
   subscription: subscription
   invoice: invoice
-  newebpayPaymentInfo: newebpayPaymentInfo
   amount: Int
   status: String
   paymentMethod: String
@@ -1168,8 +1174,6 @@ input newebpayPaymentWhereInput {
   subscription_is_null: Boolean
   invoice: invoiceWhereInput
   invoice_is_null: Boolean
-  newebpayPaymentInfo: newebpayPaymentInfoWhereInput
-  newebpayPaymentInfo_is_null: Boolean
   amount: Int
   amount_not: Int
   amount_lt: Int
@@ -1450,6 +1454,7 @@ input newebpayPaymentWhereInput {
 
 input newebpayPaymentWhereUniqueInput {
   id: ID
+  orderNumber: String
 }
 
 enum SortNewebpayPaymentsBy {
@@ -1518,7 +1523,6 @@ input newebpayPaymentOrderByInput {
 input newebpayPaymentUpdateInput {
   subscription: subscriptionRelateToOneInput
   invoice: invoiceRelateToOneInput
-  newebpayPaymentInfo: newebpayPaymentInfoRelateToOneInput
   amount: Int
   status: String
   paymentMethod: String
@@ -1539,24 +1543,10 @@ input newebpayPaymentUpdateInput {
   updatedAt: String
 }
 
-input subscriptionRelateToOneInput {
-  create: subscriptionCreateInput
-  connect: subscriptionWhereUniqueInput
-  disconnect: subscriptionWhereUniqueInput
-  disconnectAll: Boolean
-}
-
 input invoiceRelateToOneInput {
   create: invoiceCreateInput
   connect: invoiceWhereUniqueInput
   disconnect: invoiceWhereUniqueInput
-  disconnectAll: Boolean
-}
-
-input newebpayPaymentInfoRelateToOneInput {
-  create: newebpayPaymentInfoCreateInput
-  connect: newebpayPaymentInfoWhereUniqueInput
-  disconnect: newebpayPaymentInfoWhereUniqueInput
   disconnectAll: Boolean
 }
 
@@ -1568,7 +1558,6 @@ input NewebpayPaymentsUpdateInput {
 input newebpayPaymentCreateInput {
   subscription: subscriptionRelateToOneInput
   invoice: invoiceRelateToOneInput
-  newebpayPaymentInfo: newebpayPaymentInfoRelateToOneInput
   amount: Int
   status: String
   paymentMethod: String
@@ -1968,7 +1957,11 @@ type subscription {
   desc: String
   email: String
   orderNumber: String
+  isActive: Boolean
+  isCanceled: Boolean
   frequency: subscriptionFrequencyType
+  nextFrequency: subscriptionNextFrequencyType
+  periodFailureTimes: Int
   periodLastSuccessDatetime: String
   periodNextPayDatetime: String
   periodCreateDatetime: String
@@ -1980,6 +1973,7 @@ type subscription {
   postId: String
   oneTimeStartDatetime: String
   oneTimeEndDatetime: String
+  newebpayPaymentInfo: newebpayPaymentInfo
   createdAt: String
   updatedAt: String
 }
@@ -2001,7 +1995,6 @@ enum subscriptionStatusType {
   paid
   fail
   stopped
-  canceled
   invalid
 }
 
@@ -2015,7 +2008,13 @@ enum subscriptionFrequencyType {
   monthly
 }
 
-enum updateSubscriptionFrequencyType {
+enum subscriptionNextFrequencyType {
+  one_time
+  yearly
+  monthly
+}
+
+enum updateSubscriptionNextFrequencyType {
   yearly
 }
 
@@ -2115,10 +2114,26 @@ input subscriptionWhereInput {
   orderNumber_not_ends_with_i: String
   orderNumber_in: [String]
   orderNumber_not_in: [String]
+  isActive: Boolean
+  isActive_not: Boolean
+  isCanceled: Boolean
+  isCanceled_not: Boolean
   frequency: subscriptionFrequencyType
   frequency_not: subscriptionFrequencyType
   frequency_in: [subscriptionFrequencyType]
   frequency_not_in: [subscriptionFrequencyType]
+  nextFrequency: subscriptionNextFrequencyType
+  nextFrequency_not: subscriptionNextFrequencyType
+  nextFrequency_in: [subscriptionNextFrequencyType]
+  nextFrequency_not_in: [subscriptionNextFrequencyType]
+  periodFailureTimes: Int
+  periodFailureTimes_not: Int
+  periodFailureTimes_lt: Int
+  periodFailureTimes_lte: Int
+  periodFailureTimes_gt: Int
+  periodFailureTimes_gte: Int
+  periodFailureTimes_in: [Int]
+  periodFailureTimes_not_in: [Int]
   periodLastSuccessDatetime: String
   periodLastSuccessDatetime_not: String
   periodLastSuccessDatetime_lt: String
@@ -2227,6 +2242,8 @@ input subscriptionWhereInput {
   oneTimeEndDatetime_gte: String
   oneTimeEndDatetime_in: [String]
   oneTimeEndDatetime_not_in: [String]
+  newebpayPaymentInfo: newebpayPaymentInfoWhereInput
+  newebpayPaymentInfo_is_null: Boolean
   createdAt: String
   createdAt_not: String
   createdAt_lt: String
@@ -2249,6 +2266,7 @@ input subscriptionWhereInput {
 
 input subscriptionWhereUniqueInput {
   id: ID
+  orderNumber: String
 }
 
 enum SortSubscriptionsBy {
@@ -2268,8 +2286,16 @@ enum SortSubscriptionsBy {
   email_DESC
   orderNumber_ASC
   orderNumber_DESC
+  isActive_ASC
+  isActive_DESC
+  isCanceled_ASC
+  isCanceled_DESC
   frequency_ASC
   frequency_DESC
+  nextFrequency_ASC
+  nextFrequency_DESC
+  periodFailureTimes_ASC
+  periodFailureTimes_DESC
   periodLastSuccessDatetime_ASC
   periodLastSuccessDatetime_DESC
   periodNextPayDatetime_ASC
@@ -2307,7 +2333,11 @@ input subscriptionOrderByInput {
   desc: OrderDirection
   email: OrderDirection
   orderNumber: OrderDirection
+  isActive: OrderDirection
+  isCanceled: OrderDirection
   frequency: OrderDirection
+  nextFrequency: OrderDirection
+  periodFailureTimes: OrderDirection
   periodLastSuccessDatetime: OrderDirection
   periodNextPayDatetime: OrderDirection
   periodCreateDatetime: OrderDirection
@@ -2325,7 +2355,7 @@ input subscriptionOrderByInput {
 
 input subscriptionUpdateInput {
   status: updateSubscriptionStatusType
-  frequency: updateSubscriptionFrequencyType
+  nextFrequency: updateSubscriptionNextFrequencyType
   desc: String
   note: String
 }
@@ -2351,6 +2381,13 @@ input androidpayPaymentRelateToManyInput {
   disconnectAll: Boolean
 }
 
+input newebpayPaymentInfoRelateToOneInput {
+  create: newebpayPaymentInfoCreateInput
+  connect: newebpayPaymentInfoWhereUniqueInput
+  disconnect: newebpayPaymentInfoWhereUniqueInput
+  disconnectAll: Boolean
+}
+
 input SubscriptionsUpdateInput {
   id: ID!
   data: subscriptionUpdateInput
@@ -2366,7 +2403,8 @@ input subscriptionCreateInput {
   desc: String
   email: String
   orderNumber: String
-  frequency: subscriptionFrequencyType
+  isCanceled: Boolean
+  nextFrequency: subscriptionNextFrequencyType
   periodLastSuccessDatetime: String
   periodNextPayDatetime: String
   periodCreateDatetime: String
@@ -2420,7 +2458,7 @@ enum subscriptionHistoryStatusType {
   paid
   fail
   stopped
-  canceled
+  cancelled
   invalid
 }
 
@@ -2437,7 +2475,7 @@ enum subscriptionHistoryFrequencyType {
 enum subscriptionHistoryActionType {
   purge
   upgrade
-  canceled
+  cancelled
 }
 
 input subscriptionHistoryWhereInput {
@@ -2848,7 +2886,7 @@ enum createSubscriptionStatusType {
 }
 
 enum updateSubscriptionStatusType {
-  canceled
+  cancelled
 }
 
 input memberUpdateInput {
