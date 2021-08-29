@@ -1902,8 +1902,8 @@ type SubscriptionCreateInput struct {
 }
 
 type SubscriptionCreation struct {
-	Subscription    *Subscription `json:"subscription"`
-	NewebpayPayload *string       `json:"newebpayPayload"`
+	Subscription    *SubscriptionInfo `json:"subscription"`
+	NewebpayPayload *string           `json:"newebpayPayload"`
 }
 
 type SubscriptionHistory struct {
@@ -2273,6 +2273,34 @@ type SubscriptionHistoryWhereInput struct {
 
 type SubscriptionHistoryWhereUniqueInput struct {
 	ID *string `json:"id"`
+}
+
+type SubscriptionInfo struct {
+	ID                        string                         `json:"id"`
+	Status                    *SubscriptionStatusType        `json:"status"`
+	Amount                    *int                           `json:"amount"`
+	Currency                  *SubscriptionCurrencyType      `json:"currency"`
+	Desc                      *string                        `json:"desc"`
+	Email                     *string                        `json:"email"`
+	OrderNumber               *string                        `json:"orderNumber"`
+	IsActive                  *bool                          `json:"isActive"`
+	IsCanceled                *bool                          `json:"isCanceled"`
+	Frequency                 *SubscriptionFrequencyType     `json:"frequency"`
+	NextFrequency             *SubscriptionNextFrequencyType `json:"nextFrequency"`
+	PeriodFailureTimes        *int                           `json:"periodFailureTimes"`
+	PeriodLastSuccessDatetime *string                        `json:"periodLastSuccessDatetime"`
+	PeriodNextPayDatetime     *string                        `json:"periodNextPayDatetime"`
+	PeriodCreateDatetime      *string                        `json:"periodCreateDatetime"`
+	PeriodFirstDatetime       *string                        `json:"periodFirstDatetime"`
+	PeriodEndDatetime         *string                        `json:"periodEndDatetime"`
+	ChangePlanDatetime        *string                        `json:"changePlanDatetime"`
+	Note                      *string                        `json:"note"`
+	PromoteID                 *int                           `json:"promoteId"`
+	PostID                    *string                        `json:"postId"`
+	OneTimeStartDatetime      *string                        `json:"oneTimeStartDatetime"`
+	OneTimeEndDatetime        *string                        `json:"oneTimeEndDatetime"`
+	CreatedAt                 *string                        `json:"createdAt"`
+	UpdatedAt                 *string                        `json:"updatedAt"`
 }
 
 type SubscriptionOneTimeCreateInput struct {

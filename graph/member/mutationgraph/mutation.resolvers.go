@@ -186,7 +186,7 @@ func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data
 
 	var resp struct {
 		Data *struct {
-			Subscription *model.Subscription `json:"subscription"`
+			SubscriptionInfo *model.SubscriptionInfo `json:"subscription"`
 		} `json:"data"`
 	}
 
@@ -196,7 +196,7 @@ func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data
 
 	// TODO newebpay
 	return &model.SubscriptionCreation{
-		Subscription: resp.Data.Subscription,
+		Subscription: resp.Data.SubscriptionInfo,
 	}, err
 }
 
@@ -257,7 +257,7 @@ func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data 
 
 	var resp struct {
 		Data *struct {
-			Subscription *model.Subscription `json:"subscription"`
+			SubscriptionInfo *model.SubscriptionInfo `json:"subscription"`
 		} `json:"data"`
 	}
 
@@ -267,11 +267,11 @@ func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data 
 
 	// TODO newebpay
 	return &model.SubscriptionCreation{
-		Subscription: resp.Data.Subscription,
+		Subscription: resp.Data.SubscriptionInfo,
 	}, err
 }
 
-func (r *mutationResolver) Updatesubscription(ctx context.Context, id string, data *model.SubscriptionUpdateInput) (*model.Subscription, error) {
+func (r *mutationResolver) Updatesubscription(ctx context.Context, id string, data *model.SubscriptionUpdateInput) (*model.SubscriptionCreation, error) {
 	panic(fmt.Errorf("not implemented"))
 }
 

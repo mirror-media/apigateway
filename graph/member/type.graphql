@@ -2060,11 +2060,6 @@ type subscription {
   updatedAt: String
 }
 
-type subscriptionCreation {
-  subscription: subscription!
-  newebpayPayload: String
-}
-
 enum subscriptionPaymentMethodType {
   newebpay
   applepay
@@ -3038,4 +3033,37 @@ input subscriptionOneTimeCreateInput {
   note: String
   promoteId: Int
   postId: String!
+}
+
+type subscriptionInfo {
+  id: ID!
+  status: subscriptionStatusType
+  amount: Int
+  currency: subscriptionCurrencyType
+  desc: String
+  email: String
+  orderNumber: String
+  isActive: Boolean
+  isCanceled: Boolean
+  frequency: subscriptionFrequencyType
+  nextFrequency: subscriptionNextFrequencyType
+  periodFailureTimes: Int
+  periodLastSuccessDatetime: String
+  periodNextPayDatetime: String
+  periodCreateDatetime: String
+  periodFirstDatetime: String
+  periodEndDatetime: String
+  changePlanDatetime: String
+  note: String
+  promoteId: Int
+  postId: String
+  oneTimeStartDatetime: String
+  oneTimeEndDatetime: String
+  createdAt: String
+  updatedAt: String
+}
+
+type subscriptionCreation {
+  subscription: subscriptionInfo!
+  newebpayPayload: String
 }

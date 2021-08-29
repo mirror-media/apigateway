@@ -271,6 +271,34 @@ type ComplexityRoot struct {
 		TokenTerm             func(childComplexity int) int
 		TokenValue            func(childComplexity int) int
 	}
+
+	SubscriptionInfo struct {
+		Amount                    func(childComplexity int) int
+		ChangePlanDatetime        func(childComplexity int) int
+		CreatedAt                 func(childComplexity int) int
+		Currency                  func(childComplexity int) int
+		Desc                      func(childComplexity int) int
+		Email                     func(childComplexity int) int
+		Frequency                 func(childComplexity int) int
+		ID                        func(childComplexity int) int
+		IsActive                  func(childComplexity int) int
+		IsCanceled                func(childComplexity int) int
+		NextFrequency             func(childComplexity int) int
+		Note                      func(childComplexity int) int
+		OneTimeEndDatetime        func(childComplexity int) int
+		OneTimeStartDatetime      func(childComplexity int) int
+		OrderNumber               func(childComplexity int) int
+		PeriodCreateDatetime      func(childComplexity int) int
+		PeriodEndDatetime         func(childComplexity int) int
+		PeriodFailureTimes        func(childComplexity int) int
+		PeriodFirstDatetime       func(childComplexity int) int
+		PeriodLastSuccessDatetime func(childComplexity int) int
+		PeriodNextPayDatetime     func(childComplexity int) int
+		PostID                    func(childComplexity int) int
+		PromoteID                 func(childComplexity int) int
+		Status                    func(childComplexity int) int
+		UpdatedAt                 func(childComplexity int) int
+	}
 }
 
 type MutationResolver interface {
@@ -278,7 +306,7 @@ type MutationResolver interface {
 	Updatemember(ctx context.Context, id string, data *model.MemberUpdateInput) (*model.MemberInfo, error)
 	CreateSubscriptionRecurring(ctx context.Context, data *model.SubscriptionRecurringCreateInput) (*model.SubscriptionCreation, error)
 	CreatesSubscriptionOneTime(ctx context.Context, data *model.SubscriptionOneTimeCreateInput) (*model.SubscriptionCreation, error)
-	Updatesubscription(ctx context.Context, id string, data *model.SubscriptionUpdateInput) (*model.Subscription, error)
+	Updatesubscription(ctx context.Context, id string, data *model.SubscriptionUpdateInput) (*model.SubscriptionCreation, error)
 }
 
 type executableSchema struct {
@@ -1662,6 +1690,181 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.SubscriptionHistory.TokenValue(childComplexity), true
+
+	case "subscriptionInfo.amount":
+		if e.complexity.SubscriptionInfo.Amount == nil {
+			break
+		}
+
+		return e.complexity.SubscriptionInfo.Amount(childComplexity), true
+
+	case "subscriptionInfo.changePlanDatetime":
+		if e.complexity.SubscriptionInfo.ChangePlanDatetime == nil {
+			break
+		}
+
+		return e.complexity.SubscriptionInfo.ChangePlanDatetime(childComplexity), true
+
+	case "subscriptionInfo.createdAt":
+		if e.complexity.SubscriptionInfo.CreatedAt == nil {
+			break
+		}
+
+		return e.complexity.SubscriptionInfo.CreatedAt(childComplexity), true
+
+	case "subscriptionInfo.currency":
+		if e.complexity.SubscriptionInfo.Currency == nil {
+			break
+		}
+
+		return e.complexity.SubscriptionInfo.Currency(childComplexity), true
+
+	case "subscriptionInfo.desc":
+		if e.complexity.SubscriptionInfo.Desc == nil {
+			break
+		}
+
+		return e.complexity.SubscriptionInfo.Desc(childComplexity), true
+
+	case "subscriptionInfo.email":
+		if e.complexity.SubscriptionInfo.Email == nil {
+			break
+		}
+
+		return e.complexity.SubscriptionInfo.Email(childComplexity), true
+
+	case "subscriptionInfo.frequency":
+		if e.complexity.SubscriptionInfo.Frequency == nil {
+			break
+		}
+
+		return e.complexity.SubscriptionInfo.Frequency(childComplexity), true
+
+	case "subscriptionInfo.id":
+		if e.complexity.SubscriptionInfo.ID == nil {
+			break
+		}
+
+		return e.complexity.SubscriptionInfo.ID(childComplexity), true
+
+	case "subscriptionInfo.isActive":
+		if e.complexity.SubscriptionInfo.IsActive == nil {
+			break
+		}
+
+		return e.complexity.SubscriptionInfo.IsActive(childComplexity), true
+
+	case "subscriptionInfo.isCanceled":
+		if e.complexity.SubscriptionInfo.IsCanceled == nil {
+			break
+		}
+
+		return e.complexity.SubscriptionInfo.IsCanceled(childComplexity), true
+
+	case "subscriptionInfo.nextFrequency":
+		if e.complexity.SubscriptionInfo.NextFrequency == nil {
+			break
+		}
+
+		return e.complexity.SubscriptionInfo.NextFrequency(childComplexity), true
+
+	case "subscriptionInfo.note":
+		if e.complexity.SubscriptionInfo.Note == nil {
+			break
+		}
+
+		return e.complexity.SubscriptionInfo.Note(childComplexity), true
+
+	case "subscriptionInfo.oneTimeEndDatetime":
+		if e.complexity.SubscriptionInfo.OneTimeEndDatetime == nil {
+			break
+		}
+
+		return e.complexity.SubscriptionInfo.OneTimeEndDatetime(childComplexity), true
+
+	case "subscriptionInfo.oneTimeStartDatetime":
+		if e.complexity.SubscriptionInfo.OneTimeStartDatetime == nil {
+			break
+		}
+
+		return e.complexity.SubscriptionInfo.OneTimeStartDatetime(childComplexity), true
+
+	case "subscriptionInfo.orderNumber":
+		if e.complexity.SubscriptionInfo.OrderNumber == nil {
+			break
+		}
+
+		return e.complexity.SubscriptionInfo.OrderNumber(childComplexity), true
+
+	case "subscriptionInfo.periodCreateDatetime":
+		if e.complexity.SubscriptionInfo.PeriodCreateDatetime == nil {
+			break
+		}
+
+		return e.complexity.SubscriptionInfo.PeriodCreateDatetime(childComplexity), true
+
+	case "subscriptionInfo.periodEndDatetime":
+		if e.complexity.SubscriptionInfo.PeriodEndDatetime == nil {
+			break
+		}
+
+		return e.complexity.SubscriptionInfo.PeriodEndDatetime(childComplexity), true
+
+	case "subscriptionInfo.periodFailureTimes":
+		if e.complexity.SubscriptionInfo.PeriodFailureTimes == nil {
+			break
+		}
+
+		return e.complexity.SubscriptionInfo.PeriodFailureTimes(childComplexity), true
+
+	case "subscriptionInfo.periodFirstDatetime":
+		if e.complexity.SubscriptionInfo.PeriodFirstDatetime == nil {
+			break
+		}
+
+		return e.complexity.SubscriptionInfo.PeriodFirstDatetime(childComplexity), true
+
+	case "subscriptionInfo.periodLastSuccessDatetime":
+		if e.complexity.SubscriptionInfo.PeriodLastSuccessDatetime == nil {
+			break
+		}
+
+		return e.complexity.SubscriptionInfo.PeriodLastSuccessDatetime(childComplexity), true
+
+	case "subscriptionInfo.periodNextPayDatetime":
+		if e.complexity.SubscriptionInfo.PeriodNextPayDatetime == nil {
+			break
+		}
+
+		return e.complexity.SubscriptionInfo.PeriodNextPayDatetime(childComplexity), true
+
+	case "subscriptionInfo.postId":
+		if e.complexity.SubscriptionInfo.PostID == nil {
+			break
+		}
+
+		return e.complexity.SubscriptionInfo.PostID(childComplexity), true
+
+	case "subscriptionInfo.promoteId":
+		if e.complexity.SubscriptionInfo.PromoteID == nil {
+			break
+		}
+
+		return e.complexity.SubscriptionInfo.PromoteID(childComplexity), true
+
+	case "subscriptionInfo.status":
+		if e.complexity.SubscriptionInfo.Status == nil {
+			break
+		}
+
+		return e.complexity.SubscriptionInfo.Status(childComplexity), true
+
+	case "subscriptionInfo.updatedAt":
+		if e.complexity.SubscriptionInfo.UpdatedAt == nil {
+			break
+		}
+
+		return e.complexity.SubscriptionInfo.UpdatedAt(childComplexity), true
 
 	}
 	return 0, false
@@ -3789,11 +3992,6 @@ type subscription {
   updatedAt: String
 }
 
-type subscriptionCreation {
-  subscription: subscription!
-  newebpayPayload: String
-}
-
 enum subscriptionPaymentMethodType {
   newebpay
   applepay
@@ -4768,13 +4966,46 @@ input subscriptionOneTimeCreateInput {
   promoteId: Int
   postId: String!
 }
+
+type subscriptionInfo {
+  id: ID!
+  status: subscriptionStatusType
+  amount: Int
+  currency: subscriptionCurrencyType
+  desc: String
+  email: String
+  orderNumber: String
+  isActive: Boolean
+  isCanceled: Boolean
+  frequency: subscriptionFrequencyType
+  nextFrequency: subscriptionNextFrequencyType
+  periodFailureTimes: Int
+  periodLastSuccessDatetime: String
+  periodNextPayDatetime: String
+  periodCreateDatetime: String
+  periodFirstDatetime: String
+  periodEndDatetime: String
+  changePlanDatetime: String
+  note: String
+  promoteId: Int
+  postId: String
+  oneTimeStartDatetime: String
+  oneTimeEndDatetime: String
+  createdAt: String
+  updatedAt: String
+}
+
+type subscriptionCreation {
+  subscription: subscriptionInfo!
+  newebpayPayload: String
+}
 `, BuiltIn: false},
 	{Name: "mutation.graphql", Input: `type Mutation {
   createmember(data: memberCreateInput): memberInfo
   updatemember(id: ID!, data: memberUpdateInput): memberInfo
   createSubscriptionRecurring(data: subscriptionRecurringCreateInput): subscriptionCreation
   createsSubscriptionOneTime(data: subscriptionOneTimeCreateInput): subscriptionCreation
-  updatesubscription(id: ID!, data: subscriptionUpdateInput): subscription
+  updatesubscription(id: ID!, data: subscriptionUpdateInput): subscriptionCreation
 }
 `, BuiltIn: false},
 }
@@ -5384,9 +5615,9 @@ func (ec *executionContext) _Mutation_updatesubscription(ctx context.Context, fi
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.(*model.Subscription)
+	res := resTmp.(*model.SubscriptionCreation)
 	fc.Result = res
-	return ec.marshalOsubscription2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscription(ctx, field.Selections, res)
+	return ec.marshalOsubscriptionCreation2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionCreation(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query___type(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -11625,9 +11856,9 @@ func (ec *executionContext) _subscriptionCreation_subscription(ctx context.Conte
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.Subscription)
+	res := resTmp.(*model.SubscriptionInfo)
 	fc.Result = res
-	return ec.marshalNsubscription2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscription(ctx, field.Selections, res)
+	return ec.marshalNsubscriptionInfo2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionInfo(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _subscriptionCreation_newebpayPayload(ctx context.Context, field graphql.CollectedField, obj *model.SubscriptionCreation) (ret graphql.Marshaler) {
@@ -12463,6 +12694,809 @@ func (ec *executionContext) _subscriptionHistory_action(ctx context.Context, fie
 	res := resTmp.(*model.SubscriptionHistoryActionType)
 	fc.Result = res
 	return ec.marshalOsubscriptionHistoryActionType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionHistoryActionType(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscriptionInfo_id(ctx context.Context, field graphql.CollectedField, obj *model.SubscriptionInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscriptionInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscriptionInfo_status(ctx context.Context, field graphql.CollectedField, obj *model.SubscriptionInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscriptionInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Status, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.SubscriptionStatusType)
+	fc.Result = res
+	return ec.marshalOsubscriptionStatusType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionStatusType(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscriptionInfo_amount(ctx context.Context, field graphql.CollectedField, obj *model.SubscriptionInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscriptionInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Amount, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*int)
+	fc.Result = res
+	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscriptionInfo_currency(ctx context.Context, field graphql.CollectedField, obj *model.SubscriptionInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscriptionInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Currency, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.SubscriptionCurrencyType)
+	fc.Result = res
+	return ec.marshalOsubscriptionCurrencyType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionCurrencyType(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscriptionInfo_desc(ctx context.Context, field graphql.CollectedField, obj *model.SubscriptionInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscriptionInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Desc, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscriptionInfo_email(ctx context.Context, field graphql.CollectedField, obj *model.SubscriptionInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscriptionInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Email, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscriptionInfo_orderNumber(ctx context.Context, field graphql.CollectedField, obj *model.SubscriptionInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscriptionInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OrderNumber, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscriptionInfo_isActive(ctx context.Context, field graphql.CollectedField, obj *model.SubscriptionInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscriptionInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.IsActive, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*bool)
+	fc.Result = res
+	return ec.marshalOBoolean2ᚖbool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscriptionInfo_isCanceled(ctx context.Context, field graphql.CollectedField, obj *model.SubscriptionInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscriptionInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.IsCanceled, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*bool)
+	fc.Result = res
+	return ec.marshalOBoolean2ᚖbool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscriptionInfo_frequency(ctx context.Context, field graphql.CollectedField, obj *model.SubscriptionInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscriptionInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Frequency, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.SubscriptionFrequencyType)
+	fc.Result = res
+	return ec.marshalOsubscriptionFrequencyType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionFrequencyType(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscriptionInfo_nextFrequency(ctx context.Context, field graphql.CollectedField, obj *model.SubscriptionInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscriptionInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.NextFrequency, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.SubscriptionNextFrequencyType)
+	fc.Result = res
+	return ec.marshalOsubscriptionNextFrequencyType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionNextFrequencyType(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscriptionInfo_periodFailureTimes(ctx context.Context, field graphql.CollectedField, obj *model.SubscriptionInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscriptionInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.PeriodFailureTimes, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*int)
+	fc.Result = res
+	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscriptionInfo_periodLastSuccessDatetime(ctx context.Context, field graphql.CollectedField, obj *model.SubscriptionInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscriptionInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.PeriodLastSuccessDatetime, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscriptionInfo_periodNextPayDatetime(ctx context.Context, field graphql.CollectedField, obj *model.SubscriptionInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscriptionInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.PeriodNextPayDatetime, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscriptionInfo_periodCreateDatetime(ctx context.Context, field graphql.CollectedField, obj *model.SubscriptionInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscriptionInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.PeriodCreateDatetime, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscriptionInfo_periodFirstDatetime(ctx context.Context, field graphql.CollectedField, obj *model.SubscriptionInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscriptionInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.PeriodFirstDatetime, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscriptionInfo_periodEndDatetime(ctx context.Context, field graphql.CollectedField, obj *model.SubscriptionInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscriptionInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.PeriodEndDatetime, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscriptionInfo_changePlanDatetime(ctx context.Context, field graphql.CollectedField, obj *model.SubscriptionInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscriptionInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ChangePlanDatetime, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscriptionInfo_note(ctx context.Context, field graphql.CollectedField, obj *model.SubscriptionInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscriptionInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Note, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscriptionInfo_promoteId(ctx context.Context, field graphql.CollectedField, obj *model.SubscriptionInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscriptionInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.PromoteID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*int)
+	fc.Result = res
+	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscriptionInfo_postId(ctx context.Context, field graphql.CollectedField, obj *model.SubscriptionInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscriptionInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.PostID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscriptionInfo_oneTimeStartDatetime(ctx context.Context, field graphql.CollectedField, obj *model.SubscriptionInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscriptionInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OneTimeStartDatetime, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscriptionInfo_oneTimeEndDatetime(ctx context.Context, field graphql.CollectedField, obj *model.SubscriptionInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscriptionInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OneTimeEndDatetime, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscriptionInfo_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.SubscriptionInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscriptionInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscriptionInfo_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.SubscriptionInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscriptionInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
 // endregion **************************** field.gotpl *****************************
@@ -31581,6 +32615,81 @@ func (ec *executionContext) _subscriptionHistory(ctx context.Context, sel ast.Se
 	return out
 }
 
+var subscriptionInfoImplementors = []string{"subscriptionInfo"}
+
+func (ec *executionContext) _subscriptionInfo(ctx context.Context, sel ast.SelectionSet, obj *model.SubscriptionInfo) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, subscriptionInfoImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("subscriptionInfo")
+		case "id":
+			out.Values[i] = ec._subscriptionInfo_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "status":
+			out.Values[i] = ec._subscriptionInfo_status(ctx, field, obj)
+		case "amount":
+			out.Values[i] = ec._subscriptionInfo_amount(ctx, field, obj)
+		case "currency":
+			out.Values[i] = ec._subscriptionInfo_currency(ctx, field, obj)
+		case "desc":
+			out.Values[i] = ec._subscriptionInfo_desc(ctx, field, obj)
+		case "email":
+			out.Values[i] = ec._subscriptionInfo_email(ctx, field, obj)
+		case "orderNumber":
+			out.Values[i] = ec._subscriptionInfo_orderNumber(ctx, field, obj)
+		case "isActive":
+			out.Values[i] = ec._subscriptionInfo_isActive(ctx, field, obj)
+		case "isCanceled":
+			out.Values[i] = ec._subscriptionInfo_isCanceled(ctx, field, obj)
+		case "frequency":
+			out.Values[i] = ec._subscriptionInfo_frequency(ctx, field, obj)
+		case "nextFrequency":
+			out.Values[i] = ec._subscriptionInfo_nextFrequency(ctx, field, obj)
+		case "periodFailureTimes":
+			out.Values[i] = ec._subscriptionInfo_periodFailureTimes(ctx, field, obj)
+		case "periodLastSuccessDatetime":
+			out.Values[i] = ec._subscriptionInfo_periodLastSuccessDatetime(ctx, field, obj)
+		case "periodNextPayDatetime":
+			out.Values[i] = ec._subscriptionInfo_periodNextPayDatetime(ctx, field, obj)
+		case "periodCreateDatetime":
+			out.Values[i] = ec._subscriptionInfo_periodCreateDatetime(ctx, field, obj)
+		case "periodFirstDatetime":
+			out.Values[i] = ec._subscriptionInfo_periodFirstDatetime(ctx, field, obj)
+		case "periodEndDatetime":
+			out.Values[i] = ec._subscriptionInfo_periodEndDatetime(ctx, field, obj)
+		case "changePlanDatetime":
+			out.Values[i] = ec._subscriptionInfo_changePlanDatetime(ctx, field, obj)
+		case "note":
+			out.Values[i] = ec._subscriptionInfo_note(ctx, field, obj)
+		case "promoteId":
+			out.Values[i] = ec._subscriptionInfo_promoteId(ctx, field, obj)
+		case "postId":
+			out.Values[i] = ec._subscriptionInfo_postId(ctx, field, obj)
+		case "oneTimeStartDatetime":
+			out.Values[i] = ec._subscriptionInfo_oneTimeStartDatetime(ctx, field, obj)
+		case "oneTimeEndDatetime":
+			out.Values[i] = ec._subscriptionInfo_oneTimeEndDatetime(ctx, field, obj)
+		case "createdAt":
+			out.Values[i] = ec._subscriptionInfo_createdAt(ctx, field, obj)
+		case "updatedAt":
+			out.Values[i] = ec._subscriptionInfo_updatedAt(ctx, field, obj)
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 // endregion **************************** object.gotpl ****************************
 
 // region    ***************************** type.gotpl *****************************
@@ -32103,6 +33212,16 @@ func (ec *executionContext) marshalNsubscriptionFrequencyType2githubᚗcomᚋmir
 func (ec *executionContext) unmarshalNsubscriptionHistoryWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionHistoryWhereInput(ctx context.Context, v interface{}) (*model.SubscriptionHistoryWhereInput, error) {
 	res, err := ec.unmarshalInputsubscriptionHistoryWhereInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNsubscriptionInfo2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionInfo(ctx context.Context, sel ast.SelectionSet, v *model.SubscriptionInfo) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._subscriptionInfo(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalNsubscriptionOrderByInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionOrderByInputᚄ(ctx context.Context, v interface{}) ([]*model.SubscriptionOrderByInput, error) {

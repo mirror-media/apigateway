@@ -3,5 +3,5 @@ type Mutation {
   updatemember(id: ID!, data: memberUpdateInput): memberInfo
   createSubscriptionRecurring(data: subscriptionRecurringCreateInput): subscriptionCreation
   createsSubscriptionOneTime(data: subscriptionOneTimeCreateInput): subscriptionCreation
-  updatesubscription(id: ID!, data: subscriptionUpdateInput): subscription
+  updatesubscription(id: ID!, data: subscriptionUpdateInput): subscriptionCreation
 }
