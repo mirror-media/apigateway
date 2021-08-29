@@ -12,6 +12,7 @@ import (
 	graphql99 "github.com/99designs/gqlgen/graphql"
 	"github.com/machinebox/graphql"
 	"github.com/mirror-media/apigateway/config"
+	"github.com/mirror-media/apigateway/graph/member/model"
 	"github.com/mirror-media/apigateway/middleware"
 	"github.com/sirupsen/logrus"
 
@@ -25,6 +26,27 @@ type Resolver struct {
 	Client     *graphql.Client
 	Conf       config.Conf
 	UserSvrURL string
+}
+
+func (r Resolver) GetIDFromRemote(ctx context.Context, firebaseID string) (string, error) {
+	req := graphql.NewRequest(
+		"query ($firebaseId: String) { member(where: {firebaseId: $firebaseId}) { id } }")
+	req.Var("firebaseId", firebaseID)
+
+	var resp struct {
+		Data *struct {
+			Member *model.Member `json:"member"`
+		} `json:"data"`
+	}
+
+	err := r.Client.Run(ctx, req, &resp)
+	checkAndPrintGraphQLError(logrus.WithField("query", "GetIDFromRemote"), err)
+	if err != nil {
+		return "", err
+	} else if resp.Data.Member == nil {
+		return "", fmt.Errorf("%s is not found", firebaseID)
+	}
+	return resp.Data.Member.ID, err
 }
 
 func (r Resolver) GetFirebaseID(ctx context.Context) (string, error) {

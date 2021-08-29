@@ -72,7 +72,63 @@ func (r *mutationResolver) Createmember(ctx context.Context, data *model.MemberC
 }
 
 func (r *mutationResolver) Updatemember(ctx context.Context, id string, data *model.MemberUpdateInput) (*model.MemberInfo, error) {
-	panic(fmt.Errorf("not implemented"))
+	firebaseID, err := r.GetFirebaseID(ctx)
+	if err != nil {
+		return nil, err
+	}
+	_id, err := r.GetIDFromRemote(ctx, firebaseID)
+	if err != nil {
+		return nil, err
+	} else if _id != id {
+		return nil, fmt.Errorf("the id of firebaseId(%s) doesn't match id(%s)", firebaseID, id)
+	}
+
+	var input *model.MemberPrivateUpdateInput
+	if data != nil {
+		input = &model.MemberPrivateUpdateInput{
+			Email:        data.Email,
+			Tos:          data.Tos,
+			FirstName:    data.FirstName,
+			LastName:     data.LastName,
+			Name:         data.Name,
+			Gender:       data.Gender,
+			Phone:        data.Phone,
+			Birthday:     data.Birthday,
+			Address:      data.Address,
+			Nickname:     data.Nickname,
+			ProfileImage: data.ProfileImage,
+			City:         data.City,
+			Country:      data.Country,
+			District:     data.District,
+		}
+	}
+
+	// Construct GraphQL mutation
+
+	preGQL := []string{"mutation ($id: ID!, $input: memberUpdateInput) {", "updatemember(id: $id, data: $input) {"}
+
+	fieldsOnly := Map(GetPreloads(ctx), func(s string) string {
+		ns := strings.Split(s, ".")
+		return ns[len(ns)-1]
+	})
+
+	preGQL = append(preGQL, fieldsOnly...)
+	preGQL = append(preGQL, "}", "}")
+	gql := strings.Join(preGQL, "\n")
+	req := graphqlclient.NewRequest(gql)
+	req.Var("input", input)
+
+	var resp struct {
+		Data *struct {
+			MemberInfo *model.MemberInfo `json:"member"`
+		} `json:"data"`
+	}
+
+	err = r.Client.Run(ctx, req, &resp)
+
+	checkAndPrintGraphQLError(logrus.WithField("mutation", "createmember"), err)
+
+	return resp.Data.MemberInfo, err
 }
 
 func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data *model.SubscriptionRecurringCreateInput) (*model.SubscriptionCreation, error) {
