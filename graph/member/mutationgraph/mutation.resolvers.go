@@ -272,7 +272,68 @@ func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data 
 }
 
 func (r *mutationResolver) Updatesubscription(ctx context.Context, id string, data *model.SubscriptionUpdateInput) (*model.SubscriptionCreation, error) {
-	panic(fmt.Errorf("not implemented"))
+	firebaseID, err := r.GetFirebaseID(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	_firebaseID, err := r.RetrieveMemberFirebaseIDOfSubscriptionFromRemote(ctx, id)
+
+	if err != nil {
+		return nil, err
+	} else if _firebaseID != firebaseID {
+		return nil, fmt.Errorf("you do not have access to this resource, subscription(%s)", id)
+	}
+
+	var input *model.SubscriptionPrivateUpdateInput
+	if data != nil {
+		input = &model.SubscriptionPrivateUpdateInput{
+			Desc:          data.Desc,
+			NextFrequency: (*model.SubscriptionNextFrequencyType)(data.NextFrequency),
+			Note:          data.Note,
+			IsCanceled:    data.IsCanceled,
+		}
+
+		price, currency, state, err := r.RetrieveMerchandise(ctx, data.NextFrequency.String())
+		if err != nil {
+			return nil, err
+		}
+		if state != model.MerchandiseStateTypeActive {
+			return nil, fmt.Errorf("frequency(%s) is not %s", model.SubscriptionFrequencyTypeOneTime, model.MerchandiseStateTypeActive)
+		}
+		amount := int(price)
+		input.Amount = &amount
+		input.Currency = (*model.SubscriptionCurrencyType)(&currency)
+	}
+
+	// Construct GraphQL mutation
+
+	preGQL := []string{"mutation ($id: ID!, $input: subscriptionUpdateInput) {", "updatesubscription(id: $id, data: $input) {"}
+
+	fieldsOnly := Map(GetPreloads(ctx), func(s string) string {
+		ns := strings.Split(s, ".")
+		return ns[len(ns)-1]
+	})
+
+	preGQL = append(preGQL, fieldsOnly...)
+	preGQL = append(preGQL, "}", "}")
+	gql := strings.Join(preGQL, "\n")
+	req := graphqlclient.NewRequest(gql)
+	req.Var("input", input)
+
+	var resp struct {
+		Data *struct {
+			SubscriptionInfo *model.SubscriptionInfo `json:"subscription"`
+		} `json:"data"`
+	}
+
+	err = r.Client.Run(ctx, req, &resp)
+
+	checkAndPrintGraphQLError(logrus.WithField("mutation", "updatesubscription"), err)
+
+	return &model.SubscriptionCreation{
+		Subscription: resp.Data.SubscriptionInfo,
+	}, err
 }
 
 // Mutation returns generated.MutationResolver implementation.

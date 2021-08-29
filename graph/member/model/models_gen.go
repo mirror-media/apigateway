@@ -2343,6 +2343,39 @@ type SubscriptionOrderByInput struct {
 	UpdatedAt                 *OrderDirection `json:"updatedAt"`
 }
 
+type SubscriptionPrivateUpdateInput struct {
+	Member                    *MemberRelateToOneInput              `json:"member"`
+	PaymentMethod             *SubscriptionPaymentMethodType       `json:"paymentMethod"`
+	NewebpayPayment           *NewebpayPaymentRelateToManyInput    `json:"newebpayPayment"`
+	ApplepayPayment           *ApplepayPaymentRelateToManyInput    `json:"applepayPayment"`
+	AndroidpayPayment         *AndroidpayPaymentRelateToManyInput  `json:"androidpayPayment"`
+	Status                    *SubscriptionStatusType              `json:"status"`
+	Amount                    *int                                 `json:"amount"`
+	Currency                  *SubscriptionCurrencyType            `json:"currency"`
+	Desc                      *string                              `json:"desc"`
+	Email                     *string                              `json:"email"`
+	OrderNumber               *string                              `json:"orderNumber"`
+	IsActive                  *bool                                `json:"isActive"`
+	IsCanceled                *bool                                `json:"isCanceled"`
+	Frequency                 *SubscriptionFrequencyType           `json:"frequency"`
+	NextFrequency             *SubscriptionNextFrequencyType       `json:"nextFrequency"`
+	PeriodFailureTimes        *int                                 `json:"periodFailureTimes"`
+	PeriodLastSuccessDatetime *string                              `json:"periodLastSuccessDatetime"`
+	PeriodNextPayDatetime     *string                              `json:"periodNextPayDatetime"`
+	PeriodCreateDatetime      *string                              `json:"periodCreateDatetime"`
+	PeriodFirstDatetime       *string                              `json:"periodFirstDatetime"`
+	PeriodEndDatetime         *string                              `json:"periodEndDatetime"`
+	ChangePlanDatetime        *string                              `json:"changePlanDatetime"`
+	Note                      *string                              `json:"note"`
+	PromoteID                 *int                                 `json:"promoteId"`
+	PostID                    *string                              `json:"postId"`
+	OneTimeStartDatetime      *string                              `json:"oneTimeStartDatetime"`
+	OneTimeEndDatetime        *string                              `json:"oneTimeEndDatetime"`
+	NewebpayPaymentInfo       *NewebpayPaymentInfoRelateToOneInput `json:"newebpayPaymentInfo"`
+	CreatedAt                 *string                              `json:"createdAt"`
+	UpdatedAt                 *string                              `json:"updatedAt"`
+}
+
 type SubscriptionRecurringCreateInput struct {
 	PaymentMethod   SubscriptionPaymentMethodType     `json:"paymentMethod"`
 	ApplepayPayment *ApplepayPaymentRelateToManyInput `json:"applepayPayment"`
@@ -2369,9 +2402,9 @@ type SubscriptionRelateToOneInput struct {
 }
 
 type SubscriptionUpdateInput struct {
-	Status        *UpdateSubscriptionStatusType        `json:"status"`
-	NextFrequency *UpdateSubscriptionNextFrequencyType `json:"nextFrequency"`
 	Desc          *string                              `json:"desc"`
+	IsCanceled    *bool                                `json:"isCanceled"`
+	NextFrequency *UpdateSubscriptionNextFrequencyType `json:"nextFrequency"`
 	Note          *string                              `json:"note"`
 }
 

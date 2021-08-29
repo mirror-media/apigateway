@@ -2430,11 +2430,37 @@ input subscriptionOrderByInput {
   updatedAt: OrderDirection
 }
 
-input subscriptionUpdateInput {
-  status: updateSubscriptionStatusType
-  nextFrequency: updateSubscriptionNextFrequencyType
+input subscriptionPrivateUpdateInput {
+  member: memberRelateToOneInput
+  paymentMethod: subscriptionPaymentMethodType
+  newebpayPayment: newebpayPaymentRelateToManyInput
+  applepayPayment: applepayPaymentRelateToManyInput
+  androidpayPayment: androidpayPaymentRelateToManyInput
+  status: subscriptionStatusType
+  amount: Int
+  currency: subscriptionCurrencyType
   desc: String
+  email: String
+  orderNumber: String
+  isActive: Boolean
+  isCanceled: Boolean
+  frequency: subscriptionFrequencyType
+  nextFrequency: subscriptionNextFrequencyType
+  periodFailureTimes: Int
+  periodLastSuccessDatetime: String
+  periodNextPayDatetime: String
+  periodCreateDatetime: String
+  periodFirstDatetime: String
+  periodEndDatetime: String
+  changePlanDatetime: String
   note: String
+  promoteId: Int
+  postId: String
+  oneTimeStartDatetime: String
+  oneTimeEndDatetime: String
+  newebpayPaymentInfo: newebpayPaymentInfoRelateToOneInput
+  createdAt: String
+  updatedAt: String
 }
 
 input newebpayPaymentRelateToManyInput {
@@ -3033,6 +3059,13 @@ input subscriptionOneTimeCreateInput {
   note: String
   promoteId: Int
   postId: String!
+}
+
+input subscriptionUpdateInput {
+  desc: String
+  isCanceled: Boolean
+  nextFrequency: updateSubscriptionNextFrequencyType
+  note: String
 }
 
 type subscriptionInfo {

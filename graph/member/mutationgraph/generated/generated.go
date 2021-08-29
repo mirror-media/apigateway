@@ -4362,11 +4362,37 @@ input subscriptionOrderByInput {
   updatedAt: OrderDirection
 }
 
-input subscriptionUpdateInput {
-  status: updateSubscriptionStatusType
-  nextFrequency: updateSubscriptionNextFrequencyType
+input subscriptionPrivateUpdateInput {
+  member: memberRelateToOneInput
+  paymentMethod: subscriptionPaymentMethodType
+  newebpayPayment: newebpayPaymentRelateToManyInput
+  applepayPayment: applepayPaymentRelateToManyInput
+  androidpayPayment: androidpayPaymentRelateToManyInput
+  status: subscriptionStatusType
+  amount: Int
+  currency: subscriptionCurrencyType
   desc: String
+  email: String
+  orderNumber: String
+  isActive: Boolean
+  isCanceled: Boolean
+  frequency: subscriptionFrequencyType
+  nextFrequency: subscriptionNextFrequencyType
+  periodFailureTimes: Int
+  periodLastSuccessDatetime: String
+  periodNextPayDatetime: String
+  periodCreateDatetime: String
+  periodFirstDatetime: String
+  periodEndDatetime: String
+  changePlanDatetime: String
   note: String
+  promoteId: Int
+  postId: String
+  oneTimeStartDatetime: String
+  oneTimeEndDatetime: String
+  newebpayPaymentInfo: newebpayPaymentInfoRelateToOneInput
+  createdAt: String
+  updatedAt: String
 }
 
 input newebpayPaymentRelateToManyInput {
@@ -4965,6 +4991,13 @@ input subscriptionOneTimeCreateInput {
   note: String
   promoteId: Int
   postId: String!
+}
+
+input subscriptionUpdateInput {
+  desc: String
+  isCanceled: Boolean
+  nextFrequency: updateSubscriptionNextFrequencyType
+  note: String
 }
 
 type subscriptionInfo {
@@ -29398,6 +29431,261 @@ func (ec *executionContext) unmarshalInputsubscriptionOrderByInput(ctx context.C
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputsubscriptionPrivateUpdateInput(ctx context.Context, obj interface{}) (model.SubscriptionPrivateUpdateInput, error) {
+	var it model.SubscriptionPrivateUpdateInput
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	for k, v := range asMap {
+		switch k {
+		case "member":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("member"))
+			it.Member, err = ec.unmarshalOmemberRelateToOneInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberRelateToOneInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "paymentMethod":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("paymentMethod"))
+			it.PaymentMethod, err = ec.unmarshalOsubscriptionPaymentMethodType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionPaymentMethodType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "newebpayPayment":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("newebpayPayment"))
+			it.NewebpayPayment, err = ec.unmarshalOnewebpayPaymentRelateToManyInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐNewebpayPaymentRelateToManyInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "applepayPayment":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("applepayPayment"))
+			it.ApplepayPayment, err = ec.unmarshalOapplepayPaymentRelateToManyInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentRelateToManyInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "androidpayPayment":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("androidpayPayment"))
+			it.AndroidpayPayment, err = ec.unmarshalOandroidpayPaymentRelateToManyInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentRelateToManyInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "status":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("status"))
+			it.Status, err = ec.unmarshalOsubscriptionStatusType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionStatusType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "amount":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("amount"))
+			it.Amount, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "currency":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("currency"))
+			it.Currency, err = ec.unmarshalOsubscriptionCurrencyType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionCurrencyType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "desc":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("desc"))
+			it.Desc, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "email":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("email"))
+			it.Email, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "orderNumber":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber"))
+			it.OrderNumber, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "isActive":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("isActive"))
+			it.IsActive, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "isCanceled":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("isCanceled"))
+			it.IsCanceled, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "frequency":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("frequency"))
+			it.Frequency, err = ec.unmarshalOsubscriptionFrequencyType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionFrequencyType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "nextFrequency":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("nextFrequency"))
+			it.NextFrequency, err = ec.unmarshalOsubscriptionNextFrequencyType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionNextFrequencyType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "periodFailureTimes":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodFailureTimes"))
+			it.PeriodFailureTimes, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "periodLastSuccessDatetime":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodLastSuccessDatetime"))
+			it.PeriodLastSuccessDatetime, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "periodNextPayDatetime":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodNextPayDatetime"))
+			it.PeriodNextPayDatetime, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "periodCreateDatetime":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodCreateDatetime"))
+			it.PeriodCreateDatetime, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "periodFirstDatetime":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodFirstDatetime"))
+			it.PeriodFirstDatetime, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "periodEndDatetime":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodEndDatetime"))
+			it.PeriodEndDatetime, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "changePlanDatetime":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("changePlanDatetime"))
+			it.ChangePlanDatetime, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "note":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("note"))
+			it.Note, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "promoteId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("promoteId"))
+			it.PromoteID, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "postId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("postId"))
+			it.PostID, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "oneTimeStartDatetime":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("oneTimeStartDatetime"))
+			it.OneTimeStartDatetime, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "oneTimeEndDatetime":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("oneTimeEndDatetime"))
+			it.OneTimeEndDatetime, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "newebpayPaymentInfo":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("newebpayPaymentInfo"))
+			it.NewebpayPaymentInfo, err = ec.unmarshalOnewebpayPaymentInfoRelateToOneInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐNewebpayPaymentInfoRelateToOneInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "createdAt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdAt"))
+			it.CreatedAt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "updatedAt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedAt"))
+			it.UpdatedAt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputsubscriptionRecurringCreateInput(ctx context.Context, obj interface{}) (model.SubscriptionRecurringCreateInput, error) {
 	var it model.SubscriptionRecurringCreateInput
 	asMap := map[string]interface{}{}
@@ -29580,11 +29868,19 @@ func (ec *executionContext) unmarshalInputsubscriptionUpdateInput(ctx context.Co
 
 	for k, v := range asMap {
 		switch k {
-		case "status":
+		case "desc":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("status"))
-			it.Status, err = ec.unmarshalOupdateSubscriptionStatusType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐUpdateSubscriptionStatusType(ctx, v)
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("desc"))
+			it.Desc, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "isCanceled":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("isCanceled"))
+			it.IsCanceled, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29593,14 +29889,6 @@ func (ec *executionContext) unmarshalInputsubscriptionUpdateInput(ctx context.Co
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("nextFrequency"))
 			it.NextFrequency, err = ec.unmarshalOupdateSubscriptionNextFrequencyType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐUpdateSubscriptionNextFrequencyType(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "desc":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("desc"))
-			it.Desc, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -36329,22 +36617,6 @@ func (ec *executionContext) unmarshalOupdateSubscriptionNextFrequencyType2ᚖgit
 }
 
 func (ec *executionContext) marshalOupdateSubscriptionNextFrequencyType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐUpdateSubscriptionNextFrequencyType(ctx context.Context, sel ast.SelectionSet, v *model.UpdateSubscriptionNextFrequencyType) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	return v
-}
-
-func (ec *executionContext) unmarshalOupdateSubscriptionStatusType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐUpdateSubscriptionStatusType(ctx context.Context, v interface{}) (*model.UpdateSubscriptionStatusType, error) {
-	if v == nil {
-		return nil, nil
-	}
-	var res = new(model.UpdateSubscriptionStatusType)
-	err := res.UnmarshalGQL(v)
-	return res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) marshalOupdateSubscriptionStatusType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐUpdateSubscriptionStatusType(ctx context.Context, sel ast.SelectionSet, v *model.UpdateSubscriptionStatusType) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
