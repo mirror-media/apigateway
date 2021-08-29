@@ -2481,12 +2481,17 @@ input subscriptionCreateInput {
   newebpayPayment: newebpayPaymentRelateToManyInput
   applepayPayment: applepayPaymentRelateToManyInput
   androidpayPayment: androidpayPaymentRelateToManyInput
-  status: createSubscriptionStatusType
+  status: subscriptionStatusType
+  amount: Int
+  currency: subscriptionCurrencyType
   desc: String
   email: String
   orderNumber: String
+  isActive: Boolean
   isCanceled: Boolean
+  frequency: subscriptionFrequencyType
   nextFrequency: subscriptionNextFrequencyType
+  periodFailureTimes: Int
   periodLastSuccessDatetime: String
   periodNextPayDatetime: String
   periodCreateDatetime: String
@@ -2498,6 +2503,7 @@ input subscriptionCreateInput {
   postId: String
   oneTimeStartDatetime: String
   oneTimeEndDatetime: String
+  newebpayPaymentInfo: newebpayPaymentInfoRelateToOneInput
   createdAt: String
   updatedAt: String
 }

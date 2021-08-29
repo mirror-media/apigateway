@@ -28,6 +28,34 @@ type Resolver struct {
 	UserSvrURL string
 }
 
+func (r Resolver) RetrieveMerchandise(ctx context.Context, code string) (price float64, currency string, state model.MerchandiseStateType, err error) {
+	gql := `query ($code: String) {
+  merchandise(where: {code: $code}) {
+    price
+    currency
+    state
+  }
+}`
+	req := graphql.NewRequest(gql)
+	req.Var("code", code)
+
+	var resp struct {
+		Data *struct {
+			Merchandise *model.Merchandise `json:"merchandise"`
+		} `json:"data"`
+	}
+
+	err = r.Client.Run(ctx, req, &resp)
+	checkAndPrintGraphQLError(logrus.WithField("query", "GetIDFromRemote"), err)
+	if err != nil {
+		return 0, "", "", err
+	} else if resp.Data.Merchandise == nil {
+		return 0, "", "", fmt.Errorf("merchandise with code %s is not found", code)
+	}
+	return *resp.Data.Merchandise.Price, *resp.Data.Merchandise.Code, *resp.Data.Merchandise.State, err
+
+}
+
 func (r Resolver) GetMemberIDFromRemote(ctx context.Context, firebaseID string) (string, error) {
 	req := graphql.NewRequest(
 		"query ($firebaseId: String) { member(where: {firebaseId: $firebaseId}) { id } }")
