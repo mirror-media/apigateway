@@ -632,6 +632,30 @@ type MemberCreateInput struct {
 	District     *string           `json:"district"`
 }
 
+type MemberInfo struct {
+	ID           string            `json:"id"`
+	FirebaseID   *string           `json:"firebaseId"`
+	Email        *string           `json:"email"`
+	Type         *MemberTypeType   `json:"type"`
+	State        *MemberStateType  `json:"state"`
+	Tos          *bool             `json:"tos"`
+	DateJoined   *string           `json:"dateJoined"`
+	FirstName    *string           `json:"firstName"`
+	LastName     *string           `json:"lastName"`
+	Name         *string           `json:"name"`
+	Gender       *MemberGenderType `json:"gender"`
+	Phone        *string           `json:"phone"`
+	Birthday     *string           `json:"birthday"`
+	Address      *string           `json:"address"`
+	Nickname     *string           `json:"nickname"`
+	ProfileImage *string           `json:"profileImage"`
+	City         *string           `json:"city"`
+	Country      *string           `json:"country"`
+	District     *string           `json:"district"`
+	CreatedAt    *string           `json:"createdAt"`
+	UpdatedAt    *string           `json:"updatedAt"`
+}
+
 type MemberOrderByInput struct {
 	ID           *OrderDirection `json:"id"`
 	FirebaseID   *OrderDirection `json:"firebaseId"`

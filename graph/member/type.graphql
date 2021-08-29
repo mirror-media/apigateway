@@ -253,6 +253,30 @@ type member {
   updatedAt: String
 }
 
+type memberInfo {
+  id: ID!
+  firebaseId: String
+  email: String
+  type: memberTypeType
+  state: memberStateType
+  tos: Boolean
+  dateJoined: String
+  firstName: String
+  lastName: String
+  name: String
+  gender: memberGenderType
+  phone: String
+  birthday: String
+  address: String
+  nickname: String
+  profileImage: String
+  city: String
+  country: String
+  district: String
+  createdAt: String
+  updatedAt: String
+}
+
 enum memberTypeType {
   subscriber
   marketing

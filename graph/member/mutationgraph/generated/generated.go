@@ -121,6 +121,30 @@ type ComplexityRoot struct {
 		UpdatedAt           func(childComplexity int) int
 	}
 
+	MemberInfo struct {
+		Address      func(childComplexity int) int
+		Birthday     func(childComplexity int) int
+		City         func(childComplexity int) int
+		Country      func(childComplexity int) int
+		CreatedAt    func(childComplexity int) int
+		DateJoined   func(childComplexity int) int
+		District     func(childComplexity int) int
+		Email        func(childComplexity int) int
+		FirebaseID   func(childComplexity int) int
+		FirstName    func(childComplexity int) int
+		Gender       func(childComplexity int) int
+		ID           func(childComplexity int) int
+		LastName     func(childComplexity int) int
+		Name         func(childComplexity int) int
+		Nickname     func(childComplexity int) int
+		Phone        func(childComplexity int) int
+		ProfileImage func(childComplexity int) int
+		State        func(childComplexity int) int
+		Tos          func(childComplexity int) int
+		Type         func(childComplexity int) int
+		UpdatedAt    func(childComplexity int) int
+	}
+
 	Merchandise struct {
 		Code      func(childComplexity int) int
 		CreatedAt func(childComplexity int) int
@@ -250,8 +274,8 @@ type ComplexityRoot struct {
 }
 
 type MutationResolver interface {
-	Createmember(ctx context.Context, data *model.MemberCreateInput) (*model.Member, error)
-	Updatemember(ctx context.Context, id string, data *model.MemberUpdateInput) (*model.Member, error)
+	Createmember(ctx context.Context, data *model.MemberCreateInput) (*model.MemberInfo, error)
+	Updatemember(ctx context.Context, id string, data *model.MemberUpdateInput) (*model.MemberInfo, error)
 	CreateSubscriptionRecurring(ctx context.Context, data *model.SubscriptionRecurringCreateInput) (*model.SubscriptionCreation, error)
 	CreatesSubscriptionOneTime(ctx context.Context, data *model.SubscriptionOneTimeCreateInput) (*model.SubscriptionCreation, error)
 	Updatesubscription(ctx context.Context, id string, data *model.SubscriptionUpdateInput) (*model.Subscription, error)
@@ -719,6 +743,153 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Member.UpdatedAt(childComplexity), true
+
+	case "memberInfo.address":
+		if e.complexity.MemberInfo.Address == nil {
+			break
+		}
+
+		return e.complexity.MemberInfo.Address(childComplexity), true
+
+	case "memberInfo.birthday":
+		if e.complexity.MemberInfo.Birthday == nil {
+			break
+		}
+
+		return e.complexity.MemberInfo.Birthday(childComplexity), true
+
+	case "memberInfo.city":
+		if e.complexity.MemberInfo.City == nil {
+			break
+		}
+
+		return e.complexity.MemberInfo.City(childComplexity), true
+
+	case "memberInfo.country":
+		if e.complexity.MemberInfo.Country == nil {
+			break
+		}
+
+		return e.complexity.MemberInfo.Country(childComplexity), true
+
+	case "memberInfo.createdAt":
+		if e.complexity.MemberInfo.CreatedAt == nil {
+			break
+		}
+
+		return e.complexity.MemberInfo.CreatedAt(childComplexity), true
+
+	case "memberInfo.dateJoined":
+		if e.complexity.MemberInfo.DateJoined == nil {
+			break
+		}
+
+		return e.complexity.MemberInfo.DateJoined(childComplexity), true
+
+	case "memberInfo.district":
+		if e.complexity.MemberInfo.District == nil {
+			break
+		}
+
+		return e.complexity.MemberInfo.District(childComplexity), true
+
+	case "memberInfo.email":
+		if e.complexity.MemberInfo.Email == nil {
+			break
+		}
+
+		return e.complexity.MemberInfo.Email(childComplexity), true
+
+	case "memberInfo.firebaseId":
+		if e.complexity.MemberInfo.FirebaseID == nil {
+			break
+		}
+
+		return e.complexity.MemberInfo.FirebaseID(childComplexity), true
+
+	case "memberInfo.firstName":
+		if e.complexity.MemberInfo.FirstName == nil {
+			break
+		}
+
+		return e.complexity.MemberInfo.FirstName(childComplexity), true
+
+	case "memberInfo.gender":
+		if e.complexity.MemberInfo.Gender == nil {
+			break
+		}
+
+		return e.complexity.MemberInfo.Gender(childComplexity), true
+
+	case "memberInfo.id":
+		if e.complexity.MemberInfo.ID == nil {
+			break
+		}
+
+		return e.complexity.MemberInfo.ID(childComplexity), true
+
+	case "memberInfo.lastName":
+		if e.complexity.MemberInfo.LastName == nil {
+			break
+		}
+
+		return e.complexity.MemberInfo.LastName(childComplexity), true
+
+	case "memberInfo.name":
+		if e.complexity.MemberInfo.Name == nil {
+			break
+		}
+
+		return e.complexity.MemberInfo.Name(childComplexity), true
+
+	case "memberInfo.nickname":
+		if e.complexity.MemberInfo.Nickname == nil {
+			break
+		}
+
+		return e.complexity.MemberInfo.Nickname(childComplexity), true
+
+	case "memberInfo.phone":
+		if e.complexity.MemberInfo.Phone == nil {
+			break
+		}
+
+		return e.complexity.MemberInfo.Phone(childComplexity), true
+
+	case "memberInfo.profileImage":
+		if e.complexity.MemberInfo.ProfileImage == nil {
+			break
+		}
+
+		return e.complexity.MemberInfo.ProfileImage(childComplexity), true
+
+	case "memberInfo.state":
+		if e.complexity.MemberInfo.State == nil {
+			break
+		}
+
+		return e.complexity.MemberInfo.State(childComplexity), true
+
+	case "memberInfo.tos":
+		if e.complexity.MemberInfo.Tos == nil {
+			break
+		}
+
+		return e.complexity.MemberInfo.Tos(childComplexity), true
+
+	case "memberInfo.type":
+		if e.complexity.MemberInfo.Type == nil {
+			break
+		}
+
+		return e.complexity.MemberInfo.Type(childComplexity), true
+
+	case "memberInfo.updatedAt":
+		if e.complexity.MemberInfo.UpdatedAt == nil {
+			break
+		}
+
+		return e.complexity.MemberInfo.UpdatedAt(childComplexity), true
 
 	case "merchandise.code":
 		if e.complexity.Merchandise.Code == nil {
@@ -1807,6 +1978,30 @@ type member {
     skip: Int! = 0
   ): [subscription!]
   subscriptionCount(where: subscriptionWhereInput! = {}): Int
+  createdAt: String
+  updatedAt: String
+}
+
+type memberInfo {
+  id: ID!
+  firebaseId: String
+  email: String
+  type: memberTypeType
+  state: memberStateType
+  tos: Boolean
+  dateJoined: String
+  firstName: String
+  lastName: String
+  name: String
+  gender: memberGenderType
+  phone: String
+  birthday: String
+  address: String
+  nickname: String
+  profileImage: String
+  city: String
+  country: String
+  district: String
   createdAt: String
   updatedAt: String
 }
@@ -4569,8 +4764,8 @@ input subscriptionOneTimeCreateInput {
 }
 `, BuiltIn: false},
 	{Name: "mutation.graphql", Input: `type Mutation {
-  createmember(data: memberCreateInput): member
-  updatemember(id: ID!, data: memberUpdateInput): member
+  createmember(data: memberCreateInput): memberInfo
+  updatemember(id: ID!, data: memberUpdateInput): memberInfo
   createSubscriptionRecurring(data: subscriptionRecurringCreateInput): subscriptionCreation
   createsSubscriptionOneTime(data: subscriptionOneTimeCreateInput): subscriptionCreation
   updatesubscription(id: ID!, data: subscriptionUpdateInput): subscription
@@ -5027,9 +5222,9 @@ func (ec *executionContext) _Mutation_createmember(ctx context.Context, field gr
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.(*model.Member)
+	res := resTmp.(*model.MemberInfo)
 	fc.Result = res
-	return ec.marshalOmember2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMember(ctx, field.Selections, res)
+	return ec.marshalOmemberInfo2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberInfo(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Mutation_updatemember(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -5066,9 +5261,9 @@ func (ec *executionContext) _Mutation_updatemember(ctx context.Context, field gr
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.(*model.Member)
+	res := resTmp.(*model.MemberInfo)
 	fc.Result = res
-	return ec.marshalOmember2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMember(ctx, field.Selections, res)
+	return ec.marshalOmemberInfo2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberInfo(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Mutation_createSubscriptionRecurring(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -8111,6 +8306,681 @@ func (ec *executionContext) _member_updatedAt(ctx context.Context, field graphql
 	}()
 	fc := &graphql.FieldContext{
 		Object:     "member",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _memberInfo_id(ctx context.Context, field graphql.CollectedField, obj *model.MemberInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "memberInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _memberInfo_firebaseId(ctx context.Context, field graphql.CollectedField, obj *model.MemberInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "memberInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FirebaseID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _memberInfo_email(ctx context.Context, field graphql.CollectedField, obj *model.MemberInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "memberInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Email, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _memberInfo_type(ctx context.Context, field graphql.CollectedField, obj *model.MemberInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "memberInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Type, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.MemberTypeType)
+	fc.Result = res
+	return ec.marshalOmemberTypeType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberTypeType(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _memberInfo_state(ctx context.Context, field graphql.CollectedField, obj *model.MemberInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "memberInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.State, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.MemberStateType)
+	fc.Result = res
+	return ec.marshalOmemberStateType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberStateType(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _memberInfo_tos(ctx context.Context, field graphql.CollectedField, obj *model.MemberInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "memberInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Tos, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*bool)
+	fc.Result = res
+	return ec.marshalOBoolean2ᚖbool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _memberInfo_dateJoined(ctx context.Context, field graphql.CollectedField, obj *model.MemberInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "memberInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.DateJoined, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _memberInfo_firstName(ctx context.Context, field graphql.CollectedField, obj *model.MemberInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "memberInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FirstName, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _memberInfo_lastName(ctx context.Context, field graphql.CollectedField, obj *model.MemberInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "memberInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.LastName, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _memberInfo_name(ctx context.Context, field graphql.CollectedField, obj *model.MemberInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "memberInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _memberInfo_gender(ctx context.Context, field graphql.CollectedField, obj *model.MemberInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "memberInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Gender, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.MemberGenderType)
+	fc.Result = res
+	return ec.marshalOmemberGenderType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberGenderType(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _memberInfo_phone(ctx context.Context, field graphql.CollectedField, obj *model.MemberInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "memberInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Phone, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _memberInfo_birthday(ctx context.Context, field graphql.CollectedField, obj *model.MemberInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "memberInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Birthday, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _memberInfo_address(ctx context.Context, field graphql.CollectedField, obj *model.MemberInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "memberInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Address, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _memberInfo_nickname(ctx context.Context, field graphql.CollectedField, obj *model.MemberInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "memberInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Nickname, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _memberInfo_profileImage(ctx context.Context, field graphql.CollectedField, obj *model.MemberInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "memberInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ProfileImage, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _memberInfo_city(ctx context.Context, field graphql.CollectedField, obj *model.MemberInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "memberInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.City, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _memberInfo_country(ctx context.Context, field graphql.CollectedField, obj *model.MemberInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "memberInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Country, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _memberInfo_district(ctx context.Context, field graphql.CollectedField, obj *model.MemberInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "memberInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.District, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _memberInfo_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.MemberInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "memberInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _memberInfo_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.MemberInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "memberInfo",
 		Field:      field,
 		Args:       nil,
 		IsMethod:   false,
@@ -30203,6 +31073,73 @@ func (ec *executionContext) _member(ctx context.Context, sel ast.SelectionSet, o
 	return out
 }
 
+var memberInfoImplementors = []string{"memberInfo"}
+
+func (ec *executionContext) _memberInfo(ctx context.Context, sel ast.SelectionSet, obj *model.MemberInfo) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, memberInfoImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("memberInfo")
+		case "id":
+			out.Values[i] = ec._memberInfo_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "firebaseId":
+			out.Values[i] = ec._memberInfo_firebaseId(ctx, field, obj)
+		case "email":
+			out.Values[i] = ec._memberInfo_email(ctx, field, obj)
+		case "type":
+			out.Values[i] = ec._memberInfo_type(ctx, field, obj)
+		case "state":
+			out.Values[i] = ec._memberInfo_state(ctx, field, obj)
+		case "tos":
+			out.Values[i] = ec._memberInfo_tos(ctx, field, obj)
+		case "dateJoined":
+			out.Values[i] = ec._memberInfo_dateJoined(ctx, field, obj)
+		case "firstName":
+			out.Values[i] = ec._memberInfo_firstName(ctx, field, obj)
+		case "lastName":
+			out.Values[i] = ec._memberInfo_lastName(ctx, field, obj)
+		case "name":
+			out.Values[i] = ec._memberInfo_name(ctx, field, obj)
+		case "gender":
+			out.Values[i] = ec._memberInfo_gender(ctx, field, obj)
+		case "phone":
+			out.Values[i] = ec._memberInfo_phone(ctx, field, obj)
+		case "birthday":
+			out.Values[i] = ec._memberInfo_birthday(ctx, field, obj)
+		case "address":
+			out.Values[i] = ec._memberInfo_address(ctx, field, obj)
+		case "nickname":
+			out.Values[i] = ec._memberInfo_nickname(ctx, field, obj)
+		case "profileImage":
+			out.Values[i] = ec._memberInfo_profileImage(ctx, field, obj)
+		case "city":
+			out.Values[i] = ec._memberInfo_city(ctx, field, obj)
+		case "country":
+			out.Values[i] = ec._memberInfo_country(ctx, field, obj)
+		case "district":
+			out.Values[i] = ec._memberInfo_district(ctx, field, obj)
+		case "createdAt":
+			out.Values[i] = ec._memberInfo_createdAt(ctx, field, obj)
+		case "updatedAt":
+			out.Values[i] = ec._memberInfo_updatedAt(ctx, field, obj)
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 var merchandiseImplementors = []string{"merchandise"}
 
 func (ec *executionContext) _merchandise(ctx context.Context, sel ast.SelectionSet, obj *model.Merchandise) graphql.Marshaler {
@@ -32383,6 +33320,13 @@ func (ec *executionContext) marshalOmemberGenderType2ᚖgithubᚗcomᚋmirrorᚑ
 		return graphql.Null
 	}
 	return v
+}
+
+func (ec *executionContext) marshalOmemberInfo2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberInfo(ctx context.Context, sel ast.SelectionSet, v *model.MemberInfo) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._memberInfo(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalOmemberRelateToOneInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberRelateToOneInput(ctx context.Context, v interface{}) (*model.MemberRelateToOneInput, error) {

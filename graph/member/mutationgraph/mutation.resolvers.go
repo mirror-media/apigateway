@@ -8,13 +8,13 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/machinebox/graphql"
+	graphqlclient "github.com/machinebox/graphql"
 	"github.com/mirror-media/apigateway/graph/member/model"
 	"github.com/mirror-media/apigateway/graph/member/mutationgraph/generated"
 	"github.com/sirupsen/logrus"
 )
 
-func (r *mutationResolver) Createmember(ctx context.Context, data *model.MemberCreateInput) (*model.Member, error) {
+func (r *mutationResolver) Createmember(ctx context.Context, data *model.MemberCreateInput) (*model.MemberInfo, error) {
 	firebaseID, err := r.GetFirebaseID(ctx)
 	if err != nil {
 		return nil, err
@@ -45,7 +45,7 @@ func (r *mutationResolver) Createmember(ctx context.Context, data *model.MemberC
 
 	// Construct GraphQL mutation
 
-	preGQL := []string{"mutation($data: memberCreateInput) {", "createmember(data: $input) {"}
+	preGQL := []string{"mutation($input: memberCreateInput) {", "createmember(data: $input) {"}
 
 	fieldsOnly := Map(GetPreloads(ctx), func(s string) string {
 		ns := strings.Split(s, ".")
@@ -55,21 +55,23 @@ func (r *mutationResolver) Createmember(ctx context.Context, data *model.MemberC
 	preGQL = append(preGQL, fieldsOnly...)
 	preGQL = append(preGQL, "}", "}")
 	gql := strings.Join(preGQL, "\n")
-	req := graphql.NewRequest(gql)
+	req := graphqlclient.NewRequest(gql)
 	req.Var("input", input)
 
 	var resp struct {
-		Member *model.Member
+		Data *struct {
+			MemberInfo *model.MemberInfo `json:"member"`
+		} `json:"data`
 	}
 
 	err = r.Client.Run(ctx, req, &resp)
 
 	checkAndPrintGraphQLError(logrus.WithField("mutation", "createmember"), err)
 
-	return resp.Member, err
+	return resp.Data.MemberInfo, err
 }
 
-func (r *mutationResolver) Updatemember(ctx context.Context, id string, data *model.MemberUpdateInput) (*model.Member, error) {
+func (r *mutationResolver) Updatemember(ctx context.Context, id string, data *model.MemberUpdateInput) (*model.MemberInfo, error) {
 	panic(fmt.Errorf("not implemented"))
 }
 
