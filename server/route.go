@@ -7,16 +7,16 @@ import (
 	"net/url"
 
 	"github.com/machinebox/graphql"
-	"github.com/mirror-media/mm-apigateway/handler"
-	"github.com/mirror-media/mm-apigateway/middleware"
-	"github.com/mirror-media/mm-apigateway/token"
+	"github.com/mirror-media/apigateway/handler"
+	"github.com/mirror-media/apigateway/middleware"
+	"github.com/mirror-media/apigateway/token"
 	"golang.org/x/oauth2"
 
 	"github.com/gin-gonic/gin"
 
 	"github.com/99designs/gqlgen/graphql/handler"
-	"github.com/mirror-media/mm-apigateway/graph"
-	"github.com/mirror-media/mm-apigateway/graph/generated"
+	"github.com/mirror-media/apigateway/graph"
+	"github.com/mirror-media/apigateway/graph/generated"
 )
 
 type Reply struct {

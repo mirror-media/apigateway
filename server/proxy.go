@@ -14,9 +14,9 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/mirror-media/mm-apigateway/cache"
-	"github.com/mirror-media/mm-apigateway/middleware"
-	"github.com/mirror-media/mm-apigateway/token"
+	"github.com/mirror-media/apigateway/cache"
+	"github.com/mirror-media/apigateway/middleware"
+	"github.com/mirror-media/apigateway/token"
 	"github.com/sirupsen/logrus"
 	"github.com/tidwall/sjson"
 )

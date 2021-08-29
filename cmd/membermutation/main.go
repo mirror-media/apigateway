@@ -12,8 +12,8 @@ import (
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 
-	"github.com/mirror-media/mm-apigateway/config"
-	"github.com/mirror-media/mm-apigateway/server"
+	"github.com/mirror-media/apigateway/config"
+	"github.com/mirror-media/apigateway/server"
 	"github.com/spf13/viper"
 )
 

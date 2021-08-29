@@ -9,15 +9,14 @@ import (
 	"time"
 
 	"github.com/machinebox/graphql"
-	"github.com/mirror-media/mm-apigateway/graph/model"
 	"github.com/sirupsen/logrus"
 	"golang.org/x/oauth2"
 
 	"cloud.google.com/go/pubsub"
 	"firebase.google.com/go/v4/auth"
 	"firebase.google.com/go/v4/db"
-	"github.com/mirror-media/mm-apigateway/config"
-	"github.com/mirror-media/mm-apigateway/token"
+	"github.com/mirror-media/apigateway/config"
+	"github.com/mirror-media/apigateway/token"
 	"github.com/pkg/errors"
 )
 

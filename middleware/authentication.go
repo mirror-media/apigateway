@@ -9,7 +9,7 @@ import (
 	"firebase.google.com/go/v4/auth"
 	"firebase.google.com/go/v4/db"
 	"github.com/gin-gonic/gin"
-	"github.com/mirror-media/mm-apigateway/token"
+	"github.com/mirror-media/apigateway/token"
 	"github.com/sirupsen/logrus"
 )
 

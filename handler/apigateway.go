@@ -6,7 +6,7 @@ import (
 	"time"
 
 	http2 "github.com/jensneuse/graphql-go-tools/examples/federation/gateway/http"
-	"github.com/mirror-media/mm-apigateway/graph"
+	"github.com/mirror-media/apigateway/graph"
 
 	"github.com/jensneuse/abstractlogger"
 	"github.com/jensneuse/graphql-go-tools/pkg/engine/datasource/graphql_datasource"
