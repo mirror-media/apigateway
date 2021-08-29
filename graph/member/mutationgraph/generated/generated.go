@@ -4766,7 +4766,7 @@ input subscriptionOneTimeCreateInput {
   email: String!
   note: String
   promoteId: Int
-  postSlug: String!
+  postId: String!
 }
 `, BuiltIn: false},
 	{Name: "mutation.graphql", Input: `type Mutation {
@@ -28127,11 +28127,11 @@ func (ec *executionContext) unmarshalInputsubscriptionOneTimeCreateInput(ctx con
 			if err != nil {
 				return it, err
 			}
-		case "postSlug":
+		case "postId":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("postSlug"))
-			it.PostSlug, err = ec.unmarshalNString2string(ctx, v)
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("postId"))
+			it.PostID, err = ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}

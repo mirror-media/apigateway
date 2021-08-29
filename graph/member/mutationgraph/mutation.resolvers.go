@@ -201,7 +201,74 @@ func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data
 }
 
 func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data *model.SubscriptionOneTimeCreateInput) (*model.SubscriptionCreation, error) {
-	panic(fmt.Errorf("not implemented"))
+	firebaseID, err := r.GetFirebaseID(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	var input *model.SubscriptionCreateInput
+	if data != nil {
+		input = &model.SubscriptionCreateInput{
+			Member:          &model.MemberRelateToOneInput{Connect: &model.MemberWhereUniqueInput{FirebaseID: firebaseID}},
+			PaymentMethod:   &data.PaymentMethod,
+			ApplepayPayment: data.ApplepayPayment,
+			Desc:            data.Desc,
+			Email:           &data.Email,
+			Note:            data.Note,
+			PromoteID:       data.PromoteID,
+			PostID:          &data.PostID,
+		}
+
+		frequency := model.SubscriptionFrequencyTypeOneTime
+		input.Frequency = &frequency
+
+		status := (model.SubscriptionStatusType)(data.Status)
+		input.Status = &status
+
+		orderNumber := xid.New().String()
+		input.OrderNumber = &orderNumber
+
+		price, currency, state, err := r.RetrieveMerchandise(ctx, model.SubscriptionFrequencyTypeOneTime.String())
+		if err != nil {
+			return nil, err
+		}
+		if state != model.MerchandiseStateTypeActive {
+			return nil, fmt.Errorf("frequency(%s) is not %s", model.SubscriptionFrequencyTypeOneTime, model.MerchandiseStateTypeActive)
+		}
+		amount := int(price)
+		input.Amount = &amount
+		input.Currency = (*model.SubscriptionCurrencyType)(&currency)
+	}
+
+	// Construct GraphQL mutation
+
+	preGQL := []string{"mutation ($input: subscriptionCreateInput) {", "createsubscription(data: $input) {"}
+
+	fieldsOnly := Map(GetPreloads(ctx), func(s string) string {
+		ns := strings.Split(s, ".")
+		return ns[len(ns)-1]
+	})
+
+	preGQL = append(preGQL, fieldsOnly...)
+	preGQL = append(preGQL, "}", "}")
+	gql := strings.Join(preGQL, "\n")
+	req := graphqlclient.NewRequest(gql)
+	req.Var("input", input)
+
+	var resp struct {
+		Data *struct {
+			Subscription *model.Subscription `json:"subscription"`
+		} `json:"data"`
+	}
+
+	err = r.Client.Run(ctx, req, &resp)
+
+	checkAndPrintGraphQLError(logrus.WithField("mutation", "createsubscription"), err)
+
+	// TODO newebpay
+	return &model.SubscriptionCreation{
+		Subscription: resp.Data.Subscription,
+	}, err
 }
 
 func (r *mutationResolver) Updatesubscription(ctx context.Context, id string, data *model.SubscriptionUpdateInput) (*model.Subscription, error) {

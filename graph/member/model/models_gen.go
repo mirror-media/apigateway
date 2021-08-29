@@ -2283,7 +2283,7 @@ type SubscriptionOneTimeCreateInput struct {
 	Email           string                            `json:"email"`
 	Note            *string                           `json:"note"`
 	PromoteID       *int                              `json:"promoteId"`
-	PostSlug        string                            `json:"postSlug"`
+	PostID          string                            `json:"postId"`
 }
 
 type SubscriptionOrderByInput struct {
