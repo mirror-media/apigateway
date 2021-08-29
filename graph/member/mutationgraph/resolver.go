@@ -27,6 +27,21 @@ type Resolver struct {
 	UserSvrURL string
 }
 
+func (r Resolver) GetFirebaseID(ctx context.Context) (string, error) {
+
+	gCTX, err := GinContextFromContext(ctx)
+	if err != nil {
+		return "", err
+	}
+
+	id, ok := gCTX.Value(middleware.GCtxUserIDKey).(string)
+	if !ok {
+		err = fmt.Errorf("fail to get firebaseID")
+	}
+
+	return id, err
+}
+
 func (r Resolver) IsRequestMatchingRequesterFirebaseID(ctx context.Context, userID string) (bool, error) {
 
 	gCTX, err := GinContextFromContext(ctx)

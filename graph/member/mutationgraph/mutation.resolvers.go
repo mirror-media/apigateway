@@ -6,13 +6,67 @@ package mutationgraph
 import (
 	"context"
 	"fmt"
+	"strings"
 
+	"github.com/machinebox/graphql"
 	"github.com/mirror-media/apigateway/graph/member/model"
 	"github.com/mirror-media/apigateway/graph/member/mutationgraph/generated"
+	"github.com/sirupsen/logrus"
 )
 
 func (r *mutationResolver) Createmember(ctx context.Context, data *model.MemberCreateInput) (*model.Member, error) {
-	panic(fmt.Errorf("not implemented"))
+	firebaseID, err := r.GetFirebaseID(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	input := &model.MemberPrivateCreateInput{
+		FirebaseID: &firebaseID,
+	}
+	if data == nil {
+		input = nil
+	} else {
+		input.Address = data.Address
+		input.Birthday = data.Birthday
+		input.Tos = data.Tos
+		input.FirstName = data.FirstName
+		input.LastName = data.LastName
+		input.Name = data.Name
+		input.Gender = data.Gender
+		input.Phone = data.Phone
+		input.Birthday = data.Birthday
+		input.Address = data.Address
+		input.Nickname = data.Nickname
+		input.ProfileImage = data.ProfileImage
+		input.City = data.City
+		input.Country = data.Country
+		input.District = data.District
+	}
+
+	// Construct GraphQL mutation
+
+	preGQL := []string{"mutation($data: memberCreateInput) {", "createmember(data: $input) {"}
+
+	fieldsOnly := Map(GetPreloads(ctx), func(s string) string {
+		ns := strings.Split(s, ".")
+		return ns[len(ns)-1]
+	})
+
+	preGQL = append(preGQL, fieldsOnly...)
+	preGQL = append(preGQL, "}", "}")
+	gql := strings.Join(preGQL, "\n")
+	req := graphql.NewRequest(gql)
+	req.Var("input", input)
+
+	var resp struct {
+		Member *model.Member
+	}
+
+	err = r.Client.Run(ctx, req, &resp)
+
+	checkAndPrintGraphQLError(logrus.WithField("mutation", "createmember"), err)
+
+	return resp.Member, err
 }
 
 func (r *mutationResolver) Updatemember(ctx context.Context, id string, data *model.MemberUpdateInput) (*model.Member, error) {
