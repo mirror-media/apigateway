@@ -1,7 +1,34 @@
 type Mutation {
+  """
+  It creates a member with memberCreateInput and set **firebaseId** as it is in the **token**.
+
+  Nested query is not allowed in the mutation.
+  """
   createmember(data: memberCreateInput): memberInfo
+  """
+  It updates the member with memberUpdateInput if the member has the same **firebaseId** in the **token**.
+
+  Nested query is not allowed in the mutation.
+  """
   updatemember(id: ID!, data: memberUpdateInput): memberInfo
+  """
+  It creates a subscription with subscriptionOneTimeCreateInput, set a new order number, connect the subscription to the member with the firebaseID, and the amount/currency coresponding to the frequency in **merchandise**.
+
+  Nested query is not allowed in the mutation.
+  """
   createSubscriptionRecurring(data: subscriptionRecurringCreateInput): subscriptionCreation
+  """
+  It creates a subscription with subscriptionOneTimeCreateInput, set a new order number, set frequency to **one_time**, connect the subscription to the member with the firebaseID, and the amount/currency coresponding to the frequency in **merchandise**.
+
+  Nested query is not allowed in the mutation.
+  """
   createsSubscriptionOneTime(data: subscriptionOneTimeCreateInput): subscriptionCreation
+  """
+  It checks if the existing subscription is connect to the member with the same firebaseID, and them it updates the subscription with subscriptionUpdateInput and the amount/currency coresponding to the nextFrequency in **merchandise**.
+
+  It pracatically let users update the next frequency and cancel the subscription.
+
+  Nested query is not allowed in the mutation.
+  """
   updatesubscription(id: ID!, data: subscriptionUpdateInput): subscriptionCreation
 }

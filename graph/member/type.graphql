@@ -3045,6 +3045,9 @@ input subscriptionRecurringCreateInput {
   status: createSubscriptionStatusType!
   desc: String
   email: String!
+  """
+  frequency has to match a code of one of the merchandize. It will be use to fetch amount and currency.
+  """
   frequency: subscriptionFrequencyType!
   note: String
   promoteId: Int
@@ -3064,6 +3067,9 @@ input subscriptionOneTimeCreateInput {
 input subscriptionUpdateInput {
   desc: String
   isCanceled: Boolean
+  """
+  nextFrequency has to match a code of one of the merchandize. It will be use to fetch amount and currency.
+  """
   nextFrequency: updateSubscriptionNextFrequencyType
   note: String
 }
