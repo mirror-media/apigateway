@@ -28,7 +28,7 @@ type Resolver struct {
 	UserSvrURL string
 }
 
-func (r Resolver) GetIDFromRemote(ctx context.Context, firebaseID string) (string, error) {
+func (r Resolver) GetMemberIDFromRemote(ctx context.Context, firebaseID string) (string, error) {
 	req := graphql.NewRequest(
 		"query ($firebaseId: String) { member(where: {firebaseId: $firebaseId}) { id } }")
 	req.Var("firebaseId", firebaseID)

@@ -76,7 +76,7 @@ func (r *mutationResolver) Updatemember(ctx context.Context, id string, data *mo
 	if err != nil {
 		return nil, err
 	}
-	_id, err := r.GetIDFromRemote(ctx, firebaseID)
+	_id, err := r.GetMemberIDFromRemote(ctx, firebaseID)
 	if err != nil {
 		return nil, err
 	} else if _id != id {
