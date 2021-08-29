@@ -56,7 +56,7 @@ func SetRoute(server *Server) error {
 
 	v2TokenAuthenticatedWithFirebaseRouter := v2tokenStateRouter.Use(middleware.AuthenticateIDToken(server.firebaseClient), middleware.GinContextToContextMiddleware(), middleware.FirebaseClientToContextMiddleware(server.firebaseClient), middleware.FirebaseDBClientToContextMiddleware(server.firebaseDatabaseClient))
 
-	v2GraphHandler := handler.NewAPIGatewayGraphQLHandler("https://israfel.mirrormedia.mg/api/graphql", "http://localhost:8080/api/v2/graphql/member", "graph/member/type.graphql", "graph/member/query.graphql", "graph/member/mutation.graphql")
+	v2GraphHandler := handler.NewAPIGatewayGraphQLHandler("https://israfel.mirrormedia.mg/api/graphql", "http://localhost:8080/api/v2/graphql/member", "graphql/member/type.graphql", "graphql/member/query.graphql", "graphql/member/mutation.graphql")
 
 	v2TokenAuthenticatedWithFirebaseRouter.POST("graphql/member", gin.WrapH(v2GraphHandler))
 

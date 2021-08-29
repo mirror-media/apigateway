@@ -1,7 +1,6 @@
 """
 Modified From Private Schema
 """
-
 enum OrderDirection {
   asc
   desc
@@ -24,7 +23,7 @@ type invoice {
 enum invoiceStatusType {
   success
   failed
-  canceled
+  cancelled
 }
 
 input invoiceWhereInput {
@@ -626,6 +625,31 @@ input memberOrderByInput {
   updatedAt: OrderDirection
 }
 
+input memberPrivateUpdateInput {
+  firebaseId: String
+  email: String
+  marketingMembership: marketingMembershipRelateToOneInput
+  type: memberTypeType
+  state: memberStateType
+  tos: Boolean
+  dateJoined: String
+  firstName: String
+  lastName: String
+  name: String
+  gender: memberGenderType
+  phone: String
+  birthday: String
+  address: String
+  nickname: String
+  profileImage: String
+  city: String
+  country: String
+  district: String
+  subscription: subscriptionRelateToManyInput
+  createdAt: String
+  updatedAt: String
+}
+
 input marketingMembershipRelateToOneInput {
   create: marketingMembershipCreateInput
   connect: marketingMembershipWhereUniqueInput
@@ -638,6 +662,40 @@ input subscriptionRelateToManyInput {
   connect: [subscriptionWhereUniqueInput]
   disconnect: [subscriptionWhereUniqueInput]
   disconnectAll: Boolean
+}
+
+input MembersPrivateUpdateInput {
+  id: ID!
+  data: memberUpdateInput
+}
+
+input memberPrivateCreateInput {
+  firebaseId: String
+  email: String
+  marketingMembership: marketingMembershipRelateToOneInput
+  type: memberTypeType
+  state: memberStateType
+  tos: Boolean
+  dateJoined: String
+  firstName: String
+  lastName: String
+  name: String
+  gender: memberGenderType
+  phone: String
+  birthday: String
+  address: String
+  nickname: String
+  profileImage: String
+  city: String
+  country: String
+  district: String
+  subscription: subscriptionRelateToManyInput
+  createdAt: String
+  updatedAt: String
+}
+
+input MembersPrivateCreateInput {
+  data: memberCreateInput
 }
 
 type merchandise {
@@ -2880,7 +2938,6 @@ input SubscriptionHistoriesCreateInput {
 """
 For Custom Mutation
 """
-
 enum createSubscriptionStatusType {
   paying
 }

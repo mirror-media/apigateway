@@ -1,4 +1,8 @@
-package graph
+package mutationgraph
+
+// This file will not be regenerated automatically.
+//
+// It serves as dependency injection for your app, add any dependencies you require here.
 
 import (
 	"context"
@@ -7,18 +11,14 @@ import (
 
 	graphql99 "github.com/99designs/gqlgen/graphql"
 	"github.com/machinebox/graphql"
-	"github.com/mirror-media/mm-apigateway/config"
-	"github.com/mirror-media/mm-apigateway/middleware"
+	"github.com/mirror-media/apigateway/config"
+	"github.com/mirror-media/apigateway/middleware"
 	"github.com/sirupsen/logrus"
 
 	"firebase.google.com/go/v4/auth"
 	"firebase.google.com/go/v4/db"
 	"github.com/gin-gonic/gin"
 )
-
-// This file will not be regenerated automatically.
-//
-// It serves as dependency injection for your app, add any dependencies you require here.
 
 type Resolver struct {
 	// Token      token.Token

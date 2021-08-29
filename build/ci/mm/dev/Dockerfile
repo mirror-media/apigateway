@@ -14,6 +14,7 @@ WORKDIR /api-gateway
 
 COPY --from=build /api-gateway/bin/ .
 COPY configs ./configs
+COPY graph ./graphql
 
 EXPOSE 8080
 CMD ["./apigateway"]

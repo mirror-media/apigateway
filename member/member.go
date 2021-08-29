@@ -224,6 +224,7 @@ func SubscribeDeleteMember(parent context.Context, c config.Conf, userSvrToken t
 func requestToDeleteMember(userSvrToken token.Token, graphqlClient *graphql.Client, firebaseID string) (err error) {
 	logrus.Infof("Request Saleor-mirror to delete member: %s", firebaseID)
 
+	// TODO use new schema
 	preGQL := []string{"mutation($firebaseId: String!) {", "deleteMember(firebaseId: $firebaseId) {"}
 
 	preGQL = append(preGQL, "success")
@@ -235,7 +236,8 @@ func requestToDeleteMember(userSvrToken token.Token, graphqlClient *graphql.Clie
 
 	// Ask User service to delete the member
 	var resp struct {
-		DeleteMember *model.DeleteMember `json:"deleteMember"`
+		// TODO use new schema
+		// DeleteMember *model.DeleteMember `json:"deleteMember"`
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
