@@ -277,12 +277,13 @@ func (r *mutationResolver) Updatesubscription(ctx context.Context, id string, da
 		return nil, err
 	}
 
-	_firebaseID, err := r.RetrieveMemberFirebaseIDOfSubscriptionFromRemote(ctx, id)
-
+	_firebaseID, _frequency, err := r.RetrieveExistingSubscriptionFromRemote(ctx, id)
 	if err != nil {
 		return nil, err
 	} else if _firebaseID != firebaseID {
 		return nil, fmt.Errorf("you do not have access to this resource, subscription(%s)", id)
+	} else if data.NextFrequency != nil && *data.NextFrequency != model.UpdateSubscriptionNextFrequencyType(model.SubscriptionFrequencyTypeOneTime) && _frequency == model.SubscriptionFrequencyTypeOneTime.String() {
+		return nil, fmt.Errorf("%s subscription cannot be updated", _frequency)
 	}
 
 	var input *model.SubscriptionPrivateUpdateInput

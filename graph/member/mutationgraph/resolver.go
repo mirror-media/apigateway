@@ -28,8 +28,8 @@ type Resolver struct {
 	UserSvrURL string
 }
 
-func (r Resolver) RetrieveMemberFirebaseIDOfSubscriptionFromRemote(ctx context.Context, subscriptionID string) (firebaseID string, err error) {
-	req := graphql.NewRequest("query ($id: ID!) { subscription(where: {id: $id}) { member { firebaseId } } }")
+func (r Resolver) RetrieveExistingSubscriptionFromRemote(ctx context.Context, subscriptionID string) (firebaseID, frequency string, err error) {
+	req := graphql.NewRequest("query ($id: ID!) { subscription(where: {id: $id}) { frequency, member { firebaseId } } }")
 	req.Var("id", subscriptionID)
 
 	var resp struct {
@@ -41,11 +41,11 @@ func (r Resolver) RetrieveMemberFirebaseIDOfSubscriptionFromRemote(ctx context.C
 	err = r.Client.Run(ctx, req, &resp)
 	checkAndPrintGraphQLError(logrus.WithField("query", "RetrieveMemberFirebaseIDOfSubscriptionFromRemote"), err)
 	if err != nil {
-		return "", err
+		return "", "", err
 	} else if resp.Data.Subscription.Member == nil {
-		return "", fmt.Errorf("member of subscription(%s) is not found", subscriptionID)
+		return "", "", fmt.Errorf("member of subscription(%s) is not found", subscriptionID)
 	}
-	return *resp.Data.Subscription.Member.FirebaseID, err
+	return *resp.Data.Subscription.Member.FirebaseID, resp.Data.Subscription.Frequency.String(), err
 }
 
 func (r Resolver) RetrieveMerchandise(ctx context.Context, code string) (price float64, currency string, state model.MerchandiseStateType, err error) {
