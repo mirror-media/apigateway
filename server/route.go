@@ -6,17 +6,16 @@ import (
 	"net/http"
 	"net/url"
 
+	gqlgenhendler "github.com/99designs/gqlgen/graphql/handler"
 	"github.com/machinebox/graphql"
+	"github.com/mirror-media/apigateway/graph/member/mutationgraph"
+	"github.com/mirror-media/apigateway/graph/member/mutationgraph/generated"
 	"github.com/mirror-media/apigateway/handler"
 	"github.com/mirror-media/apigateway/middleware"
 	"github.com/mirror-media/apigateway/token"
 	"golang.org/x/oauth2"
 
 	"github.com/gin-gonic/gin"
-
-	"github.com/99designs/gqlgen/graphql/handler"
-	"github.com/mirror-media/apigateway/graph"
-	"github.com/mirror-media/apigateway/graph/generated"
 )
 
 type Reply struct {
@@ -80,8 +79,52 @@ func SetRoute(server *Server) error {
 	// Private API
 	// v1 User
 	// It will save FirebaseClient and FirebaseDBClient to *gin.context, and *gin.context to *context
-	v1TokenAuthenticatedWithFirebaseRouter := v1Router.Use(middleware.AuthenticateIDToken(server.firebaseClient), middleware.GinContextToContextMiddleware(), middleware.FirebaseClientToContextMiddleware(server.firebaseClient), middleware.FirebaseDBClientToContextMiddleware(server.firebaseDatabaseClient))
-	svr := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{
+	// v1TokenAuthenticatedWithFirebaseRouter := v1Router.Use(middleware.AuthenticateIDToken(server.firebaseClient), middleware.GinContextToContextMiddleware(), middleware.FirebaseClientToContextMiddleware(server.firebaseClient), middleware.FirebaseDBClientToContextMiddleware(server.firebaseDatabaseClient))
+	// svr := gqlgenhendler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{
+	// 	Conf:       *server.Conf,
+	// 	UserSvrURL: server.Conf.ServiceEndpoints.UserGraphQL,
+	// 	// Token:      server.UserSvrToken,
+	// 	// TODO Temp workaround
+	// 	Client: func() *graphql.Client {
+	// 		tokenString, err := server.UserSvrToken.GetTokenString()
+	// 		if err != nil {
+	// 			panic(err)
+	// 		}
+	// 		src := oauth2.StaticTokenSource(
+	// 			&oauth2.Token{
+	// 				AccessToken: tokenString,
+	// 				TokenType:   token.TypeJWT,
+	// 			},
+	// 		)
+	// 		httpClient := oauth2.NewClient(context.Background(), src)
+	// 		return graphql.NewClient(server.Services.UserGraphQL, graphql.WithHTTPClient(httpClient))
+	// 	}(),
+	// }}))
+	// v1TokenAuthenticatedWithFirebaseRouter.POST("/graphql/user", gin.WrapH(svr))
+
+	// v0 api proxy every request to the restful serverce
+	v0Router := apiRouter.Group("/v0")
+	v0tokenStateRouter := v0Router.Use(middleware.GetIDTokenOnly(server.firebaseClient))
+	proxyURL, err := url.Parse(server.Conf.V0RESTfulSvrTargetURL)
+	if err != nil {
+		return err
+	}
+
+	v0tokenStateRouter.Any("/*wildcard", NewSingleHostReverseProxy(proxyURL, v0Router.BasePath(), server.Rdb, server.Conf.RedisService.Cache.TTL))
+
+	return nil
+}
+
+func SetMemberMutationRoute(server *Server) error {
+
+	apiRouter := server.Engine.Group("/api")
+
+	// v2 api
+	v2Router := apiRouter.Group("/v2")
+	// FIXME proxied headers are in the request payload
+	v2tokenStateRouter := v2Router.Use(middleware.GetIDTokenOnly(server.firebaseClient))
+
+	svr := gqlgenhendler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &mutationgraph.Resolver{
 		Conf:       *server.Conf,
 		UserSvrURL: server.Conf.ServiceEndpoints.UserGraphQL,
 		// Token:      server.UserSvrToken,
@@ -101,17 +144,7 @@ func SetRoute(server *Server) error {
 			return graphql.NewClient(server.Services.UserGraphQL, graphql.WithHTTPClient(httpClient))
 		}(),
 	}}))
-	v1TokenAuthenticatedWithFirebaseRouter.POST("/graphql/user", gin.WrapH(svr))
-
-	// v0 api proxy every request to the restful serverce
-	v0Router := apiRouter.Group("/v0")
-	v0tokenStateRouter := v0Router.Use(middleware.GetIDTokenOnly(server.firebaseClient))
-	proxyURL, err := url.Parse(server.Conf.V0RESTfulSvrTargetURL)
-	if err != nil {
-		return err
-	}
-
-	v0tokenStateRouter.Any("/*wildcard", NewSingleHostReverseProxy(proxyURL, v0Router.BasePath(), server.Rdb, server.Conf.RedisService.Cache.TTL))
+	v2tokenStateRouter.POST("/graphql/member", gin.WrapH(svr))
 
 	return nil
 }

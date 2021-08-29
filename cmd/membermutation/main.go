@@ -46,7 +46,7 @@ func main() {
 		logrus.Fatalf("error setting up health route: %v", err)
 	}
 
-	err = server.SetRoute(svr)
+	err = server.SetMemberMutationRoute(svr)
 	if err != nil {
 		logrus.Fatalf("error setting up route: %v", err)
 	}
