@@ -20,7 +20,7 @@ import (
 func main() {
 
 	// name of config file (without extension)
-	viper.SetConfigName("config")
+	viper.SetConfigName("membermutationConfig")
 	// optionally look for config in the working directory
 	viper.AddConfigPath("./configs")
 	// Find and read the config file
