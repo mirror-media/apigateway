@@ -9,6 +9,7 @@ import (
 	"syscall"
 	"time"
 
+	formatter "github.com/bcgodev/logrus-formatter-gke"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 
@@ -16,6 +17,11 @@ import (
 	"github.com/mirror-media/apigateway/server"
 	"github.com/spf13/viper"
 )
+
+func init() {
+	logrus.SetFormatter(&formatter.GKELogFormatter{})
+	logrus.SetReportCaller(true)
+}
 
 func main() {
 

@@ -33,11 +33,6 @@ type Server struct {
 	Rdb                    cache.Rediser
 }
 
-func init() {
-	logrus.SetFormatter(&logrus.JSONFormatter{})
-	logrus.SetReportCaller(true)
-}
-
 func (s *Server) Run() error {
 	return s.Engine.Run(fmt.Sprintf("%s:%d", s.Conf.Address, s.Conf.Port))
 }
