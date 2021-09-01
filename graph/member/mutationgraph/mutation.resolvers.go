@@ -126,16 +126,14 @@ func (r *mutationResolver) Updatemember(ctx context.Context, id string, data *mo
 	req.Var("input", input)
 
 	var resp struct {
-		Data *struct {
-			MemberInfo *model.MemberInfo `json:"member"`
-		} `json:"data"`
+		MemberInfo *model.MemberInfo `json:"updatemember"`
 	}
 
 	err = r.Client.Run(ctx, req, &resp)
 
 	checkAndPrintGraphQLError(logrus.WithField("mutation", "createmember"), err)
 
-	return resp.Data.MemberInfo, err
+	return resp.MemberInfo, err
 }
 
 func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data *model.SubscriptionRecurringCreateInput) (*model.SubscriptionCreation, error) {
@@ -191,9 +189,7 @@ func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data
 	req.Var("input", input)
 
 	var resp struct {
-		Data *struct {
-			SubscriptionInfo *model.SubscriptionInfo `json:"subscription"`
-		} `json:"data"`
+		SubscriptionInfo *model.SubscriptionInfo `json:"createsubscription"`
 	}
 
 	err = r.Client.Run(ctx, req, &resp)
@@ -202,7 +198,7 @@ func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data
 
 	// TODO newebpay
 	return &model.SubscriptionCreation{
-		Subscription: resp.Data.SubscriptionInfo,
+		Subscription: resp.SubscriptionInfo,
 	}, err
 }
 
@@ -262,9 +258,7 @@ func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data 
 	req.Var("input", input)
 
 	var resp struct {
-		Data *struct {
-			SubscriptionInfo *model.SubscriptionInfo `json:"subscription"`
-		} `json:"data"`
+		SubscriptionInfo *model.SubscriptionInfo `json:"createsubscription"`
 	}
 
 	err = r.Client.Run(ctx, req, &resp)
@@ -273,7 +267,7 @@ func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data 
 
 	// TODO newebpay
 	return &model.SubscriptionCreation{
-		Subscription: resp.Data.SubscriptionInfo,
+		Subscription: resp.SubscriptionInfo,
 	}, err
 }
 
@@ -329,9 +323,7 @@ func (r *mutationResolver) Updatesubscription(ctx context.Context, id string, da
 	req.Var("input", input)
 
 	var resp struct {
-		Data *struct {
-			SubscriptionInfo *model.SubscriptionInfo `json:"subscription"`
-		} `json:"data"`
+		SubscriptionInfo *model.SubscriptionInfo `json:"updatesubscription"`
 	}
 
 	err = r.Client.Run(ctx, req, &resp)
@@ -339,7 +331,7 @@ func (r *mutationResolver) Updatesubscription(ctx context.Context, id string, da
 	checkAndPrintGraphQLError(logrus.WithField("mutation", "updatesubscription"), err)
 
 	return &model.SubscriptionCreation{
-		Subscription: resp.Data.SubscriptionInfo,
+		Subscription: resp.SubscriptionInfo,
 	}, err
 }
 
