@@ -71,7 +71,8 @@ func NewAPIGatewayGraphQLHandler(memberUpstreamURL, mutationUpstreamURL, typeSch
 				},
 			}, {
 				Fetch: graphql_datasource.FetchConfiguration{
-					URL: mutationUpstreamURL,
+					URL:    mutationUpstreamURL,
+					Header: http.Header{"Authorization": []string{"{{ .request.headers.Authorization }}"}},
 				},
 				Federation: graphql_datasource.FederationConfiguration{
 					Enabled:    false,
