@@ -5,7 +5,7 @@ WORKDIR /api-gateway
 COPY . .
 
 RUN apk add --update --no-cache make && \
-    go get ./... && \
+    go mod download && \
     make all
 
 FROM alpine:latest
