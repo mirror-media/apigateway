@@ -142,18 +142,29 @@ func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data
 		return nil, err
 	}
 
-	var input *model.SubscriptionCreateInput
+	type Input struct {
+		model.SubscriptionNoMemberCreateInput
+		Member struct {
+			Connect model.MemberWhereUniqueInput `json:"connect"`
+		} `json:"member"`
+	}
+
+	var input Input
 	if data != nil {
-		input = &model.SubscriptionCreateInput{
-			Member:          &model.MemberRelateToOneInput{Connect: &model.MemberWhereUniqueInput{FirebaseID: firebaseID}},
-			PaymentMethod:   &data.PaymentMethod,
-			ApplepayPayment: data.ApplepayPayment,
-			Desc:            data.Desc,
-			Email:           &data.Email,
-			Frequency:       &data.Frequency,
-			Note:            data.Note,
-			PromoteID:       data.PromoteID,
+		input = Input{
+			SubscriptionNoMemberCreateInput: model.SubscriptionNoMemberCreateInput{
+				PaymentMethod:   &data.PaymentMethod,
+				ApplepayPayment: data.ApplepayPayment,
+				Desc:            data.Desc,
+				Email:           &data.Email,
+				Frequency:       &data.Frequency,
+				NextFrequency:   (*model.SubscriptionNextFrequencyType)(&data.Frequency),
+				Note:            data.Note,
+				PromoteID:       data.PromoteID,
+			},
 		}
+
+		input.Member.Connect.FirebaseID = firebaseID
 
 		status := (model.SubscriptionStatusType)(data.Status)
 		input.Status = &status
@@ -179,7 +190,11 @@ func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data
 
 	fieldsOnly := Map(GetPreloads(ctx), func(s string) string {
 		ns := strings.Split(s, ".")
-		return ns[len(ns)-1]
+		if ns[0] == "subscription" && len(ns) == 2 {
+			return ns[len(ns)-1]
+		} else {
+			return ""
+		}
 	})
 
 	preGQL = append(preGQL, fieldsOnly...)
