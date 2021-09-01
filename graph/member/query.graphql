@@ -1,11 +1,24 @@
 type Query {
+  """
+  The authorization will be check against the firebaseId in memberWhereUniqueInput. It must match the firebase id in the FurebaseId token.
+  """
   member(where: memberWhereUniqueInput!): member
+
+  """
+  It will responde with all merchandises.
+  """
   allMerchandises(
-    where: merchandiseWhereInput! = {isActive: true}
+    where: merchandiseWhereInput!
     search: String
     orderBy: [merchandiseOrderByInput!]! = []
     first: Int
     skip: Int! = 0
   ): [merchandise!]
+
+  """
+  It will responde with the merchandise mathcing merchandiseWhereUniqueInput.
+
+  The default filter has isActive as true. Set it to false if you want the info regardlessly.
+  """
   merchandise(where: merchandiseWhereUniqueInput!): merchandise
 }
