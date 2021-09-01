@@ -48,7 +48,7 @@ func (r Resolver) RetrieveExistingSubscriptionFromRemote(ctx context.Context, su
 	return *resp.Data.Subscription.Member.FirebaseID, resp.Data.Subscription.Frequency.String(), err
 }
 
-func (r Resolver) RetrieveMerchandise(ctx context.Context, code string) (price float64, currency string, state model.MerchandiseStateType, err error) {
+func (r Resolver) RetrieveMerchandise(ctx context.Context, code string) (price float64, currency model.MerchandiseCurrencyType, state model.MerchandiseStateType, err error) {
 	gql := `query ($code: String) {
   merchandise(where: {code: $code}) {
     price
@@ -60,19 +60,19 @@ func (r Resolver) RetrieveMerchandise(ctx context.Context, code string) (price f
 	req.Var("code", code)
 
 	var resp struct {
-		Data *struct {
-			Merchandise *model.Merchandise `json:"merchandise"`
-		} `json:"data"`
+		Merchandise *model.Merchandise `json:"merchandise"`
 	}
 
 	err = r.Client.Run(ctx, req, &resp)
-	checkAndPrintGraphQLError(logrus.WithField("query", "GetIDFromRemote"), err)
+	checkAndPrintGraphQLError(logrus.WithField("query", "RetrieveMerchandise"), err)
+
 	if err != nil {
 		return 0, "", "", err
-	} else if resp.Data.Merchandise == nil {
+	} else if resp.Merchandise == nil {
 		return 0, "", "", fmt.Errorf("merchandise with code %s is not found", code)
 	}
-	return *resp.Data.Merchandise.Price, *resp.Data.Merchandise.Code, *resp.Data.Merchandise.State, err
+
+	return *resp.Merchandise.Price, *resp.Merchandise.Currency, *resp.Merchandise.State, err
 }
 
 func (r Resolver) GetMemberIDFromRemote(ctx context.Context, firebaseID string) (string, error) {
@@ -81,19 +81,17 @@ func (r Resolver) GetMemberIDFromRemote(ctx context.Context, firebaseID string) 
 	req.Var("firebaseId", firebaseID)
 
 	var resp struct {
-		Data *struct {
-			Member *model.Member `json:"member"`
-		} `json:"data"`
+		Member *model.Member `json:"member"`
 	}
 
 	err := r.Client.Run(ctx, req, &resp)
-	checkAndPrintGraphQLError(logrus.WithField("query", "GetIDFromRemote"), err)
+	checkAndPrintGraphQLError(logrus.WithField("query", "GetMemberIDFromRemote"), err)
 	if err != nil {
 		return "", err
-	} else if resp.Data.Member == nil {
+	} else if resp.Member == nil {
 		return "", fmt.Errorf("%s is not found", firebaseID)
 	}
-	return resp.Data.Member.ID, err
+	return resp.Member.ID, err
 }
 
 func (r Resolver) GetFirebaseID(ctx context.Context) (string, error) {
