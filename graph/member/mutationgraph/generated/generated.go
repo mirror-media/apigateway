@@ -2626,13 +2626,13 @@ input MembersPrivateUpdateInput {
 }
 
 input memberPrivateCreateInput {
-  firebaseId: String
-  email: String
+  firebaseId: String!
+  email: String!
   marketingMembership: marketingMembershipRelateToOneInput
-  type: memberTypeType
+  type: memberTypeType!
   state: memberStateType
   tos: Boolean
-  dateJoined: String
+  dateJoined: String!
   firstName: String
   lastName: String
   name: String
@@ -4955,6 +4955,7 @@ input memberCreateInput {
   tos: Boolean
   firstName: String
   lastName: String
+  email: String!
   name: String
   gender: memberGenderType
   phone: String
@@ -4977,6 +4978,9 @@ input subscriptionRecurringCreateInput {
   status: createSubscriptionStatusType!
   desc: String
   email: String!
+  """
+  frequency has to match a code of one of the merchandize. It will be use to fetch amount and currency.
+  """
   frequency: subscriptionFrequencyType!
   note: String
   promoteId: Int
@@ -4996,6 +5000,9 @@ input subscriptionOneTimeCreateInput {
 input subscriptionUpdateInput {
   desc: String
   isCanceled: Boolean
+  """
+  nextFrequency has to match a code of one of the merchandize. It will be use to fetch amount and currency.
+  """
   nextFrequency: updateSubscriptionNextFrequencyType
   note: String
 }
@@ -5034,10 +5041,37 @@ type subscriptionCreation {
 }
 `, BuiltIn: false},
 	{Name: "mutation.graphql", Input: `type Mutation {
+  """
+  It creates a member with memberCreateInput and set **firebaseId** as it is in the **token**.
+
+  Nested query is not allowed in the mutation.
+  """
   createmember(data: memberCreateInput): memberInfo
+  """
+  It updates the member with memberUpdateInput if the member has the same **firebaseId** in the **token**.
+
+  Nested query is not allowed in the mutation.
+  """
   updatemember(id: ID!, data: memberUpdateInput): memberInfo
+  """
+  It creates a subscription with subscriptionOneTimeCreateInput, set a new order number, connect the subscription to the member with the firebaseID, and the amount/currency coresponding to the frequency in **merchandise**.
+
+  Nested query is not allowed in the mutation.
+  """
   createSubscriptionRecurring(data: subscriptionRecurringCreateInput): subscriptionCreation
+  """
+  It creates a subscription with subscriptionOneTimeCreateInput, set a new order number, set frequency to **one_time**, connect the subscription to the member with the firebaseID, and the amount/currency coresponding to the frequency in **merchandise**.
+
+  Nested query is not allowed in the mutation.
+  """
   createsSubscriptionOneTime(data: subscriptionOneTimeCreateInput): subscriptionCreation
+  """
+  It checks if the existing subscription is connect to the member with the same firebaseID, and them it updates the subscription with subscriptionUpdateInput and the amount/currency coresponding to the nextFrequency in **merchandise**.
+
+  It pracatically let users update the next frequency and cancel the subscription.
+
+  Nested query is not allowed in the mutation.
+  """
   updatesubscription(id: ID!, data: subscriptionUpdateInput): subscriptionCreation
 }
 `, BuiltIn: false},
@@ -17431,6 +17465,14 @@ func (ec *executionContext) unmarshalInputmemberCreateInput(ctx context.Context,
 			if err != nil {
 				return it, err
 			}
+		case "email":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("email"))
+			it.Email, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "name":
 			var err error
 
@@ -17713,7 +17755,7 @@ func (ec *executionContext) unmarshalInputmemberPrivateCreateInput(ctx context.C
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("firebaseId"))
-			it.FirebaseID, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.FirebaseID, err = ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -17721,7 +17763,7 @@ func (ec *executionContext) unmarshalInputmemberPrivateCreateInput(ctx context.C
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("email"))
-			it.Email, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.Email, err = ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -17737,7 +17779,7 @@ func (ec *executionContext) unmarshalInputmemberPrivateCreateInput(ctx context.C
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("type"))
-			it.Type, err = ec.unmarshalOmemberTypeType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberTypeType(ctx, v)
+			it.Type, err = ec.unmarshalNmemberTypeType2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberTypeType(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -17761,7 +17803,7 @@ func (ec *executionContext) unmarshalInputmemberPrivateCreateInput(ctx context.C
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("dateJoined"))
-			it.DateJoined, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.DateJoined, err = ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -33409,6 +33451,16 @@ func (ec *executionContext) unmarshalNinvoiceWhereInput2ᚖgithubᚗcomᚋmirror
 func (ec *executionContext) unmarshalNmarketingMembershipWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMarketingMembershipWhereInput(ctx context.Context, v interface{}) (*model.MarketingMembershipWhereInput, error) {
 	res, err := ec.unmarshalInputmarketingMembershipWhereInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNmemberTypeType2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberTypeType(ctx context.Context, v interface{}) (model.MemberTypeType, error) {
+	var res model.MemberTypeType
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNmemberTypeType2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberTypeType(ctx context.Context, sel ast.SelectionSet, v model.MemberTypeType) graphql.Marshaler {
+	return v
 }
 
 func (ec *executionContext) unmarshalNmemberWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberWhereInput(ctx context.Context, v interface{}) (*model.MemberWhereInput, error) {

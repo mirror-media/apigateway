@@ -694,13 +694,13 @@ input MembersPrivateUpdateInput {
 }
 
 input memberPrivateCreateInput {
-  firebaseId: String
-  email: String
+  firebaseId: String!
+  email: String!
   marketingMembership: marketingMembershipRelateToOneInput
-  type: memberTypeType
+  type: memberTypeType!
   state: memberStateType
   tos: Boolean
-  dateJoined: String
+  dateJoined: String!
   firstName: String
   lastName: String
   name: String
@@ -3023,6 +3023,7 @@ input memberCreateInput {
   tos: Boolean
   firstName: String
   lastName: String
+  email: String!
   name: String
   gender: memberGenderType
   phone: String

@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"strings"
+	"time"
 
 	graphqlclient "github.com/machinebox/graphql"
 	"github.com/mirror-media/apigateway/graph/member/model"
@@ -15,6 +16,8 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+const ISO8601Layout = "2000-00-00T00:00:00.000Z"
+
 func (r *mutationResolver) Createmember(ctx context.Context, data *model.MemberCreateInput) (*model.MemberInfo, error) {
 	firebaseID, err := r.GetFirebaseID(ctx)
 	if err != nil {
@@ -22,13 +25,17 @@ func (r *mutationResolver) Createmember(ctx context.Context, data *model.MemberC
 	}
 
 	input := &model.MemberPrivateCreateInput{
-		FirebaseID: &firebaseID,
+		FirebaseID: firebaseID,
 	}
+
 	if data == nil {
 		input = nil
 	} else {
 		input.Address = data.Address
 		input.Birthday = data.Birthday
+		input.Email = data.Email
+		input.Type = model.MemberTypeTypeNone
+		input.DateJoined = time.Now().Format(ISO8601Layout)
 		input.Tos = data.Tos
 		input.FirstName = data.FirstName
 		input.LastName = data.LastName
@@ -46,7 +53,7 @@ func (r *mutationResolver) Createmember(ctx context.Context, data *model.MemberC
 
 	// Construct GraphQL mutation
 
-	preGQL := []string{"mutation($input: memberCreateInput) {", "createmember(data: $input) {"}
+	preGQL := []string{"mutation($input: memberCreateInput!) {", "createmember(data: $input) {"}
 
 	fieldsOnly := Map(GetPreloads(ctx), func(s string) string {
 		ns := strings.Split(s, ".")
@@ -56,20 +63,19 @@ func (r *mutationResolver) Createmember(ctx context.Context, data *model.MemberC
 	preGQL = append(preGQL, fieldsOnly...)
 	preGQL = append(preGQL, "}", "}")
 	gql := strings.Join(preGQL, "\n")
+
 	req := graphqlclient.NewRequest(gql)
 	req.Var("input", input)
 
-	var resp struct {
-		Data *struct {
-			MemberInfo *model.MemberInfo `json:"member"`
-		} `json:"data`
-	}
+	resp := struct {
+		MemberInfo *model.MemberInfo `json:"createmember"`
+	}{}
 
 	err = r.Client.Run(ctx, req, &resp)
 
 	checkAndPrintGraphQLError(logrus.WithField("mutation", "createmember"), err)
 
-	return resp.Data.MemberInfo, err
+	return resp.MemberInfo, err
 }
 
 func (r *mutationResolver) Updatemember(ctx context.Context, id string, data *model.MemberUpdateInput) (*model.MemberInfo, error) {

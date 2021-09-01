@@ -103,10 +103,7 @@ func (r Resolver) GetFirebaseID(ctx context.Context) (string, error) {
 		return "", err
 	}
 
-	id, ok := gCTX.Value(middleware.GCtxUserIDKey).(string)
-	if !ok {
-		err = fmt.Errorf("fail to get firebaseID")
-	}
+	id := gCTX.GetString(middleware.GCtxUserIDKey)
 
 	return id, err
 }

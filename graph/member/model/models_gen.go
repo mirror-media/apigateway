@@ -620,6 +620,7 @@ type MemberCreateInput struct {
 	Tos          *bool             `json:"tos"`
 	FirstName    *string           `json:"firstName"`
 	LastName     *string           `json:"lastName"`
+	Email        string            `json:"email"`
 	Name         *string           `json:"name"`
 	Gender       *MemberGenderType `json:"gender"`
 	Phone        *string           `json:"phone"`
@@ -681,13 +682,13 @@ type MemberOrderByInput struct {
 }
 
 type MemberPrivateCreateInput struct {
-	FirebaseID          *string                              `json:"firebaseId"`
-	Email               *string                              `json:"email"`
+	FirebaseID          string                               `json:"firebaseId"`
+	Email               string                               `json:"email"`
 	MarketingMembership *MarketingMembershipRelateToOneInput `json:"marketingMembership"`
-	Type                *MemberTypeType                      `json:"type"`
+	Type                MemberTypeType                       `json:"type"`
 	State               *MemberStateType                     `json:"state"`
 	Tos                 *bool                                `json:"tos"`
-	DateJoined          *string                              `json:"dateJoined"`
+	DateJoined          string                               `json:"dateJoined"`
 	FirstName           *string                              `json:"firstName"`
 	LastName            *string                              `json:"lastName"`
 	Name                *string                              `json:"name"`
@@ -2382,9 +2383,10 @@ type SubscriptionRecurringCreateInput struct {
 	Status          CreateSubscriptionStatusType      `json:"status"`
 	Desc            *string                           `json:"desc"`
 	Email           string                            `json:"email"`
-	Frequency       SubscriptionFrequencyType         `json:"frequency"`
-	Note            *string                           `json:"note"`
-	PromoteID       *int                              `json:"promoteId"`
+	// frequency has to match a code of one of the merchandize. It will be use to fetch amount and currency.
+	Frequency SubscriptionFrequencyType `json:"frequency"`
+	Note      *string                   `json:"note"`
+	PromoteID *int                      `json:"promoteId"`
 }
 
 type SubscriptionRelateToManyInput struct {
@@ -2402,8 +2404,9 @@ type SubscriptionRelateToOneInput struct {
 }
 
 type SubscriptionUpdateInput struct {
-	Desc          *string                              `json:"desc"`
-	IsCanceled    *bool                                `json:"isCanceled"`
+	Desc       *string `json:"desc"`
+	IsCanceled *bool   `json:"isCanceled"`
+	// nextFrequency has to match a code of one of the merchandize. It will be use to fetch amount and currency.
 	NextFrequency *UpdateSubscriptionNextFrequencyType `json:"nextFrequency"`
 	Note          *string                              `json:"note"`
 }
