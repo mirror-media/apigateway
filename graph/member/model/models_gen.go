@@ -2304,38 +2304,6 @@ type SubscriptionInfo struct {
 	UpdatedAt                 *string                        `json:"updatedAt"`
 }
 
-type SubscriptionNoMemberCreateInput struct {
-	PaymentMethod             *SubscriptionPaymentMethodType       `json:"paymentMethod"`
-	NewebpayPayment           *NewebpayPaymentRelateToManyInput    `json:"newebpayPayment"`
-	ApplepayPayment           *ApplepayPaymentRelateToManyInput    `json:"applepayPayment"`
-	AndroidpayPayment         *AndroidpayPaymentRelateToManyInput  `json:"androidpayPayment"`
-	Status                    *SubscriptionStatusType              `json:"status"`
-	Amount                    *int                                 `json:"amount"`
-	Currency                  *SubscriptionCurrencyType            `json:"currency"`
-	Desc                      *string                              `json:"desc"`
-	Email                     *string                              `json:"email"`
-	OrderNumber               *string                              `json:"orderNumber"`
-	IsActive                  *bool                                `json:"isActive"`
-	IsCanceled                *bool                                `json:"isCanceled"`
-	Frequency                 *SubscriptionFrequencyType           `json:"frequency"`
-	NextFrequency             *SubscriptionNextFrequencyType       `json:"nextFrequency"`
-	PeriodFailureTimes        *int                                 `json:"periodFailureTimes"`
-	PeriodLastSuccessDatetime *string                              `json:"periodLastSuccessDatetime"`
-	PeriodNextPayDatetime     *string                              `json:"periodNextPayDatetime"`
-	PeriodCreateDatetime      *string                              `json:"periodCreateDatetime"`
-	PeriodFirstDatetime       *string                              `json:"periodFirstDatetime"`
-	PeriodEndDatetime         *string                              `json:"periodEndDatetime"`
-	ChangePlanDatetime        *string                              `json:"changePlanDatetime"`
-	Note                      *string                              `json:"note"`
-	PromoteID                 *int                                 `json:"promoteId"`
-	PostID                    *string                              `json:"postId"`
-	OneTimeStartDatetime      *string                              `json:"oneTimeStartDatetime"`
-	OneTimeEndDatetime        *string                              `json:"oneTimeEndDatetime"`
-	NewebpayPaymentInfo       *NewebpayPaymentInfoRelateToOneInput `json:"newebpayPaymentInfo"`
-	CreatedAt                 *string                              `json:"createdAt"`
-	UpdatedAt                 *string                              `json:"updatedAt"`
-}
-
 type SubscriptionOneTimeCreateInput struct {
 	PaymentMethod   SubscriptionPaymentMethodType     `json:"paymentMethod"`
 	ApplepayPayment *ApplepayPaymentRelateToManyInput `json:"applepayPayment"`
@@ -2374,6 +2342,36 @@ type SubscriptionOrderByInput struct {
 	OneTimeEndDatetime        *OrderDirection `json:"oneTimeEndDatetime"`
 	CreatedAt                 *OrderDirection `json:"createdAt"`
 	UpdatedAt                 *OrderDirection `json:"updatedAt"`
+}
+
+type SubscriptionPrivateNoMemberCreateInput struct {
+	PaymentMethod             *SubscriptionPaymentMethodType       `json:"paymentMethod"`
+	NewebpayPayment           *NewebpayPaymentRelateToManyInput    `json:"newebpayPayment"`
+	ApplepayPayment           *ApplepayPaymentRelateToManyInput    `json:"applepayPayment"`
+	AndroidpayPayment         *AndroidpayPaymentRelateToManyInput  `json:"androidpayPayment"`
+	Status                    *SubscriptionStatusType              `json:"status"`
+	Amount                    *int                                 `json:"amount"`
+	Currency                  *SubscriptionCurrencyType            `json:"currency"`
+	Desc                      *string                              `json:"desc"`
+	Email                     *string                              `json:"email"`
+	OrderNumber               *string                              `json:"orderNumber"`
+	IsActive                  *bool                                `json:"isActive"`
+	IsCanceled                *bool                                `json:"isCanceled"`
+	Frequency                 *SubscriptionFrequencyType           `json:"frequency"`
+	NextFrequency             *SubscriptionNextFrequencyType       `json:"nextFrequency"`
+	PeriodFailureTimes        *int                                 `json:"periodFailureTimes"`
+	PeriodLastSuccessDatetime *string                              `json:"periodLastSuccessDatetime"`
+	PeriodNextPayDatetime     *string                              `json:"periodNextPayDatetime"`
+	PeriodCreateDatetime      *string                              `json:"periodCreateDatetime"`
+	PeriodFirstDatetime       *string                              `json:"periodFirstDatetime"`
+	PeriodEndDatetime         *string                              `json:"periodEndDatetime"`
+	ChangePlanDatetime        *string                              `json:"changePlanDatetime"`
+	Note                      *string                              `json:"note"`
+	PromoteID                 *int                                 `json:"promoteId"`
+	PostID                    *string                              `json:"postId"`
+	OneTimeStartDatetime      *string                              `json:"oneTimeStartDatetime"`
+	OneTimeEndDatetime        *string                              `json:"oneTimeEndDatetime"`
+	NewebpayPaymentInfo       *NewebpayPaymentInfoRelateToOneInput `json:"newebpayPaymentInfo"`
 }
 
 type SubscriptionPrivateUpdateInput struct {
@@ -4353,20 +4351,20 @@ func (e SubscriptionHistoryStatusType) MarshalGQL(w io.Writer) {
 type SubscriptionNextFrequencyType string
 
 const (
-	SubscriptionNextFrequencyTypeOneTime SubscriptionNextFrequencyType = "one_time"
+	SubscriptionNextFrequencyTypeNone    SubscriptionNextFrequencyType = "none"
 	SubscriptionNextFrequencyTypeYearly  SubscriptionNextFrequencyType = "yearly"
 	SubscriptionNextFrequencyTypeMonthly SubscriptionNextFrequencyType = "monthly"
 )
 
 var AllSubscriptionNextFrequencyType = []SubscriptionNextFrequencyType{
-	SubscriptionNextFrequencyTypeOneTime,
+	SubscriptionNextFrequencyTypeNone,
 	SubscriptionNextFrequencyTypeYearly,
 	SubscriptionNextFrequencyTypeMonthly,
 }
 
 func (e SubscriptionNextFrequencyType) IsValid() bool {
 	switch e {
-	case SubscriptionNextFrequencyTypeOneTime, SubscriptionNextFrequencyTypeYearly, SubscriptionNextFrequencyTypeMonthly:
+	case SubscriptionNextFrequencyTypeNone, SubscriptionNextFrequencyTypeYearly, SubscriptionNextFrequencyTypeMonthly:
 		return true
 	}
 	return false

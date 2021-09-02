@@ -16,13 +16,17 @@ type Mutation {
 
   Nested query is not allowed in the mutation.
   """
-  createSubscriptionRecurring(data: subscriptionRecurringCreateInput): subscriptionCreation
+  createSubscriptionRecurring(
+    data: subscriptionRecurringCreateInput
+  ): subscriptionCreation
   """
   It creates a subscription with subscriptionOneTimeCreateInput, set a new order number, set frequency to **one_time**, connect the subscription to the member with the firebaseID, and the amount/currency coresponding to the frequency in **merchandise**.
 
   Nested query is not allowed in the mutation.
   """
-  createsSubscriptionOneTime(data: subscriptionOneTimeCreateInput): subscriptionCreation
+  createsSubscriptionOneTime(
+    data: subscriptionOneTimeCreateInput
+  ): subscriptionCreation
   """
   It checks if the existing subscription is connect to the member with the same firebaseID, and them it updates the subscription with subscriptionUpdateInput and the amount/currency coresponding to the nextFrequency in **merchandise**.
 
@@ -30,5 +34,8 @@ type Mutation {
 
   Nested query is not allowed in the mutation.
   """
-  updatesubscription(id: ID!, data: subscriptionUpdateInput): subscriptionCreation
+  updatesubscription(
+    id: ID!
+    data: subscriptionUpdateInput
+  ): subscriptionCreation
 }

@@ -16,8 +16,6 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-const ISO8601Layout = "2000-00-00T00:00:00.000Z"
-
 func (r *mutationResolver) Createmember(ctx context.Context, data *model.MemberCreateInput) (*model.MemberInfo, error) {
 	firebaseID, err := r.GetFirebaseID(ctx)
 	if err != nil {
@@ -143,7 +141,7 @@ func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data
 	}
 
 	type Input struct {
-		model.SubscriptionNoMemberCreateInput
+		model.SubscriptionPrivateNoMemberCreateInput
 		Member struct {
 			Connect model.MemberWhereUniqueInput `json:"connect"`
 		} `json:"member"`
@@ -152,7 +150,7 @@ func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data
 	var input Input
 	if data != nil {
 		input = Input{
-			SubscriptionNoMemberCreateInput: model.SubscriptionNoMemberCreateInput{
+			SubscriptionPrivateNoMemberCreateInput: model.SubscriptionPrivateNoMemberCreateInput{
 				PaymentMethod:   &data.PaymentMethod,
 				ApplepayPayment: data.ApplepayPayment,
 				Desc:            data.Desc,
@@ -179,8 +177,10 @@ func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data
 		if state != model.MerchandiseStateTypeActive {
 			return nil, fmt.Errorf("frequency(%s) is not %s", data.Frequency, model.MerchandiseStateTypeActive)
 		}
+
 		amount := int(price)
 		input.Amount = &amount
+
 		input.Currency = (*model.SubscriptionCurrencyType)(&currency)
 	}
 
@@ -188,7 +188,7 @@ func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data
 
 	preGQL := []string{"mutation ($input: subscriptionCreateInput) {", "createsubscription(data: $input) {"}
 
-	fieldsOnly := Map(GetPreloads(ctx), func(s string) string {
+	subscriptionFieldsOnly := Map(GetPreloads(ctx), func(s string) string {
 		ns := strings.Split(s, ".")
 		if ns[0] == "subscription" && len(ns) == 2 {
 			return ns[len(ns)-1]
@@ -197,7 +197,7 @@ func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data
 		}
 	})
 
-	preGQL = append(preGQL, fieldsOnly...)
+	preGQL = append(preGQL, subscriptionFieldsOnly...)
 	preGQL = append(preGQL, "}", "}")
 	gql := strings.Join(preGQL, "\n")
 	req := graphqlclient.NewRequest(gql)
@@ -218,15 +218,19 @@ func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data
 }
 
 func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data *model.SubscriptionOneTimeCreateInput) (*model.SubscriptionCreation, error) {
-	firebaseID, err := r.GetFirebaseID(ctx)
-	if err != nil {
-		return nil, err
+	if data == nil {
+		return nil, fmt.Errorf("data cannot be null")
 	}
 
-	var input *model.SubscriptionCreateInput
-	if data != nil {
-		input = &model.SubscriptionCreateInput{
-			Member:          &model.MemberRelateToOneInput{Connect: &model.MemberWhereUniqueInput{FirebaseID: firebaseID}},
+	type Input struct {
+		model.SubscriptionPrivateNoMemberCreateInput
+		Member struct {
+			Connect model.MemberWhereUniqueInput `json:"connect"`
+		} `json:"member"`
+	}
+
+	input := Input{
+		SubscriptionPrivateNoMemberCreateInput: model.SubscriptionPrivateNoMemberCreateInput{
 			PaymentMethod:   &data.PaymentMethod,
 			ApplepayPayment: data.ApplepayPayment,
 			Desc:            data.Desc,
@@ -234,39 +238,53 @@ func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data 
 			Note:            data.Note,
 			PromoteID:       data.PromoteID,
 			PostID:          &data.PostID,
-		}
-
-		frequency := model.SubscriptionFrequencyTypeOneTime
-		input.Frequency = &frequency
-
-		status := (model.SubscriptionStatusType)(data.Status)
-		input.Status = &status
-
-		orderNumber := xid.New().String()
-		input.OrderNumber = &orderNumber
-
-		price, currency, state, err := r.RetrieveMerchandise(ctx, model.SubscriptionFrequencyTypeOneTime.String())
-		if err != nil {
-			return nil, err
-		}
-		if state != model.MerchandiseStateTypeActive {
-			return nil, fmt.Errorf("frequency(%s) is not %s", model.SubscriptionFrequencyTypeOneTime, model.MerchandiseStateTypeActive)
-		}
-		amount := int(price)
-		input.Amount = &amount
-		input.Currency = (*model.SubscriptionCurrencyType)(&currency)
+		},
 	}
+
+	firebaseID, err := r.GetFirebaseID(ctx)
+	if err != nil {
+		return nil, err
+	}
+	input.Member.Connect.FirebaseID = firebaseID
+
+	frequency := model.SubscriptionFrequencyTypeOneTime
+	input.Frequency = &frequency
+	none := model.SubscriptionNextFrequencyTypeNone
+	input.NextFrequency = &none
+
+	status := (model.SubscriptionStatusType)(data.Status)
+	input.Status = &status
+
+	orderNumber := xid.New().String()
+	input.OrderNumber = &orderNumber
+
+	price, currency, state, err := r.RetrieveMerchandise(ctx, model.SubscriptionFrequencyTypeOneTime.String())
+	if err != nil {
+		return nil, err
+	}
+	if state != model.MerchandiseStateTypeActive {
+		return nil, fmt.Errorf("frequency(%s) is not %s", model.SubscriptionFrequencyTypeOneTime, model.MerchandiseStateTypeActive)
+	}
+
+	amount := int(price)
+	input.Amount = &amount
+
+	input.Currency = (*model.SubscriptionCurrencyType)(&currency)
 
 	// Construct GraphQL mutation
 
 	preGQL := []string{"mutation ($input: subscriptionCreateInput) {", "createsubscription(data: $input) {"}
 
-	fieldsOnly := Map(GetPreloads(ctx), func(s string) string {
+	subscriptionFieldsOnly := Map(GetPreloads(ctx), func(s string) string {
 		ns := strings.Split(s, ".")
-		return ns[len(ns)-1]
+		if ns[0] == "subscription" && len(ns) == 2 {
+			return ns[len(ns)-1]
+		} else {
+			return ""
+		}
 	})
 
-	preGQL = append(preGQL, fieldsOnly...)
+	preGQL = append(preGQL, subscriptionFieldsOnly...)
 	preGQL = append(preGQL, "}", "}")
 	gql := strings.Join(preGQL, "\n")
 	req := graphqlclient.NewRequest(gql)

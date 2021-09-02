@@ -2086,7 +2086,7 @@ enum subscriptionFrequencyType {
 }
 
 enum subscriptionNextFrequencyType {
-  one_time
+  none
   yearly
   monthly
 }
@@ -2495,6 +2495,7 @@ input SubscriptionsUpdateInput {
   id: ID!
   data: subscriptionUpdateInput
 }
+
 input subscriptionCreateInput {
   member: memberRelateToOneInput
   paymentMethod: subscriptionPaymentMethodType
@@ -2528,7 +2529,7 @@ input subscriptionCreateInput {
   updatedAt: String
 }
 
-input subscriptionNoMemberCreateInput {
+input subscriptionPrivateNoMemberCreateInput {
   paymentMethod: subscriptionPaymentMethodType
   newebpayPayment: newebpayPaymentRelateToManyInput
   applepayPayment: applepayPaymentRelateToManyInput
@@ -2556,8 +2557,6 @@ input subscriptionNoMemberCreateInput {
   oneTimeStartDatetime: String
   oneTimeEndDatetime: String
   newebpayPaymentInfo: newebpayPaymentInfoRelateToOneInput
-  createdAt: String
-  updatedAt: String
 }
 
 input SubscriptionsCreateInput {
