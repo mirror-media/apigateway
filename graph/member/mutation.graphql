@@ -34,8 +34,5 @@ type Mutation {
 
   Nested query is not allowed in the mutation.
   """
-  updatesubscription(
-    id: ID!
-    data: subscriptionUpdateInput
-  ): subscriptionCreation
+  updatesubscription(id: ID!, data: subscriptionUpdateInput): subscriptionInfo
 }

@@ -304,7 +304,7 @@ func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data 
 	}, err
 }
 
-func (r *mutationResolver) Updatesubscription(ctx context.Context, id string, data *model.SubscriptionUpdateInput) (*model.SubscriptionCreation, error) {
+func (r *mutationResolver) Updatesubscription(ctx context.Context, id string, data *model.SubscriptionUpdateInput) (*model.SubscriptionInfo, error) {
 	firebaseID, err := r.GetFirebaseID(ctx)
 	if err != nil {
 		return nil, err
@@ -315,7 +315,7 @@ func (r *mutationResolver) Updatesubscription(ctx context.Context, id string, da
 		return nil, err
 	} else if _firebaseID != firebaseID {
 		return nil, fmt.Errorf("you do not have access to this resource, subscription(%s)", id)
-	} else if data.NextFrequency != nil && *data.NextFrequency != model.UpdateSubscriptionNextFrequencyType(model.SubscriptionFrequencyTypeOneTime) && _frequency == model.SubscriptionFrequencyTypeOneTime.String() {
+	} else if _frequency == model.SubscriptionFrequencyTypeOneTime.String() {
 		return nil, fmt.Errorf("%s subscription cannot be updated", _frequency)
 	}
 
@@ -363,9 +363,7 @@ func (r *mutationResolver) Updatesubscription(ctx context.Context, id string, da
 
 	checkAndPrintGraphQLError(logrus.WithField("mutation", "updatesubscription"), err)
 
-	return &model.SubscriptionCreation{
-		Subscription: resp.SubscriptionInfo,
-	}, err
+	return resp.SubscriptionInfo, err
 }
 
 // Mutation returns generated.MutationResolver implementation.
