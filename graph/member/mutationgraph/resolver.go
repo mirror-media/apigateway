@@ -35,19 +35,20 @@ func (r Resolver) RetrieveExistingSubscriptionFromRemote(ctx context.Context, su
 	req.Var("id", subscriptionID)
 
 	var resp struct {
-		Data *struct {
-			Subscription *model.Subscription `json:"subscription"`
-		} `json:"data"`
+		Subscription *model.Subscription `json:"subscription"`
 	}
 
 	err = r.Client.Run(ctx, req, &resp)
 	checkAndPrintGraphQLError(logrus.WithField("query", "RetrieveMemberFirebaseIDOfSubscriptionFromRemote"), err)
+
 	if err != nil {
 		return "", "", err
-	} else if resp.Data.Subscription.Member == nil {
+	} else if resp.Subscription == nil {
+		return "", "", fmt.Errorf("subscription(%s) is not found", subscriptionID)
+	} else if resp.Subscription.Member == nil {
 		return "", "", fmt.Errorf("member of subscription(%s) is not found", subscriptionID)
 	}
-	return *resp.Data.Subscription.Member.FirebaseID, resp.Data.Subscription.Frequency.String(), err
+	return *resp.Subscription.Member.FirebaseID, resp.Subscription.Frequency.String(), err
 }
 
 func (r Resolver) RetrieveMerchandise(ctx context.Context, code string) (price float64, currency model.MerchandiseCurrencyType, state model.MerchandiseStateType, err error) {
