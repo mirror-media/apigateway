@@ -2313,6 +2313,9 @@ type SubscriptionOneTimeCreateInput struct {
 	Note            *string                           `json:"note"`
 	PromoteID       *int                              `json:"promoteId"`
 	PostID          string                            `json:"postId"`
+	PostSlug        string                            `json:"postSlug"`
+	PostTitle       string                            `json:"postTitle"`
+	ReturnToPath    string                            `json:"returnToPath"`
 }
 
 type SubscriptionOrderByInput struct {
@@ -2414,9 +2417,10 @@ type SubscriptionRecurringCreateInput struct {
 	Desc            *string                           `json:"desc"`
 	Email           string                            `json:"email"`
 	// frequency has to match a code of one of the merchandize. It will be use to fetch amount and currency.
-	Frequency SubscriptionFrequencyType `json:"frequency"`
-	Note      *string                   `json:"note"`
-	PromoteID *int                      `json:"promoteId"`
+	Frequency    SubscriptionFrequencyType `json:"frequency"`
+	Note         *string                   `json:"note"`
+	PromoteID    *int                      `json:"promoteId"`
+	ReturnToPath string                    `json:"returnToPath"`
 }
 
 type SubscriptionRelateToManyInput struct {
@@ -2439,6 +2443,7 @@ type SubscriptionUpdateInput struct {
 	// nextFrequency has to match a code of one of the merchandize. It will be use to fetch amount and currency.
 	NextFrequency *UpdateSubscriptionNextFrequencyType `json:"nextFrequency"`
 	Note          *string                              `json:"note"`
+	ReturnToPath  string                               `json:"returnToPath"`
 }
 
 type SubscriptionWhereInput struct {

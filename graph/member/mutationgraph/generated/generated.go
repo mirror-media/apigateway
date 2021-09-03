@@ -5014,6 +5014,7 @@ input subscriptionRecurringCreateInput {
   frequency: subscriptionFrequencyType!
   note: String
   promoteId: Int
+  returnToPath: String!
 }
 
 input subscriptionOneTimeCreateInput {
@@ -5025,6 +5026,9 @@ input subscriptionOneTimeCreateInput {
   note: String
   promoteId: Int
   postId: String!
+  postSlug: String!
+  postTitle: String!
+  returnToPath: String!
 }
 
 input subscriptionUpdateInput {
@@ -5035,6 +5039,7 @@ input subscriptionUpdateInput {
   """
   nextFrequency: updateSubscriptionNextFrequencyType
   note: String
+  returnToPath: String!
 }
 
 type subscriptionInfo {
@@ -29278,6 +29283,30 @@ func (ec *executionContext) unmarshalInputsubscriptionOneTimeCreateInput(ctx con
 			if err != nil {
 				return it, err
 			}
+		case "postSlug":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("postSlug"))
+			it.PostSlug, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "postTitle":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("postTitle"))
+			it.PostTitle, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "returnToPath":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("returnToPath"))
+			it.ReturnToPath, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		}
 	}
 
@@ -30066,6 +30095,14 @@ func (ec *executionContext) unmarshalInputsubscriptionRecurringCreateInput(ctx c
 			if err != nil {
 				return it, err
 			}
+		case "returnToPath":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("returnToPath"))
+			it.ReturnToPath, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		}
 	}
 
@@ -30204,6 +30241,14 @@ func (ec *executionContext) unmarshalInputsubscriptionUpdateInput(ctx context.Co
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("note"))
 			it.Note, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "returnToPath":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("returnToPath"))
+			it.ReturnToPath, err = ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
