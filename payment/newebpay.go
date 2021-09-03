@@ -198,15 +198,6 @@ func (s Store) CreateNewebpayMPGPayload(firebaseID, tokenTerm string, subscripti
 		return "", err
 	}
 
-	callbackInfo := PurchaseInfo{
-		Merchandise: Merchandise{
-			Code: subscription.Frequency.String(),
-		},
-		PurchasedAtUnixTime: timestamp.Unix(),
-		OrderNumber:         *subscription.OrderNumber,
-		MemberFirebaseID:    firebaseID,
-	}
-
 	returnURL, err := s.getReturnURL(purchaseInfo)
 	if err != nil {
 		return "", nil
