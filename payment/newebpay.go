@@ -74,14 +74,6 @@ func getCallbackUrl(protocol, domain, path string, purchaseInfo *PurchaseInfo) (
 	return fmt.Sprintf("%s://%s%s?%s", protocol, domain, path, v.Encode()), err
 }
 
-const unsafeCharacters = ":/?#[]@!$&'()*+,;=<>%{}|\\^\"`\n"
-
-type PostPurchased struct {
-	ID    string
-	Slug  string
-	Title string
-}
-
 type TradeInfo struct {
 	Amt                 int    `url:"Amt"`
 	ClientBackURL       string `url:"ClientBackURL,omitempty"`
@@ -107,8 +99,11 @@ type TradeInfoAgreement struct {
 
 type TradeInfoMGP struct {
 	TradeInfo
-	ItemDescription string `url:"ItemDesc,omitempty"`
+	OrderComment    string `url:"OrderComment,omitempty"`
+	ItemDescription string `url:"ItemDesc"`
 }
+
+const unsafeCharacters = ":/?#[]@!$&'()*+,;=<>%{}|\\^\"`\n"
 
 // Ref: https://github.com/mirror-media/apigateway/files/6866871/NewebPay_._._AGREEMENT_.1.0.6.pdf
 func (s Store) CreateNewebpayAgreementPayload(firebaseID, tokenTerm string, subscription model.Subscription, purchaseInfo PurchaseInfo) (payload string, err error) {
@@ -167,6 +162,85 @@ func (s Store) CreateNewebpayAgreementPayload(firebaseID, tokenTerm string, subs
 		OrderComment: *subscription.Desc,
 		P3D:          s.P3D,
 		TokenTerm:    tokenTerm,
+	}
+	v, err := query.Values(tradeInfo)
+	payload = v.Encode()
+	return payload, err
+}
+
+// Ref: https://www.newebpay.com/website/Page/download_file?name=%E8%97%8D%E6%96%B0%E9%87%91%E6%B5%81Newebpay_MPG%E4%B8%B2%E6%8E%A5%E6%89%8B%E5%86%8A_MPG_1.1.0.pdf
+func (s Store) CreateNewebpayMPGPayload(firebaseID, tokenTerm string, subscription model.Subscription, purchaseInfo PurchaseInfo) (payload string, err error) {
+	// Validate the data at the beginning for short circuit
+	if subscription.CreatedAt == nil {
+		return "", fmt.Errorf("subscription(%s) has not creation time", subscription.ID)
+	} else if subscription.Amount == nil {
+		return "", fmt.Errorf("subscription(%s) has no amount", subscription.ID)
+	} else if subscription.OrderNumber == nil {
+		return "", fmt.Errorf("subscription(%s) has no OrderNumber", subscription.ID)
+	} else if subscription.Email == nil {
+		return "", fmt.Errorf("subscription(%s) has no email", subscription.ID)
+	} else if subscription.Desc == nil {
+		return "", fmt.Errorf("subscription(%s) has no descrption", subscription.ID)
+	} else if subscription.Frequency == nil {
+		return "", fmt.Errorf("subscription(%s) has no frequency", subscription.ID)
+	} else if model.SubscriptionFrequencyTypeOneTime != *subscription.Frequency && purchaseInfo.Merchandise.PostID != "" {
+		return "", fmt.Errorf("merchandise is not %s, but postID is provided", model.SubscriptionFrequencyTypeOneTime)
+	} else if model.SubscriptionFrequencyTypeOneTime == *subscription.Frequency && purchaseInfo.Merchandise.PostID == "" {
+		return "", fmt.Errorf("merchandise is %s, but postID is not provided", model.SubscriptionFrequencyTypeOneTime)
+	} else if subscription.Desc == nil {
+		return "", fmt.Errorf("subscription(%s) has no descrption", subscription.ID)
+	} else if i := strings.IndexAny(*subscription.Desc, unsafeCharacters); i != -1 {
+		return "", fmt.Errorf("subscription(%s) description contains unsafe a character(%s)", subscription.ID, (*subscription.Desc)[i:i+1])
+	}
+
+	timestamp, err := time.Parse(time.RFC3339, *subscription.CreatedAt)
+	if err != nil {
+		return "", err
+	}
+
+	callbackInfo := PurchaseInfo{
+		Merchandise: Merchandise{
+			Code: subscription.Frequency.String(),
+		},
+		PurchasedAtUnixTime: timestamp.Unix(),
+		OrderNumber:         *subscription.OrderNumber,
+		MemberFirebaseID:    firebaseID,
+	}
+
+	returnURL, err := s.getReturnURL(purchaseInfo)
+	if err != nil {
+		return "", nil
+	}
+
+	clientBackURL, err := s.getClientBackPath(purchaseInfo)
+	if err != nil {
+		return "", nil
+	}
+
+	notifyURL, err := s.getNotifyURL(purchaseInfo)
+	if err != nil {
+		return "", nil
+	}
+
+	tradeInfo := TradeInfoMGP{
+		TradeInfo: TradeInfo{
+			Amt:                 *subscription.Amount,
+			ClientBackURL:       clientBackURL,
+			Email:               *subscription.Email,
+			IsAbleToModifyEmail: s.IsAbleToModifyEmail,
+			LoginType:           s.LoginType,
+			MerchantOrderNo:     *subscription.OrderNumber,
+			NotifyURL:           notifyURL,
+			RespondType:         "JSON",
+			ReturnURL:           returnURL,
+			StoreID:             s.ID,
+			TimeStamp:           strconv.FormatInt(timestamp.Unix(), 10),
+			Version:             s.Version,
+		},
+		// FIXME Are you sure?
+		ItemDescription: *subscription.Desc,
+		// FIXME Are you sure?
+		OrderComment: "",
 	}
 	v, err := query.Values(tradeInfo)
 	payload = v.Encode()
