@@ -49,7 +49,6 @@ func TestStore_CreateNewebpayAgreementPayload(t *testing.T) {
 		Version:             "1.6",
 	}
 	type args struct {
-		firebaseID   string
 		tokenTerm    string
 		subscription model.Subscription
 		purchaseInfo PurchaseInfo
@@ -118,7 +117,7 @@ func TestStore_CreateNewebpayAgreementPayload(t *testing.T) {
 				ReturnPath:          tt.fields.ReturnURL,
 				Version:             tt.fields.Version,
 			}
-			gotPayload, err := s.CreateNewebpayAgreementPayload(tt.args.firebaseID, tt.args.tokenTerm, tt.args.subscription, tt.args.purchaseInfo)
+			gotPayload, err := s.CreateNewebpayAgreementPayload(tt.args.tokenTerm, tt.args.subscription, tt.args.purchaseInfo)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Store.CreateNewebpayAgreementPayload() error = %v, wantErr %v", err, tt.wantErr)
 				return

@@ -106,7 +106,7 @@ type TradeInfoMGP struct {
 const unsafeCharacters = ":/?#[]@!$&'()*+,;=<>%{}|\\^\"`\n"
 
 // Ref: https://github.com/mirror-media/apigateway/files/6866871/NewebPay_._._AGREEMENT_.1.0.6.pdf
-func (s Store) CreateNewebpayAgreementPayload(firebaseID, tokenTerm string, subscription model.Subscription, purchaseInfo PurchaseInfo) (payload string, err error) {
+func (s Store) CreateNewebpayAgreementPayload(tokenTerm string, subscription model.Subscription, purchaseInfo PurchaseInfo) (payload string, err error) {
 	// Validate the data at the beginning for short circuit
 	if subscription.CreatedAt == nil {
 		return "", fmt.Errorf("subscription(%s) has not creation time", subscription.ID)
