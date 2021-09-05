@@ -4,26 +4,39 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
-	"time"
 
 	"github.com/google/go-querystring/query"
 	"github.com/mirror-media/apigateway/graph/member/model"
 )
 
+type NewebpayLoginType int8
+
+const LoginNotAvailable NewebpayLoginType = 0
+const LoginAvailable NewebpayLoginType = 1
+
+type Boolean int8
+
+const TRUE Boolean = 1
+const False Boolean = 0
+
+type NewebpayRespondType string
+
+const RespondWithJSON NewebpayRespondType = "JSON"
+
 type Store struct {
 	CallbackDomain      string
 	CallbackProtocol    string
-	ClientBackPath      string // FIXME Unknown
-	ID                  string // FIXME Unknown
-	IsAbleToModifyEmail int8   // Use 1
-	LoginType           int8   // Use 0
+	ClientBackPath      string            // ? Unknown
+	ID                  string            // ? Unknown
+	IsAbleToModifyEmail Boolean           // Use 1
+	LoginType           NewebpayLoginType // Use 0
 	NotifyProtocol      string
-	NotifyDomain        string // FIXME Unknown
-	NotifyPath          string // FIXME Unknown
-	P3D                 int8   // Use 1
-	RespondType         string // Use JSON
-	ReturnPath          string // FIXME Unknown
-	Version             string // Use 1.6
+	NotifyDomain        string              // ? Unknown
+	NotifyPath          string              // ? Unknown
+	Is3DSecure          Boolean             // Use 1
+	RespondType         NewebpayRespondType // Use JSON
+	ReturnPath          string              // ? Unknown
+	Version             string              // Use 1.6
 }
 
 type Merchandise struct {
@@ -74,56 +87,60 @@ func getCallbackUrl(protocol, domain, path string, purchaseInfo *PurchaseInfo) (
 	return fmt.Sprintf("%s://%s%s?%s", protocol, domain, path, v.Encode()), err
 }
 
-type TradeInfo struct {
-	Amt                 int    `url:"Amt"`
-	ClientBackURL       string `url:"ClientBackURL,omitempty"`
-	Email               string `url:"Email"`
-	IsAbleToModifyEmail int8   `url:"EmailModify"`
-	LoginType           int8   `url:"LoginType"`
-	MerchantOrderNo     string `url:"MerchantOrderNo"`
-	NotifyURL           string `url:"NotifyURL,omitempty"`
-	RespondType         string `url:"RespondType,omitempty"`
-	ReturnURL           string `url:"ReturnURL,omitempty"`
-	StoreID             string `url:"MerchantID"`
-	TimeStamp           string `url:"TimeStamp"`
-	Version             string `url:"Version"`
+type NewebpayTradeInfo struct {
+	Amt                 int                 `url:"Amt"`
+	ClientBackURL       string              `url:"ClientBackURL,omitempty"`
+	Email               string              `url:"Email"`
+	IsAbleToModifyEmail Boolean             `url:"EmailModify"`
+	LoginType           NewebpayLoginType   `url:"LoginType"`
+	MerchantOrderNo     string              `url:"MerchantOrderNo"`
+	NotifyURL           string              `url:"NotifyURL,omitempty"`
+	RespondType         NewebpayRespondType `url:"RespondType,omitempty"`
+	ReturnURL           string              `url:"ReturnURL,omitempty"`
+	StoreID             string              `url:"MerchantID"`
+	TimeStamp           string              `url:"TimeStamp"`
+	Version             string              `url:"Version"`
 }
 
-type TradeInfoAgreement struct {
-	TradeInfo
-	CreditAgreement int8   `url:"CREDITAGREEMENT"` // Use 1
-	OrderComment    string `url:"OrderComment"`
-	P3D             int8   `url:"P3D"`
-	TokenTerm       string `url:"TokenTerm"`
+type NewebpayTradeInfoAgreement struct {
+	NewebpayTradeInfo
+	CreditAgreement int8    `url:"CREDITAGREEMENT"` // Use 1
+	OrderComment    string  `url:"OrderComment"`
+	P3D             Boolean `url:"P3D"`
+	TokenTerm       string  `url:"TokenTerm"`
 }
 
-type TradeInfoMGP struct {
-	TradeInfo
+type NewebpayTradeInfoMGP struct {
+	NewebpayTradeInfo
 	OrderComment    string `url:"OrderComment,omitempty"`
 	ItemDescription string `url:"ItemDesc"`
 }
 
-const unsafeCharacters = ":/?#[]@!$&'()*+,;=<>%{}|\\^\"`\n"
+type NewebpayAgreementInfo struct {
+	Amount              int
+	Email               string
+	IsAbleToModifyEmail Boolean
+	LoginType           NewebpayLoginType
+	RespondType         NewebpayRespondType
+	CreationTimeUnix    int64
+	OrderComment        string // ? What should it be?
+	TokenTerm           string
+}
 
 // Ref: https://github.com/mirror-media/apigateway/files/6866871/NewebPay_._._AGREEMENT_.1.0.6.pdf
-func (s Store) CreateNewebpayAgreementPayload(tokenTerm string, subscription model.Subscription, purchaseInfo PurchaseInfo) (payload string, err error) {
+func (s Store) CreateNewebpayAgreementPayload(agreementInfo NewebpayAgreementInfo, purchaseInfo PurchaseInfo) (payload string, err error) {
 	// Validate the data at the beginning for short circuit
-	if subscription.CreatedAt == nil {
-		return "", fmt.Errorf("subscription(%s) has not creation time", subscription.ID)
-	} else if subscription.Amount == nil {
-		return "", fmt.Errorf("subscription(%s) has no amount", subscription.ID)
-	} else if subscription.OrderNumber == nil {
-		return "", fmt.Errorf("subscription(%s) has no OrderNumber", subscription.ID)
-	} else if subscription.Email == nil {
-		return "", fmt.Errorf("subscription(%s) has no email", subscription.ID)
-	} else if subscription.Desc == nil {
-		return "", fmt.Errorf("subscription(%s) has no descrption", subscription.ID)
-	} else if i := strings.IndexAny(*subscription.Desc, unsafeCharacters); i != -1 {
-		return "", fmt.Errorf("subscription(%s) description contains unsafe a character(%s)", subscription.ID, (*subscription.Desc)[i:i+1])
-	}
-
-	timestamp, err := time.Parse(time.RFC3339, *subscription.CreatedAt)
-	if err != nil {
+	if agreementInfo.CreationTimeUnix <= 0 {
+		return "", fmt.Errorf("agreementInfo has invalid TimeStampUnix(%d)", agreementInfo.CreationTimeUnix)
+	} else if agreementInfo.Amount <= 0 {
+		return "", fmt.Errorf("agreementInfo has invalid amount(%d)", agreementInfo.Amount)
+	} else if agreementInfo.Email == "" {
+		return "", fmt.Errorf("agreementInfo has no email")
+	} else if agreementInfo.OrderComment == "" {
+		return "", fmt.Errorf("agreementInfo has no OrderComment")
+	} else if i := strings.IndexAny(agreementInfo.OrderComment, unsafeCharacters); i != -1 {
+		return "", fmt.Errorf("agreementInfo.OrderComment contains unsafe a character(%s)", (agreementInfo.OrderComment)[i:i+1])
+	} else if err := validatePurchaseCode(purchaseInfo); err != nil {
 		return "", err
 	}
 
@@ -142,59 +159,60 @@ func (s Store) CreateNewebpayAgreementPayload(tokenTerm string, subscription mod
 		return "", nil
 	}
 
-	tradeInfo := TradeInfoAgreement{
-		TradeInfo: TradeInfo{
-			Amt:                 *subscription.Amount,
+	tradeInfo := NewebpayTradeInfoAgreement{
+		NewebpayTradeInfo: NewebpayTradeInfo{
+			Amt:                 agreementInfo.Amount,
 			ClientBackURL:       clientBackURL,
-			Email:               *subscription.Email,
-			IsAbleToModifyEmail: s.IsAbleToModifyEmail,
+			Email:               agreementInfo.Email,
+			IsAbleToModifyEmail: Boolean(s.IsAbleToModifyEmail),
 			LoginType:           s.LoginType,
-			MerchantOrderNo:     *subscription.OrderNumber,
+			MerchantOrderNo:     purchaseInfo.OrderNumber,
 			NotifyURL:           notifyURL,
-			RespondType:         "JSON",
+			RespondType:         RespondWithJSON,
 			ReturnURL:           returnURL,
 			StoreID:             s.ID,
-			TimeStamp:           strconv.FormatInt(timestamp.Unix(), 10),
+			TimeStamp:           strconv.FormatInt(agreementInfo.CreationTimeUnix, 10),
 			Version:             s.Version,
 		},
 		CreditAgreement: 1,
-		// FIXME Are you sure?
-		OrderComment: *subscription.Desc,
-		P3D:          s.P3D,
-		TokenTerm:    tokenTerm,
+		OrderComment:    agreementInfo.OrderComment,
+		P3D:             s.Is3DSecure,
+		TokenTerm:       agreementInfo.TokenTerm,
 	}
 	v, err := query.Values(tradeInfo)
 	payload = v.Encode()
 	return payload, err
 }
 
-// Ref: https://www.newebpay.com/website/Page/download_file?name=%E8%97%8D%E6%96%B0%E9%87%91%E6%B5%81Newebpay_MPG%E4%B8%B2%E6%8E%A5%E6%89%8B%E5%86%8A_MPG_1.1.0.pdf
-func (s Store) CreateNewebpayMPGPayload(firebaseID, tokenTerm string, subscription model.Subscription, purchaseInfo PurchaseInfo) (payload string, err error) {
-	// Validate the data at the beginning for short circuit
-	if subscription.CreatedAt == nil {
-		return "", fmt.Errorf("subscription(%s) has not creation time", subscription.ID)
-	} else if subscription.Amount == nil {
-		return "", fmt.Errorf("subscription(%s) has no amount", subscription.ID)
-	} else if subscription.OrderNumber == nil {
-		return "", fmt.Errorf("subscription(%s) has no OrderNumber", subscription.ID)
-	} else if subscription.Email == nil {
-		return "", fmt.Errorf("subscription(%s) has no email", subscription.ID)
-	} else if subscription.Desc == nil {
-		return "", fmt.Errorf("subscription(%s) has no descrption", subscription.ID)
-	} else if subscription.Frequency == nil {
-		return "", fmt.Errorf("subscription(%s) has no frequency", subscription.ID)
-	} else if model.SubscriptionFrequencyTypeOneTime != *subscription.Frequency && purchaseInfo.Merchandise.PostID != "" {
-		return "", fmt.Errorf("merchandise is not %s, but postID is provided", model.SubscriptionFrequencyTypeOneTime)
-	} else if model.SubscriptionFrequencyTypeOneTime == *subscription.Frequency && purchaseInfo.Merchandise.PostID == "" {
-		return "", fmt.Errorf("merchandise is %s, but postID is not provided", model.SubscriptionFrequencyTypeOneTime)
-	} else if subscription.Desc == nil {
-		return "", fmt.Errorf("subscription(%s) has no descrption", subscription.ID)
-	} else if i := strings.IndexAny(*subscription.Desc, unsafeCharacters); i != -1 {
-		return "", fmt.Errorf("subscription(%s) description contains unsafe a character(%s)", subscription.ID, (*subscription.Desc)[i:i+1])
-	}
+type NewebpayMGPInfo struct {
+	Amount              int
+	Email               string
+	IsAbleToModifyEmail Boolean
+	LoginType           NewebpayLoginType
+	RespondType         NewebpayRespondType
+	CreationTimeUnix    int64
+	ItemDescription     string // ? What should it be?
+	TokenTerm           string
+}
 
-	timestamp, err := time.Parse(time.RFC3339, *subscription.CreatedAt)
-	if err != nil {
+// Ref: https://www.newebpay.com/website/Page/download_file?name=%E8%97%8D%E6%96%B0%E9%87%91%E6%B5%81Newebpay_MPG%E4%B8%B2%E6%8E%A5%E6%89%8B%E5%86%8A_MPG_1.1.0.pdf
+func (s Store) CreateNewebpayMPGPayload(newebpayMGPInfo NewebpayMGPInfo, purchaseInfo PurchaseInfo) (payload string, err error) {
+	// Validate the data at the beginning for short circuit
+
+	// Validate the data at the beginning for short circuit
+	if newebpayMGPInfo.CreationTimeUnix <= 0 {
+		return "", fmt.Errorf("newebpayMGPInfo has invalid TimeStampUnix(%d)", newebpayMGPInfo.CreationTimeUnix)
+	} else if newebpayMGPInfo.Amount <= 0 {
+		return "", fmt.Errorf("newebpayMGPInfo has invalid amount(%d)", newebpayMGPInfo.Amount)
+	} else if newebpayMGPInfo.Email == "" {
+		return "", fmt.Errorf("newebpayMGPInfo has no email")
+	} else if newebpayMGPInfo.ItemDescription == "" {
+		return "", fmt.Errorf("newebpayMGPInfo has no ItemDescription")
+	} else if i := strings.IndexAny(newebpayMGPInfo.ItemDescription, unsafeCharacters); i != -1 {
+		return "", fmt.Errorf("newebpayMGPInfo.ItemDescription contains unsafe a character(%s)", (newebpayMGPInfo.ItemDescription)[i:i+1])
+	} else if purchaseInfo.Code == "" {
+		return "", fmt.Errorf("purchaseInfo has no code")
+	} else if err := validatePurchaseCode(purchaseInfo); err != nil {
 		return "", err
 	}
 
@@ -213,27 +231,43 @@ func (s Store) CreateNewebpayMPGPayload(firebaseID, tokenTerm string, subscripti
 		return "", nil
 	}
 
-	tradeInfo := TradeInfoMGP{
-		TradeInfo: TradeInfo{
-			Amt:                 *subscription.Amount,
+	tradeInfo := NewebpayTradeInfoMGP{
+		NewebpayTradeInfo: NewebpayTradeInfo{
+			Amt:                 newebpayMGPInfo.Amount,
 			ClientBackURL:       clientBackURL,
-			Email:               *subscription.Email,
+			Email:               newebpayMGPInfo.Email,
 			IsAbleToModifyEmail: s.IsAbleToModifyEmail,
 			LoginType:           s.LoginType,
-			MerchantOrderNo:     *subscription.OrderNumber,
+			MerchantOrderNo:     purchaseInfo.OrderNumber,
 			NotifyURL:           notifyURL,
 			RespondType:         "JSON",
 			ReturnURL:           returnURL,
 			StoreID:             s.ID,
-			TimeStamp:           strconv.FormatInt(timestamp.Unix(), 10),
+			TimeStamp:           strconv.FormatInt(newebpayMGPInfo.CreationTimeUnix, 10),
 			Version:             s.Version,
 		},
-		// FIXME Are you sure?
-		ItemDescription: *subscription.Desc,
-		// FIXME Are you sure?
-		OrderComment: "",
+		ItemDescription: newebpayMGPInfo.ItemDescription,
+		// ? Are you sure?
+		// OrderComment: "",
 	}
 	v, err := query.Values(tradeInfo)
 	payload = v.Encode()
 	return payload, err
+}
+
+func validatePurchaseCode(purchaseInfo PurchaseInfo) error {
+	codes := map[string]interface{}{
+		model.SubscriptionFrequencyTypeMonthly.String(): nil,
+		model.SubscriptionFrequencyTypeYearly.String():  nil,
+		model.SubscriptionFrequencyTypeOneTime.String(): nil,
+	}
+
+	if _, ok := codes[purchaseInfo.Code]; !ok {
+		return fmt.Errorf("purchaseInfo has invalid code(%s)", purchaseInfo.Code)
+	} else if purchaseInfo.Code != model.SubscriptionFrequencyTypeOneTime.String() && (purchaseInfo.PostID != "" || purchaseInfo.PostSlug != "" || purchaseInfo.PostTitle != "") {
+		return fmt.Errorf("purchaseInfo code is not %s, but postID is provided", model.SubscriptionFrequencyTypeOneTime)
+	} else if purchaseInfo.Code == model.SubscriptionFrequencyTypeOneTime.String() && purchaseInfo.PostID == "" {
+		return fmt.Errorf("purchaseInfo code is %s, but postID is not provided", model.SubscriptionFrequencyTypeOneTime)
+	}
+	return nil
 }
