@@ -156,7 +156,18 @@ func ModifyReverseProxyResponse(c *gin.Context, rdb cache.Rediser, cacheTTL int)
 								logger.Errorf("encounter error when truncating apiData:", err)
 								return err
 							}
+							body, err = sjson.SetBytes(body, fmt.Sprintf("_items.%d.isTruncated", i), true)
+							if err != nil {
+								logger.Errorf("encounter error setting isTruncated to true for _items.%d", i, err)
+								return err
+							}
 							break
+						} else {
+							body, err = sjson.SetBytes(body, fmt.Sprintf("_items.%d.isTruncated", i), false)
+							if err != nil {
+								logger.Errorf("encounter error setting isTruncated to false for _items.%d", i, err)
+								return err
+							}
 						}
 					}
 				}
