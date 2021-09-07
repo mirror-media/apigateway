@@ -121,6 +121,7 @@ func (r *mutationResolver) Updatemember(ctx context.Context, id string, data *mo
 	preGQL = append(preGQL, "}", "}")
 	gql := strings.Join(preGQL, "\n")
 	req := graphqlclient.NewRequest(gql)
+	req.Var("id", id)
 	req.Var("input", input)
 
 	var resp struct {
@@ -353,6 +354,7 @@ func (r *mutationResolver) Updatesubscription(ctx context.Context, id string, da
 	preGQL = append(preGQL, "}", "}")
 	gql := strings.Join(preGQL, "\n")
 	req := graphqlclient.NewRequest(gql)
+	req.Var("id", id)
 	req.Var("input", input)
 
 	var resp struct {
