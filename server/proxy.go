@@ -61,9 +61,9 @@ func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cach
 			// Try to read cache first
 			var key string
 			if tokenState != token.OK {
-				key = fmt.Sprintf("%s.%s.%s.%s", "apigateway", "post", "notmember", c.Request.RequestURI)
+				key = fmt.Sprintf("%s.%s.%s.%s", "apigateway", "post", "truncated", c.Request.RequestURI)
 			} else {
-				key = fmt.Sprintf("%s.%s.%s.%s", "apigateway", "post", "member", c.Request.RequestURI)
+				key = fmt.Sprintf("%s.%s.%s.%s", "apigateway", "post", "clean", c.Request.RequestURI)
 			}
 
 			cmd := rdb.Get(context.TODO(), key)
@@ -141,10 +141,10 @@ func ModifyReverseProxyResponse(c *gin.Context, rdb cache.Rediser, cacheTTL int)
 			// truncate the content if the user is not a member and the post falls into a member only category
 			if tokenState == token.OK {
 				// TODO refactor redis cache code
-				redisKey = fmt.Sprintf("%s.%s.%s.%s", "mm-apigateway", "post", "member", c.Request.RequestURI)
+				redisKey = fmt.Sprintf("%s.%s.%s.%s", "apigateway", "post", "clean", c.Request.RequestURI)
 			} else {
 				// TODO refactor redis cache code
-				redisKey = fmt.Sprintf("%s.%s.%s.%s", "mm-apigateway", "post", "notmember", c.Request.RequestURI)
+				redisKey = fmt.Sprintf("%s.%s.%s.%s", "apigateway", "post", "truncated", c.Request.RequestURI)
 
 				// modify body if the item falls into a "member only" category
 				for i, item := range items.Items {
