@@ -50,3 +50,13 @@ models:
       - github.com/99designs/gqlgen/graphql.Int
       - github.com/99designs/gqlgen/graphql.Int64
       - github.com/99designs/gqlgen/graphql.Int32
+  memberCreateInput:
+    model: "map[string]interface{}"
+  memberUpdateInput:
+    model: "map[string]interface{}"
+  subscriptionRecurringCreateInput:
+    model: "map[string]interface{}"
+  subscriptionOneTimeCreateInput:
+    model: "map[string]interface{}"
+  subscriptionUpdateInput:
+    model: "map[string]interface{}"

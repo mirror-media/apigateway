@@ -21,7 +21,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-const ISO8601Layout = "2000-00-00T00:00:00.000Z"
+type Connect struct {
+	FirebaseID string `json:"firebaseId"`
+}
+type MemberConnect struct {
+	Connect Connect `json:"connect"`
+}
 
 type Resolver struct {
 	// Token      token.Token
@@ -39,9 +44,8 @@ func (r Resolver) RetrieveExistingSubscriptionFromRemote(ctx context.Context, su
 	}
 
 	err = r.Client.Run(ctx, req, &resp)
-	checkAndPrintGraphQLError(logrus.WithField("query", "RetrieveMemberFirebaseIDOfSubscriptionFromRemote"), err)
-
 	if err != nil {
+		logrus.WithField("query", "RetrieveMemberFirebaseIDOfSubscriptionFromRemote").Error(err)
 		return "", "", err
 	} else if resp.Subscription == nil {
 		return "", "", fmt.Errorf("subscription(%s) is not found", subscriptionID)
@@ -67,9 +71,8 @@ func (r Resolver) RetrieveMerchandise(ctx context.Context, code string) (price f
 	}
 
 	err = r.Client.Run(ctx, req, &resp)
-	checkAndPrintGraphQLError(logrus.WithField("query", "RetrieveMerchandise"), err)
-
 	if err != nil {
+		logrus.WithField("query", "RetrieveMerchandise").Error(err)
 		return 0, "", "", err
 	} else if resp.Merchandise == nil {
 		return 0, "", "", fmt.Errorf("merchandise with code %s is not found", code)
@@ -88,8 +91,8 @@ func (r Resolver) GetMemberIDFromRemote(ctx context.Context, firebaseID string) 
 	}
 
 	err := r.Client.Run(ctx, req, &resp)
-	checkAndPrintGraphQLError(logrus.WithField("query", "GetMemberIDFromRemote"), err)
 	if err != nil {
+		logrus.WithField("query", "GetMemberIDFromRemote").Error(err)
 		return "", err
 	} else if resp.Member == nil {
 		return "", fmt.Errorf("%s is not found", firebaseID)
@@ -209,10 +212,4 @@ func Map(vs []string, f func(string) string) []string {
 		vsm[i] = f(v)
 	}
 	return vsm
-}
-
-func checkAndPrintGraphQLError(logger *logrus.Entry, err error) {
-	if err != nil {
-		logger.Infof("GraphQL request received error from:%v", err)
-	}
 }

@@ -42,11 +42,11 @@ type DirectiveRoot struct {
 
 type ComplexityRoot struct {
 	Mutation struct {
-		CreateSubscriptionRecurring func(childComplexity int, data *model.SubscriptionRecurringCreateInput) int
-		Createmember                func(childComplexity int, data *model.MemberCreateInput) int
-		CreatesSubscriptionOneTime  func(childComplexity int, data *model.SubscriptionOneTimeCreateInput) int
-		Updatemember                func(childComplexity int, id string, data *model.MemberUpdateInput) int
-		Updatesubscription          func(childComplexity int, id string, data *model.SubscriptionUpdateInput) int
+		CreateSubscriptionRecurring func(childComplexity int, data map[string]interface{}) int
+		Createmember                func(childComplexity int, data map[string]interface{}) int
+		CreatesSubscriptionOneTime  func(childComplexity int, data map[string]interface{}) int
+		Updatemember                func(childComplexity int, id string, data map[string]interface{}) int
+		Updatesubscription          func(childComplexity int, id string, data map[string]interface{}) int
 	}
 
 	Query struct {
@@ -302,11 +302,11 @@ type ComplexityRoot struct {
 }
 
 type MutationResolver interface {
-	Createmember(ctx context.Context, data *model.MemberCreateInput) (*model.MemberInfo, error)
-	Updatemember(ctx context.Context, id string, data *model.MemberUpdateInput) (*model.MemberInfo, error)
-	CreateSubscriptionRecurring(ctx context.Context, data *model.SubscriptionRecurringCreateInput) (*model.SubscriptionCreation, error)
-	CreatesSubscriptionOneTime(ctx context.Context, data *model.SubscriptionOneTimeCreateInput) (*model.SubscriptionCreation, error)
-	Updatesubscription(ctx context.Context, id string, data *model.SubscriptionUpdateInput) (*model.SubscriptionInfo, error)
+	Createmember(ctx context.Context, data map[string]interface{}) (*model.MemberInfo, error)
+	Updatemember(ctx context.Context, id string, data map[string]interface{}) (*model.MemberInfo, error)
+	CreateSubscriptionRecurring(ctx context.Context, data map[string]interface{}) (*model.SubscriptionCreation, error)
+	CreatesSubscriptionOneTime(ctx context.Context, data map[string]interface{}) (*model.SubscriptionCreation, error)
+	Updatesubscription(ctx context.Context, id string, data map[string]interface{}) (*model.SubscriptionInfo, error)
 }
 
 type executableSchema struct {
@@ -334,7 +334,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.CreateSubscriptionRecurring(childComplexity, args["data"].(*model.SubscriptionRecurringCreateInput)), true
+		return e.complexity.Mutation.CreateSubscriptionRecurring(childComplexity, args["data"].(map[string]interface{})), true
 
 	case "Mutation.createmember":
 		if e.complexity.Mutation.Createmember == nil {
@@ -346,7 +346,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.Createmember(childComplexity, args["data"].(*model.MemberCreateInput)), true
+		return e.complexity.Mutation.Createmember(childComplexity, args["data"].(map[string]interface{})), true
 
 	case "Mutation.createsSubscriptionOneTime":
 		if e.complexity.Mutation.CreatesSubscriptionOneTime == nil {
@@ -358,7 +358,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.CreatesSubscriptionOneTime(childComplexity, args["data"].(*model.SubscriptionOneTimeCreateInput)), true
+		return e.complexity.Mutation.CreatesSubscriptionOneTime(childComplexity, args["data"].(map[string]interface{})), true
 
 	case "Mutation.updatemember":
 		if e.complexity.Mutation.Updatemember == nil {
@@ -370,7 +370,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.Updatemember(childComplexity, args["id"].(string), args["data"].(*model.MemberUpdateInput)), true
+		return e.complexity.Mutation.Updatemember(childComplexity, args["id"].(string), args["data"].(map[string]interface{})), true
 
 	case "Mutation.updatesubscription":
 		if e.complexity.Mutation.Updatesubscription == nil {
@@ -382,7 +382,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.Updatesubscription(childComplexity, args["id"].(string), args["data"].(*model.SubscriptionUpdateInput)), true
+		return e.complexity.Mutation.Updatesubscription(childComplexity, args["id"].(string), args["data"].(map[string]interface{})), true
 
 	case "androidpayPayment.createdAt":
 		if e.complexity.AndroidpayPayment.CreatedAt == nil {
@@ -5119,10 +5119,10 @@ var parsedSchema = gqlparser.MustLoadSchema(sources...)
 func (ec *executionContext) field_Mutation_createSubscriptionRecurring_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 *model.SubscriptionRecurringCreateInput
+	var arg0 map[string]interface{}
 	if tmp, ok := rawArgs["data"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("data"))
-		arg0, err = ec.unmarshalOsubscriptionRecurringCreateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionRecurringCreateInput(ctx, tmp)
+		arg0, err = ec.unmarshalOsubscriptionRecurringCreateInput2map(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -5134,10 +5134,10 @@ func (ec *executionContext) field_Mutation_createSubscriptionRecurring_args(ctx 
 func (ec *executionContext) field_Mutation_createmember_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 *model.MemberCreateInput
+	var arg0 map[string]interface{}
 	if tmp, ok := rawArgs["data"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("data"))
-		arg0, err = ec.unmarshalOmemberCreateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberCreateInput(ctx, tmp)
+		arg0, err = ec.unmarshalOmemberCreateInput2map(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -5149,10 +5149,10 @@ func (ec *executionContext) field_Mutation_createmember_args(ctx context.Context
 func (ec *executionContext) field_Mutation_createsSubscriptionOneTime_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 *model.SubscriptionOneTimeCreateInput
+	var arg0 map[string]interface{}
 	if tmp, ok := rawArgs["data"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("data"))
-		arg0, err = ec.unmarshalOsubscriptionOneTimeCreateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionOneTimeCreateInput(ctx, tmp)
+		arg0, err = ec.unmarshalOsubscriptionOneTimeCreateInput2map(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -5173,10 +5173,10 @@ func (ec *executionContext) field_Mutation_updatemember_args(ctx context.Context
 		}
 	}
 	args["id"] = arg0
-	var arg1 *model.MemberUpdateInput
+	var arg1 map[string]interface{}
 	if tmp, ok := rawArgs["data"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("data"))
-		arg1, err = ec.unmarshalOmemberUpdateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberUpdateInput(ctx, tmp)
+		arg1, err = ec.unmarshalOmemberUpdateInput2map(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -5197,10 +5197,10 @@ func (ec *executionContext) field_Mutation_updatesubscription_args(ctx context.C
 		}
 	}
 	args["id"] = arg0
-	var arg1 *model.SubscriptionUpdateInput
+	var arg1 map[string]interface{}
 	if tmp, ok := rawArgs["data"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("data"))
-		arg1, err = ec.unmarshalOsubscriptionUpdateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionUpdateInput(ctx, tmp)
+		arg1, err = ec.unmarshalOsubscriptionUpdateInput2map(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -5551,7 +5551,7 @@ func (ec *executionContext) _Mutation_createmember(ctx context.Context, field gr
 	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().Createmember(rctx, args["data"].(*model.MemberCreateInput))
+		return ec.resolvers.Mutation().Createmember(rctx, args["data"].(map[string]interface{}))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -5590,7 +5590,7 @@ func (ec *executionContext) _Mutation_updatemember(ctx context.Context, field gr
 	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().Updatemember(rctx, args["id"].(string), args["data"].(*model.MemberUpdateInput))
+		return ec.resolvers.Mutation().Updatemember(rctx, args["id"].(string), args["data"].(map[string]interface{}))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -5629,7 +5629,7 @@ func (ec *executionContext) _Mutation_createSubscriptionRecurring(ctx context.Co
 	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateSubscriptionRecurring(rctx, args["data"].(*model.SubscriptionRecurringCreateInput))
+		return ec.resolvers.Mutation().CreateSubscriptionRecurring(rctx, args["data"].(map[string]interface{}))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -5668,7 +5668,7 @@ func (ec *executionContext) _Mutation_createsSubscriptionOneTime(ctx context.Con
 	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreatesSubscriptionOneTime(rctx, args["data"].(*model.SubscriptionOneTimeCreateInput))
+		return ec.resolvers.Mutation().CreatesSubscriptionOneTime(rctx, args["data"].(map[string]interface{}))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -5707,7 +5707,7 @@ func (ec *executionContext) _Mutation_updatesubscription(ctx context.Context, fi
 	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().Updatesubscription(rctx, args["id"].(string), args["data"].(*model.SubscriptionUpdateInput))
+		return ec.resolvers.Mutation().Updatesubscription(rctx, args["id"].(string), args["data"].(map[string]interface{}))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -13833,7 +13833,7 @@ func (ec *executionContext) unmarshalInputMembersCreateInput(ctx context.Context
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("data"))
-			it.Data, err = ec.unmarshalOmemberCreateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberCreateInput(ctx, v)
+			it.Data, err = ec.unmarshalOmemberCreateInput2map(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -13856,7 +13856,7 @@ func (ec *executionContext) unmarshalInputMembersPrivateCreateInput(ctx context.
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("data"))
-			it.Data, err = ec.unmarshalOmemberCreateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberCreateInput(ctx, v)
+			it.Data, err = ec.unmarshalOmemberCreateInput2map(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -13887,7 +13887,7 @@ func (ec *executionContext) unmarshalInputMembersPrivateUpdateInput(ctx context.
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("data"))
-			it.Data, err = ec.unmarshalOmemberUpdateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberUpdateInput(ctx, v)
+			it.Data, err = ec.unmarshalOmemberUpdateInput2map(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -13918,7 +13918,7 @@ func (ec *executionContext) unmarshalInputMembersUpdateInput(ctx context.Context
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("data"))
-			it.Data, err = ec.unmarshalOmemberUpdateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberUpdateInput(ctx, v)
+			it.Data, err = ec.unmarshalOmemberUpdateInput2map(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -14242,7 +14242,7 @@ func (ec *executionContext) unmarshalInputSubscriptionsUpdateInput(ctx context.C
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("data"))
-			it.Data, err = ec.unmarshalOsubscriptionUpdateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionUpdateInput(ctx, v)
+			it.Data, err = ec.unmarshalOsubscriptionUpdateInput2map(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -17466,133 +17466,6 @@ func (ec *executionContext) unmarshalInputmarketingMembershipWhereUniqueInput(ct
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputmemberCreateInput(ctx context.Context, obj interface{}) (model.MemberCreateInput, error) {
-	var it model.MemberCreateInput
-	asMap := map[string]interface{}{}
-	for k, v := range obj.(map[string]interface{}) {
-		asMap[k] = v
-	}
-
-	for k, v := range asMap {
-		switch k {
-		case "tos":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("tos"))
-			it.Tos, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "firstName":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("firstName"))
-			it.FirstName, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "lastName":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("lastName"))
-			it.LastName, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "email":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("email"))
-			it.Email, err = ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "name":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
-			it.Name, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "gender":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("gender"))
-			it.Gender, err = ec.unmarshalOmemberGenderType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberGenderType(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "phone":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("phone"))
-			it.Phone, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "birthday":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("birthday"))
-			it.Birthday, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "address":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("address"))
-			it.Address, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "nickname":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("nickname"))
-			it.Nickname, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "profileImage":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("profileImage"))
-			it.ProfileImage, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "city":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("city"))
-			it.City, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "country":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("country"))
-			it.Country, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "district":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("district"))
-			it.District, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
 func (ec *executionContext) unmarshalInputmemberOrderByInput(ctx context.Context, obj interface{}) (model.MemberOrderByInput, error) {
 	var it model.MemberOrderByInput
 	asMap := map[string]interface{}{}
@@ -18171,7 +18044,7 @@ func (ec *executionContext) unmarshalInputmemberRelateToOneInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("create"))
-			it.Create, err = ec.unmarshalOmemberCreateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberCreateInput(ctx, v)
+			it.Create, err = ec.unmarshalOmemberCreateInput2map(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -18196,133 +18069,6 @@ func (ec *executionContext) unmarshalInputmemberRelateToOneInput(ctx context.Con
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("disconnectAll"))
 			it.DisconnectAll, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputmemberUpdateInput(ctx context.Context, obj interface{}) (model.MemberUpdateInput, error) {
-	var it model.MemberUpdateInput
-	asMap := map[string]interface{}{}
-	for k, v := range obj.(map[string]interface{}) {
-		asMap[k] = v
-	}
-
-	for k, v := range asMap {
-		switch k {
-		case "email":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("email"))
-			it.Email, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "tos":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("tos"))
-			it.Tos, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "firstName":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("firstName"))
-			it.FirstName, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "lastName":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("lastName"))
-			it.LastName, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "name":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
-			it.Name, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "gender":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("gender"))
-			it.Gender, err = ec.unmarshalOmemberGenderType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberGenderType(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "phone":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("phone"))
-			it.Phone, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "birthday":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("birthday"))
-			it.Birthday, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "address":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("address"))
-			it.Address, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "nickname":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("nickname"))
-			it.Nickname, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "profileImage":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("profileImage"))
-			it.ProfileImage, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "city":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("city"))
-			it.City, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "country":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("country"))
-			it.Country, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "district":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("district"))
-			it.District, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29205,85 +28951,6 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereUniqueInput(ct
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputsubscriptionOneTimeCreateInput(ctx context.Context, obj interface{}) (model.SubscriptionOneTimeCreateInput, error) {
-	var it model.SubscriptionOneTimeCreateInput
-	asMap := map[string]interface{}{}
-	for k, v := range obj.(map[string]interface{}) {
-		asMap[k] = v
-	}
-
-	for k, v := range asMap {
-		switch k {
-		case "paymentMethod":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("paymentMethod"))
-			it.PaymentMethod, err = ec.unmarshalNsubscriptionPaymentMethodType2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionPaymentMethodType(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "applepayPayment":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("applepayPayment"))
-			it.ApplepayPayment, err = ec.unmarshalOapplepayPaymentRelateToManyInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentRelateToManyInput(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "status":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("status"))
-			it.Status, err = ec.unmarshalNcreateSubscriptionStatusType2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐCreateSubscriptionStatusType(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "desc":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("desc"))
-			it.Desc, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "email":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("email"))
-			it.Email, err = ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "note":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("note"))
-			it.Note, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "promoteId":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("promoteId"))
-			it.PromoteID, err = ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "postId":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("postId"))
-			it.PostID, err = ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
 func (ec *executionContext) unmarshalInputsubscriptionOrderByInput(ctx context.Context, obj interface{}) (model.SubscriptionOrderByInput, error) {
 	var it model.SubscriptionOrderByInput
 	asMap := map[string]interface{}{}
@@ -29993,85 +29660,6 @@ func (ec *executionContext) unmarshalInputsubscriptionPrivateUpdateInput(ctx con
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputsubscriptionRecurringCreateInput(ctx context.Context, obj interface{}) (model.SubscriptionRecurringCreateInput, error) {
-	var it model.SubscriptionRecurringCreateInput
-	asMap := map[string]interface{}{}
-	for k, v := range obj.(map[string]interface{}) {
-		asMap[k] = v
-	}
-
-	for k, v := range asMap {
-		switch k {
-		case "paymentMethod":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("paymentMethod"))
-			it.PaymentMethod, err = ec.unmarshalNsubscriptionPaymentMethodType2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionPaymentMethodType(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "applepayPayment":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("applepayPayment"))
-			it.ApplepayPayment, err = ec.unmarshalOapplepayPaymentRelateToManyInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentRelateToManyInput(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "status":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("status"))
-			it.Status, err = ec.unmarshalNcreateSubscriptionStatusType2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐCreateSubscriptionStatusType(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "desc":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("desc"))
-			it.Desc, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "email":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("email"))
-			it.Email, err = ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "frequency":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("frequency"))
-			it.Frequency, err = ec.unmarshalNsubscriptionFrequencyType2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionFrequencyType(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "note":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("note"))
-			it.Note, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "promoteId":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("promoteId"))
-			it.PromoteID, err = ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
 func (ec *executionContext) unmarshalInputsubscriptionRelateToManyInput(ctx context.Context, obj interface{}) (model.SubscriptionRelateToManyInput, error) {
 	var it model.SubscriptionRelateToManyInput
 	asMap := map[string]interface{}{}
@@ -30157,53 +29745,6 @@ func (ec *executionContext) unmarshalInputsubscriptionRelateToOneInput(ctx conte
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("disconnectAll"))
 			it.DisconnectAll, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputsubscriptionUpdateInput(ctx context.Context, obj interface{}) (model.SubscriptionUpdateInput, error) {
-	var it model.SubscriptionUpdateInput
-	asMap := map[string]interface{}{}
-	for k, v := range obj.(map[string]interface{}) {
-		asMap[k] = v
-	}
-
-	for k, v := range asMap {
-		switch k {
-		case "desc":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("desc"))
-			it.Desc, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "isCanceled":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("isCanceled"))
-			it.IsCanceled, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "nextFrequency":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("nextFrequency"))
-			it.NextFrequency, err = ec.unmarshalOupdateSubscriptionNextFrequencyType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐUpdateSubscriptionNextFrequencyType(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "note":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("note"))
-			it.Note, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -34995,12 +34536,11 @@ func (ec *executionContext) marshalOmember2ᚖgithubᚗcomᚋmirrorᚑmediaᚋap
 	return ec._member(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalOmemberCreateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberCreateInput(ctx context.Context, v interface{}) (*model.MemberCreateInput, error) {
+func (ec *executionContext) unmarshalOmemberCreateInput2map(ctx context.Context, v interface{}) (map[string]interface{}, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalInputmemberCreateInput(ctx, v)
-	return &res, graphql.ErrorOnPath(ctx, err)
+	return v.(map[string]interface{}), nil
 }
 
 func (ec *executionContext) unmarshalOmemberGenderType2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberGenderType(ctx context.Context, v interface{}) ([]*model.MemberGenderType, error) {
@@ -35261,12 +34801,11 @@ func (ec *executionContext) marshalOmemberTypeType2ᚖgithubᚗcomᚋmirrorᚑme
 	return v
 }
 
-func (ec *executionContext) unmarshalOmemberUpdateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberUpdateInput(ctx context.Context, v interface{}) (*model.MemberUpdateInput, error) {
+func (ec *executionContext) unmarshalOmemberUpdateInput2map(ctx context.Context, v interface{}) (map[string]interface{}, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalInputmemberUpdateInput(ctx, v)
-	return &res, graphql.ErrorOnPath(ctx, err)
+	return v.(map[string]interface{}), nil
 }
 
 func (ec *executionContext) unmarshalOmemberWhereInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberWhereInputᚄ(ctx context.Context, v interface{}) ([]*model.MemberWhereInput, error) {
@@ -36665,12 +36204,11 @@ func (ec *executionContext) marshalOsubscriptionNextFrequencyType2ᚖgithubᚗco
 	return v
 }
 
-func (ec *executionContext) unmarshalOsubscriptionOneTimeCreateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionOneTimeCreateInput(ctx context.Context, v interface{}) (*model.SubscriptionOneTimeCreateInput, error) {
+func (ec *executionContext) unmarshalOsubscriptionOneTimeCreateInput2map(ctx context.Context, v interface{}) (map[string]interface{}, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalInputsubscriptionOneTimeCreateInput(ctx, v)
-	return &res, graphql.ErrorOnPath(ctx, err)
+	return v.(map[string]interface{}), nil
 }
 
 func (ec *executionContext) unmarshalOsubscriptionPaymentMethodType2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionPaymentMethodType(ctx context.Context, v interface{}) ([]*model.SubscriptionPaymentMethodType, error) {
@@ -36754,12 +36292,11 @@ func (ec *executionContext) marshalOsubscriptionPaymentMethodType2ᚖgithubᚗco
 	return v
 }
 
-func (ec *executionContext) unmarshalOsubscriptionRecurringCreateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionRecurringCreateInput(ctx context.Context, v interface{}) (*model.SubscriptionRecurringCreateInput, error) {
+func (ec *executionContext) unmarshalOsubscriptionRecurringCreateInput2map(ctx context.Context, v interface{}) (map[string]interface{}, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalInputsubscriptionRecurringCreateInput(ctx, v)
-	return &res, graphql.ErrorOnPath(ctx, err)
+	return v.(map[string]interface{}), nil
 }
 
 func (ec *executionContext) unmarshalOsubscriptionRelateToManyInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionRelateToManyInput(ctx context.Context, v interface{}) (*model.SubscriptionRelateToManyInput, error) {
@@ -36859,12 +36396,11 @@ func (ec *executionContext) marshalOsubscriptionStatusType2ᚖgithubᚗcomᚋmir
 	return v
 }
 
-func (ec *executionContext) unmarshalOsubscriptionUpdateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionUpdateInput(ctx context.Context, v interface{}) (*model.SubscriptionUpdateInput, error) {
+func (ec *executionContext) unmarshalOsubscriptionUpdateInput2map(ctx context.Context, v interface{}) (map[string]interface{}, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalInputsubscriptionUpdateInput(ctx, v)
-	return &res, graphql.ErrorOnPath(ctx, err)
+	return v.(map[string]interface{}), nil
 }
 
 func (ec *executionContext) unmarshalOsubscriptionWhereInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionWhereInputᚄ(ctx context.Context, v interface{}) ([]*model.SubscriptionWhereInput, error) {

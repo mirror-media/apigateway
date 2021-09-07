@@ -45,21 +45,21 @@ type MarketingMembershipsUpdateInput struct {
 }
 
 type MembersCreateInput struct {
-	Data *MemberCreateInput `json:"data"`
+	Data map[string]interface{} `json:"data"`
 }
 
 type MembersPrivateCreateInput struct {
-	Data *MemberCreateInput `json:"data"`
+	Data map[string]interface{} `json:"data"`
 }
 
 type MembersPrivateUpdateInput struct {
-	ID   string             `json:"id"`
-	Data *MemberUpdateInput `json:"data"`
+	ID   string                 `json:"id"`
+	Data map[string]interface{} `json:"data"`
 }
 
 type MembersUpdateInput struct {
-	ID   string             `json:"id"`
-	Data *MemberUpdateInput `json:"data"`
+	ID   string                 `json:"id"`
+	Data map[string]interface{} `json:"data"`
 }
 
 type MerchandisesCreateInput struct {
@@ -112,8 +112,8 @@ type SubscriptionsCreateInput struct {
 }
 
 type SubscriptionsUpdateInput struct {
-	ID   string                   `json:"id"`
-	Data *SubscriptionUpdateInput `json:"data"`
+	ID   string                 `json:"id"`
+	Data map[string]interface{} `json:"data"`
 }
 
 type AndroidpayPayment struct {
@@ -616,23 +616,6 @@ type Member struct {
 	UpdatedAt           *string              `json:"updatedAt"`
 }
 
-type MemberCreateInput struct {
-	Tos          *bool             `json:"tos"`
-	FirstName    *string           `json:"firstName"`
-	LastName     *string           `json:"lastName"`
-	Email        string            `json:"email"`
-	Name         *string           `json:"name"`
-	Gender       *MemberGenderType `json:"gender"`
-	Phone        *string           `json:"phone"`
-	Birthday     *string           `json:"birthday"`
-	Address      *string           `json:"address"`
-	Nickname     *string           `json:"nickname"`
-	ProfileImage *string           `json:"profileImage"`
-	City         *string           `json:"city"`
-	Country      *string           `json:"country"`
-	District     *string           `json:"district"`
-}
-
 type MemberInfo struct {
 	ID           string            `json:"id"`
 	FirebaseID   *string           `json:"firebaseId"`
@@ -732,27 +715,10 @@ type MemberPrivateUpdateInput struct {
 }
 
 type MemberRelateToOneInput struct {
-	Create        *MemberCreateInput      `json:"create"`
+	Create        map[string]interface{}  `json:"create"`
 	Connect       *MemberWhereUniqueInput `json:"connect"`
 	Disconnect    *MemberWhereUniqueInput `json:"disconnect"`
 	DisconnectAll *bool                   `json:"disconnectAll"`
-}
-
-type MemberUpdateInput struct {
-	Email        *string           `json:"email"`
-	Tos          *bool             `json:"tos"`
-	FirstName    *string           `json:"firstName"`
-	LastName     *string           `json:"lastName"`
-	Name         *string           `json:"name"`
-	Gender       *MemberGenderType `json:"gender"`
-	Phone        *string           `json:"phone"`
-	Birthday     *string           `json:"birthday"`
-	Address      *string           `json:"address"`
-	Nickname     *string           `json:"nickname"`
-	ProfileImage *string           `json:"profileImage"`
-	City         *string           `json:"city"`
-	Country      *string           `json:"country"`
-	District     *string           `json:"district"`
 }
 
 type MemberWhereInput struct {
@@ -2304,17 +2270,6 @@ type SubscriptionInfo struct {
 	UpdatedAt                 *string                        `json:"updatedAt"`
 }
 
-type SubscriptionOneTimeCreateInput struct {
-	PaymentMethod   SubscriptionPaymentMethodType     `json:"paymentMethod"`
-	ApplepayPayment *ApplepayPaymentRelateToManyInput `json:"applepayPayment"`
-	Status          CreateSubscriptionStatusType      `json:"status"`
-	Desc            *string                           `json:"desc"`
-	Email           string                            `json:"email"`
-	Note            *string                           `json:"note"`
-	PromoteID       *int                              `json:"promoteId"`
-	PostID          string                            `json:"postId"`
-}
-
 type SubscriptionOrderByInput struct {
 	ID                        *OrderDirection `json:"id"`
 	PaymentMethod             *OrderDirection `json:"paymentMethod"`
@@ -2407,18 +2362,6 @@ type SubscriptionPrivateUpdateInput struct {
 	UpdatedAt                 *string                              `json:"updatedAt"`
 }
 
-type SubscriptionRecurringCreateInput struct {
-	PaymentMethod   SubscriptionPaymentMethodType     `json:"paymentMethod"`
-	ApplepayPayment *ApplepayPaymentRelateToManyInput `json:"applepayPayment"`
-	Status          CreateSubscriptionStatusType      `json:"status"`
-	Desc            *string                           `json:"desc"`
-	Email           string                            `json:"email"`
-	// frequency has to match a code of one of the merchandize. It will be use to fetch amount and currency.
-	Frequency SubscriptionFrequencyType `json:"frequency"`
-	Note      *string                   `json:"note"`
-	PromoteID *int                      `json:"promoteId"`
-}
-
 type SubscriptionRelateToManyInput struct {
 	Create        []*SubscriptionCreateInput      `json:"create"`
 	Connect       []*SubscriptionWhereUniqueInput `json:"connect"`
@@ -2431,14 +2374,6 @@ type SubscriptionRelateToOneInput struct {
 	Connect       *SubscriptionWhereUniqueInput `json:"connect"`
 	Disconnect    *SubscriptionWhereUniqueInput `json:"disconnect"`
 	DisconnectAll *bool                         `json:"disconnectAll"`
-}
-
-type SubscriptionUpdateInput struct {
-	Desc       *string `json:"desc"`
-	IsCanceled *bool   `json:"isCanceled"`
-	// nextFrequency has to match a code of one of the merchandize. It will be use to fetch amount and currency.
-	NextFrequency *UpdateSubscriptionNextFrequencyType `json:"nextFrequency"`
-	Note          *string                              `json:"note"`
 }
 
 type SubscriptionWhereInput struct {
