@@ -14,14 +14,18 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jensneuse/graphql-go-tools/pkg/engine/datasource/httpclient"
+	"github.com/machinebox/graphql"
+	graphqlclient "github.com/machinebox/graphql"
 	"github.com/mirror-media/apigateway/cache"
+	"github.com/mirror-media/apigateway/graph/member/model"
 	"github.com/mirror-media/apigateway/middleware"
 	"github.com/mirror-media/apigateway/token"
 	"github.com/sirupsen/logrus"
 	"github.com/tidwall/sjson"
 )
 
-func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cache.Rediser, cacheTTL int) func(c *gin.Context) {
+func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cache.Rediser, cacheTTL int, memberGraphqlEndpoint string) func(c *gin.Context) {
 	targetQuery := target.RawQuery
 	director := func(req *http.Request) {
 		if strings.HasSuffix(pathBaseToStrip, "/") {
@@ -84,17 +88,86 @@ func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cach
 			return
 		}
 
+		var subscribedPostIDs = make(chan map[string]interface{}, 1)
+		var premiumPrivilege = make(chan bool, 1)
+		var errChan = make(chan error, 1)
+		if tokenState != token.OK {
+			subscribedPostIDs <- nil
+			premiumPrivilege <- false
+			errChan <- nil
+		} else {
+			tokenState = tokenSaved.(token.Token).GetTokenState()
+			go func() {
+				if tokenState == token.OK {
+					firebaseID := c.GetString(middleware.GCtxUserIDKey)
+					gql := `
+query ($firebaseId: String!) {
+  member(where: {firebaseId: $firebaseId}) {
+    subscription(where: {isActive: true}) {
+      frequency
+      postId
+    }
+  }
+}
+`
+					req := graphqlclient.NewRequest(gql)
+					req.Var("firebaseId", firebaseID)
+					data := model.Member{}
+
+					var ids = make(map[string]interface{})
+					var privilege bool
+					var err error
+
+					client := graphql.NewClient(memberGraphqlEndpoint, graphql.WithHTTPClient(httpclient.DefaultNetHttpClient))
+					err = client.Run(context.TODO(), req, &data)
+					// defer sending values to chanels to make sure that every value is properly assigned in the workflow and the channel won't be block receiving
+					defer func() {
+						errChan <- err
+						subscribedPostIDs <- ids
+						premiumPrivilege <- privilege
+					}()
+					if err != nil {
+						return
+					}
+
+					if data.Subscription != nil {
+						for _, s := range data.Subscription {
+							if *s.Frequency == model.SubscriptionFrequencyTypeOneTime {
+								ids[*s.PostID] = nil
+							} else {
+								privilege = true
+								break
+							}
+						}
+					}
+				}
+			}()
+		}
+
 		reverseProxy := httputil.ReverseProxy{Director: director}
-		reverseProxy.ModifyResponse = ModifyReverseProxyResponse(c, rdb, cacheTTL)
+		reverseProxy.ModifyResponse = ModifyReverseProxyResponse(c, rdb, cacheTTL, subscribedPostIDs, premiumPrivilege, errChan)
 		reverseProxy.ServeHTTP(c.Writer, c.Request)
 	}
 }
 
-func ModifyReverseProxyResponse(c *gin.Context, rdb cache.Rediser, cacheTTL int) func(*http.Response) error {
+func ModifyReverseProxyResponse(c *gin.Context, rdb cache.Rediser, cacheTTL int, subscribedPostIDs chan map[string]interface{}, premiumPrivilege chan bool, errChan chan error) func(*http.Response) error {
 	logger := logrus.WithFields(logrus.Fields{
 		"path": c.FullPath(),
 	})
 	return func(r *http.Response) error {
+		// check error first for short circuit
+		select {
+		case err := <-errChan:
+			if err != nil {
+				logger.Error(err)
+				return err
+			}
+		case <-time.After(1 * time.Second):
+			err := fmt.Errorf("timeout for one seconds for getting %s", "error from member subscription fetching")
+			logger.Error(err)
+			return err
+		}
+
 		body, err := io.ReadAll(r.Body)
 		_ = r.Body.Close()
 		if err != nil {
@@ -124,6 +197,7 @@ func ModifyReverseProxyResponse(c *gin.Context, rdb cache.Rediser, cacheTTL int)
 				APIData []interface{} `json:"apiData"`
 			}
 			type Item struct {
+				ID         string      `json:"_id"`
 				Content    ItemContent `json:"content"`
 				Categories []Category  `json:"categories"`
 			}
@@ -139,35 +213,58 @@ func ModifyReverseProxyResponse(c *gin.Context, rdb cache.Rediser, cacheTTL int)
 			}
 
 			// truncate the content if the user is not a member and the post falls into a member only category
-			if tokenState == token.OK {
-				// TODO refactor redis cache code
-				redisKey = fmt.Sprintf("%s.%s.%s.%s", "apigateway", "post", "clean", c.Request.RequestURI)
-			} else {
-				// TODO refactor redis cache code
-				redisKey = fmt.Sprintf("%s.%s.%s.%s", "apigateway", "post", "truncated", c.Request.RequestURI)
 
-				// modify body if the item falls into a "member only" category
-				for i, item := range items.Items {
-					for _, category := range item.Categories {
-						if category.IsMemberOnly != nil && *category.IsMemberOnly {
-							truncatedAPIData := item.Content.APIData[0:3]
-							body, err = sjson.SetBytes(body, fmt.Sprintf("_items.%d.content.apiData", i), truncatedAPIData)
-							if err != nil {
-								logger.Errorf("encounter error when truncating apiData:", err)
-								return err
-							}
-							body, err = sjson.SetBytes(body, fmt.Sprintf("_items.%d.isTruncated", i), true)
-							if err != nil {
-								logger.Errorf("encounter error setting isTruncated to true for _items.%d", i, err)
-								return err
-							}
-							break
-						} else {
-							body, err = sjson.SetBytes(body, fmt.Sprintf("_items.%d.isTruncated", i), false)
-							if err != nil {
-								logger.Errorf("encounter error setting isTruncated to false for _items.%d", i, err)
-								return err
-							}
+			// modify body if the item falls into a "member only" category
+			var subscribedIds map[string]interface{}
+			var hasPremiumPrivilege bool
+
+			select {
+			case subscribedIds = <-subscribedPostIDs:
+			case <-time.After(1 * time.Second):
+				err = fmt.Errorf("timeout for one seconds for getting %s", "subscribedPostIDs")
+				logger.Error(err)
+				return err
+			}
+
+			select {
+			case hasPremiumPrivilege = <-premiumPrivilege:
+			case <-time.After(1 * time.Second):
+				err = fmt.Errorf("timeout for one seconds for getting %s", "premiumPrivilege")
+				logger.Error(err)
+				return err
+			}
+
+			toTruncateIt := func(category Category, postID string) bool {
+				if category.IsMemberOnly == nil || !*category.IsMemberOnly {
+					return true
+				}
+				_, postSubscribed := subscribedIds[postID]
+				return !hasPremiumPrivilege && !postSubscribed
+			}
+
+			var truncated bool
+
+			for i, item := range items.Items {
+				for _, category := range item.Categories {
+					if toTruncateIt(category, item.ID) {
+						truncatedAPIData := item.Content.APIData[0:3]
+						body, err = sjson.SetBytes(body, fmt.Sprintf("_items.%d.content.apiData", i), truncatedAPIData)
+						if err != nil {
+							logger.Errorf("encounter error when truncating apiData:", err)
+							return err
+						}
+						truncated = true
+						body, err = sjson.SetBytes(body, fmt.Sprintf("_items.%d.isTruncated", i), true)
+						if err != nil {
+							logger.Errorf("encounter error setting isTruncated to true for _items.%d", i, err)
+							return err
+						}
+						break
+					} else {
+						body, err = sjson.SetBytes(body, fmt.Sprintf("_items.%d.isTruncated", i), false)
+						if err != nil {
+							logger.Errorf("encounter error setting isTruncated to false for _items.%d", i, err)
+							return err
 						}
 					}
 				}
@@ -180,6 +277,15 @@ func ModifyReverseProxyResponse(c *gin.Context, rdb cache.Rediser, cacheTTL int)
 					logger.Errorf("encounter error when deleting html:", err)
 					return err
 				}
+			}
+
+			// FIXME it's not a single condition anymore!
+			if truncated {
+				// TODO refactor redis cache code
+				redisKey = fmt.Sprintf("%s.%s.%s.%s", "apigateway", "post", "truncated", c.Request.RequestURI)
+			} else {
+				// TODO refactor redis cache code
+				redisKey = fmt.Sprintf("%s.%s.%s.%s", "apigateway", "post", "clean", c.Request.RequestURI)
 			}
 			// TODO refactor redis cache code
 			err = rdb.Set(context.TODO(), redisKey, body, time.Duration(cacheTTL)*time.Second).Err()

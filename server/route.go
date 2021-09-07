@@ -104,13 +104,13 @@ func SetRoute(server *Server) error {
 
 	// v0 api proxy every request to the restful serverce
 	v0Router := apiRouter.Group("/v0")
-	v0tokenStateRouter := v0Router.Use(middleware.GetIDTokenOnly(server.firebaseClient))
+	v0tokenStateRouter := v0Router.Use(middleware.GetIDTokenOnly(server.firebaseClient), middleware.GinContextToContextMiddleware())
 	proxyURL, err := url.Parse(server.Conf.V0RESTfulSvrTargetURL)
 	if err != nil {
 		return err
 	}
 
-	v0tokenStateRouter.Any("/*wildcard", NewSingleHostReverseProxy(proxyURL, v0Router.BasePath(), server.Rdb, server.Conf.RedisService.Cache.TTL))
+	v0tokenStateRouter.Any("/*wildcard", NewSingleHostReverseProxy(proxyURL, v0Router.BasePath(), server.Rdb, server.Conf.RedisService.Cache.TTL, server.Conf.ServiceEndpoints.UserGraphQL))
 
 	return nil
 }
