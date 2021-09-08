@@ -62,11 +62,6 @@ func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cach
 			"path": c.FullPath(),
 		})
 
-		if strings.HasSuffix(pathBaseToStrip, "/") {
-			pathBaseToStrip = pathBaseToStrip + "/"
-		}
-		trimmedPath := strings.TrimPrefix(c.Request.URL.Path, pathBaseToStrip)
-
 		var err error
 		var tokenState string
 
@@ -81,6 +76,10 @@ func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cach
 		var hasPremiumPrivilege bool
 		// Workaround without refactoring
 		// "/story" path will not check member and subscription state
+		if strings.HasSuffix(pathBaseToStrip, "/") {
+			pathBaseToStrip = pathBaseToStrip + "/"
+		}
+		trimmedPath := strings.TrimPrefix(c.Request.URL.Path, pathBaseToStrip)
 		isOriginalPathStory := (trimmedPath == "/story")
 
 		if tokenState == token.OK && !isOriginalPathStory {
