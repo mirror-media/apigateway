@@ -104,7 +104,7 @@ func SetRoute(server *Server) error {
 
 	// v0 api proxy every request to the restful serverce
 	v0Router := apiRouter.Group("/v0")
-	v0tokenStateRouter := v0Router.Use(middleware.GetIDTokenOnly(server.firebaseClient), middleware.GinContextToContextMiddleware())
+	v0tokenStateRouter := v0Router.Use(middleware.GetIDTokenOnly(server.firebaseClient), middleware.SetUserID(server.firebaseClient), middleware.GinContextToContextMiddleware())
 	proxyURL, err := url.Parse(server.Conf.V0RESTfulSvrTargetURL)
 	if err != nil {
 		return err
