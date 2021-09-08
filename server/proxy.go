@@ -65,11 +65,13 @@ func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cach
 		var err error
 		var tokenState string
 
-		tokenSaved, exist := c.Get(middleware.GCtxTokenKey)
-		if !exist {
+		tokenSaved, isTokenExist := c.Get(middleware.GCtxTokenKey)
+		var typedToken token.Token
+		if !isTokenExist {
 			tokenState = "No Bearer token available"
 		} else {
-			tokenState = tokenSaved.(token.Token).GetTokenState()
+			tokenState = typedToken.GetTokenState()
+			typedToken = tokenSaved.(token.Token)
 		}
 
 		var subscribedPostIDs = make(map[string]interface{})
@@ -82,45 +84,25 @@ func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cach
 		trimmedPath := strings.TrimPrefix(c.Request.URL.Path, pathBaseToStrip)
 		isOriginalPathStory := (trimmedPath == "/story")
 
-		if tokenState == token.OK && !isOriginalPathStory {
-			firebaseID := c.GetString(middleware.GCtxUserIDKey)
-			gql := `
-query ($firebaseId: String!) {
-  member(where: {firebaseId: $firebaseId}) {
-    subscription(where: {isActive: true}) {
-      frequency
-      postId
-    }
-  }
-}
-`
-			req := graphqlclient.NewRequest(gql)
-			req.Var("firebaseId", firebaseID)
-			// data := model.Member{}
-			member := struct {
-				Member model.Member `json:"member"`
-			}{}
+		// TODO refactor to config
+		if isTokenExist {
+			email, emailVerified := typedToken.GetEmail()
 
-			client := graphql.NewClient(memberGraphqlEndpoint, graphql.WithHTTPClient(httpclient.DefaultNetHttpClient))
-			err = client.Run(context.TODO(), req, &member)
+			hasPremiumPrivilege = emailVerified && (strings.HasSuffix(email, "@mirrormedia.mg") || strings.HasSuffix(email, "@mnews.tw"))
+		}
+
+		if tokenState == token.OK && !isOriginalPathStory {
+			skipMemberCheck := hasPremiumPrivilege
+
+			var hasMemberPremiumPrivilege bool
+			hasMemberPremiumPrivilege, subscribedPostIDs, err = getMemberSubscription(c, logger, memberGraphqlEndpoint, skipMemberCheck)
+			hasPremiumPrivilege = hasPremiumPrivilege || hasMemberPremiumPrivilege
 			if err != nil {
-				logger.Errorf("cannot fetch member and subscription state from member server")
+				logger.Error(err)
 				c.AbortWithStatusJSON(http.StatusInternalServerError, Reply{
 					TokenState: tokenState,
 				})
 				return
-			}
-
-			data := member.Member
-			if data.Subscription != nil {
-				for _, s := range data.Subscription {
-					if *s.Frequency == model.SubscriptionFrequencyTypeOneTime {
-						subscribedPostIDs[*s.PostID] = nil
-					} else {
-						hasPremiumPrivilege = true
-						break
-					}
-				}
 			}
 		}
 
@@ -218,6 +200,53 @@ func ModifyReverseProxyResponse(c *gin.Context, rdb cache.Rediser, cacheTTL int,
 		r.Header.Set("Content-Length", strconv.Itoa(len(b)))
 		return nil
 	}
+}
+
+// getMemberSubscription will return hasMemberPremiumPrivilege as false and subscribedPostIDs as empty map if skipMemberCheck is true
+func getMemberSubscription(c *gin.Context, logger *logrus.Entry, memberGraphqlEndpoint string, skipMemberCheck bool) (hasMemberPremiumPrivilege bool, subscribedPostIDs map[string]interface{}, err error) {
+	// declare before we use it to make sure a instance is returned
+	subscribedPostIDs = make(map[string]interface{})
+	if skipMemberCheck {
+		return false, subscribedPostIDs, nil
+	}
+
+	firebaseID := c.GetString(middleware.GCtxUserIDKey)
+	gql := `
+query ($firebaseId: String!) {
+  member(where: {firebaseId: $firebaseId}) {
+    subscription(where: {isActive: true}) {
+      frequency
+      postId
+    }
+  }
+}
+`
+	req := graphqlclient.NewRequest(gql)
+	req.Var("firebaseId", firebaseID)
+	// data := model.Member{}
+	member := struct {
+		Member model.Member `json:"member"`
+	}{}
+
+	client := graphql.NewClient(memberGraphqlEndpoint, graphql.WithHTTPClient(httpclient.DefaultNetHttpClient))
+	err = client.Run(context.TODO(), req, &member)
+	if err != nil {
+		err = fmt.Errorf("cannot fetch member and subscription state from member server:%v", err)
+		return false, subscribedPostIDs, err
+	}
+
+	data := member.Member
+	if data.Subscription != nil {
+		for _, s := range data.Subscription {
+			if *s.Frequency == model.SubscriptionFrequencyTypeOneTime {
+				subscribedPostIDs[*s.PostID] = nil
+			} else {
+				hasMemberPremiumPrivilege = true
+				break
+			}
+		}
+	}
+	return hasMemberPremiumPrivilege, subscribedPostIDs, err
 }
 
 func modifyPostItems(logger *logrus.Entry, body []byte, subscribedPostIDs map[string]interface{}, hasPremiumPrivilege bool) (postItemsLength int, modifiedBody []byte, err error) {
