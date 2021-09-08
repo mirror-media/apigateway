@@ -55,6 +55,11 @@ func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cach
 			"path": c.FullPath(),
 		})
 
+		if strings.HasSuffix(pathBaseToStrip, "/") {
+			pathBaseToStrip = pathBaseToStrip + "/"
+		}
+		trimmedPath := strings.TrimPrefix(c.Request.URL.Path, pathBaseToStrip)
+
 		var err error
 		var tokenState string
 
@@ -69,7 +74,9 @@ func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cach
 		var hasPremiumPrivilege bool
 		// Workaround without refactoring
 		// "/story" path will not check member and subscription state
-		if tokenState == token.OK && strings.HasSuffix(c.Request.URL.Path, "/story") {
+		isOriginalPathStory := (trimmedPath == "/story")
+
+		if tokenState == token.OK && !isOriginalPathStory {
 			firebaseID := c.GetString(middleware.GCtxUserIDKey)
 			gql := `
 query ($firebaseId: String!) {
@@ -142,8 +149,10 @@ query ($firebaseId: String!) {
 			}
 		}
 
-		reverseProxy := httputil.ReverseProxy{Director: director}
-		reverseProxy.ModifyResponse = ModifyReverseProxyResponse(c, rdb, cacheTTL, tokenState, subscribedPostIDs, hasPremiumPrivilege)
+		reverseProxy := httputil.ReverseProxy{
+			Director:       director,
+			ModifyResponse: ModifyReverseProxyResponse(c, rdb, cacheTTL, tokenState, subscribedPostIDs, hasPremiumPrivilege),
+		}
 		reverseProxy.ServeHTTP(c.Writer, c.Request)
 	}
 }
