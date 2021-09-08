@@ -53,9 +53,9 @@ func SetRoute(server *Server) error {
 	v2Router := apiRouter.Group("/v2")
 	v2tokenStateRouter := v2Router.Use(middleware.GetIDTokenOnly(server.firebaseClient))
 
-	v2TokenAuthenticatedWithFirebaseRouter := v2tokenStateRouter.Use(middleware.AuthenticateIDToken(server.firebaseClient), middleware.GinContextToContextMiddleware(), middleware.FirebaseClientToContextMiddleware(server.firebaseClient), middleware.FirebaseDBClientToContextMiddleware(server.firebaseDatabaseClient))
+	v2TokenAuthenticatedWithFirebaseRouter := v2tokenStateRouter.Use(middleware.FirebaseClientToContextMiddleware(server.firebaseClient), middleware.FirebaseDBClientToContextMiddleware(server.firebaseDatabaseClient))
 
-	v2GraphHandler := handler.NewAPIGatewayGraphQLHandler("https://israfel.mirrormedia.mg/api/graphql", "http://localhost:8080/api/v2/graphql/member", "graphql/member/type.graphql", "graphql/member/query.graphql", "graphql/member/mutation.graphql")
+	v2GraphHandler := handler.NewAPIGatewayGraphQLHandler("https://israfel.mirrormedia.mg/api/graphql", "http://localhost:8888/api/v2/graphql/member", "graph/member/type.graphql", "graph/member/query.graphql", "graph/member/mutation.graphql")
 
 	v2TokenAuthenticatedWithFirebaseRouter.POST("graphql/member", gin.WrapH(v2GraphHandler))
 
@@ -121,8 +121,7 @@ func SetMemberMutationRoute(server *Server) error {
 
 	// v2 api
 	v2Router := apiRouter.Group("/v2")
-	// FIXME proxied headers are in the request payload
-	v2tokenStateRouter := v2Router.Use(middleware.GetIDTokenOnly(server.firebaseClient))
+	v2TokenAuthenticatedWithFirebaseRouter := v2Router.Use(middleware.AuthenticateIDToken(server.firebaseClient), middleware.FirebaseClientToContextMiddleware(server.firebaseClient), middleware.FirebaseDBClientToContextMiddleware(server.firebaseDatabaseClient))
 
 	svr := gqlgenhendler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &mutationgraph.Resolver{
 		Conf:       *server.Conf,
@@ -144,7 +143,7 @@ func SetMemberMutationRoute(server *Server) error {
 			return graphql.NewClient(server.Services.UserGraphQL, graphql.WithHTTPClient(httpClient))
 		}(),
 	}}))
-	v2tokenStateRouter.POST("/graphql/member", gin.WrapH(svr))
+	v2TokenAuthenticatedWithFirebaseRouter.POST("/graphql/member", gin.WrapH(svr))
 
 	return nil
 }

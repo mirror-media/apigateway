@@ -37,6 +37,7 @@ func GetIDTokenOnly(firebaseClient *auth.Client) gin.HandlerFunc {
 		token, err := token.NewFirebaseToken(authHeader, firebaseClient)
 		if err != nil {
 			logger.Info(err)
+			ginContextToContextMiddleware(c)
 			c.Next()
 			return
 		}
@@ -62,12 +63,14 @@ func SetUserID(firebaseClient *auth.Client) gin.HandlerFunc {
 		tt, ok := t.(token.Token)
 		if !ok {
 			logger.Info(GCtxTokenKey + " cannot be casted to token.Token")
+			ginContextToContextMiddleware(c)
 			c.Next()
 			return
 		}
 
 		if tt.GetTokenState() != token.OK {
 			logger.Info(tt.GetTokenState())
+			ginContextToContextMiddleware(c)
 			c.Next()
 			return
 		}
@@ -79,7 +82,6 @@ func SetUserID(firebaseClient *auth.Client) gin.HandlerFunc {
 		idToken, _ := firebaseClient.VerifyIDToken(ctx, tokenString)
 		c.Set(GCtxUserIDKey, idToken.Subject)
 		ginContextToContextMiddleware(c)
-
 		c.Next()
 	}
 }
@@ -123,22 +125,29 @@ func AuthenticateIDToken(firebaseClient *auth.Client) gin.HandlerFunc {
 			return
 		}
 		c.Set(GCtxUserIDKey, idToken.Subject)
+		ginContextToContextMiddleware(c)
 		c.Next()
 	}
 }
 
-func GinContextToContextMiddleware() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		ctx := context.WithValue(c.Request.Context(), CtxGinContexKey, c)
-		c.Request = c.Request.WithContext(ctx)
-		c.Next()
-	}
+// func GinContextToContextMiddleware() gin.HandlerFunc {
+// 	return func(c *gin.Context) {
+// 		ctx := context.WithValue(c.Request.Context(), CtxGinContexKey, c)
+// 		c.Request = c.Request.WithContext(ctx)
+// 		c.Next()
+// 	}
+// }
+
+func ginContextToContextMiddleware(c *gin.Context) {
+	ctx := context.WithValue(c.Request.Context(), CtxGinContexKey, c)
+	c.Request = c.Request.WithContext(ctx)
 }
 
 func FirebaseClientToContextMiddleware(firebaseClient *auth.Client) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx := context.WithValue(c.Request.Context(), CtxFirebaseClientKey, firebaseClient)
 		c.Request = c.Request.WithContext(ctx)
+		ginContextToContextMiddleware(c)
 		c.Next()
 	}
 }
@@ -147,6 +156,7 @@ func FirebaseDBClientToContextMiddleware(firebaseDatabaseClient *db.Client) gin.
 	return func(c *gin.Context) {
 		ctx := context.WithValue(c.Request.Context(), CtxFirebaseDatabaseClientKey, firebaseDatabaseClient)
 		c.Request = c.Request.WithContext(ctx)
+		ginContextToContextMiddleware(c)
 		c.Next()
 	}
 }
