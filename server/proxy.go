@@ -33,8 +33,14 @@ func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cach
 		if strings.HasSuffix(pathBaseToStrip, "/") {
 			pathBaseToStrip = pathBaseToStrip + "/"
 		}
-		req.URL.Path = strings.TrimPrefix(req.URL.Path, pathBaseToStrip)
-		req.URL.RawPath = strings.TrimPrefix(req.URL.RawPath, pathBaseToStrip)
+		trimmedPath := strings.TrimPrefix(req.URL.Path, pathBaseToStrip)
+		if trimmedPath == "/story" {
+			req.URL.Path = "/getposts"
+			req.URL.RawPath = "/getposts"
+		} else {
+			req.URL.Path = trimmedPath
+			req.URL.RawPath = strings.TrimPrefix(req.URL.RawPath, pathBaseToStrip)
+		}
 
 		req.URL.Scheme = target.Scheme
 		req.URL.Host = target.Host
@@ -52,7 +58,6 @@ func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cach
 		}
 	}
 	return func(c *gin.Context) {
-
 		logger := logrus.WithFields(logrus.Fields{
 			"path": c.FullPath(),
 		})
