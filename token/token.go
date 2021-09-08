@@ -11,4 +11,5 @@ type Token interface {
 	ExecuteTokenStateUpdate() error
 	GetTokenString() (string, error)
 	GetTokenState() string
+	GetEmail() (string, bool)
 }
