@@ -124,7 +124,7 @@ func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cach
 					break
 				}
 
-				if body, err = removePodtItemsHtml(body, itemsLength); err != nil {
+				if body, err = removePostItemsHtml(body, itemsLength); err != nil {
 					logger.Warnf("encounter error when deleting html in cache:", err)
 					break
 				}
@@ -169,15 +169,13 @@ func ModifyReverseProxyResponse(c *gin.Context, rdb cache.Rediser, cacheTTL int,
 		// TODO refactor condition
 		case strings.HasSuffix(path, "/getposts") || strings.HasSuffix(path, "/posts") || strings.HasSuffix(path, "/post"):
 
-			// modify body if the item falls into a "member only" category
-
 			var itemsLength int
 			if itemsLength, body, err = modifyPostItems(logger, body, subscribedPostIDs, hasPremiumPrivilege); err != nil {
 				logger.Errorf("modifyPostItems encounter error: %s", err)
 				return err
 			}
 
-			if body, err = removePodtItemsHtml(body, itemsLength); err != nil {
+			if body, err = removePostItemsHtml(body, itemsLength); err != nil {
 				logger.Errorf("encounter error when deleting html:", err)
 				return err
 			}
@@ -308,8 +306,8 @@ func modifyPostItems(logger *logrus.Entry, body []byte, subscribedPostIDs map[st
 	return len(items.Items), body, err
 }
 
-func removePodtItemsHtml(body []byte, itemsLength int) (modifiedBody []byte, err error) {
-	for i := 0; i < itemsLength-1; i++ {
+func removePostItemsHtml(body []byte, itemsLength int) (modifiedBody []byte, err error) {
+	for i := 0; i <= itemsLength-1; i++ {
 		body, err = sjson.DeleteBytes(body, fmt.Sprintf("_items.%d.content.html", i))
 		if err != nil {
 			return nil, err
