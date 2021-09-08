@@ -67,7 +67,9 @@ func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cach
 
 		var subscribedPostIDs = make(map[string]interface{})
 		var hasPremiumPrivilege bool
-		if tokenState == token.OK {
+		// Workaround without refactoring
+		// "/story" path will not check member and subscription state
+		if tokenState == token.OK && strings.HasSuffix(c.Request.URL.Path, "/story") {
 			firebaseID := c.GetString(middleware.GCtxUserIDKey)
 			gql := `
 query ($firebaseId: String!) {
