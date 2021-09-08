@@ -25,6 +25,8 @@ import (
 	"github.com/tidwall/sjson"
 )
 
+// FIXME the file is way toooooooo long
+
 func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cache.Rediser, cacheTTL int, memberGraphqlEndpoint string) func(c *gin.Context) {
 	targetQuery := target.RawQuery
 	director := func(req *http.Request) {
@@ -226,6 +228,7 @@ func modifyPostItems(logger *logrus.Entry, body []byte, subscribedPostIDs map[st
 		ID         string      `json:"_id"`
 		Content    ItemContent `json:"content"`
 		Categories []Category  `json:"categories"`
+		WordCount  int         `json:"word_count"`
 	}
 	type Resp struct {
 		Items []Item `json:"_items"`
@@ -243,7 +246,12 @@ func modifyPostItems(logger *logrus.Entry, body []byte, subscribedPostIDs map[st
 		for _, category := range item.Categories {
 			isPostPremium := category.IsMemberOnly != nil && *category.IsMemberOnly
 			if isPostPremium && isPostToBeTruncate(isPostPremium, item.ID, hasPremiumPrivilege, subscribedPostIDs) {
-				truncatedAPIData := item.Content.APIData[0:3]
+				APIDataLength := len(item.Content.APIData)
+				truncatedEnd := minInt(3, APIDataLength)
+				if item.WordCount >= 1000 {
+					truncatedEnd = minInt(5, APIDataLength)
+				}
+				truncatedAPIData := item.Content.APIData[0:truncatedEnd]
 				body, err = sjson.SetBytes(body, fmt.Sprintf("_items.%d.content.apiData", i), truncatedAPIData)
 				if err != nil {
 					err = fmt.Errorf("encounter error when truncating apiData: %v", err)
@@ -316,4 +324,11 @@ func singleJoiningSlash(a, b string) string {
 		return a + "/" + b
 	}
 	return a + b
+}
+
+func minInt(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
 }
