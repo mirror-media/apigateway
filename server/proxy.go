@@ -70,8 +70,8 @@ func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cach
 		if !isTokenExist {
 			tokenState = "No Bearer token available"
 		} else {
-			tokenState = typedToken.GetTokenState()
 			typedToken = tokenSaved.(token.Token)
+			tokenState = typedToken.GetTokenState()
 		}
 
 		var subscribedPostIDs = make(map[string]interface{})
