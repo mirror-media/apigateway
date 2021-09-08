@@ -88,7 +88,7 @@ func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cach
 		if isTokenExist {
 			email, emailVerified := typedToken.GetEmail()
 
-			hasPremiumPrivilege = emailVerified && (strings.HasSuffix(email, "@mirrormedia.mg") || strings.HasSuffix(email, "@mnews.tw"))
+			hasPremiumPrivilege = emailVerified && (strings.HasSuffix(email, "@mirrormedia.mg") || strings.HasSuffix(email, "@mnews.tw") || strings.HasSuffix(email, "@mirrorfiction.com"))
 		}
 
 		if tokenState == token.OK && !isOriginalPathStory {
