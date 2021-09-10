@@ -21,6 +21,7 @@ type firebaseTokenState struct {
 	state         *string
 	email         string
 	emailVerified bool
+	subject       string
 }
 
 func (ftt *firebaseTokenState) setState(state string) {
@@ -48,6 +49,7 @@ func (ft *FirebaseToken) ExecuteTokenStateUpdate() error {
 			ft.tokenState.setState(err.Error())
 			return
 		}
+		ft.tokenState.subject = t.Subject
 		email, ok := t.Claims["email"]
 		if !ok {
 			email = ""
@@ -87,6 +89,17 @@ func (ft *FirebaseToken) GetEmail() (string, bool) {
 	ft.tokenState.Lock()
 	defer ft.tokenState.Unlock()
 	return ft.tokenState.email, ft.tokenState.emailVerified
+}
+
+// GetEmail will automatically update state if cached state is nil
+func (ft *FirebaseToken) GetSubject() string {
+	if ft.tokenState.state == nil {
+		ft.ExecuteTokenStateUpdate()
+	}
+
+	ft.tokenState.Lock()
+	defer ft.tokenState.Unlock()
+	return ft.tokenState.subject
 }
 
 // NewFirebaseToken creates a token and excute the token state update procedure
