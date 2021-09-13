@@ -92,7 +92,7 @@ func TestStore_GetNotifyURL(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			s := Store{
+			s := NewebPayStore{
 				CallbackHost:        tt.fields.CallbackDomain,
 				CallbackProtocol:    tt.fields.CallbackProtocol,
 				ClientBackPath:      tt.fields.ClientBackPath,
@@ -207,7 +207,7 @@ func TestStore_GetReturnURL(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			s := Store{
+			s := NewebPayStore{
 				CallbackHost:        tt.fields.CallbackDomain,
 				CallbackProtocol:    tt.fields.CallbackProtocol,
 				ClientBackPath:      tt.fields.ClientBackPath,
@@ -330,7 +330,7 @@ func TestStore_GetClientBackPath(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			s := Store{
+			s := NewebPayStore{
 				CallbackHost:        tt.fields.CallbackDomain,
 				CallbackProtocol:    tt.fields.CallbackProtocol,
 				ClientBackPath:      tt.fields.ClientBackPath,
@@ -451,7 +451,7 @@ func TestStore_CreateNewebpayAgreementPayload(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			s := Store{
+			s := NewebPayStore{
 				CallbackHost:        tt.fields.CallbackDomain,
 				CallbackProtocol:    tt.fields.CallbackProtocol,
 				ClientBackPath:      tt.fields.ClientBackPath,
