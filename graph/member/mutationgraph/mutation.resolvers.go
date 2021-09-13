@@ -142,7 +142,7 @@ func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data
 	})
 
 	preGQL = append(preGQL, subscriptionFieldsOnly...)
-	if contain(subscriptionFieldsOnly, "createdAt") {
+	if !contain(subscriptionFieldsOnly, "createdAt") {
 		preGQL = append(preGQL, "createdAt")
 	}
 	preGQL = append(preGQL, "}", "}")
@@ -175,7 +175,6 @@ func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data
 		IsAbleToModifyEmail: r.NewebpayStore.IsAbleToModifyEmail,
 		LoginType:           r.NewebpayStore.LoginType,
 		RespondType:         r.NewebpayStore.RespondType,
-		CreationTimeUnix:    creationTimeUnix,
 		OrderComment:        data["desc"].(string),
 		TokenTerm:           firebaseID,
 	}, payment.PurchaseInfo{
@@ -243,7 +242,7 @@ func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data 
 	})
 
 	preGQL = append(preGQL, subscriptionFieldsOnly...)
-	if contain(subscriptionFieldsOnly, "createdAt") {
+	if !contain(subscriptionFieldsOnly, "createdAt") {
 		preGQL = append(preGQL, "createdAt")
 	}
 	preGQL = append(preGQL, "}", "}")
@@ -276,7 +275,6 @@ func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data 
 		IsAbleToModifyEmail: r.NewebpayStore.IsAbleToModifyEmail,
 		LoginType:           r.NewebpayStore.LoginType,
 		RespondType:         r.NewebpayStore.RespondType,
-		CreationTimeUnix:    creationTimeUnix,
 		ItemDescription:     data["desc"].(string),
 		TokenTerm:           firebaseID,
 	}, payment.PurchaseInfo{
