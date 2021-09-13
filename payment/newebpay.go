@@ -23,7 +23,7 @@ type NewebpayRespondType string
 
 const RespondWithJSON NewebpayRespondType = "JSON"
 
-type Store struct {
+type NewebPayStore struct {
 	CallbackHost        string
 	CallbackProtocol    string
 	ClientBackPath      string            // ? Unknown
@@ -55,21 +55,21 @@ type PurchaseInfo struct {
 	ReturnPath          string `url:"returnPath"`
 }
 
-func (s Store) getNotifyURL(purchaseInfo PurchaseInfo) (string, error) {
+func (s NewebPayStore) getNotifyURL(purchaseInfo PurchaseInfo) (string, error) {
 	protocol := s.NotifyProtocol
 	domain := s.NotifyHost
 	path := s.NotifyPath
 	return getCallbackUrl(protocol, domain, path, nil)
 }
 
-func (s Store) getReturnURL(purchaseInfo PurchaseInfo) (string, error) {
+func (s NewebPayStore) getReturnURL(purchaseInfo PurchaseInfo) (string, error) {
 	protocol := s.CallbackProtocol
 	domain := s.CallbackHost
 	path := s.ReturnPath
 	return getCallbackUrl(protocol, domain, path, &purchaseInfo)
 }
 
-func (s Store) getClientBackPath(purchaseInfo PurchaseInfo) (string, error) {
+func (s NewebPayStore) getClientBackPath(purchaseInfo PurchaseInfo) (string, error) {
 	protocol := s.CallbackProtocol
 	domain := s.CallbackHost
 	path := s.ClientBackPath
@@ -128,7 +128,7 @@ type NewebpayAgreementInfo struct {
 }
 
 // Ref: https://github.com/mirror-media/apigateway/files/6866871/NewebPay_._._AGREEMENT_.1.0.6.pdf
-func (s Store) CreateNewebpayAgreementPayload(agreementInfo NewebpayAgreementInfo, purchaseInfo PurchaseInfo) (payload string, err error) {
+func (s NewebPayStore) CreateNewebpayAgreementPayload(agreementInfo NewebpayAgreementInfo, purchaseInfo PurchaseInfo) (payload string, err error) {
 	// Validate the data at the beginning for short circuit
 	if agreementInfo.CreationTimeUnix <= 0 {
 		return "", fmt.Errorf("agreementInfo has invalid TimeStampUnix(%d)", agreementInfo.CreationTimeUnix)
@@ -196,7 +196,7 @@ type NewebpayMGPInfo struct {
 }
 
 // Ref: https://www.newebpay.com/website/Page/download_file?name=%E8%97%8D%E6%96%B0%E9%87%91%E6%B5%81Newebpay_MPG%E4%B8%B2%E6%8E%A5%E6%89%8B%E5%86%8A_MPG_1.1.0.pdf
-func (s Store) CreateNewebpayMPGPayload(newebpayMGPInfo NewebpayMGPInfo, purchaseInfo PurchaseInfo) (payload string, err error) {
+func (s NewebPayStore) CreateNewebpayMPGPayload(newebpayMGPInfo NewebpayMGPInfo, purchaseInfo PurchaseInfo) (payload string, err error) {
 	// Validate the data at the beginning for short circuit
 
 	// Validate the data at the beginning for short circuit
