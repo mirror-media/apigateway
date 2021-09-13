@@ -5150,6 +5150,7 @@ input subscriptionRecurringCreateInput {
   frequency: subscriptionFrequencyType!
   note: String
   promoteId: Int
+  returnToPath: String!
 }
 
 input subscriptionOneTimeCreateInput {
@@ -5161,6 +5162,9 @@ input subscriptionOneTimeCreateInput {
   note: String
   promoteId: Int
   postId: String!
+  postSlug: String!
+  postTitle: String!
+  returnToPath: String!
 }
 
 input subscriptionUpdateInput {
@@ -5171,6 +5175,7 @@ input subscriptionUpdateInput {
   """
   nextFrequency: updateSubscriptionNextFrequencyType
   note: String
+  returnToPath: String!
 }
 
 type subscriptionInfo {
