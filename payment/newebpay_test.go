@@ -93,13 +93,13 @@ func TestStore_GetNotifyURL(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			s := Store{
-				CallbackDomain:      tt.fields.CallbackDomain,
+				CallbackHost:        tt.fields.CallbackDomain,
 				CallbackProtocol:    tt.fields.CallbackProtocol,
 				ClientBackPath:      tt.fields.ClientBackPath,
 				ID:                  tt.fields.ID,
 				IsAbleToModifyEmail: tt.fields.IsAbleToModifyEmail,
 				LoginType:           tt.fields.LoginType,
-				NotifyDomain:        tt.fields.NotifyDomain,
+				NotifyHost:          tt.fields.NotifyDomain,
 				NotifyPath:          tt.fields.NotifyPath,
 				NotifyProtocol:      tt.fields.NotifyProtocol,
 				Is3DSecure:          tt.fields.Is3DSecure,
@@ -208,13 +208,13 @@ func TestStore_GetReturnURL(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			s := Store{
-				CallbackDomain:      tt.fields.CallbackDomain,
+				CallbackHost:        tt.fields.CallbackDomain,
 				CallbackProtocol:    tt.fields.CallbackProtocol,
 				ClientBackPath:      tt.fields.ClientBackPath,
 				ID:                  tt.fields.ID,
 				IsAbleToModifyEmail: tt.fields.IsAbleToModifyEmail,
 				LoginType:           tt.fields.LoginType,
-				NotifyDomain:        tt.fields.NotifyDomain,
+				NotifyHost:          tt.fields.NotifyDomain,
 				NotifyPath:          tt.fields.NotifyPath,
 				NotifyProtocol:      tt.fields.NotifyProtocol,
 				Is3DSecure:          tt.fields.Is3DSecure,
@@ -331,13 +331,13 @@ func TestStore_GetClientBackPath(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			s := Store{
-				CallbackDomain:      tt.fields.CallbackDomain,
+				CallbackHost:        tt.fields.CallbackDomain,
 				CallbackProtocol:    tt.fields.CallbackProtocol,
 				ClientBackPath:      tt.fields.ClientBackPath,
 				ID:                  tt.fields.ID,
 				IsAbleToModifyEmail: tt.fields.IsAbleToModifyEmail,
 				LoginType:           tt.fields.LoginType,
-				NotifyDomain:        tt.fields.NotifyDomain,
+				NotifyHost:          tt.fields.NotifyDomain,
 				NotifyPath:          tt.fields.NotifyPath,
 				NotifyProtocol:      tt.fields.NotifyProtocol,
 				Is3DSecure:          tt.fields.Is3DSecure,
@@ -452,14 +452,14 @@ func TestStore_CreateNewebpayAgreementPayload(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			s := Store{
-				CallbackDomain:      tt.fields.CallbackDomain,
+				CallbackHost:        tt.fields.CallbackDomain,
 				CallbackProtocol:    tt.fields.CallbackProtocol,
 				ClientBackPath:      tt.fields.ClientBackPath,
 				ID:                  tt.fields.ID,
 				IsAbleToModifyEmail: tt.fields.IsAbleToModifyEmail,
 				LoginType:           tt.fields.LoginType,
 				NotifyProtocol:      tt.fields.NotifyProtocol,
-				NotifyDomain:        tt.fields.NotifyDomain,
+				NotifyHost:          tt.fields.NotifyDomain,
 				NotifyPath:          tt.fields.NotifyPath,
 				Is3DSecure:          tt.fields.Is3DSecure,
 				RespondType:         tt.fields.RespondType,

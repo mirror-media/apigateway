@@ -24,14 +24,14 @@ type NewebpayRespondType string
 const RespondWithJSON NewebpayRespondType = "JSON"
 
 type Store struct {
-	CallbackDomain      string
+	CallbackHost        string
 	CallbackProtocol    string
 	ClientBackPath      string            // ? Unknown
 	ID                  string            // ? Unknown
 	IsAbleToModifyEmail Boolean           // Use 1
 	LoginType           NewebpayLoginType // Use 0
 	NotifyProtocol      string
-	NotifyDomain        string              // ? Unknown
+	NotifyHost          string              // ? Unknown
 	NotifyPath          string              // ? Unknown
 	Is3DSecure          Boolean             // Use 1
 	RespondType         NewebpayRespondType // Use JSON
@@ -57,21 +57,21 @@ type PurchaseInfo struct {
 
 func (s Store) getNotifyURL(purchaseInfo PurchaseInfo) (string, error) {
 	protocol := s.NotifyProtocol
-	domain := s.NotifyDomain
+	domain := s.NotifyHost
 	path := s.NotifyPath
 	return getCallbackUrl(protocol, domain, path, nil)
 }
 
 func (s Store) getReturnURL(purchaseInfo PurchaseInfo) (string, error) {
 	protocol := s.CallbackProtocol
-	domain := s.CallbackDomain
+	domain := s.CallbackHost
 	path := s.ReturnPath
 	return getCallbackUrl(protocol, domain, path, &purchaseInfo)
 }
 
 func (s Store) getClientBackPath(purchaseInfo PurchaseInfo) (string, error) {
 	protocol := s.CallbackProtocol
-	domain := s.CallbackDomain
+	domain := s.CallbackHost
 	path := s.ClientBackPath
 	return getCallbackUrl(protocol, domain, path, &purchaseInfo)
 }
