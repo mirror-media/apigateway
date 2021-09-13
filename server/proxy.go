@@ -14,21 +14,33 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jensneuse/graphql-go-tools/pkg/engine/datasource/httpclient"
+	"github.com/machinebox/graphql"
+	graphqlclient "github.com/machinebox/graphql"
 	"github.com/mirror-media/apigateway/cache"
+	"github.com/mirror-media/apigateway/graph/member/model"
 	"github.com/mirror-media/apigateway/middleware"
 	"github.com/mirror-media/apigateway/token"
 	"github.com/sirupsen/logrus"
 	"github.com/tidwall/sjson"
 )
 
-func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cache.Rediser, cacheTTL int) func(c *gin.Context) {
+// FIXME the file is way toooooooo long
+
+func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cache.Rediser, cacheTTL int, memberGraphqlEndpoint string) func(c *gin.Context) {
 	targetQuery := target.RawQuery
 	director := func(req *http.Request) {
 		if strings.HasSuffix(pathBaseToStrip, "/") {
 			pathBaseToStrip = pathBaseToStrip + "/"
 		}
-		req.URL.Path = strings.TrimPrefix(req.URL.Path, pathBaseToStrip)
-		req.URL.RawPath = strings.TrimPrefix(req.URL.RawPath, pathBaseToStrip)
+		trimmedPath := strings.TrimPrefix(req.URL.Path, pathBaseToStrip)
+		if trimmedPath == "/story" {
+			req.URL.Path = "/getposts"
+			req.URL.RawPath = "/getposts"
+		} else {
+			req.URL.Path = trimmedPath
+			req.URL.RawPath = strings.TrimPrefix(req.URL.RawPath, pathBaseToStrip)
+		}
 
 		req.URL.Scheme = target.Scheme
 		req.URL.Host = target.Host
@@ -46,51 +58,94 @@ func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cach
 		}
 	}
 	return func(c *gin.Context) {
-		// TODO refactor modification and cache code
+		logger := logrus.WithFields(logrus.Fields{
+			"path": c.FullPath(),
+		})
+
+		var err error
 		var tokenState string
 
-		tokenSaved, exist := c.Get(middleware.GCtxTokenKey)
-		if !exist {
+		tokenSaved, isTokenExist := c.Get(middleware.GCtxTokenKey)
+		var typedToken token.Token
+		if !isTokenExist {
 			tokenState = "No Bearer token available"
 		} else {
-			tokenState = tokenSaved.(token.Token).GetTokenState()
+			typedToken = tokenSaved.(token.Token)
+			tokenState = typedToken.GetTokenState()
 		}
 
-		switch path := c.Request.URL.Path; {
-		case strings.HasSuffix(path, "/getposts") || strings.HasSuffix(path, "/posts") || strings.HasSuffix(path, "/post"):
-			// Try to read cache first
-			var key string
-			if tokenState != token.OK {
-				key = fmt.Sprintf("%s.%s.%s.%s", "apigateway", "post", "notmember", c.Request.RequestURI)
-			} else {
-				key = fmt.Sprintf("%s.%s.%s.%s", "apigateway", "post", "member", c.Request.RequestURI)
-			}
+		var subscribedPostIDs = make(map[string]interface{})
+		var hasPremiumPrivilege bool
+		// Workaround without refactoring
+		// "/story" path will not check member and subscription state
+		if strings.HasSuffix(pathBaseToStrip, "/") {
+			pathBaseToStrip = pathBaseToStrip + "/"
+		}
+		trimmedPath := strings.TrimPrefix(c.Request.URL.Path, pathBaseToStrip)
+		isOriginalPathStory := (trimmedPath == "/story")
 
-			cmd := rdb.Get(context.TODO(), key)
-			// cache doesn't exist, do fetch reverse proxy
-			if cmd == nil {
-				break
-			}
-			body, err := cmd.Bytes()
-			// cache can't be understood, do fetch reverse proxy
+		// TODO refactor to config
+		if isTokenExist {
+			email, emailVerified := typedToken.GetEmail()
+
+			hasPremiumPrivilege = emailVerified && (strings.HasSuffix(email, "@mirrormedia.mg") || strings.HasSuffix(email, "@mnews.tw") || strings.HasSuffix(email, "@mirrorfiction.com"))
+		}
+
+		if tokenState == token.OK && !isOriginalPathStory {
+			skipMemberCheck := hasPremiumPrivilege
+
+			var hasMemberPremiumPrivilege bool
+			hasMemberPremiumPrivilege, subscribedPostIDs, err = getMemberSubscription(c, logger, memberGraphqlEndpoint, skipMemberCheck)
+			hasPremiumPrivilege = hasPremiumPrivilege || hasMemberPremiumPrivilege
 			if err != nil {
-				break
+				logger.Error(err)
+				c.AbortWithStatusJSON(http.StatusInternalServerError, Reply{
+					TokenState: tokenState,
+				})
+				return
 			}
-
-			c.AbortWithStatusJSON(http.StatusOK, Reply{
-				TokenState: tokenState,
-				Data:       json.RawMessage(body),
-			})
-			return
 		}
 
-		reverseProxy := httputil.ReverseProxy{Director: director}
-		reverseProxy.ModifyResponse = ModifyReverseProxyResponse(c, rdb, cacheTTL)
+		var body []byte
+		redisKey := fmt.Sprintf("%s.%s.%s.%s", "apigateway", "proxy", "uri", c.Request.RequestURI)
+		if cmd := rdb.Get(context.TODO(), redisKey); cmd == nil {
+			// cache doesn't exist, do fetch reverse proxy
+			logger.Infof("cache for uri(%s) cannot be fetched", c.Request.RequestURI)
+		} else if body, err = cmd.Bytes(); err != nil {
+			// cache can't be understood, do fetch reverse proxy
+			logger.Warnf("cache for uri(%s) cannot be converted to bytes", c.Request.RequestURI)
+		} else {
+			switch path := c.Request.URL.Path; {
+			case strings.HasSuffix(path, "/getposts") || strings.HasSuffix(path, "/posts") || strings.HasSuffix(path, "/post"):
+				// break the switch to continue with response from proxied request
+				var itemsLength int
+				if itemsLength, body, err = modifyPostItems(logger, body, subscribedPostIDs, hasPremiumPrivilege); err != nil {
+					logger.Warnf("modifyPostItems in cache encounter error: %s", err)
+					break
+				}
+
+				if body, err = removePostItemsHtml(body, itemsLength); err != nil {
+					logger.Warnf("encounter error when deleting html in cache:", err)
+					break
+				}
+				c.Header("GW-Cache", time.Now().Format(time.RFC3339))
+				c.AbortWithStatusJSON(http.StatusOK, Reply{
+					TokenState: tokenState,
+					Data:       json.RawMessage(body),
+				})
+				return
+			}
+		}
+
+		reverseProxy := httputil.ReverseProxy{
+			Director:       director,
+			ModifyResponse: ModifyReverseProxyResponse(c, rdb, cacheTTL, tokenState, subscribedPostIDs, hasPremiumPrivilege),
+		}
 		reverseProxy.ServeHTTP(c.Writer, c.Request)
 	}
 }
 
-func ModifyReverseProxyResponse(c *gin.Context, rdb cache.Rediser, cacheTTL int) func(*http.Response) error {
+func ModifyReverseProxyResponse(c *gin.Context, rdb cache.Rediser, cacheTTL int, tokenState string, subscribedPostIDs map[string]interface{}, hasPremiumPrivilege bool) func(*http.Response) error {
 	logger := logrus.WithFields(logrus.Fields{
 		"path": c.FullPath(),
 	})
@@ -102,79 +157,29 @@ func ModifyReverseProxyResponse(c *gin.Context, rdb cache.Rediser, cacheTTL int)
 			return err
 		}
 
-		var tokenState string
+		// Save the complete post as early as we can and run in in a goroutine
+		redisKey := fmt.Sprintf("%s.%s.%s.%s", "apigateway", "proxy", "uri", c.Request.RequestURI)
+		go func(rdb cache.Rediser, body []byte, redisKey string) {
+			if err = rdb.Set(context.TODO(), redisKey, body, time.Duration(cacheTTL)*time.Second).Err(); err != nil {
+				logger.Warnf("setting redis cache(%s) encountered error: %v", redisKey, err)
+			}
+		}(rdb, body, redisKey)
 
-		tokenSaved, exist := c.Get(middleware.GCtxTokenKey)
-		if !exist {
-			tokenState = "No Bearer token available"
-		} else {
-			tokenState = tokenSaved.(token.Token).GetTokenState()
-		}
-
-		var redisKey string
 		switch path := r.Request.URL.Path; {
 		// TODO refactor condition
 		case strings.HasSuffix(path, "/getposts") || strings.HasSuffix(path, "/posts") || strings.HasSuffix(path, "/post"):
 
-			type Category struct {
-				IsMemberOnly *bool `json:"isMemberOnly,omitempty"`
-			}
-
-			type ItemContent struct {
-				APIData []interface{} `json:"apiData"`
-			}
-			type Item struct {
-				Content    ItemContent `json:"content"`
-				Categories []Category  `json:"categories"`
-			}
-			type Resp struct {
-				Items []Item `json:"_items"`
-			}
-
-			var items Resp
-			err = json.Unmarshal(body, &items)
-			if err != nil {
-				logger.Errorf("Unmarshal post encountered error: %v", err)
+			var itemsLength int
+			if itemsLength, body, err = modifyPostItems(logger, body, subscribedPostIDs, hasPremiumPrivilege); err != nil {
+				logger.Errorf("modifyPostItems encounter error: %s", err)
 				return err
 			}
 
-			// truncate the content if the user is not a member and the post falls into a member only category
-			if tokenState == token.OK {
-				// TODO refactor redis cache code
-				redisKey = fmt.Sprintf("%s.%s.%s.%s", "mm-apigateway", "post", "member", c.Request.RequestURI)
-			} else {
-				// TODO refactor redis cache code
-				redisKey = fmt.Sprintf("%s.%s.%s.%s", "mm-apigateway", "post", "notmember", c.Request.RequestURI)
-
-				// modify body if the item falls into a "member only" category
-				for i, item := range items.Items {
-					for _, category := range item.Categories {
-						if category.IsMemberOnly != nil && *category.IsMemberOnly {
-							truncatedAPIData := item.Content.APIData[0:3]
-							body, err = sjson.SetBytes(body, fmt.Sprintf("_items.%d.content.apiData", i), truncatedAPIData)
-							if err != nil {
-								logger.Errorf("encounter error when truncating apiData:", err)
-								return err
-							}
-							break
-						}
-					}
-				}
+			if body, err = removePostItemsHtml(body, itemsLength); err != nil {
+				logger.Errorf("encounter error when deleting html:", err)
+				return err
 			}
 
-			// remove html because only apidata is useful and html contains full content
-			for i, _ := range items.Items {
-				body, err = sjson.DeleteBytes(body, fmt.Sprintf("_items.%d.content.html", i))
-				if err != nil {
-					logger.Errorf("encounter error when deleting html:", err)
-					return err
-				}
-			}
-			// TODO refactor redis cache code
-			err = rdb.Set(context.TODO(), redisKey, body, time.Duration(cacheTTL)*time.Second).Err()
-			if err != nil {
-				logger.Warnf("setting redis cache(%s) encountered error: %v", redisKey, err)
-			}
 		default:
 		}
 
@@ -193,6 +198,127 @@ func ModifyReverseProxyResponse(c *gin.Context, rdb cache.Rediser, cacheTTL int)
 		r.Header.Set("Content-Length", strconv.Itoa(len(b)))
 		return nil
 	}
+}
+
+// getMemberSubscription will return hasMemberPremiumPrivilege as false and subscribedPostIDs as empty map if skipMemberCheck is true
+func getMemberSubscription(c *gin.Context, logger *logrus.Entry, memberGraphqlEndpoint string, skipMemberCheck bool) (hasMemberPremiumPrivilege bool, subscribedPostIDs map[string]interface{}, err error) {
+	// declare before we use it to make sure a instance is returned
+	subscribedPostIDs = make(map[string]interface{})
+	if skipMemberCheck {
+		return false, subscribedPostIDs, nil
+	}
+
+	firebaseID := c.GetString(middleware.GCtxUserIDKey)
+	gql := `
+query ($firebaseId: String!) {
+  member(where: {firebaseId: $firebaseId}) {
+    subscription(where: {isActive: true}) {
+      frequency
+      postId
+    }
+  }
+}
+`
+	req := graphqlclient.NewRequest(gql)
+	req.Var("firebaseId", firebaseID)
+	// data := model.Member{}
+	member := struct {
+		Member model.Member `json:"member"`
+	}{}
+
+	client := graphql.NewClient(memberGraphqlEndpoint, graphql.WithHTTPClient(httpclient.DefaultNetHttpClient))
+	err = client.Run(context.TODO(), req, &member)
+	if err != nil {
+		err = fmt.Errorf("cannot fetch member and subscription state from member server:%v", err)
+		return false, subscribedPostIDs, err
+	}
+
+	data := member.Member
+	if data.Subscription != nil {
+		for _, s := range data.Subscription {
+			if *s.Frequency == model.SubscriptionFrequencyTypeOneTime {
+				subscribedPostIDs[*s.PostID] = nil
+			} else {
+				hasMemberPremiumPrivilege = true
+				break
+			}
+		}
+	}
+	return hasMemberPremiumPrivilege, subscribedPostIDs, err
+}
+
+func modifyPostItems(logger *logrus.Entry, body []byte, subscribedPostIDs map[string]interface{}, hasPremiumPrivilege bool) (postItemsLength int, modifiedBody []byte, err error) {
+	type Category struct {
+		IsMemberOnly *bool `json:"isMemberOnly,omitempty"`
+	}
+
+	type ItemContent struct {
+		APIData []interface{} `json:"apiData"`
+	}
+	type Item struct {
+		ID         string      `json:"_id"`
+		Content    ItemContent `json:"content"`
+		Categories []Category  `json:"categories"`
+		WordCount  int         `json:"word_count"`
+	}
+	type Resp struct {
+		Items []Item `json:"_items"`
+	}
+
+	var items Resp
+	err = json.Unmarshal(body, &items)
+	if err != nil {
+		err = fmt.Errorf("unmarshal post body encountered error: %v", err)
+		return 0, nil, err
+	}
+
+	// modify body at the end and truncate the post depending on the post and member state
+	for i, item := range items.Items {
+		for _, category := range item.Categories {
+			isPostPremium := category.IsMemberOnly != nil && *category.IsMemberOnly
+			if isPostPremium && isPostToBeTruncate(isPostPremium, item.ID, hasPremiumPrivilege, subscribedPostIDs) {
+				APIDataLength := len(item.Content.APIData)
+				truncatedEnd := minInt(3, APIDataLength)
+				if item.WordCount >= 1000 {
+					truncatedEnd = minInt(5, APIDataLength)
+				}
+				truncatedAPIData := item.Content.APIData[0:truncatedEnd]
+				body, err = sjson.SetBytes(body, fmt.Sprintf("_items.%d.content.apiData", i), truncatedAPIData)
+				if err != nil {
+					err = fmt.Errorf("encounter error when truncating apiData: %v", err)
+					return 0, nil, err
+				}
+				body, err = sjson.SetBytes(body, fmt.Sprintf("_items.%d.isTruncated", i), true)
+				if err != nil {
+					err = fmt.Errorf("encounter error setting isTruncated to true for _items.%d: %v", i, err)
+					return 0, nil, err
+				}
+				break
+			} else {
+				body, err = sjson.SetBytes(body, fmt.Sprintf("_items.%d.isTruncated", i), false)
+				if err != nil {
+					err = fmt.Errorf("encounter error setting isTruncated to false for _items.%d: %v", i, err)
+					return 0, nil, err
+				}
+			}
+		}
+	}
+	return len(items.Items), body, err
+}
+
+func removePostItemsHtml(body []byte, itemsLength int) (modifiedBody []byte, err error) {
+	for i := 0; i <= itemsLength-1; i++ {
+		body, err = sjson.DeleteBytes(body, fmt.Sprintf("_items.%d.content.html", i))
+		if err != nil {
+			return nil, err
+		}
+	}
+	return body, err
+}
+
+func isPostToBeTruncate(isPostPremium bool, postID string, hasPremiumPrivilege bool, subscribedIds map[string]interface{}) bool {
+	_, postSubscribed := subscribedIds[postID]
+	return isPostPremium && !hasPremiumPrivilege && !postSubscribed
 }
 
 func joinURLPath(a, b *url.URL) (path, rawpath string) {
@@ -229,4 +355,11 @@ func singleJoiningSlash(a, b string) string {
 		return a + "/" + b
 	}
 	return a + b
+}
+
+func minInt(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
 }

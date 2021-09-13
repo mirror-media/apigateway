@@ -18,7 +18,10 @@ type FirebaseToken struct {
 
 type firebaseTokenState struct {
 	sync.Mutex
-	state *string
+	state         *string
+	email         string
+	emailVerified bool
+	subject       string
 }
 
 func (ftt *firebaseTokenState) setState(state string) {
@@ -41,11 +44,26 @@ func (ft *FirebaseToken) ExecuteTokenStateUpdate() error {
 		defer ft.tokenState.Unlock()
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
-		_, err := ft.firebaseClient.VerifyIDTokenAndCheckRevoked(ctx, *ft.tokenString)
+		t, err := ft.firebaseClient.VerifyIDTokenAndCheckRevoked(ctx, *ft.tokenString)
 		if err != nil {
 			ft.tokenState.setState(err.Error())
 			return
 		}
+		ft.tokenState.subject = t.Subject
+		email, ok := t.Claims["email"]
+		if !ok {
+			email = ""
+		} else {
+			email = email.(string)
+		}
+		ft.tokenState.email = email.(string)
+		emailVerified, ok := t.Claims["email_verified"]
+		if !ok {
+			emailVerified = false
+		} else {
+			emailVerified = emailVerified.(bool)
+		}
+		ft.tokenState.emailVerified = emailVerified.(bool)
 		ft.tokenState.setState(OK)
 	}()
 	return nil
@@ -60,6 +78,28 @@ func (ft *FirebaseToken) GetTokenState() string {
 	ft.tokenState.Lock()
 	defer ft.tokenState.Unlock()
 	return *ft.tokenState.state
+}
+
+// GetEmail will automatically update state if cached state is nil
+func (ft *FirebaseToken) GetEmail() (string, bool) {
+	if ft.tokenState.state == nil {
+		ft.ExecuteTokenStateUpdate()
+	}
+
+	ft.tokenState.Lock()
+	defer ft.tokenState.Unlock()
+	return ft.tokenState.email, ft.tokenState.emailVerified
+}
+
+// GetEmail will automatically update state if cached state is nil
+func (ft *FirebaseToken) GetSubject() string {
+	if ft.tokenState.state == nil {
+		ft.ExecuteTokenStateUpdate()
+	}
+
+	ft.tokenState.Lock()
+	defer ft.tokenState.Unlock()
+	return ft.tokenState.subject
 }
 
 // NewFirebaseToken creates a token and excute the token state update procedure

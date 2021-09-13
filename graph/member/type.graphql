@@ -15,9 +15,20 @@ type invoice {
   email: String
   desc: String
   invoiceNo: String
+  category: invoiceCategoryType
+  buyerName: String
+  buyerUBN: String
+  carrierType: Int
+  carrierNum: String
+  loveCode: Int
   status: invoiceStatusType
   createdAt: String
   updatedAt: String
+}
+
+enum invoiceCategoryType {
+  b2b
+  b2c
 }
 
 enum invoiceStatusType {
@@ -105,6 +116,76 @@ input invoiceWhereInput {
   invoiceNo_not_ends_with_i: String
   invoiceNo_in: [String]
   invoiceNo_not_in: [String]
+  category: invoiceCategoryType
+  category_not: invoiceCategoryType
+  category_in: [invoiceCategoryType]
+  category_not_in: [invoiceCategoryType]
+  buyerName: String
+  buyerName_not: String
+  buyerName_contains: String
+  buyerName_not_contains: String
+  buyerName_starts_with: String
+  buyerName_not_starts_with: String
+  buyerName_ends_with: String
+  buyerName_not_ends_with: String
+  buyerName_i: String
+  buyerName_not_i: String
+  buyerName_contains_i: String
+  buyerName_not_contains_i: String
+  buyerName_starts_with_i: String
+  buyerName_not_starts_with_i: String
+  buyerName_ends_with_i: String
+  buyerName_not_ends_with_i: String
+  buyerName_in: [String]
+  buyerName_not_in: [String]
+  buyerUBN: String
+  buyerUBN_not: String
+  buyerUBN_contains: String
+  buyerUBN_not_contains: String
+  buyerUBN_starts_with: String
+  buyerUBN_not_starts_with: String
+  buyerUBN_ends_with: String
+  buyerUBN_not_ends_with: String
+  buyerUBN_i: String
+  buyerUBN_not_i: String
+  buyerUBN_contains_i: String
+  buyerUBN_not_contains_i: String
+  buyerUBN_starts_with_i: String
+  buyerUBN_not_starts_with_i: String
+  buyerUBN_ends_with_i: String
+  buyerUBN_not_ends_with_i: String
+  buyerUBN_in: [String]
+  buyerUBN_not_in: [String]
+  carrierType: Int
+  carrierType_not: Int
+  carrierType_in: [Int]
+  carrierType_not_in: [Int]
+  carrierNum: String
+  carrierNum_not: String
+  carrierNum_contains: String
+  carrierNum_not_contains: String
+  carrierNum_starts_with: String
+  carrierNum_not_starts_with: String
+  carrierNum_ends_with: String
+  carrierNum_not_ends_with: String
+  carrierNum_i: String
+  carrierNum_not_i: String
+  carrierNum_contains_i: String
+  carrierNum_not_contains_i: String
+  carrierNum_starts_with_i: String
+  carrierNum_not_starts_with_i: String
+  carrierNum_ends_with_i: String
+  carrierNum_not_ends_with_i: String
+  carrierNum_in: [String]
+  carrierNum_not_in: [String]
+  loveCode: Int
+  loveCode_not: Int
+  loveCode_lt: Int
+  loveCode_lte: Int
+  loveCode_gt: Int
+  loveCode_gte: Int
+  loveCode_in: [Int]
+  loveCode_not_in: [Int]
   status: invoiceStatusType
   status_not: invoiceStatusType
   status_in: [invoiceStatusType]
@@ -145,6 +226,18 @@ enum SortInvoicesBy {
   desc_DESC
   invoiceNo_ASC
   invoiceNo_DESC
+  category_ASC
+  category_DESC
+  buyerName_ASC
+  buyerName_DESC
+  buyerUBN_ASC
+  buyerUBN_DESC
+  carrierType_ASC
+  carrierType_DESC
+  carrierNum_ASC
+  carrierNum_DESC
+  loveCode_ASC
+  loveCode_DESC
   status_ASC
   status_DESC
   createdAt_ASC
@@ -159,6 +252,12 @@ input invoiceOrderByInput {
   email: OrderDirection
   desc: OrderDirection
   invoiceNo: OrderDirection
+  category: OrderDirection
+  buyerName: OrderDirection
+  buyerUBN: OrderDirection
+  carrierType: OrderDirection
+  carrierNum: OrderDirection
+  loveCode: OrderDirection
   status: OrderDirection
   createdAt: OrderDirection
   updatedAt: OrderDirection
@@ -172,6 +271,12 @@ input invoiceUpdateInput {
   email: String
   desc: String
   invoiceNo: String
+  category: invoiceCategoryType
+  buyerName: String
+  buyerUBN: String
+  carrierType: Int
+  carrierNum: String
+  loveCode: Int
   status: invoiceStatusType
   createdAt: String
   updatedAt: String
@@ -211,6 +316,12 @@ input invoiceCreateInput {
   email: String
   desc: String
   invoiceNo: String
+  category: invoiceCategoryType
+  buyerName: String
+  buyerUBN: String
+  carrierType: Int
+  carrierNum: String
+  loveCode: Int
   status: invoiceStatusType
   createdAt: String
   updatedAt: String
@@ -278,7 +389,9 @@ type memberInfo {
 }
 
 enum memberTypeType {
-  subscriber
+  subscribe_yearly
+  subscribe_monthly
+  subscribe_one_time
   marketing
   none
 }
@@ -2211,14 +2324,14 @@ input subscriptionWhereInput {
   periodFailureTimes_gte: Int
   periodFailureTimes_in: [Int]
   periodFailureTimes_not_in: [Int]
-  periodLastSuccessDatetime: String
-  periodLastSuccessDatetime_not: String
-  periodLastSuccessDatetime_lt: String
-  periodLastSuccessDatetime_lte: String
-  periodLastSuccessDatetime_gt: String
-  periodLastSuccessDatetime_gte: String
-  periodLastSuccessDatetime_in: [String]
-  periodLastSuccessDatetime_not_in: [String]
+  periodLastSuccessDatetime: Int
+  periodLastSuccessDatetime_not: Int
+  periodLastSuccessDatetime_lt: Int
+  periodLastSuccessDatetime_lte: Int
+  periodLastSuccessDatetime_gt: Int
+  periodLastSuccessDatetime_gte: Int
+  periodLastSuccessDatetime_in: [Int]
+  periodLastSuccessDatetime_not_in: [Int]
   periodNextPayDatetime: String
   periodNextPayDatetime_not: String
   periodNextPayDatetime_lt: String
@@ -2527,36 +2640,6 @@ input subscriptionCreateInput {
   newebpayPaymentInfo: newebpayPaymentInfoRelateToOneInput
   createdAt: String
   updatedAt: String
-}
-
-input subscriptionPrivateNoMemberCreateInput {
-  paymentMethod: subscriptionPaymentMethodType
-  newebpayPayment: newebpayPaymentRelateToManyInput
-  applepayPayment: applepayPaymentRelateToManyInput
-  androidpayPayment: androidpayPaymentRelateToManyInput
-  status: subscriptionStatusType
-  amount: Int
-  currency: subscriptionCurrencyType
-  desc: String
-  email: String
-  orderNumber: String
-  isActive: Boolean
-  isCanceled: Boolean
-  frequency: subscriptionFrequencyType
-  nextFrequency: subscriptionNextFrequencyType
-  periodFailureTimes: Int
-  periodLastSuccessDatetime: String
-  periodNextPayDatetime: String
-  periodCreateDatetime: String
-  periodFirstDatetime: String
-  periodEndDatetime: String
-  changePlanDatetime: String
-  note: String
-  promoteId: Int
-  postId: String
-  oneTimeStartDatetime: String
-  oneTimeEndDatetime: String
-  newebpayPaymentInfo: newebpayPaymentInfoRelateToOneInput
 }
 
 input SubscriptionsCreateInput {
@@ -3027,8 +3110,13 @@ enum updateSubscriptionStatusType {
   cancelled
 }
 
+enum updateMemberStateType {
+  inactive
+}
+
 input memberUpdateInput {
   email: String
+  state: updateMemberStateType
   tos: Boolean
   firstName: String
   lastName: String

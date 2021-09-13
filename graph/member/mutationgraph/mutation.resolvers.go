@@ -16,38 +16,19 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func (r *mutationResolver) Createmember(ctx context.Context, data *model.MemberCreateInput) (*model.MemberInfo, error) {
+func (r *mutationResolver) Createmember(ctx context.Context, data map[string]interface{}) (*model.MemberInfo, error) {
+	if data == nil {
+		return nil, fmt.Errorf("data cannot be null")
+	}
+
 	firebaseID, err := r.GetFirebaseID(ctx)
 	if err != nil {
 		return nil, err
 	}
+	data["firebaseId"] = firebaseID
 
-	input := &model.MemberPrivateCreateInput{
-		FirebaseID: firebaseID,
-	}
-
-	if data == nil {
-		input = nil
-	} else {
-		input.Address = data.Address
-		input.Birthday = data.Birthday
-		input.Email = data.Email
-		input.Type = model.MemberTypeTypeNone
-		input.DateJoined = time.Now().Format(ISO8601Layout)
-		input.Tos = data.Tos
-		input.FirstName = data.FirstName
-		input.LastName = data.LastName
-		input.Name = data.Name
-		input.Gender = data.Gender
-		input.Phone = data.Phone
-		input.Birthday = data.Birthday
-		input.Address = data.Address
-		input.Nickname = data.Nickname
-		input.ProfileImage = data.ProfileImage
-		input.City = data.City
-		input.Country = data.Country
-		input.District = data.District
-	}
+	data["type"] = model.MemberTypeTypeNone
+	data["dateJoined"] = time.Now().Format(time.RFC3339)
 
 	// Construct GraphQL mutation
 
@@ -63,7 +44,7 @@ func (r *mutationResolver) Createmember(ctx context.Context, data *model.MemberC
 	gql := strings.Join(preGQL, "\n")
 
 	req := graphqlclient.NewRequest(gql)
-	req.Var("input", input)
+	req.Var("input", data)
 
 	resp := struct {
 		MemberInfo *model.MemberInfo `json:"createmember"`
@@ -71,12 +52,14 @@ func (r *mutationResolver) Createmember(ctx context.Context, data *model.MemberC
 
 	err = r.Client.Run(ctx, req, &resp)
 
-	checkAndPrintGraphQLError(logrus.WithField("mutation", "createmember"), err)
+	if err != nil {
+		logrus.WithField("mutation", "createmember").Error(err)
+	}
 
 	return resp.MemberInfo, err
 }
 
-func (r *mutationResolver) Updatemember(ctx context.Context, id string, data *model.MemberUpdateInput) (*model.MemberInfo, error) {
+func (r *mutationResolver) Updatemember(ctx context.Context, id string, data map[string]interface{}) (*model.MemberInfo, error) {
 	firebaseID, err := r.GetFirebaseID(ctx)
 	if err != nil {
 		return nil, err
@@ -86,26 +69,6 @@ func (r *mutationResolver) Updatemember(ctx context.Context, id string, data *mo
 		return nil, err
 	} else if _id != id {
 		return nil, fmt.Errorf("the id of firebaseId(%s) doesn't match id(%s)", firebaseID, id)
-	}
-
-	var input *model.MemberPrivateUpdateInput
-	if data != nil {
-		input = &model.MemberPrivateUpdateInput{
-			Email:        data.Email,
-			Tos:          data.Tos,
-			FirstName:    data.FirstName,
-			LastName:     data.LastName,
-			Name:         data.Name,
-			Gender:       data.Gender,
-			Phone:        data.Phone,
-			Birthday:     data.Birthday,
-			Address:      data.Address,
-			Nickname:     data.Nickname,
-			ProfileImage: data.ProfileImage,
-			City:         data.City,
-			Country:      data.Country,
-			District:     data.District,
-		}
 	}
 
 	// Construct GraphQL mutation
@@ -121,68 +84,48 @@ func (r *mutationResolver) Updatemember(ctx context.Context, id string, data *mo
 	preGQL = append(preGQL, "}", "}")
 	gql := strings.Join(preGQL, "\n")
 	req := graphqlclient.NewRequest(gql)
-	req.Var("input", input)
+	req.Var("id", id)
+	req.Var("input", data)
 
 	var resp struct {
 		MemberInfo *model.MemberInfo `json:"updatemember"`
 	}
 
 	err = r.Client.Run(ctx, req, &resp)
-
-	checkAndPrintGraphQLError(logrus.WithField("mutation", "createmember"), err)
+	if err != nil {
+		logrus.WithField("mutation", "updatemember").Error(err)
+	}
 
 	return resp.MemberInfo, err
 }
 
-func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data *model.SubscriptionRecurringCreateInput) (*model.SubscriptionCreation, error) {
+func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data map[string]interface{}) (*model.SubscriptionCreation, error) {
 	firebaseID, err := r.GetFirebaseID(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	type Input struct {
-		model.SubscriptionPrivateNoMemberCreateInput
-		Member struct {
-			Connect model.MemberWhereUniqueInput `json:"connect"`
-		} `json:"member"`
+	data["member"] = MemberConnect{
+		Connect: Connect{
+			FirebaseID: firebaseID,
+		},
 	}
+	orderNumber := xid.New().String()
+	data["orderNumber"] = orderNumber
 
-	var input Input
-	if data != nil {
-		input = Input{
-			SubscriptionPrivateNoMemberCreateInput: model.SubscriptionPrivateNoMemberCreateInput{
-				PaymentMethod:   &data.PaymentMethod,
-				ApplepayPayment: data.ApplepayPayment,
-				Desc:            data.Desc,
-				Email:           &data.Email,
-				Frequency:       &data.Frequency,
-				NextFrequency:   (*model.SubscriptionNextFrequencyType)(&data.Frequency),
-				Note:            data.Note,
-				PromoteID:       data.PromoteID,
-			},
-		}
-
-		input.Member.Connect.FirebaseID = firebaseID
-
-		status := (model.SubscriptionStatusType)(data.Status)
-		input.Status = &status
-
-		orderNumber := xid.New().String()
-		input.OrderNumber = &orderNumber
-
-		price, currency, state, err := r.RetrieveMerchandise(ctx, data.Frequency.String())
-		if err != nil {
-			return nil, err
-		}
-		if state != model.MerchandiseStateTypeActive {
-			return nil, fmt.Errorf("frequency(%s) is not %s", data.Frequency, model.MerchandiseStateTypeActive)
-		}
-
-		amount := int(price)
-		input.Amount = &amount
-
-		input.Currency = (*model.SubscriptionCurrencyType)(&currency)
+	frequency, ok := data["frequency"].(string)
+	if !ok {
+		return nil, fmt.Errorf("%v cannot be converted to string", data["frequency"])
 	}
+	price, currency, state, err := r.RetrieveMerchandise(ctx, frequency)
+	if err != nil {
+		return nil, err
+	}
+	if state != model.MerchandiseStateTypeActive {
+		return nil, fmt.Errorf("frequency(%s) is not %s", data["frequency"], model.MerchandiseStateTypeActive)
+	}
+	data["amount"] = int(price)
+	data["currency"] = currency
 
 	// Construct GraphQL mutation
 
@@ -201,7 +144,7 @@ func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data
 	preGQL = append(preGQL, "}", "}")
 	gql := strings.Join(preGQL, "\n")
 	req := graphqlclient.NewRequest(gql)
-	req.Var("input", input)
+	req.Var("input", data)
 
 	var resp struct {
 		SubscriptionInfo *model.SubscriptionInfo `json:"createsubscription"`
@@ -209,7 +152,9 @@ func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data
 
 	err = r.Client.Run(ctx, req, &resp)
 
-	checkAndPrintGraphQLError(logrus.WithField("mutation", "createsubscription"), err)
+	if err != nil {
+		logrus.WithField("mutation", "createsubscription").Error(err)
+	}
 
 	// TODO newebpay
 	return &model.SubscriptionCreation{
@@ -217,46 +162,26 @@ func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data
 	}, err
 }
 
-func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data *model.SubscriptionOneTimeCreateInput) (*model.SubscriptionCreation, error) {
+func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data map[string]interface{}) (*model.SubscriptionCreation, error) {
 	if data == nil {
 		return nil, fmt.Errorf("data cannot be null")
-	}
-
-	type Input struct {
-		model.SubscriptionPrivateNoMemberCreateInput
-		Member struct {
-			Connect model.MemberWhereUniqueInput `json:"connect"`
-		} `json:"member"`
-	}
-
-	input := Input{
-		SubscriptionPrivateNoMemberCreateInput: model.SubscriptionPrivateNoMemberCreateInput{
-			PaymentMethod:   &data.PaymentMethod,
-			ApplepayPayment: data.ApplepayPayment,
-			Desc:            data.Desc,
-			Email:           &data.Email,
-			Note:            data.Note,
-			PromoteID:       data.PromoteID,
-			PostID:          &data.PostID,
-		},
 	}
 
 	firebaseID, err := r.GetFirebaseID(ctx)
 	if err != nil {
 		return nil, err
 	}
-	input.Member.Connect.FirebaseID = firebaseID
 
-	frequency := model.SubscriptionFrequencyTypeOneTime
-	input.Frequency = &frequency
-	none := model.SubscriptionNextFrequencyTypeNone
-	input.NextFrequency = &none
-
-	status := (model.SubscriptionStatusType)(data.Status)
-	input.Status = &status
+	data["member"] = MemberConnect{
+		Connect: Connect{
+			FirebaseID: firebaseID,
+		},
+	}
+	data["frequency"] = model.SubscriptionFrequencyTypeOneTime.String()
+	data["nextFrequency"] = model.SubscriptionNextFrequencyTypeNone.String()
 
 	orderNumber := xid.New().String()
-	input.OrderNumber = &orderNumber
+	data["orderNumber"] = orderNumber
 
 	price, currency, state, err := r.RetrieveMerchandise(ctx, model.SubscriptionFrequencyTypeOneTime.String())
 	if err != nil {
@@ -265,11 +190,8 @@ func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data 
 	if state != model.MerchandiseStateTypeActive {
 		return nil, fmt.Errorf("frequency(%s) is not %s", model.SubscriptionFrequencyTypeOneTime, model.MerchandiseStateTypeActive)
 	}
-
-	amount := int(price)
-	input.Amount = &amount
-
-	input.Currency = (*model.SubscriptionCurrencyType)(&currency)
+	data["amount"] = int(price)
+	data["currency"] = currency
 
 	// Construct GraphQL mutation
 
@@ -288,7 +210,7 @@ func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data 
 	preGQL = append(preGQL, "}", "}")
 	gql := strings.Join(preGQL, "\n")
 	req := graphqlclient.NewRequest(gql)
-	req.Var("input", input)
+	req.Var("input", data)
 
 	var resp struct {
 		SubscriptionInfo *model.SubscriptionInfo `json:"createsubscription"`
@@ -296,7 +218,9 @@ func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data 
 
 	err = r.Client.Run(ctx, req, &resp)
 
-	checkAndPrintGraphQLError(logrus.WithField("mutation", "createsubscription"), err)
+	if err != nil {
+		logrus.WithField("mutation", "createsubscription").Error(err)
+	}
 
 	// TODO newebpay
 	return &model.SubscriptionCreation{
@@ -304,7 +228,11 @@ func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data 
 	}, err
 }
 
-func (r *mutationResolver) Updatesubscription(ctx context.Context, id string, data *model.SubscriptionUpdateInput) (*model.SubscriptionInfo, error) {
+func (r *mutationResolver) Updatesubscription(ctx context.Context, id string, data map[string]interface{}) (*model.SubscriptionInfo, error) {
+	if data == nil {
+		return nil, fmt.Errorf("data cannot be null")
+	}
+
 	firebaseID, err := r.GetFirebaseID(ctx)
 	if err != nil {
 		return nil, err
@@ -319,25 +247,17 @@ func (r *mutationResolver) Updatesubscription(ctx context.Context, id string, da
 		return nil, fmt.Errorf("%s subscription cannot be updated", _frequency)
 	}
 
-	var input *model.SubscriptionPrivateUpdateInput
-	if data != nil {
-		input = &model.SubscriptionPrivateUpdateInput{
-			Desc:          data.Desc,
-			NextFrequency: (*model.SubscriptionNextFrequencyType)(data.NextFrequency),
-			Note:          data.Note,
-			IsCanceled:    data.IsCanceled,
-		}
-
-		price, currency, state, err := r.RetrieveMerchandise(ctx, data.NextFrequency.String())
+	if nextFrequency, ok := data["nextFrequency"]; ok {
+		nextFrequencyString, _ := nextFrequency.(string)
+		price, currency, state, err := r.RetrieveMerchandise(ctx, nextFrequencyString)
 		if err != nil {
 			return nil, err
 		}
 		if state != model.MerchandiseStateTypeActive {
 			return nil, fmt.Errorf("frequency(%s) is not %s", model.SubscriptionFrequencyTypeOneTime, model.MerchandiseStateTypeActive)
 		}
-		amount := int(price)
-		input.Amount = &amount
-		input.Currency = (*model.SubscriptionCurrencyType)(&currency)
+		data["amount"] = int(price)
+		data["currency"] = currency
 	}
 
 	// Construct GraphQL mutation
@@ -353,7 +273,8 @@ func (r *mutationResolver) Updatesubscription(ctx context.Context, id string, da
 	preGQL = append(preGQL, "}", "}")
 	gql := strings.Join(preGQL, "\n")
 	req := graphqlclient.NewRequest(gql)
-	req.Var("input", input)
+	req.Var("id", id)
+	req.Var("input", data)
 
 	var resp struct {
 		SubscriptionInfo *model.SubscriptionInfo `json:"updatesubscription"`
@@ -361,7 +282,10 @@ func (r *mutationResolver) Updatesubscription(ctx context.Context, id string, da
 
 	err = r.Client.Run(ctx, req, &resp)
 
-	checkAndPrintGraphQLError(logrus.WithField("mutation", "updatesubscription"), err)
+	if err != nil {
+		logrus.WithField("mutation", "updatesubscription").Error(err)
+		return nil, err
+	}
 
 	return resp.SubscriptionInfo, err
 }
