@@ -44,22 +44,26 @@ type Merchandise struct {
 	PostID    string  `url:"postId,omitempty"`
 	PostSlug  string  `url:"postSlug,omitempty"`
 	PostTitle string  `url:"postTitle,omitempty"`
-	Amount    float64 `url:"amount"`
+	Amount    float64 `url:"amount,omitempty"`
 }
 
 type PurchaseInfo struct {
 	Merchandise
-	PurchasedAtUnixTime int64  `url:"purchasedAtUnixTime"`
-	OrderNumber         string `url:"orderNumber"`
+	PurchasedAtUnixTime int64  `url:"purchasedAtUnixTime,omitempty"`
+	OrderNumber         string `url:"orderNumber,omitempty"`
 	MemberFirebaseID    string `url:"memberFirebaseId,omitempty"`
-	ReturnPath          string `url:"returnPath"`
+	ReturnPath          string `url:"returnPath,omitempty"`
 }
 
 func (s NewebPayStore) getNotifyURL(purchaseInfo PurchaseInfo) (string, error) {
 	protocol := s.NotifyProtocol
 	domain := s.NotifyHost
 	path := s.NotifyPath
-	return getCallbackUrl(protocol, domain, path, nil)
+	return getCallbackUrl(protocol, domain, path, &PurchaseInfo{
+		Merchandise: Merchandise{
+			Code: purchaseInfo.Code,
+		},
+	})
 }
 
 func (s NewebPayStore) getReturnURL(purchaseInfo PurchaseInfo) (string, error) {
