@@ -114,6 +114,7 @@ type NewebpayTradeInfoMGP struct {
 	NewebpayTradeInfo
 	OrderComment    string `url:"OrderComment,omitempty"`
 	ItemDescription string `url:"ItemDesc"`
+	TradeLimit      int    `url:"TradeLimit"`
 }
 
 type NewebpayAgreementInfo struct {
@@ -247,8 +248,7 @@ func (s NewebPayStore) CreateNewebpayMPGPayload(newebpayMGPInfo NewebpayMGPInfo,
 			Version:             s.Version,
 		},
 		ItemDescription: newebpayMGPInfo.ItemDescription,
-		// ? Are you sure?
-		// OrderComment: "",
+		TradeLimit:      900,
 	}
 	v, err := query.Values(tradeInfo)
 	payload = v.Encode()
