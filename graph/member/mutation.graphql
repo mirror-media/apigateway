@@ -18,6 +18,7 @@ type Mutation {
   """
   createSubscriptionRecurring(
     data: subscriptionRecurringCreateInput
+    info: subscriptionRecurringCreateInfo
   ): subscriptionCreation
   """
   It creates a subscription with subscriptionOneTimeCreateInput, set a new order number, set frequency to **one_time**, connect the subscription to the member with the firebaseID, and the amount/currency coresponding to the frequency in **merchandise**.
@@ -26,6 +27,7 @@ type Mutation {
   """
   createsSubscriptionOneTime(
     data: subscriptionOneTimeCreateInput
+    info: subscriptionOneTimeCreateInfo
   ): subscriptionCreation
   """
   It checks if the existing subscription is connect to the member with the same firebaseID, and them it updates the subscription with subscriptionUpdateInput and the amount/currency coresponding to the nextFrequency in **merchandise**.

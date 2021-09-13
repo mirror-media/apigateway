@@ -2364,6 +2364,12 @@ type SubscriptionInfo struct {
 	UpdatedAt                 *string                        `json:"updatedAt"`
 }
 
+type SubscriptionOneTimeCreateInfo struct {
+	PostSlug     string `json:"postSlug"`
+	PostTitle    string `json:"postTitle"`
+	ReturnToPath string `json:"returnToPath"`
+}
+
 type SubscriptionOrderByInput struct {
 	ID                        *OrderDirection `json:"id"`
 	PaymentMethod             *OrderDirection `json:"paymentMethod"`
@@ -2424,6 +2430,10 @@ type SubscriptionPrivateUpdateInput struct {
 	NewebpayPaymentInfo       *NewebpayPaymentInfoRelateToOneInput `json:"newebpayPaymentInfo"`
 	CreatedAt                 *string                              `json:"createdAt"`
 	UpdatedAt                 *string                              `json:"updatedAt"`
+}
+
+type SubscriptionRecurringCreateInfo struct {
+	ReturnToPath string `json:"returnToPath"`
 }
 
 type SubscriptionRelateToManyInput struct {

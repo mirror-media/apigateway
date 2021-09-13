@@ -14,6 +14,7 @@ import (
 	"github.com/mirror-media/apigateway/config"
 	"github.com/mirror-media/apigateway/graph/member/model"
 	"github.com/mirror-media/apigateway/middleware"
+	"github.com/mirror-media/apigateway/payment"
 	"github.com/sirupsen/logrus"
 
 	"firebase.google.com/go/v4/auth"
@@ -30,9 +31,10 @@ type MemberConnect struct {
 
 type Resolver struct {
 	// Token      token.Token
-	Client     *graphql.Client
-	Conf       config.Conf
-	UserSvrURL string
+	Client        *graphql.Client
+	Conf          config.Conf
+	UserSvrURL    string
+	NewebpayStore payment.NewebPayStore
 }
 
 func (r Resolver) RetrieveExistingSubscriptionFromRemote(ctx context.Context, subscriptionID string) (firebaseID, frequency string, err error) {
@@ -212,4 +214,13 @@ func Map(vs []string, f func(string) string) []string {
 		vsm[i] = f(v)
 	}
 	return vsm
+}
+
+func contain(ss []string, s string) bool {
+	for _, v := range ss {
+		if v == s {
+			return true
+		}
+	}
+	return false
 }

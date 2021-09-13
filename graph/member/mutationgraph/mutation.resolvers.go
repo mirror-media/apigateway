@@ -12,6 +12,7 @@ import (
 	graphqlclient "github.com/machinebox/graphql"
 	"github.com/mirror-media/apigateway/graph/member/model"
 	"github.com/mirror-media/apigateway/graph/member/mutationgraph/generated"
+	"github.com/mirror-media/apigateway/payment"
 	"github.com/rs/xid"
 	"github.com/sirupsen/logrus"
 )
@@ -99,7 +100,7 @@ func (r *mutationResolver) Updatemember(ctx context.Context, id string, data map
 	return resp.MemberInfo, err
 }
 
-func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data map[string]interface{}) (*model.SubscriptionCreation, error) {
+func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data map[string]interface{}, info *model.SubscriptionRecurringCreateInfo) (*model.SubscriptionCreation, error) {
 	firebaseID, err := r.GetFirebaseID(ctx)
 	if err != nil {
 		return nil, err
@@ -141,6 +142,9 @@ func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data
 	})
 
 	preGQL = append(preGQL, subscriptionFieldsOnly...)
+	if contain(subscriptionFieldsOnly, "createdAt") {
+		preGQL = append(preGQL, "createdAt")
+	}
 	preGQL = append(preGQL, "}", "}")
 	gql := strings.Join(preGQL, "\n")
 	req := graphqlclient.NewRequest(gql)
@@ -156,13 +160,45 @@ func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data
 		logrus.WithField("mutation", "createsubscription").Error(err)
 	}
 
-	// TODO newebpay
+	createAt := *resp.SubscriptionInfo.CreatedAt
+
+	t, err := time.Parse(time.RFC3339, createAt)
+	if err != nil {
+		return nil, err
+	}
+
+	creationTimeUnix := t.Unix()
+
+	payload, err := r.NewebpayStore.CreateNewebpayAgreementPayload(payment.NewebpayAgreementInfo{
+		Amount:              int(price),
+		Email:               data["email"].(string),
+		IsAbleToModifyEmail: r.NewebpayStore.IsAbleToModifyEmail,
+		LoginType:           r.NewebpayStore.LoginType,
+		RespondType:         r.NewebpayStore.RespondType,
+		CreationTimeUnix:    creationTimeUnix,
+		OrderComment:        data["desc"].(string),
+		TokenTerm:           firebaseID,
+	}, payment.PurchaseInfo{
+		Merchandise: payment.Merchandise{
+			Code:   frequency,
+			Amount: price,
+		},
+		PurchasedAtUnixTime: creationTimeUnix,
+		OrderNumber:         orderNumber,
+		MemberFirebaseID:    firebaseID,
+		ReturnPath:          info.ReturnToPath,
+	})
+	if err != nil {
+		return nil, err
+	}
+
 	return &model.SubscriptionCreation{
-		Subscription: resp.SubscriptionInfo,
+		Subscription:    resp.SubscriptionInfo,
+		NewebpayPayload: &payload,
 	}, err
 }
 
-func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data map[string]interface{}) (*model.SubscriptionCreation, error) {
+func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data map[string]interface{}, info *model.SubscriptionOneTimeCreateInfo) (*model.SubscriptionCreation, error) {
 	if data == nil {
 		return nil, fmt.Errorf("data cannot be null")
 	}
@@ -207,6 +243,9 @@ func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data 
 	})
 
 	preGQL = append(preGQL, subscriptionFieldsOnly...)
+	if contain(subscriptionFieldsOnly, "createdAt") {
+		preGQL = append(preGQL, "createdAt")
+	}
 	preGQL = append(preGQL, "}", "}")
 	gql := strings.Join(preGQL, "\n")
 	req := graphqlclient.NewRequest(gql)
@@ -222,9 +261,44 @@ func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data 
 		logrus.WithField("mutation", "createsubscription").Error(err)
 	}
 
-	// TODO newebpay
+	createAt := *resp.SubscriptionInfo.CreatedAt
+
+	t, err := time.Parse(time.RFC3339, createAt)
+	if err != nil {
+		return nil, err
+	}
+
+	creationTimeUnix := t.Unix()
+
+	payload, err := r.NewebpayStore.CreateNewebpayMPGPayload(payment.NewebpayMGPInfo{
+		Amount:              int(price),
+		Email:               data["email"].(string),
+		IsAbleToModifyEmail: r.NewebpayStore.IsAbleToModifyEmail,
+		LoginType:           r.NewebpayStore.LoginType,
+		RespondType:         r.NewebpayStore.RespondType,
+		CreationTimeUnix:    creationTimeUnix,
+		ItemDescription:     data["desc"].(string),
+		TokenTerm:           firebaseID,
+	}, payment.PurchaseInfo{
+		Merchandise: payment.Merchandise{
+			Code:      model.SubscriptionFrequencyTypeOneTime.String(),
+			PostID:    data["postId"].(string),
+			PostSlug:  info.PostSlug,
+			PostTitle: info.PostTitle,
+			Amount:    price,
+		},
+		PurchasedAtUnixTime: creationTimeUnix,
+		OrderNumber:         orderNumber,
+		MemberFirebaseID:    firebaseID,
+		ReturnPath:          info.ReturnToPath,
+	})
+	if err != nil {
+		return nil, err
+	}
+
 	return &model.SubscriptionCreation{
-		Subscription: resp.SubscriptionInfo,
+		Subscription:    resp.SubscriptionInfo,
+		NewebpayPayload: &payload,
 	}, err
 }
 

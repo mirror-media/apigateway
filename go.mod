@@ -13,8 +13,8 @@ require (
 	github.com/eclipse/paho.mqtt.golang v1.3.5 // indirect
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-redis/redis/v8 v8.7.1
-	github.com/google/go-querystring v1.1.0
 	github.com/golang-jwt/jwt/v4 v4.0.0
+	github.com/google/go-querystring v1.1.0
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/huandu/xstrings v1.3.2 // indirect
 	github.com/imdario/mergo v0.3.12 // indirect

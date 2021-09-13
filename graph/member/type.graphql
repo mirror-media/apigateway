@@ -3162,7 +3162,7 @@ input subscriptionRecurringCreateInput {
   paymentMethod: subscriptionPaymentMethodType!
   applepayPayment: applepayPaymentRelateToManyInput
   status: createSubscriptionStatusType!
-  desc: String
+  desc: String!
   email: String!
   """
   frequency has to match a code of one of the merchandize. It will be use to fetch amount and currency.
@@ -3170,6 +3170,9 @@ input subscriptionRecurringCreateInput {
   frequency: subscriptionFrequencyType!
   note: String
   promoteId: Int
+}
+
+input subscriptionRecurringCreateInfo {
   returnToPath: String!
 }
 
@@ -3177,11 +3180,14 @@ input subscriptionOneTimeCreateInput {
   paymentMethod: subscriptionPaymentMethodType!
   applepayPayment: applepayPaymentRelateToManyInput
   status: createSubscriptionStatusType!
-  desc: String
+  desc: String!
   email: String!
   note: String
   promoteId: Int
   postId: String!
+}
+
+input subscriptionOneTimeCreateInfo {
   postSlug: String!
   postTitle: String!
   returnToPath: String!
