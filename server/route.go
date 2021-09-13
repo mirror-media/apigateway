@@ -12,6 +12,7 @@ import (
 	"github.com/mirror-media/apigateway/graph/member/mutationgraph/generated"
 	"github.com/mirror-media/apigateway/handler"
 	"github.com/mirror-media/apigateway/middleware"
+	"github.com/mirror-media/apigateway/payment"
 	"github.com/mirror-media/apigateway/token"
 	"golang.org/x/oauth2"
 
@@ -142,6 +143,21 @@ func SetMemberMutationRoute(server *Server) error {
 			httpClient := oauth2.NewClient(context.Background(), src)
 			return graphql.NewClient(server.Services.UserGraphQL, graphql.WithHTTPClient(httpClient))
 		}(),
+		NewebpayStore: payment.NewebPayStore{
+			CallbackHost:        c.NewebPayStore.CallbackHost,
+			CallbackProtocol:    c.NewebPayStore.CallbackProtocol,
+			ClientBackPath:      c.NewebPayStore.ClientBackPath,
+			ID:                  c.NewebPayStore.ID,
+			IsAbleToModifyEmail: payment.Boolean(c.NewebPayStore.IsAbleToModifyEmail),
+			LoginType:           payment.NewebpayLoginType(c.NewebPayStore.LoginType),
+			NotifyProtocol:      c.NewebPayStore.NotifyProtocol,
+			NotifyHost:          c.NewebPayStore.NotifyHost,
+			NotifyPath:          c.NewebPayStore.NotifyPath,
+			Is3DSecure:          payment.Boolean(c.NewebPayStore.Is3DSecure),
+			RespondType:         payment.NewebpayRespondType(c.NewebPayStore.RespondType),
+			ReturnPath:          c.NewebPayStore.ReturnPath,
+			Version:             c.NewebPayStore.Version,
+		},
 	}}))
 	v2TokenAuthenticatedWithFirebaseRouter.POST("/graphql/member", gin.WrapH(svr))
 
