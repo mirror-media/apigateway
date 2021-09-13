@@ -17,8 +17,6 @@ type Query {
 
   """
   It will responde with the merchandise mathcing merchandiseWhereUniqueInput.
-
-  The default filter has isActive as true. Set it to false if you want the info regardlessly.
   """
   merchandise(where: merchandiseWhereUniqueInput!): merchandise
 }
