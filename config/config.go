@@ -32,7 +32,7 @@ type Conf struct {
 	RedisService                RedisService
 	ServiceEndpoints            ServiceEndpoints
 	TokenSecretName             string
-	V0RESTfulSrvTargetURL       string
+	V0RESTfulSvrTargetURL       string
 }
 
 func (c *Conf) Valid() bool {

@@ -4,17 +4,17 @@ package server
 import (
 	"context"
 	"fmt"
-	"time"
 
 	firebase "firebase.google.com/go/v4"
 	"firebase.google.com/go/v4/auth"
 	"firebase.google.com/go/v4/db"
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v8"
-	"github.com/mirror-media/mm-apigateway/config"
-	"github.com/mirror-media/mm-apigateway/token"
+	"github.com/mirror-media/apigateway/cache"
+	"github.com/mirror-media/apigateway/config"
+	"github.com/mirror-media/apigateway/token"
 	"github.com/pkg/errors"
-	log "github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 	"google.golang.org/api/option"
 )
 
@@ -26,29 +26,15 @@ type Server struct {
 	Conf                   *config.Conf
 	Engine                 *gin.Engine
 	FirebaseApp            *firebase.App
-	FirebaseClient         *auth.Client
-	FirebaseDatabaseClient *db.Client
+	firebaseClient         *auth.Client
+	firebaseDatabaseClient *db.Client
 	Services               *ServiceEndpoints
-	UserSrvToken           token.Token
-	Rdb                    Rediser
-}
-
-func init() {
-	log.SetFormatter(&log.JSONFormatter{})
-	log.SetReportCaller(true)
+	UserSvrToken           token.Token
+	Rdb                    cache.Rediser
 }
 
 func (s *Server) Run() error {
 	return s.Engine.Run(fmt.Sprintf("%s:%d", s.Conf.Address, s.Conf.Port))
-}
-
-type Rediser interface {
-	Set(ctx context.Context, key string, value interface{}, ttl time.Duration) *redis.StatusCmd
-	SetXX(ctx context.Context, key string, value interface{}, ttl time.Duration) *redis.BoolCmd
-	SetNX(ctx context.Context, key string, value interface{}, ttl time.Duration) *redis.BoolCmd
-
-	Get(ctx context.Context, key string) *redis.StringCmd
-	Del(ctx context.Context, keys ...string) *redis.IntCmd
 }
 
 func NewServer(c config.Conf) (*Server, error) {
@@ -75,7 +61,7 @@ func NewServer(c config.Conf) (*Server, error) {
 		return nil, errors.Wrap(err, "fail to initialize the Firebase Database Client")
 	}
 
-	var rdb Rediser
+	var rdb cache.Rediser
 
 	switch c.RedisService.Type {
 	case "cluster":
@@ -95,7 +81,7 @@ func NewServer(c config.Conf) (*Server, error) {
 		if len(c.RedisService.Addresses) == 0 {
 			return nil, errors.New("there's no redis address provided")
 		} else if len(c.RedisService.Addresses) > 1 {
-			log.Warnf("single type Redis accepts only the first address, but %d addresses are provided", len(c.RedisService.Addresses))
+			logrus.Warnf("single type Redis accepts only the first address, but %d addresses are provided", len(c.RedisService.Addresses))
 		}
 
 		// TODO refactor
@@ -134,13 +120,13 @@ func NewServer(c config.Conf) (*Server, error) {
 		Conf:                   &c,
 		Engine:                 engine,
 		FirebaseApp:            app,
-		FirebaseClient:         firebaseClient,
-		FirebaseDatabaseClient: dbClient,
+		firebaseClient:         firebaseClient,
+		firebaseDatabaseClient: dbClient,
 		Rdb:                    rdb,
 		Services: &ServiceEndpoints{
 			UserGraphQL: c.ServiceEndpoints.UserGraphQL,
 		},
-		UserSrvToken: gatewayToken,
+		UserSvrToken: gatewayToken,
 	}
 	return s, nil
 }

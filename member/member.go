@@ -9,15 +9,14 @@ import (
 	"time"
 
 	"github.com/machinebox/graphql"
-	"github.com/mirror-media/mm-apigateway/graph/model"
-	log "github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 	"golang.org/x/oauth2"
 
 	"cloud.google.com/go/pubsub"
 	"firebase.google.com/go/v4/auth"
 	"firebase.google.com/go/v4/db"
-	"github.com/mirror-media/mm-apigateway/config"
-	"github.com/mirror-media/mm-apigateway/token"
+	"github.com/mirror-media/apigateway/config"
+	"github.com/mirror-media/apigateway/token"
 	"github.com/pkg/errors"
 )
 
@@ -35,11 +34,11 @@ type Clients struct {
 	graphqlClient *graphql.Client
 }
 
-func (c *Clients) getGraphQLClient(userSrvToken string, serverConf config.Conf) (graphqlClient *graphql.Client, err error) {
+func (c *Clients) getGraphQLClient(userSvrToken string, serverConf config.Conf) (graphqlClient *graphql.Client, err error) {
 	c.Do(func() {
 		src := oauth2.StaticTokenSource(
 			&oauth2.Token{
-				AccessToken: userSrvToken,
+				AccessToken: userSvrToken,
 				TokenType:   token.TypeJWT,
 			},
 		)
@@ -90,25 +89,25 @@ func revokeFirebaseToken(parent context.Context, client *auth.Client, dbClient *
 	ctx, cancelRevoke := context.WithTimeout(parent, 10*time.Second)
 	defer cancelRevoke()
 	if err := client.RevokeRefreshTokens(ctx, firebaseID); err != nil {
-		log.Errorf("error revoking tokens for user: %v, %v", firebaseID, err)
+		logrus.Errorf("error revoking tokens for user: %v, %v", firebaseID, err)
 		return err
 	}
-	log.Infof("revoked tokens for user: %v", firebaseID)
+	logrus.Infof("revoked tokens for user: %v", firebaseID)
 	// accessing the user's TokenValidAfter
 	ctx, cancelGetUser := context.WithTimeout(parent, 10*time.Second)
 	defer cancelGetUser()
 	u, err := client.GetUser(ctx, firebaseID)
 	if err != nil {
-		log.Errorf("error getting user %s: %v", firebaseID, err)
+		logrus.Errorf("error getting user %s: %v", firebaseID, err)
 		return err
 	}
 	timestamp := u.TokensValidAfterMillis / 1000
-	log.Printf("the refresh tokens were revoked at: %d (UTC seconds) ", timestamp)
+	logrus.Printf("the refresh tokens were revoked at: %d (UTC seconds) ", timestamp)
 	// save revoked time metadata for the user
 	ctx, cancelSetMetadataRevokeTime := context.WithTimeout(parent, 10*time.Second)
 	defer cancelSetMetadataRevokeTime()
 	if err := dbClient.NewRef("metadata/"+u.UID).Set(ctx, map[string]int64{"revokeTime": timestamp}); err != nil {
-		log.Error(err)
+		logrus.Error(err)
 		return err
 	}
 
@@ -155,11 +154,11 @@ func publishDeleteMemberMessage(parent context.Context, projectID string, topic 
 		errors.WithMessage(err, "get published message result has error")
 		return err
 	}
-	log.Printf("Published member deletion message with custom attributes(firebaseID: %s); msg ID: %v", firebaseID, id)
+	logrus.Printf("Published member deletion message with custom attributes(firebaseID: %s); msg ID: %v", firebaseID, id)
 	return nil
 }
 
-func SubscribeDeleteMember(parent context.Context, c config.Conf, userSrvToken token.Token) error {
+func SubscribeDeleteMember(parent context.Context, c config.Conf, userSvrToken token.Token) error {
 	clientCTX, cancel := context.WithCancel(parent)
 	defer cancel()
 	client, err := pubsub.NewClient(clientCTX, c.ProjectID)
@@ -174,7 +173,7 @@ func SubscribeDeleteMember(parent context.Context, c config.Conf, userSrvToken t
 	cm := make(chan *pubsub.Message)
 	defer close(cm)
 
-	tokenString, err := userSrvToken.GetTokenString()
+	tokenString, err := userSvrToken.GetTokenString()
 	if err != nil {
 		panic(err)
 	}
@@ -191,15 +190,15 @@ func SubscribeDeleteMember(parent context.Context, c config.Conf, userSrvToken t
 	go func() {
 		for msg := range cm {
 			firebaseID := msg.Attributes[MsgAttrKeyFirebaseID]
-			log.Infof("Got message to %s member: %s", msg.Attributes[MsgAttrKeyAction], firebaseID)
+			logrus.Infof("Got message to %s member: %s", msg.Attributes[MsgAttrKeyAction], firebaseID)
 
 			switch msg.Attributes[MsgAttrKeyAction] {
 			case MsgAttrValueDelete:
-				if err := requestToDeleteMember(userSrvToken, graphqlClient, firebaseID); err == nil {
+				if err := requestToDeleteMember(userSvrToken, graphqlClient, firebaseID); err == nil {
 					msg.Ack()
 				}
 			default:
-				log.Errorf("action(%s) is not supported", msg.Attributes[MsgAttrKeyAction])
+				logrus.Errorf("action(%s) is not supported", msg.Attributes[MsgAttrKeyAction])
 			}
 		}
 	}()
@@ -208,13 +207,13 @@ func SubscribeDeleteMember(parent context.Context, c config.Conf, userSrvToken t
 	ctx, cancelReceive := context.WithTimeout(clientCTX, 10*time.Second)
 	defer cancelReceive()
 	// Receive blocks until the context is cancelled or an error occurs.
-	log.Infof("Pulling subscription: %s", c.PubSubSubscribeMember)
+	logrus.Infof("Pulling subscription: %s", c.PubSubSubscribeMember)
 	err = sub.Receive(ctx, func(ctx context.Context, msg *pubsub.Message) {
 		cm <- msg
 	})
 	if err != nil {
 		err = errors.Wrap(err, "receive failed")
-		log.Error(err)
+		logrus.Error(err)
 		return err
 	}
 
@@ -222,9 +221,10 @@ func SubscribeDeleteMember(parent context.Context, c config.Conf, userSrvToken t
 
 }
 
-func requestToDeleteMember(userSrvToken token.Token, graphqlClient *graphql.Client, firebaseID string) (err error) {
-	log.Infof("Request Saleor-mirror to delete member: %s", firebaseID)
+func requestToDeleteMember(userSvrToken token.Token, graphqlClient *graphql.Client, firebaseID string) (err error) {
+	logrus.Infof("Request Saleor-mirror to delete member: %s", firebaseID)
 
+	// TODO use new schema
 	preGQL := []string{"mutation($firebaseId: String!) {", "deleteMember(firebaseId: $firebaseId) {"}
 
 	preGQL = append(preGQL, "success")
@@ -236,14 +236,15 @@ func requestToDeleteMember(userSrvToken token.Token, graphqlClient *graphql.Clie
 
 	// Ask User service to delete the member
 	var resp struct {
-		DeleteMember *model.DeleteMember `json:"deleteMember"`
+		// TODO use new schema
+		// DeleteMember *model.DeleteMember `json:"deleteMember"`
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	if err = graphqlClient.Run(ctx, req, &resp); err == nil {
-		log.Infof("Successfully delete member(%s)", firebaseID)
+		logrus.Infof("Successfully delete member(%s)", firebaseID)
 	} else {
-		log.Errorf("Fail to delete member(%s):%v", firebaseID, err)
+		logrus.Errorf("Fail to delete member(%s):%v", firebaseID, err)
 	}
 	return err
 }

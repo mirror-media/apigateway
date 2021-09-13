@@ -26,7 +26,7 @@ func init() {
 func main() {
 
 	// name of config file (without extension)
-	viper.SetConfigName("config")
+	viper.SetConfigName("membermutationConfig")
 	// optionally look for config in the working directory
 	viper.AddConfigPath("./configs")
 	// Find and read the config file
@@ -52,7 +52,7 @@ func main() {
 		logrus.Fatalf("error setting up health route: %v", err)
 	}
 
-	err = server.SetRoute(svr)
+	err = server.SetMemberMutationRoute(svr)
 	if err != nil {
 		logrus.Fatalf("error setting up route: %v", err)
 	}
