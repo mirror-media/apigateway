@@ -44,22 +44,26 @@ type Merchandise struct {
 	PostID    string  `url:"postId,omitempty"`
 	PostSlug  string  `url:"postSlug,omitempty"`
 	PostTitle string  `url:"postTitle,omitempty"`
-	Amount    float64 `url:"amount"`
+	Amount    float64 `url:"amount,omitempty"`
 }
 
 type PurchaseInfo struct {
 	Merchandise
-	PurchasedAtUnixTime int64  `url:"purchasedAtUnixTime"`
-	OrderNumber         string `url:"orderNumber"`
+	PurchasedAtUnixTime int64  `url:"purchasedAtUnixTime,omitempty"`
+	OrderNumber         string `url:"orderNumber,omitempty"`
 	MemberFirebaseID    string `url:"memberFirebaseId,omitempty"`
-	ReturnPath          string `url:"returnPath"`
+	ReturnPath          string `url:"returnPath,omitempty"`
 }
 
 func (s NewebPayStore) getNotifyURL(purchaseInfo PurchaseInfo) (string, error) {
 	protocol := s.NotifyProtocol
 	domain := s.NotifyHost
 	path := s.NotifyPath
-	return getCallbackUrl(protocol, domain, path, nil)
+	return getCallbackUrl(protocol, domain, path, &PurchaseInfo{
+		Merchandise: Merchandise{
+			Code: purchaseInfo.Code,
+		},
+	})
 }
 
 func (s NewebPayStore) getReturnURL(purchaseInfo PurchaseInfo) (string, error) {
@@ -114,6 +118,7 @@ type NewebpayTradeInfoMGP struct {
 	NewebpayTradeInfo
 	OrderComment    string `url:"OrderComment,omitempty"`
 	ItemDescription string `url:"ItemDesc"`
+	TradeLimit      int    `url:"TradeLimit"`
 }
 
 type NewebpayAgreementInfo struct {
@@ -122,16 +127,15 @@ type NewebpayAgreementInfo struct {
 	IsAbleToModifyEmail Boolean
 	LoginType           NewebpayLoginType
 	RespondType         NewebpayRespondType
-	CreationTimeUnix    int64
-	OrderComment        string // ? What should it be?
+	OrderComment        string
 	TokenTerm           string
 }
 
 // Ref: https://github.com/mirror-media/apigateway/files/6866871/NewebPay_._._AGREEMENT_.1.0.6.pdf
 func (s NewebPayStore) CreateNewebpayAgreementPayload(agreementInfo NewebpayAgreementInfo, purchaseInfo PurchaseInfo) (payload string, err error) {
 	// Validate the data at the beginning for short circuit
-	if agreementInfo.CreationTimeUnix <= 0 {
-		return "", fmt.Errorf("agreementInfo has invalid TimeStampUnix(%d)", agreementInfo.CreationTimeUnix)
+	if purchaseInfo.PurchasedAtUnixTime <= 0 {
+		return "", fmt.Errorf("purchaseInfo has invalid PurchasedAtUnixTime(%d)", purchaseInfo.PurchasedAtUnixTime)
 	} else if agreementInfo.Amount <= 0 {
 		return "", fmt.Errorf("agreementInfo has invalid amount(%d)", agreementInfo.Amount)
 	} else if agreementInfo.Email == "" {
@@ -171,7 +175,7 @@ func (s NewebPayStore) CreateNewebpayAgreementPayload(agreementInfo NewebpayAgre
 			RespondType:         RespondWithJSON,
 			ReturnURL:           returnURL,
 			StoreID:             s.ID,
-			TimeStamp:           strconv.FormatInt(agreementInfo.CreationTimeUnix, 10),
+			TimeStamp:           strconv.FormatInt(purchaseInfo.PurchasedAtUnixTime, 10),
 			Version:             s.Version,
 		},
 		CreditAgreement: 1,
@@ -190,7 +194,6 @@ type NewebpayMGPInfo struct {
 	IsAbleToModifyEmail Boolean
 	LoginType           NewebpayLoginType
 	RespondType         NewebpayRespondType
-	CreationTimeUnix    int64
 	ItemDescription     string // ? What should it be?
 	TokenTerm           string
 }
@@ -200,8 +203,8 @@ func (s NewebPayStore) CreateNewebpayMPGPayload(newebpayMGPInfo NewebpayMGPInfo,
 	// Validate the data at the beginning for short circuit
 
 	// Validate the data at the beginning for short circuit
-	if newebpayMGPInfo.CreationTimeUnix <= 0 {
-		return "", fmt.Errorf("newebpayMGPInfo has invalid TimeStampUnix(%d)", newebpayMGPInfo.CreationTimeUnix)
+	if purchaseInfo.PurchasedAtUnixTime <= 0 {
+		return "", fmt.Errorf("purchaseInfo has invalid PurchasedAtUnixTime(%d)", purchaseInfo.PurchasedAtUnixTime)
 	} else if newebpayMGPInfo.Amount <= 0 {
 		return "", fmt.Errorf("newebpayMGPInfo has invalid amount(%d)", newebpayMGPInfo.Amount)
 	} else if newebpayMGPInfo.Email == "" {
@@ -243,12 +246,11 @@ func (s NewebPayStore) CreateNewebpayMPGPayload(newebpayMGPInfo NewebpayMGPInfo,
 			RespondType:         "JSON",
 			ReturnURL:           returnURL,
 			StoreID:             s.ID,
-			TimeStamp:           strconv.FormatInt(newebpayMGPInfo.CreationTimeUnix, 10),
+			TimeStamp:           strconv.FormatInt(purchaseInfo.PurchasedAtUnixTime, 10),
 			Version:             s.Version,
 		},
 		ItemDescription: newebpayMGPInfo.ItemDescription,
-		// ? Are you sure?
-		// OrderComment: "",
+		TradeLimit:      900,
 	}
 	v, err := query.Values(tradeInfo)
 	payload = v.Encode()

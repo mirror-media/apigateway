@@ -412,7 +412,6 @@ func TestStore_CreateNewebpayAgreementPayload(t *testing.T) {
 					RespondType:         RespondWithJSON,
 					OrderComment:        "comment",
 					TokenTerm:           "firebaseID",
-					CreationTimeUnix:    123,
 				},
 				purchaseInfo: PurchaseInfo{
 					Merchandise: Merchandise{
