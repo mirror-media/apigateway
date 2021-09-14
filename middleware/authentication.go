@@ -220,7 +220,7 @@ func AuthenticateMemberQueryAndFirebaseIDInArguments(c *gin.Context) {
 		return
 	}
 
-	// TODO This is so ugly. I can make my tear bust by simply looking at it.
+	// TODO This is so ugly. I can bust into tears simply by looking at it.
 	var isMemberWithArgumentsInQuery bool
 	queryString := string(query.Input.RawBytes)
 	whereArguments := make([]string, 0)

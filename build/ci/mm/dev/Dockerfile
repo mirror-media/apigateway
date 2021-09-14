@@ -1,13 +1,13 @@
-FROM golang:1.17-alpine AS build
+FROM golang:1.17-bullseye AS build
 
 WORKDIR /api-gateway
-RUN apk add --update --no-cache make
+RUN apt update && apt install build-essential -y
 
 COPY . .
 RUN go mod download && \
     make all
 
-FROM alpine:latest
+FROM debian:bullseye
 
 WORKDIR /api-gateway
 

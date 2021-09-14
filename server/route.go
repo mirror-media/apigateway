@@ -1,12 +1,12 @@
 package server
 
 import (
-	"context"
 	"errors"
 	"net/http"
 	"net/url"
 
 	gqlgenhendler "github.com/99designs/gqlgen/graphql/handler"
+	"github.com/jensneuse/graphql-go-tools/pkg/engine/datasource/httpclient"
 	"github.com/machinebox/graphql"
 	"github.com/mirror-media/apigateway/graph/member/mutationgraph"
 	"github.com/mirror-media/apigateway/graph/member/mutationgraph/generated"
@@ -58,54 +58,13 @@ func SetRoute(server *Server) error {
 
 	v2GraphHandler := handler.NewAPIGatewayGraphQLHandler("https://israfel.mirrormedia.mg/api/graphql", "http://localhost:8888/api/v2/graphql/member", "graph/member/type.graphql", "graph/member/query.graphql", "graph/member/mutation.graphql")
 
-	v2TokenAuthenticatedWithFirebaseRouter.POST("graphql/member", gin.WrapH(v2GraphHandler))
+	v2GraphqlMemberRouter := v2TokenAuthenticatedWithFirebaseRouter.Use(middleware.AuthenticateMemberQueryAndFirebaseIDInArguments)
 
-	// Public API
-	// v1 api
-	v1Router := apiRouter.Group("/v1")
-	v1tokenStateRouter := v1Router.Use(middleware.GetIDTokenOnly(server.firebaseClient))
-	v1tokenStateRouter.GET("/tokenState", func(c *gin.Context) {
-		t := c.Value(middleware.GCtxTokenKey).(token.Token)
-		if t == nil {
-			c.JSON(http.StatusBadRequest, Reply{
-				TokenState: nil,
-			})
-			return
-		}
-		c.JSON(http.StatusOK, Reply{
-			TokenState: t.GetTokenState(),
-		})
-	})
-
-	// Private API
-	// v1 User
-	// It will save FirebaseClient and FirebaseDBClient to *gin.context, and *gin.context to *context
-	// v1TokenAuthenticatedWithFirebaseRouter := v1Router.Use(middleware.AuthenticateIDToken(server.firebaseClient), middleware.GinContextToContextMiddleware(), middleware.FirebaseClientToContextMiddleware(server.firebaseClient), middleware.FirebaseDBClientToContextMiddleware(server.firebaseDatabaseClient))
-	// svr := gqlgenhendler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{
-	// 	Conf:       *server.Conf,
-	// 	UserSvrURL: server.Conf.ServiceEndpoints.UserGraphQL,
-	// 	// Token:      server.UserSvrToken,
-	// 	// TODO Temp workaround
-	// 	Client: func() *graphql.Client {
-	// 		tokenString, err := server.UserSvrToken.GetTokenString()
-	// 		if err != nil {
-	// 			panic(err)
-	// 		}
-	// 		src := oauth2.StaticTokenSource(
-	// 			&oauth2.Token{
-	// 				AccessToken: tokenString,
-	// 				TokenType:   token.TypeJWT,
-	// 			},
-	// 		)
-	// 		httpClient := oauth2.NewClient(context.Background(), src)
-	// 		return graphql.NewClient(server.Services.UserGraphQL, graphql.WithHTTPClient(httpClient))
-	// 	}(),
-	// }}))
-	// v1TokenAuthenticatedWithFirebaseRouter.POST("/graphql/user", gin.WrapH(svr))
+	v2GraphqlMemberRouter.POST("graphql/member", gin.WrapH(v2GraphHandler))
 
 	// v0 api proxy every request to the restful serverce
 	v0Router := apiRouter.Group("/v0")
-	v0tokenStateRouter := v0Router.Use(middleware.GetIDTokenOnly(server.firebaseClient), middleware.SetUserID(server.firebaseClient), middleware.GinContextToContextMiddleware())
+	v0tokenStateRouter := v0Router.Use(middleware.GetIDTokenOnly(server.firebaseClient), middleware.SetUserID(server.firebaseClient))
 	proxyURL, err := url.Parse(server.Conf.V0RESTfulSvrTargetURL)
 	if err != nil {
 		return err
@@ -122,25 +81,12 @@ func SetMemberMutationRoute(server *Server) error {
 
 	// v2 api
 	v2Router := apiRouter.Group("/v2")
-	v2TokenAuthenticatedWithFirebaseRouter := v2Router.Use(middleware.AuthenticateIDToken(server.firebaseClient), middleware.FirebaseClientToContextMiddleware(server.firebaseClient), middleware.FirebaseDBClientToContextMiddleware(server.firebaseDatabaseClient))
-
+	v2TokenAuthenticatedWithFirebaseRouter := v2Router.Use(middleware.AuthenticateIDToken(server.firebaseClient), middleware.AuthenticateMemberQueryAndFirebaseIDInArguments, middleware.FirebaseClientToContextMiddleware(server.firebaseClient), middleware.FirebaseDBClientToContextMiddleware(server.firebaseDatabaseClient))
 	svr := gqlgenhendler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &mutationgraph.Resolver{
 		Conf:       *server.Conf,
 		UserSvrURL: server.Conf.ServiceEndpoints.UserGraphQL,
-		// Token:      server.UserSvrToken,
-		// TODO Temp workaround
 		Client: func() *graphql.Client {
-			tokenString, err := server.UserSvrToken.GetTokenString()
-			if err != nil {
-				panic(err)
-			}
-			src := oauth2.StaticTokenSource(
-				&oauth2.Token{
-					AccessToken: tokenString,
-					TokenType:   token.TypeJWT,
-				},
-			)
-			httpClient := oauth2.NewClient(context.Background(), src)
+			httpClient := httpclient.DefaultNetHttpClient
 			return graphql.NewClient(server.Services.UserGraphQL, graphql.WithHTTPClient(httpClient))
 		}(),
 		NewebpayStore: payment.NewebPayStore{

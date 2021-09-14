@@ -85,17 +85,20 @@ func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cach
 		isOriginalPathStory := (trimmedPath == "/story")
 
 		// TODO refactor to config
+		var emailVerified bool
+		var email string
 		if isTokenExist {
-			email, emailVerified := typedToken.GetEmail()
+			email, emailVerified = typedToken.GetEmail()
 
 			hasPremiumPrivilege = emailVerified && (strings.HasSuffix(email, "@mirrormedia.mg") || strings.HasSuffix(email, "@mnews.tw") || strings.HasSuffix(email, "@mirrorfiction.com"))
 		}
 
 		if tokenState == token.OK && !isOriginalPathStory {
-			skipMemberCheck := hasPremiumPrivilege
+			skipMemberCheck := !emailVerified || hasPremiumPrivilege
 
 			var hasMemberPremiumPrivilege bool
 			hasMemberPremiumPrivilege, subscribedPostIDs, err = getMemberSubscription(c, logger, memberGraphqlEndpoint, skipMemberCheck)
+
 			hasPremiumPrivilege = hasPremiumPrivilege || hasMemberPremiumPrivilege
 			if err != nil {
 				logger.Error(err)
@@ -209,6 +212,9 @@ func getMemberSubscription(c *gin.Context, logger *logrus.Entry, memberGraphqlEn
 	}
 
 	firebaseID := c.GetString(middleware.GCtxUserIDKey)
+	if firebaseID == "" {
+		return false, subscribedPostIDs, nil
+	}
 	gql := `
 query ($firebaseId: String!) {
   member(where: {firebaseId: $firebaseId}) {
