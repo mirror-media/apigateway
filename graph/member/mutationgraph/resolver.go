@@ -29,7 +29,6 @@ type MemberConnect struct {
 }
 
 type Resolver struct {
-	// Token      token.Token
 	Client     *graphql.Client
 	Conf       config.Conf
 	UserSvrURL string
