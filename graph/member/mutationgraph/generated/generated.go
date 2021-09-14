@@ -5277,7 +5277,6 @@ input subscriptionUpdateInput {
   """
   nextFrequency: updateSubscriptionNextFrequencyType
   note: String
-  returnToPath: String!
 }
 
 type subscriptionInfo {
