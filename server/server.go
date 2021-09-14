@@ -12,7 +12,6 @@ import (
 	"github.com/go-redis/redis/v8"
 	"github.com/mirror-media/apigateway/cache"
 	"github.com/mirror-media/apigateway/config"
-	"github.com/mirror-media/apigateway/token"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/api/option"
@@ -29,7 +28,6 @@ type Server struct {
 	firebaseClient         *auth.Client
 	firebaseDatabaseClient *db.Client
 	Services               *ServiceEndpoints
-	UserSvrToken           token.Token
 	Rdb                    cache.Rediser
 }
 
@@ -111,11 +109,6 @@ func NewServer(c config.Conf) (*Server, error) {
 		return nil, errors.New(fmt.Sprintf("unsupported redis type(%s)", c.RedisService.Type))
 	}
 
-	gatewayToken, err := token.NewGatewayToken(c.TokenSecretName, c.ProjectID)
-	if err != nil {
-		return nil, errors.Wrapf(err, "fail to retrieve the latest token(%s)", c.TokenSecretName)
-	}
-
 	s := &Server{
 		Conf:                   &c,
 		Engine:                 engine,
@@ -126,7 +119,6 @@ func NewServer(c config.Conf) (*Server, error) {
 		Services: &ServiceEndpoints{
 			UserGraphQL: c.ServiceEndpoints.UserGraphQL,
 		},
-		UserSvrToken: gatewayToken,
 	}
 	return s, nil
 }
