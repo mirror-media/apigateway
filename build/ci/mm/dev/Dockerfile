@@ -1,7 +1,7 @@
 FROM golang:1.17-bullseye AS build
 
 WORKDIR /api-gateway
-RUN apt update && apt install build-essential
+RUN apt update && apt install build-essential -y
 
 COPY . .
 RUN go mod download && \
