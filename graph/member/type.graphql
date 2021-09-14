@@ -364,6 +364,9 @@ type member {
   updatedAt: String
 }
 
+"""
+Nested fields are removed
+"""
 type memberInfo {
   id: ID!
   firebaseId: String
@@ -842,6 +845,8 @@ type merchandise {
   price: Float
   currency: merchandiseCurrencyType
   state: merchandiseStateType
+  desc: String
+  comment: String
   createdAt: String
   updatedAt: String
 }
@@ -918,6 +923,42 @@ input merchandiseWhereInput {
   state_not: merchandiseStateType
   state_in: [merchandiseStateType]
   state_not_in: [merchandiseStateType]
+  desc: String
+  desc_not: String
+  desc_contains: String
+  desc_not_contains: String
+  desc_starts_with: String
+  desc_not_starts_with: String
+  desc_ends_with: String
+  desc_not_ends_with: String
+  desc_i: String
+  desc_not_i: String
+  desc_contains_i: String
+  desc_not_contains_i: String
+  desc_starts_with_i: String
+  desc_not_starts_with_i: String
+  desc_ends_with_i: String
+  desc_not_ends_with_i: String
+  desc_in: [String]
+  desc_not_in: [String]
+  comment: String
+  comment_not: String
+  comment_contains: String
+  comment_not_contains: String
+  comment_starts_with: String
+  comment_not_starts_with: String
+  comment_ends_with: String
+  comment_not_ends_with: String
+  comment_i: String
+  comment_not_i: String
+  comment_contains_i: String
+  comment_not_contains_i: String
+  comment_starts_with_i: String
+  comment_not_starts_with_i: String
+  comment_ends_with_i: String
+  comment_not_ends_with_i: String
+  comment_in: [String]
+  comment_not_in: [String]
   createdAt: String
   createdAt_not: String
   createdAt_lt: String
@@ -957,6 +998,10 @@ enum SortMerchandisesBy {
   currency_DESC
   state_ASC
   state_DESC
+  desc_ASC
+  desc_DESC
+  comment_ASC
+  comment_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -970,6 +1015,8 @@ input merchandiseOrderByInput {
   price: OrderDirection
   currency: OrderDirection
   state: OrderDirection
+  desc: OrderDirection
+  comment: OrderDirection
   createdAt: OrderDirection
   updatedAt: OrderDirection
 }
@@ -980,6 +1027,8 @@ input merchandiseUpdateInput {
   price: Float
   currency: merchandiseCurrencyType
   state: merchandiseStateType
+  desc: String
+  comment: String
   createdAt: String
   updatedAt: String
 }
@@ -995,6 +1044,8 @@ input merchandiseCreateInput {
   price: Float
   currency: merchandiseCurrencyType
   state: merchandiseStateType
+  desc: String
+  comment: String
   createdAt: String
   updatedAt: String
 }
@@ -2150,6 +2201,7 @@ type subscription {
   amount: Int
   currency: subscriptionCurrencyType
   desc: String
+  comment: String
   email: String
   orderNumber: String
   isActive: Boolean
@@ -2268,6 +2320,24 @@ input subscriptionWhereInput {
   desc_not_ends_with_i: String
   desc_in: [String]
   desc_not_in: [String]
+  comment: String
+  comment_not: String
+  comment_contains: String
+  comment_not_contains: String
+  comment_starts_with: String
+  comment_not_starts_with: String
+  comment_ends_with: String
+  comment_not_ends_with: String
+  comment_i: String
+  comment_not_i: String
+  comment_contains_i: String
+  comment_not_contains_i: String
+  comment_starts_with_i: String
+  comment_not_starts_with_i: String
+  comment_ends_with_i: String
+  comment_not_ends_with_i: String
+  comment_in: [String]
+  comment_not_in: [String]
   email: String
   email_not: String
   email_contains: String
@@ -2324,14 +2394,14 @@ input subscriptionWhereInput {
   periodFailureTimes_gte: Int
   periodFailureTimes_in: [Int]
   periodFailureTimes_not_in: [Int]
-  periodLastSuccessDatetime: Int
-  periodLastSuccessDatetime_not: Int
-  periodLastSuccessDatetime_lt: Int
-  periodLastSuccessDatetime_lte: Int
-  periodLastSuccessDatetime_gt: Int
-  periodLastSuccessDatetime_gte: Int
-  periodLastSuccessDatetime_in: [Int]
-  periodLastSuccessDatetime_not_in: [Int]
+  periodLastSuccessDatetime: String
+  periodLastSuccessDatetime_not: String
+  periodLastSuccessDatetime_lt: String
+  periodLastSuccessDatetime_lte: String
+  periodLastSuccessDatetime_gt: String
+  periodLastSuccessDatetime_gte: String
+  periodLastSuccessDatetime_in: [String]
+  periodLastSuccessDatetime_not_in: [String]
   periodNextPayDatetime: String
   periodNextPayDatetime_not: String
   periodNextPayDatetime_lt: String
@@ -2348,22 +2418,22 @@ input subscriptionWhereInput {
   periodCreateDatetime_gte: String
   periodCreateDatetime_in: [String]
   periodCreateDatetime_not_in: [String]
-  periodFirstDatetime: String
-  periodFirstDatetime_not: String
-  periodFirstDatetime_lt: String
-  periodFirstDatetime_lte: String
-  periodFirstDatetime_gt: String
-  periodFirstDatetime_gte: String
-  periodFirstDatetime_in: [String]
-  periodFirstDatetime_not_in: [String]
-  periodEndDatetime: String
-  periodEndDatetime_not: String
-  periodEndDatetime_lt: String
-  periodEndDatetime_lte: String
-  periodEndDatetime_gt: String
-  periodEndDatetime_gte: String
-  periodEndDatetime_in: [String]
-  periodEndDatetime_not_in: [String]
+  periodFirstDatetime: Int
+  periodFirstDatetime_not: Int
+  periodFirstDatetime_lt: Int
+  periodFirstDatetime_lte: Int
+  periodFirstDatetime_gt: Int
+  periodFirstDatetime_gte: Int
+  periodFirstDatetime_in: [Int]
+  periodFirstDatetime_not_in: [Int]
+  periodEndDatetime: Int
+  periodEndDatetime_not: Int
+  periodEndDatetime_lt: Int
+  periodEndDatetime_lte: Int
+  periodEndDatetime_gt: Int
+  periodEndDatetime_gte: Int
+  periodEndDatetime_in: [Int]
+  periodEndDatetime_not_in: [Int]
   changePlanDatetime: String
   changePlanDatetime_not: String
   changePlanDatetime_lt: String
@@ -2416,22 +2486,22 @@ input subscriptionWhereInput {
   postId_not_ends_with_i: String
   postId_in: [String]
   postId_not_in: [String]
-  oneTimeStartDatetime: String
-  oneTimeStartDatetime_not: String
-  oneTimeStartDatetime_lt: String
-  oneTimeStartDatetime_lte: String
-  oneTimeStartDatetime_gt: String
-  oneTimeStartDatetime_gte: String
-  oneTimeStartDatetime_in: [String]
-  oneTimeStartDatetime_not_in: [String]
-  oneTimeEndDatetime: String
-  oneTimeEndDatetime_not: String
-  oneTimeEndDatetime_lt: String
-  oneTimeEndDatetime_lte: String
-  oneTimeEndDatetime_gt: String
-  oneTimeEndDatetime_gte: String
-  oneTimeEndDatetime_in: [String]
-  oneTimeEndDatetime_not_in: [String]
+  oneTimeStartDatetime: Int
+  oneTimeStartDatetime_not: Int
+  oneTimeStartDatetime_lt: Int
+  oneTimeStartDatetime_lte: Int
+  oneTimeStartDatetime_gt: Int
+  oneTimeStartDatetime_gte: Int
+  oneTimeStartDatetime_in: [Int]
+  oneTimeStartDatetime_not_in: [Int]
+  oneTimeEndDatetime: Int
+  oneTimeEndDatetime_not: Int
+  oneTimeEndDatetime_lt: Int
+  oneTimeEndDatetime_lte: Int
+  oneTimeEndDatetime_gt: Int
+  oneTimeEndDatetime_gte: Int
+  oneTimeEndDatetime_in: [Int]
+  oneTimeEndDatetime_not_in: [Int]
   newebpayPaymentInfo: newebpayPaymentInfoWhereInput
   newebpayPaymentInfo_is_null: Boolean
   createdAt: String
@@ -2472,6 +2542,8 @@ enum SortSubscriptionsBy {
   currency_DESC
   desc_ASC
   desc_DESC
+  comment_ASC
+  comment_DESC
   email_ASC
   email_DESC
   orderNumber_ASC
@@ -2521,6 +2593,7 @@ input subscriptionOrderByInput {
   amount: OrderDirection
   currency: OrderDirection
   desc: OrderDirection
+  comment: OrderDirection
   email: OrderDirection
   orderNumber: OrderDirection
   isActive: OrderDirection
@@ -2553,6 +2626,7 @@ input subscriptionPrivateUpdateInput {
   amount: Int
   currency: subscriptionCurrencyType
   desc: String
+  comment: String
   email: String
   orderNumber: String
   isActive: Boolean
@@ -2619,6 +2693,7 @@ input subscriptionCreateInput {
   amount: Int
   currency: subscriptionCurrencyType
   desc: String
+  comment: String
   email: String
   orderNumber: String
   isActive: Boolean
@@ -2859,38 +2934,38 @@ input subscriptionHistoryWhereInput {
   tokenTerm_not_ends_with_i: String
   tokenTerm_in: [String]
   tokenTerm_not_in: [String]
-  periodLastSuccessDate: String
-  periodLastSuccessDate_not: String
-  periodLastSuccessDate_lt: String
-  periodLastSuccessDate_lte: String
-  periodLastSuccessDate_gt: String
-  periodLastSuccessDate_gte: String
-  periodLastSuccessDate_in: [String]
-  periodLastSuccessDate_not_in: [String]
-  periodNextPayDate: String
-  periodNextPayDate_not: String
-  periodNextPayDate_lt: String
-  periodNextPayDate_lte: String
-  periodNextPayDate_gt: String
-  periodNextPayDate_gte: String
-  periodNextPayDate_in: [String]
-  periodNextPayDate_not_in: [String]
-  periodFirstDate: String
-  periodFirstDate_not: String
-  periodFirstDate_lt: String
-  periodFirstDate_lte: String
-  periodFirstDate_gt: String
-  periodFirstDate_gte: String
-  periodFirstDate_in: [String]
-  periodFirstDate_not_in: [String]
-  changePlanDatetime: String
-  changePlanDatetime_not: String
-  changePlanDatetime_lt: String
-  changePlanDatetime_lte: String
-  changePlanDatetime_gt: String
-  changePlanDatetime_gte: String
-  changePlanDatetime_in: [String]
-  changePlanDatetime_not_in: [String]
+  periodLastSuccessDate: Int
+  periodLastSuccessDate_not: Int
+  periodLastSuccessDate_lt: Int
+  periodLastSuccessDate_lte: Int
+  periodLastSuccessDate_gt: Int
+  periodLastSuccessDate_gte: Int
+  periodLastSuccessDate_in: [Int]
+  periodLastSuccessDate_not_in: [Int]
+  periodNextPayDate: Int
+  periodNextPayDate_not: Int
+  periodNextPayDate_lt: Int
+  periodNextPayDate_lte: Int
+  periodNextPayDate_gt: Int
+  periodNextPayDate_gte: Int
+  periodNextPayDate_in: [Int]
+  periodNextPayDate_not_in: [Int]
+  periodFirstDate: Int
+  periodFirstDate_not: Int
+  periodFirstDate_lt: Int
+  periodFirstDate_lte: Int
+  periodFirstDate_gt: Int
+  periodFirstDate_gte: Int
+  periodFirstDate_in: [Int]
+  periodFirstDate_not_in: [Int]
+  changePlanDatetime: Int
+  changePlanDatetime_not: Int
+  changePlanDatetime_lt: Int
+  changePlanDatetime_lte: Int
+  changePlanDatetime_gt: Int
+  changePlanDatetime_gte: Int
+  changePlanDatetime_in: [Int]
+  changePlanDatetime_not_in: [Int]
   note: String
   note_not: String
   note_contains: String
@@ -2935,22 +3010,22 @@ input subscriptionHistoryWhereInput {
   postId_not_ends_with_i: String
   postId_in: [String]
   postId_not_in: [String]
-  oneTimeStartDate: String
-  oneTimeStartDate_not: String
-  oneTimeStartDate_lt: String
-  oneTimeStartDate_lte: String
-  oneTimeStartDate_gt: String
-  oneTimeStartDate_gte: String
-  oneTimeStartDate_in: [String]
-  oneTimeStartDate_not_in: [String]
-  oneTimeEndDate: String
-  oneTimeEndDate_not: String
-  oneTimeEndDate_lt: String
-  oneTimeEndDate_lte: String
-  oneTimeEndDate_gt: String
-  oneTimeEndDate_gte: String
-  oneTimeEndDate_in: [String]
-  oneTimeEndDate_not_in: [String]
+  oneTimeStartDate: Int
+  oneTimeStartDate_not: Int
+  oneTimeStartDate_lt: Int
+  oneTimeStartDate_lte: Int
+  oneTimeStartDate_gt: Int
+  oneTimeStartDate_gte: Int
+  oneTimeStartDate_in: [Int]
+  oneTimeStartDate_not_in: [Int]
+  oneTimeEndDate: Int
+  oneTimeEndDate_not: Int
+  oneTimeEndDate_lt: Int
+  oneTimeEndDate_lte: Int
+  oneTimeEndDate_gt: Int
+  oneTimeEndDate_gte: Int
+  oneTimeEndDate_in: [Int]
+  oneTimeEndDate_not_in: [Int]
   action: subscriptionHistoryActionType
   action_not: subscriptionHistoryActionType
   action_in: [subscriptionHistoryActionType]
@@ -3162,7 +3237,6 @@ input subscriptionRecurringCreateInput {
   paymentMethod: subscriptionPaymentMethodType!
   applepayPayment: applepayPaymentRelateToManyInput
   status: createSubscriptionStatusType!
-  desc: String!
   email: String!
   """
   frequency has to match a code of one of the merchandize. It will be use to fetch amount and currency.
@@ -3180,7 +3254,6 @@ input subscriptionOneTimeCreateInput {
   paymentMethod: subscriptionPaymentMethodType!
   applepayPayment: applepayPaymentRelateToManyInput
   status: createSubscriptionStatusType!
-  desc: String!
   email: String!
   note: String
   promoteId: Int
@@ -3194,7 +3267,6 @@ input subscriptionOneTimeCreateInfo {
 }
 
 input subscriptionUpdateInput {
-  desc: String
   isCanceled: Boolean
   """
   nextFrequency has to match a code of one of the merchandize. It will be use to fetch amount and currency.
