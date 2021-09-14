@@ -209,6 +209,9 @@ func getMemberSubscription(c *gin.Context, logger *logrus.Entry, memberGraphqlEn
 	}
 
 	firebaseID := c.GetString(middleware.GCtxUserIDKey)
+	if firebaseID == "" {
+		return false, subscribedPostIDs, nil
+	}
 	gql := `
 query ($firebaseId: String!) {
   member(where: {firebaseId: $firebaseId}) {
