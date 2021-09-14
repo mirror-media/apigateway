@@ -35,8 +35,8 @@ type ErrorReply struct {
 	Data   interface{} `json:"data,omitempty"`
 }
 
-// GetIDTokenOnly is a middleware to construct the token.Token interface
-func GetIDTokenOnly(firebaseClient *auth.Client) gin.HandlerFunc {
+// SetIDTokenOnly is a middleware to construct the token.Token interface
+func SetIDTokenOnly(firebaseClient *auth.Client) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		logger := logrus.WithFields(logrus.Fields{
 			"path": c.FullPath(),

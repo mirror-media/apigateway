@@ -50,7 +50,7 @@ func SetRoute(server *Server) error {
 
 	// v2 api
 	v2Router := apiRouter.Group("/v2")
-	v2tokenStateRouter := v2Router.Use(middleware.GetIDTokenOnly(server.firebaseClient))
+	v2tokenStateRouter := v2Router.Use(middleware.SetIDTokenOnly(server.firebaseClient))
 
 	v2TokenAuthenticatedWithFirebaseRouter := v2tokenStateRouter.Use(middleware.AuthenticateIDToken(server.firebaseClient), middleware.FirebaseClientToContextMiddleware(server.firebaseClient), middleware.FirebaseDBClientToContextMiddleware(server.firebaseDatabaseClient))
 
@@ -62,7 +62,7 @@ func SetRoute(server *Server) error {
 
 	// v0 api proxy every request to the restful serverce
 	v0Router := apiRouter.Group("/v0")
-	v0tokenStateRouter := v0Router.Use(middleware.GetIDTokenOnly(server.firebaseClient), middleware.SetUserID(server.firebaseClient))
+	v0tokenStateRouter := v0Router.Use(middleware.SetIDTokenOnly(server.firebaseClient), middleware.SetUserID(server.firebaseClient))
 	proxyURL, err := url.Parse(server.Conf.V0RESTfulSvrTargetURL)
 	if err != nil {
 		return err
@@ -79,7 +79,10 @@ func SetMemberMutationRoute(server *Server) error {
 
 	// v2 api
 	v2Router := apiRouter.Group("/v2")
-	v2TokenAuthenticatedWithFirebaseRouter := v2Router.Use(middleware.AuthenticateIDToken(server.firebaseClient), middleware.AuthenticateMemberQueryAndFirebaseIDInArguments, middleware.FirebaseClientToContextMiddleware(server.firebaseClient), middleware.FirebaseDBClientToContextMiddleware(server.firebaseDatabaseClient))
+
+	v2tokenStateRouter := v2Router.Use(middleware.SetIDTokenOnly(server.firebaseClient))
+
+	v2TokenAuthenticatedWithFirebaseRouter := v2tokenStateRouter.Use(middleware.AuthenticateIDToken(server.firebaseClient), middleware.AuthenticateMemberQueryAndFirebaseIDInArguments, middleware.FirebaseClientToContextMiddleware(server.firebaseClient), middleware.FirebaseDBClientToContextMiddleware(server.firebaseDatabaseClient))
 
 	c := server.Conf
 
