@@ -42,9 +42,9 @@ type DirectiveRoot struct {
 
 type ComplexityRoot struct {
 	Mutation struct {
-		CreateSubscriptionRecurring func(childComplexity int, data map[string]interface{}, info *model.SubscriptionRecurringCreateInfo) int
+		CreateSubscriptionRecurring func(childComplexity int, data map[string]interface{}, info model.SubscriptionRecurringCreateInfo) int
 		Createmember                func(childComplexity int, data map[string]interface{}) int
-		CreatesSubscriptionOneTime  func(childComplexity int, data map[string]interface{}, info *model.SubscriptionOneTimeCreateInfo) int
+		CreatesSubscriptionOneTime  func(childComplexity int, data map[string]interface{}, info model.SubscriptionOneTimeCreateInfo) int
 		Updatemember                func(childComplexity int, id string, data map[string]interface{}) int
 		Updatesubscription          func(childComplexity int, id string, data map[string]interface{}) int
 	}
@@ -310,8 +310,8 @@ type ComplexityRoot struct {
 type MutationResolver interface {
 	Createmember(ctx context.Context, data map[string]interface{}) (*model.MemberInfo, error)
 	Updatemember(ctx context.Context, id string, data map[string]interface{}) (*model.MemberInfo, error)
-	CreateSubscriptionRecurring(ctx context.Context, data map[string]interface{}, info *model.SubscriptionRecurringCreateInfo) (*model.SubscriptionCreation, error)
-	CreatesSubscriptionOneTime(ctx context.Context, data map[string]interface{}, info *model.SubscriptionOneTimeCreateInfo) (*model.SubscriptionCreation, error)
+	CreateSubscriptionRecurring(ctx context.Context, data map[string]interface{}, info model.SubscriptionRecurringCreateInfo) (*model.SubscriptionCreation, error)
+	CreatesSubscriptionOneTime(ctx context.Context, data map[string]interface{}, info model.SubscriptionOneTimeCreateInfo) (*model.SubscriptionCreation, error)
 	Updatesubscription(ctx context.Context, id string, data map[string]interface{}) (*model.SubscriptionInfo, error)
 }
 
@@ -340,7 +340,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.CreateSubscriptionRecurring(childComplexity, args["data"].(map[string]interface{}), args["info"].(*model.SubscriptionRecurringCreateInfo)), true
+		return e.complexity.Mutation.CreateSubscriptionRecurring(childComplexity, args["data"].(map[string]interface{}), args["info"].(model.SubscriptionRecurringCreateInfo)), true
 
 	case "Mutation.createmember":
 		if e.complexity.Mutation.Createmember == nil {
@@ -364,7 +364,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.CreatesSubscriptionOneTime(childComplexity, args["data"].(map[string]interface{}), args["info"].(*model.SubscriptionOneTimeCreateInfo)), true
+		return e.complexity.Mutation.CreatesSubscriptionOneTime(childComplexity, args["data"].(map[string]interface{}), args["info"].(model.SubscriptionOneTimeCreateInfo)), true
 
 	case "Mutation.updatemember":
 		if e.complexity.Mutation.Updatemember == nil {
@@ -5236,8 +5236,8 @@ type subscriptionCreation {
   Nested query is not allowed in the mutation.
   """
   createSubscriptionRecurring(
-    data: subscriptionRecurringCreateInput
-    info: subscriptionRecurringCreateInfo
+    data: subscriptionRecurringCreateInput!
+    info: subscriptionRecurringCreateInfo!
   ): subscriptionCreation
   """
   It creates a subscription with subscriptionOneTimeCreateInput, set a new order number, set frequency to **one_time**, connect the subscription to the member with the firebaseID, and the amount/currency coresponding to the frequency in **merchandise**.
@@ -5245,8 +5245,8 @@ type subscriptionCreation {
   Nested query is not allowed in the mutation.
   """
   createsSubscriptionOneTime(
-    data: subscriptionOneTimeCreateInput
-    info: subscriptionOneTimeCreateInfo
+    data: subscriptionOneTimeCreateInput!
+    info: subscriptionOneTimeCreateInfo!
   ): subscriptionCreation
   """
   It checks if the existing subscription is connect to the member with the same firebaseID, and them it updates the subscription with subscriptionUpdateInput and the amount/currency coresponding to the nextFrequency in **merchandise**.
@@ -5271,16 +5271,16 @@ func (ec *executionContext) field_Mutation_createSubscriptionRecurring_args(ctx 
 	var arg0 map[string]interface{}
 	if tmp, ok := rawArgs["data"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("data"))
-		arg0, err = ec.unmarshalOsubscriptionRecurringCreateInput2map(ctx, tmp)
+		arg0, err = ec.unmarshalNsubscriptionRecurringCreateInput2map(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
 	args["data"] = arg0
-	var arg1 *model.SubscriptionRecurringCreateInfo
+	var arg1 model.SubscriptionRecurringCreateInfo
 	if tmp, ok := rawArgs["info"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("info"))
-		arg1, err = ec.unmarshalOsubscriptionRecurringCreateInfo2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionRecurringCreateInfo(ctx, tmp)
+		arg1, err = ec.unmarshalNsubscriptionRecurringCreateInfo2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionRecurringCreateInfo(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -5310,16 +5310,16 @@ func (ec *executionContext) field_Mutation_createsSubscriptionOneTime_args(ctx c
 	var arg0 map[string]interface{}
 	if tmp, ok := rawArgs["data"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("data"))
-		arg0, err = ec.unmarshalOsubscriptionOneTimeCreateInput2map(ctx, tmp)
+		arg0, err = ec.unmarshalNsubscriptionOneTimeCreateInput2map(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
 	args["data"] = arg0
-	var arg1 *model.SubscriptionOneTimeCreateInfo
+	var arg1 model.SubscriptionOneTimeCreateInfo
 	if tmp, ok := rawArgs["info"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("info"))
-		arg1, err = ec.unmarshalOsubscriptionOneTimeCreateInfo2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionOneTimeCreateInfo(ctx, tmp)
+		arg1, err = ec.unmarshalNsubscriptionOneTimeCreateInfo2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionOneTimeCreateInfo(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -5796,7 +5796,7 @@ func (ec *executionContext) _Mutation_createSubscriptionRecurring(ctx context.Co
 	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateSubscriptionRecurring(rctx, args["data"].(map[string]interface{}), args["info"].(*model.SubscriptionRecurringCreateInfo))
+		return ec.resolvers.Mutation().CreateSubscriptionRecurring(rctx, args["data"].(map[string]interface{}), args["info"].(model.SubscriptionRecurringCreateInfo))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -5835,7 +5835,7 @@ func (ec *executionContext) _Mutation_createsSubscriptionOneTime(ctx context.Con
 	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreatesSubscriptionOneTime(rctx, args["data"].(map[string]interface{}), args["info"].(*model.SubscriptionOneTimeCreateInfo))
+		return ec.resolvers.Mutation().CreatesSubscriptionOneTime(rctx, args["data"].(map[string]interface{}), args["info"].(model.SubscriptionOneTimeCreateInfo))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -34276,6 +34276,15 @@ func (ec *executionContext) marshalNsubscriptionInfo2ᚖgithubᚗcomᚋmirrorᚑ
 	return ec._subscriptionInfo(ctx, sel, v)
 }
 
+func (ec *executionContext) unmarshalNsubscriptionOneTimeCreateInfo2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionOneTimeCreateInfo(ctx context.Context, v interface{}) (model.SubscriptionOneTimeCreateInfo, error) {
+	res, err := ec.unmarshalInputsubscriptionOneTimeCreateInfo(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNsubscriptionOneTimeCreateInput2map(ctx context.Context, v interface{}) (map[string]interface{}, error) {
+	return v.(map[string]interface{}), nil
+}
+
 func (ec *executionContext) unmarshalNsubscriptionOrderByInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionOrderByInputᚄ(ctx context.Context, v interface{}) ([]*model.SubscriptionOrderByInput, error) {
 	var vSlice []interface{}
 	if v != nil {
@@ -34310,6 +34319,15 @@ func (ec *executionContext) unmarshalNsubscriptionPaymentMethodType2githubᚗcom
 
 func (ec *executionContext) marshalNsubscriptionPaymentMethodType2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionPaymentMethodType(ctx context.Context, sel ast.SelectionSet, v model.SubscriptionPaymentMethodType) graphql.Marshaler {
 	return v
+}
+
+func (ec *executionContext) unmarshalNsubscriptionRecurringCreateInfo2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionRecurringCreateInfo(ctx context.Context, v interface{}) (model.SubscriptionRecurringCreateInfo, error) {
+	res, err := ec.unmarshalInputsubscriptionRecurringCreateInfo(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNsubscriptionRecurringCreateInput2map(ctx context.Context, v interface{}) (map[string]interface{}, error) {
+	return v.(map[string]interface{}), nil
 }
 
 func (ec *executionContext) unmarshalNsubscriptionWhereInput2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionWhereInput(ctx context.Context, v interface{}) (model.SubscriptionWhereInput, error) {
@@ -37191,21 +37209,6 @@ func (ec *executionContext) marshalOsubscriptionNextFrequencyType2ᚖgithubᚗco
 	return v
 }
 
-func (ec *executionContext) unmarshalOsubscriptionOneTimeCreateInfo2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionOneTimeCreateInfo(ctx context.Context, v interface{}) (*model.SubscriptionOneTimeCreateInfo, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalInputsubscriptionOneTimeCreateInfo(ctx, v)
-	return &res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) unmarshalOsubscriptionOneTimeCreateInput2map(ctx context.Context, v interface{}) (map[string]interface{}, error) {
-	if v == nil {
-		return nil, nil
-	}
-	return v.(map[string]interface{}), nil
-}
-
 func (ec *executionContext) unmarshalOsubscriptionPaymentMethodType2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionPaymentMethodType(ctx context.Context, v interface{}) ([]*model.SubscriptionPaymentMethodType, error) {
 	if v == nil {
 		return nil, nil
@@ -37285,21 +37288,6 @@ func (ec *executionContext) marshalOsubscriptionPaymentMethodType2ᚖgithubᚗco
 		return graphql.Null
 	}
 	return v
-}
-
-func (ec *executionContext) unmarshalOsubscriptionRecurringCreateInfo2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionRecurringCreateInfo(ctx context.Context, v interface{}) (*model.SubscriptionRecurringCreateInfo, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalInputsubscriptionRecurringCreateInfo(ctx, v)
-	return &res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) unmarshalOsubscriptionRecurringCreateInput2map(ctx context.Context, v interface{}) (map[string]interface{}, error) {
-	if v == nil {
-		return nil, nil
-	}
-	return v.(map[string]interface{}), nil
 }
 
 func (ec *executionContext) unmarshalOsubscriptionRelateToManyInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionRelateToManyInput(ctx context.Context, v interface{}) (*model.SubscriptionRelateToManyInput, error) {

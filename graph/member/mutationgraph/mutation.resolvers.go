@@ -100,7 +100,7 @@ func (r *mutationResolver) Updatemember(ctx context.Context, id string, data map
 	return resp.MemberInfo, err
 }
 
-func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data map[string]interface{}, info *model.SubscriptionRecurringCreateInfo) (*model.SubscriptionCreation, error) {
+func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data map[string]interface{}, info model.SubscriptionRecurringCreateInfo) (*model.SubscriptionCreation, error) {
 	firebaseID, err := r.GetFirebaseID(ctx)
 	if err != nil {
 		return nil, err
@@ -197,7 +197,7 @@ func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data
 	}, err
 }
 
-func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data map[string]interface{}, info *model.SubscriptionOneTimeCreateInfo) (*model.SubscriptionCreation, error) {
+func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data map[string]interface{}, info model.SubscriptionOneTimeCreateInfo) (*model.SubscriptionCreation, error) {
 	if data == nil {
 		return nil, fmt.Errorf("data cannot be null")
 	}

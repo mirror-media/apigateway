@@ -13,8 +13,6 @@ import (
 	"github.com/mirror-media/apigateway/handler"
 	"github.com/mirror-media/apigateway/middleware"
 	"github.com/mirror-media/apigateway/payment"
-	"github.com/mirror-media/apigateway/token"
-	"golang.org/x/oauth2"
 
 	"github.com/gin-gonic/gin"
 )
@@ -82,6 +80,9 @@ func SetMemberMutationRoute(server *Server) error {
 	// v2 api
 	v2Router := apiRouter.Group("/v2")
 	v2TokenAuthenticatedWithFirebaseRouter := v2Router.Use(middleware.AuthenticateIDToken(server.firebaseClient), middleware.AuthenticateMemberQueryAndFirebaseIDInArguments, middleware.FirebaseClientToContextMiddleware(server.firebaseClient), middleware.FirebaseDBClientToContextMiddleware(server.firebaseDatabaseClient))
+
+	c := server.Conf
+
 	svr := gqlgenhendler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &mutationgraph.Resolver{
 		Conf:       *server.Conf,
 		UserSvrURL: server.Conf.ServiceEndpoints.UserGraphQL,
