@@ -13,7 +13,6 @@ import (
 	"github.com/mirror-media/apigateway/graph/member/model"
 	"github.com/mirror-media/apigateway/graph/member/mutationgraph/generated"
 	"github.com/mirror-media/apigateway/payment"
-	"github.com/rs/xid"
 	"github.com/sirupsen/logrus"
 )
 
@@ -111,14 +110,12 @@ func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data
 			FirebaseID: firebaseID,
 		},
 	}
-	orderNumber := xid.New().String()
-	data["orderNumber"] = orderNumber
 
 	frequency, ok := data["frequency"].(string)
 	if !ok {
 		return nil, fmt.Errorf("%v cannot be converted to string", data["frequency"])
 	}
-	price, currency, state, err := r.RetrieveMerchandise(ctx, frequency)
+	price, currency, state, comment, description, err := r.RetrieveMerchandise(ctx, frequency)
 	if err != nil {
 		return nil, err
 	}
@@ -127,6 +124,8 @@ func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data
 	}
 	data["amount"] = int(price)
 	data["currency"] = currency
+	data["comment"] = comment
+	data["desc"] = description
 
 	// Construct GraphQL mutation
 
@@ -145,6 +144,9 @@ func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data
 	if !contain(subscriptionFieldsOnly, "createdAt") {
 		preGQL = append(preGQL, "createdAt")
 	}
+	if !contain(subscriptionFieldsOnly, "id") {
+		preGQL = append(preGQL, "id")
+	}
 	preGQL = append(preGQL, "}", "}")
 	gql := strings.Join(preGQL, "\n")
 	req := graphqlclient.NewRequest(gql)
@@ -159,6 +161,34 @@ func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data
 	if err != nil {
 		logrus.WithField("mutation", "createsubscription").Error(err)
 	}
+
+	orderNumber, err := createOrderNumber(resp.SubscriptionInfo.ID)
+	if err != nil {
+		logrus.WithField("mutation", "createsubscription").Errorf("creating order number for subscription(%s) and member(%s)", resp.SubscriptionInfo.ID, firebaseID, err)
+		return nil, err
+	}
+
+	resp.SubscriptionInfo.OrderNumber = &orderNumber
+
+	go func() {
+		gql = `
+mutation ($id: ID!, $orderNumber: String!) {
+  updatesubscription(id: $id, data: {orderNumber: $orderNumber}) {
+    orderNumber
+  }
+}
+`
+
+		req = graphqlclient.NewRequest(gql)
+		req.Var("id", resp.SubscriptionInfo.ID)
+		req.Var("orderNumber", orderNumber)
+
+		resp := map[string]interface{}{}
+		err = r.Client.Run(ctx, req, &resp)
+		if err != nil {
+			logrus.WithField("mutation", "createsubscription.updatesubscription").Error(err)
+		}
+	}()
 
 	createAt := *resp.SubscriptionInfo.CreatedAt
 
@@ -175,7 +205,8 @@ func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data
 		IsAbleToModifyEmail: r.NewebpayStore.IsAbleToModifyEmail,
 		LoginType:           r.NewebpayStore.LoginType,
 		RespondType:         r.NewebpayStore.RespondType,
-		OrderComment:        data["desc"].(string),
+		ItemDesc:            description,
+		OrderComment:        comment,
 		TokenTerm:           firebaseID,
 	}, payment.PurchaseInfo{
 		Merchandise: payment.Merchandise{
@@ -215,10 +246,7 @@ func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data 
 	data["frequency"] = model.SubscriptionFrequencyTypeOneTime.String()
 	data["nextFrequency"] = model.SubscriptionNextFrequencyTypeNone.String()
 
-	orderNumber := xid.New().String()
-	data["orderNumber"] = orderNumber
-
-	price, currency, state, err := r.RetrieveMerchandise(ctx, model.SubscriptionFrequencyTypeOneTime.String())
+	price, currency, state, comment, description, err := r.RetrieveMerchandise(ctx, model.SubscriptionFrequencyTypeOneTime.String())
 	if err != nil {
 		return nil, err
 	}
@@ -227,6 +255,8 @@ func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data 
 	}
 	data["amount"] = int(price)
 	data["currency"] = currency
+	data["comment"] = comment
+	data["desc"] = description
 
 	// Construct GraphQL mutation
 
@@ -245,6 +275,9 @@ func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data 
 	if !contain(subscriptionFieldsOnly, "createdAt") {
 		preGQL = append(preGQL, "createdAt")
 	}
+	if !contain(subscriptionFieldsOnly, "id") {
+		preGQL = append(preGQL, "id")
+	}
 	preGQL = append(preGQL, "}", "}")
 	gql := strings.Join(preGQL, "\n")
 	req := graphqlclient.NewRequest(gql)
@@ -259,6 +292,34 @@ func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data 
 	if err != nil {
 		logrus.WithField("mutation", "createsubscription").Error(err)
 	}
+
+	orderNumber, err := createOrderNumber(resp.SubscriptionInfo.ID)
+	if err != nil {
+		logrus.WithField("mutation", "createsubscription").Errorf("creating order number for subscription(%s) and member(%s)", resp.SubscriptionInfo.ID, firebaseID, err)
+		return nil, err
+	}
+
+	resp.SubscriptionInfo.OrderNumber = &orderNumber
+
+	go func() {
+		gql = `
+mutation ($id: ID!, $orderNumber: String!) {
+  updatesubscription(id: $id, data: {orderNumber: $orderNumber}) {
+    orderNumber
+  }
+}
+`
+
+		req = graphqlclient.NewRequest(gql)
+		req.Var("id", resp.SubscriptionInfo.ID)
+		req.Var("orderNumber", orderNumber)
+
+		resp := map[string]interface{}{}
+		err = r.Client.Run(ctx, req, &resp)
+		if err != nil {
+			logrus.WithField("mutation", "createsubscription.updatesubscription").Error(err)
+		}
+	}()
 
 	createAt := *resp.SubscriptionInfo.CreatedAt
 
@@ -275,7 +336,8 @@ func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data 
 		IsAbleToModifyEmail: r.NewebpayStore.IsAbleToModifyEmail,
 		LoginType:           r.NewebpayStore.LoginType,
 		RespondType:         r.NewebpayStore.RespondType,
-		ItemDescription:     data["desc"].(string),
+		ItemDescription:     description,
+		OrderComment:        orderNumber,
 		TokenTerm:           firebaseID,
 	}, payment.PurchaseInfo{
 		Merchandise: payment.Merchandise{
@@ -321,7 +383,7 @@ func (r *mutationResolver) Updatesubscription(ctx context.Context, id string, da
 
 	if nextFrequency, ok := data["nextFrequency"]; ok {
 		nextFrequencyString, _ := nextFrequency.(string)
-		price, currency, state, err := r.RetrieveMerchandise(ctx, nextFrequencyString)
+		price, currency, state, _, _, err := r.RetrieveMerchandise(ctx, nextFrequencyString)
 		if err != nil {
 			return nil, err
 		}

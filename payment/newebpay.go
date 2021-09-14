@@ -109,6 +109,7 @@ type NewebpayTradeInfo struct {
 type NewebpayTradeInfoAgreement struct {
 	NewebpayTradeInfo
 	CreditAgreement int8    `url:"CREDITAGREEMENT"` // Use 1
+	ItemDesc        string  `url:"ItemDesc"`
 	OrderComment    string  `url:"OrderComment"`
 	P3D             Boolean `url:"P3D"`
 	TokenTerm       string  `url:"TokenTerm"`
@@ -116,6 +117,7 @@ type NewebpayTradeInfoAgreement struct {
 
 type NewebpayTradeInfoMGP struct {
 	NewebpayTradeInfo
+	ItemDesc        string `url:"ItemDesc"`
 	OrderComment    string `url:"OrderComment,omitempty"`
 	ItemDescription string `url:"ItemDesc"`
 	TradeLimit      int    `url:"TradeLimit"`
@@ -127,6 +129,7 @@ type NewebpayAgreementInfo struct {
 	IsAbleToModifyEmail Boolean
 	LoginType           NewebpayLoginType
 	RespondType         NewebpayRespondType
+	ItemDesc            string
 	OrderComment        string
 	TokenTerm           string
 }
@@ -180,6 +183,7 @@ func (s NewebPayStore) CreateNewebpayAgreementPayload(agreementInfo NewebpayAgre
 		},
 		CreditAgreement: 1,
 		OrderComment:    agreementInfo.OrderComment,
+		ItemDesc:        agreementInfo.ItemDesc,
 		P3D:             s.Is3DSecure,
 		TokenTerm:       agreementInfo.TokenTerm,
 	}
@@ -195,6 +199,7 @@ type NewebpayMGPInfo struct {
 	LoginType           NewebpayLoginType
 	RespondType         NewebpayRespondType
 	ItemDescription     string // ? What should it be?
+	OrderComment        string
 	TokenTerm           string
 }
 
@@ -250,6 +255,7 @@ func (s NewebPayStore) CreateNewebpayMPGPayload(newebpayMGPInfo NewebpayMGPInfo,
 			Version:             s.Version,
 		},
 		ItemDescription: newebpayMGPInfo.ItemDescription,
+		OrderComment:    newebpayMGPInfo.OrderComment,
 		TradeLimit:      900,
 	}
 	v, err := query.Values(tradeInfo)

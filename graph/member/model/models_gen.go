@@ -710,6 +710,7 @@ type Member struct {
 	UpdatedAt           *string              `json:"updatedAt"`
 }
 
+// Nested fields are removed
 type MemberInfo struct {
 	ID           string            `json:"id"`
 	FirebaseID   *string           `json:"firebaseId"`
@@ -1108,6 +1109,8 @@ type Merchandise struct {
 	Price     *float64                 `json:"price"`
 	Currency  *MerchandiseCurrencyType `json:"currency"`
 	State     *MerchandiseStateType    `json:"state"`
+	Desc      *string                  `json:"desc"`
+	Comment   *string                  `json:"comment"`
 	CreatedAt *string                  `json:"createdAt"`
 	UpdatedAt *string                  `json:"updatedAt"`
 }
@@ -1118,6 +1121,8 @@ type MerchandiseCreateInput struct {
 	Price     *float64                 `json:"price"`
 	Currency  *MerchandiseCurrencyType `json:"currency"`
 	State     *MerchandiseStateType    `json:"state"`
+	Desc      *string                  `json:"desc"`
+	Comment   *string                  `json:"comment"`
 	CreatedAt *string                  `json:"createdAt"`
 	UpdatedAt *string                  `json:"updatedAt"`
 }
@@ -1129,6 +1134,8 @@ type MerchandiseOrderByInput struct {
 	Price     *OrderDirection `json:"price"`
 	Currency  *OrderDirection `json:"currency"`
 	State     *OrderDirection `json:"state"`
+	Desc      *OrderDirection `json:"desc"`
+	Comment   *OrderDirection `json:"comment"`
 	CreatedAt *OrderDirection `json:"createdAt"`
 	UpdatedAt *OrderDirection `json:"updatedAt"`
 }
@@ -1139,91 +1146,129 @@ type MerchandiseUpdateInput struct {
 	Price     *float64                 `json:"price"`
 	Currency  *MerchandiseCurrencyType `json:"currency"`
 	State     *MerchandiseStateType    `json:"state"`
+	Desc      *string                  `json:"desc"`
+	Comment   *string                  `json:"comment"`
 	CreatedAt *string                  `json:"createdAt"`
 	UpdatedAt *string                  `json:"updatedAt"`
 }
 
 type MerchandiseWhereInput struct {
-	And                []*MerchandiseWhereInput   `json:"AND"`
-	Or                 []*MerchandiseWhereInput   `json:"OR"`
-	ID                 *string                    `json:"id"`
-	IDNot              *string                    `json:"id_not"`
-	IDLt               *string                    `json:"id_lt"`
-	IDLte              *string                    `json:"id_lte"`
-	IDGt               *string                    `json:"id_gt"`
-	IDGte              *string                    `json:"id_gte"`
-	IDIn               []string                   `json:"id_in"`
-	IDNotIn            []string                   `json:"id_not_in"`
-	Name               *string                    `json:"name"`
-	NameNot            *string                    `json:"name_not"`
-	NameContains       *string                    `json:"name_contains"`
-	NameNotContains    *string                    `json:"name_not_contains"`
-	NameStartsWith     *string                    `json:"name_starts_with"`
-	NameNotStartsWith  *string                    `json:"name_not_starts_with"`
-	NameEndsWith       *string                    `json:"name_ends_with"`
-	NameNotEndsWith    *string                    `json:"name_not_ends_with"`
-	NameI              *string                    `json:"name_i"`
-	NameNotI           *string                    `json:"name_not_i"`
-	NameContainsI      *string                    `json:"name_contains_i"`
-	NameNotContainsI   *string                    `json:"name_not_contains_i"`
-	NameStartsWithI    *string                    `json:"name_starts_with_i"`
-	NameNotStartsWithI *string                    `json:"name_not_starts_with_i"`
-	NameEndsWithI      *string                    `json:"name_ends_with_i"`
-	NameNotEndsWithI   *string                    `json:"name_not_ends_with_i"`
-	NameIn             []*string                  `json:"name_in"`
-	NameNotIn          []*string                  `json:"name_not_in"`
-	Code               *string                    `json:"code"`
-	CodeNot            *string                    `json:"code_not"`
-	CodeContains       *string                    `json:"code_contains"`
-	CodeNotContains    *string                    `json:"code_not_contains"`
-	CodeStartsWith     *string                    `json:"code_starts_with"`
-	CodeNotStartsWith  *string                    `json:"code_not_starts_with"`
-	CodeEndsWith       *string                    `json:"code_ends_with"`
-	CodeNotEndsWith    *string                    `json:"code_not_ends_with"`
-	CodeI              *string                    `json:"code_i"`
-	CodeNotI           *string                    `json:"code_not_i"`
-	CodeContainsI      *string                    `json:"code_contains_i"`
-	CodeNotContainsI   *string                    `json:"code_not_contains_i"`
-	CodeStartsWithI    *string                    `json:"code_starts_with_i"`
-	CodeNotStartsWithI *string                    `json:"code_not_starts_with_i"`
-	CodeEndsWithI      *string                    `json:"code_ends_with_i"`
-	CodeNotEndsWithI   *string                    `json:"code_not_ends_with_i"`
-	CodeIn             []*string                  `json:"code_in"`
-	CodeNotIn          []*string                  `json:"code_not_in"`
-	Price              *float64                   `json:"price"`
-	PriceNot           *float64                   `json:"price_not"`
-	PriceLt            *float64                   `json:"price_lt"`
-	PriceLte           *float64                   `json:"price_lte"`
-	PriceGt            *float64                   `json:"price_gt"`
-	PriceGte           *float64                   `json:"price_gte"`
-	PriceIn            []*float64                 `json:"price_in"`
-	PriceNotIn         []*float64                 `json:"price_not_in"`
-	Currency           *MerchandiseCurrencyType   `json:"currency"`
-	CurrencyNot        *MerchandiseCurrencyType   `json:"currency_not"`
-	CurrencyIn         []*MerchandiseCurrencyType `json:"currency_in"`
-	CurrencyNotIn      []*MerchandiseCurrencyType `json:"currency_not_in"`
-	State              *MerchandiseStateType      `json:"state"`
-	StateNot           *MerchandiseStateType      `json:"state_not"`
-	StateIn            []*MerchandiseStateType    `json:"state_in"`
-	StateNotIn         []*MerchandiseStateType    `json:"state_not_in"`
-	CreatedAt          *string                    `json:"createdAt"`
-	CreatedAtNot       *string                    `json:"createdAt_not"`
-	CreatedAtLt        *string                    `json:"createdAt_lt"`
-	CreatedAtLte       *string                    `json:"createdAt_lte"`
-	CreatedAtGt        *string                    `json:"createdAt_gt"`
-	CreatedAtGte       *string                    `json:"createdAt_gte"`
-	CreatedAtIn        []*string                  `json:"createdAt_in"`
-	CreatedAtNotIn     []*string                  `json:"createdAt_not_in"`
-	UpdatedAt          *string                    `json:"updatedAt"`
-	UpdatedAtNot       *string                    `json:"updatedAt_not"`
-	UpdatedAtLt        *string                    `json:"updatedAt_lt"`
-	UpdatedAtLte       *string                    `json:"updatedAt_lte"`
-	UpdatedAtGt        *string                    `json:"updatedAt_gt"`
-	UpdatedAtGte       *string                    `json:"updatedAt_gte"`
-	UpdatedAtIn        []*string                  `json:"updatedAt_in"`
-	UpdatedAtNotIn     []*string                  `json:"updatedAt_not_in"`
-	CreatedByIsNull    *bool                      `json:"createdBy_is_null"`
-	UpdatedByIsNull    *bool                      `json:"updatedBy_is_null"`
+	And                   []*MerchandiseWhereInput   `json:"AND"`
+	Or                    []*MerchandiseWhereInput   `json:"OR"`
+	ID                    *string                    `json:"id"`
+	IDNot                 *string                    `json:"id_not"`
+	IDLt                  *string                    `json:"id_lt"`
+	IDLte                 *string                    `json:"id_lte"`
+	IDGt                  *string                    `json:"id_gt"`
+	IDGte                 *string                    `json:"id_gte"`
+	IDIn                  []string                   `json:"id_in"`
+	IDNotIn               []string                   `json:"id_not_in"`
+	Name                  *string                    `json:"name"`
+	NameNot               *string                    `json:"name_not"`
+	NameContains          *string                    `json:"name_contains"`
+	NameNotContains       *string                    `json:"name_not_contains"`
+	NameStartsWith        *string                    `json:"name_starts_with"`
+	NameNotStartsWith     *string                    `json:"name_not_starts_with"`
+	NameEndsWith          *string                    `json:"name_ends_with"`
+	NameNotEndsWith       *string                    `json:"name_not_ends_with"`
+	NameI                 *string                    `json:"name_i"`
+	NameNotI              *string                    `json:"name_not_i"`
+	NameContainsI         *string                    `json:"name_contains_i"`
+	NameNotContainsI      *string                    `json:"name_not_contains_i"`
+	NameStartsWithI       *string                    `json:"name_starts_with_i"`
+	NameNotStartsWithI    *string                    `json:"name_not_starts_with_i"`
+	NameEndsWithI         *string                    `json:"name_ends_with_i"`
+	NameNotEndsWithI      *string                    `json:"name_not_ends_with_i"`
+	NameIn                []*string                  `json:"name_in"`
+	NameNotIn             []*string                  `json:"name_not_in"`
+	Code                  *string                    `json:"code"`
+	CodeNot               *string                    `json:"code_not"`
+	CodeContains          *string                    `json:"code_contains"`
+	CodeNotContains       *string                    `json:"code_not_contains"`
+	CodeStartsWith        *string                    `json:"code_starts_with"`
+	CodeNotStartsWith     *string                    `json:"code_not_starts_with"`
+	CodeEndsWith          *string                    `json:"code_ends_with"`
+	CodeNotEndsWith       *string                    `json:"code_not_ends_with"`
+	CodeI                 *string                    `json:"code_i"`
+	CodeNotI              *string                    `json:"code_not_i"`
+	CodeContainsI         *string                    `json:"code_contains_i"`
+	CodeNotContainsI      *string                    `json:"code_not_contains_i"`
+	CodeStartsWithI       *string                    `json:"code_starts_with_i"`
+	CodeNotStartsWithI    *string                    `json:"code_not_starts_with_i"`
+	CodeEndsWithI         *string                    `json:"code_ends_with_i"`
+	CodeNotEndsWithI      *string                    `json:"code_not_ends_with_i"`
+	CodeIn                []*string                  `json:"code_in"`
+	CodeNotIn             []*string                  `json:"code_not_in"`
+	Price                 *float64                   `json:"price"`
+	PriceNot              *float64                   `json:"price_not"`
+	PriceLt               *float64                   `json:"price_lt"`
+	PriceLte              *float64                   `json:"price_lte"`
+	PriceGt               *float64                   `json:"price_gt"`
+	PriceGte              *float64                   `json:"price_gte"`
+	PriceIn               []*float64                 `json:"price_in"`
+	PriceNotIn            []*float64                 `json:"price_not_in"`
+	Currency              *MerchandiseCurrencyType   `json:"currency"`
+	CurrencyNot           *MerchandiseCurrencyType   `json:"currency_not"`
+	CurrencyIn            []*MerchandiseCurrencyType `json:"currency_in"`
+	CurrencyNotIn         []*MerchandiseCurrencyType `json:"currency_not_in"`
+	State                 *MerchandiseStateType      `json:"state"`
+	StateNot              *MerchandiseStateType      `json:"state_not"`
+	StateIn               []*MerchandiseStateType    `json:"state_in"`
+	StateNotIn            []*MerchandiseStateType    `json:"state_not_in"`
+	Desc                  *string                    `json:"desc"`
+	DescNot               *string                    `json:"desc_not"`
+	DescContains          *string                    `json:"desc_contains"`
+	DescNotContains       *string                    `json:"desc_not_contains"`
+	DescStartsWith        *string                    `json:"desc_starts_with"`
+	DescNotStartsWith     *string                    `json:"desc_not_starts_with"`
+	DescEndsWith          *string                    `json:"desc_ends_with"`
+	DescNotEndsWith       *string                    `json:"desc_not_ends_with"`
+	DescI                 *string                    `json:"desc_i"`
+	DescNotI              *string                    `json:"desc_not_i"`
+	DescContainsI         *string                    `json:"desc_contains_i"`
+	DescNotContainsI      *string                    `json:"desc_not_contains_i"`
+	DescStartsWithI       *string                    `json:"desc_starts_with_i"`
+	DescNotStartsWithI    *string                    `json:"desc_not_starts_with_i"`
+	DescEndsWithI         *string                    `json:"desc_ends_with_i"`
+	DescNotEndsWithI      *string                    `json:"desc_not_ends_with_i"`
+	DescIn                []*string                  `json:"desc_in"`
+	DescNotIn             []*string                  `json:"desc_not_in"`
+	Comment               *string                    `json:"comment"`
+	CommentNot            *string                    `json:"comment_not"`
+	CommentContains       *string                    `json:"comment_contains"`
+	CommentNotContains    *string                    `json:"comment_not_contains"`
+	CommentStartsWith     *string                    `json:"comment_starts_with"`
+	CommentNotStartsWith  *string                    `json:"comment_not_starts_with"`
+	CommentEndsWith       *string                    `json:"comment_ends_with"`
+	CommentNotEndsWith    *string                    `json:"comment_not_ends_with"`
+	CommentI              *string                    `json:"comment_i"`
+	CommentNotI           *string                    `json:"comment_not_i"`
+	CommentContainsI      *string                    `json:"comment_contains_i"`
+	CommentNotContainsI   *string                    `json:"comment_not_contains_i"`
+	CommentStartsWithI    *string                    `json:"comment_starts_with_i"`
+	CommentNotStartsWithI *string                    `json:"comment_not_starts_with_i"`
+	CommentEndsWithI      *string                    `json:"comment_ends_with_i"`
+	CommentNotEndsWithI   *string                    `json:"comment_not_ends_with_i"`
+	CommentIn             []*string                  `json:"comment_in"`
+	CommentNotIn          []*string                  `json:"comment_not_in"`
+	CreatedAt             *string                    `json:"createdAt"`
+	CreatedAtNot          *string                    `json:"createdAt_not"`
+	CreatedAtLt           *string                    `json:"createdAt_lt"`
+	CreatedAtLte          *string                    `json:"createdAt_lte"`
+	CreatedAtGt           *string                    `json:"createdAt_gt"`
+	CreatedAtGte          *string                    `json:"createdAt_gte"`
+	CreatedAtIn           []*string                  `json:"createdAt_in"`
+	CreatedAtNotIn        []*string                  `json:"createdAt_not_in"`
+	UpdatedAt             *string                    `json:"updatedAt"`
+	UpdatedAtNot          *string                    `json:"updatedAt_not"`
+	UpdatedAtLt           *string                    `json:"updatedAt_lt"`
+	UpdatedAtLte          *string                    `json:"updatedAt_lte"`
+	UpdatedAtGt           *string                    `json:"updatedAt_gt"`
+	UpdatedAtGte          *string                    `json:"updatedAt_gte"`
+	UpdatedAtIn           []*string                  `json:"updatedAt_in"`
+	UpdatedAtNotIn        []*string                  `json:"updatedAt_not_in"`
+	CreatedByIsNull       *bool                      `json:"createdBy_is_null"`
+	UpdatedByIsNull       *bool                      `json:"updatedBy_is_null"`
 }
 
 type MerchandiseWhereUniqueInput struct {
@@ -1906,6 +1951,7 @@ type Subscription struct {
 	Amount                    *int                           `json:"amount"`
 	Currency                  *SubscriptionCurrencyType      `json:"currency"`
 	Desc                      *string                        `json:"desc"`
+	Comment                   *string                        `json:"comment"`
 	Email                     *string                        `json:"email"`
 	OrderNumber               *string                        `json:"orderNumber"`
 	IsActive                  *bool                          `json:"isActive"`
@@ -1939,6 +1985,7 @@ type SubscriptionCreateInput struct {
 	Amount                    *int                                 `json:"amount"`
 	Currency                  *SubscriptionCurrencyType            `json:"currency"`
 	Desc                      *string                              `json:"desc"`
+	Comment                   *string                              `json:"comment"`
 	Email                     *string                              `json:"email"`
 	OrderNumber               *string                              `json:"orderNumber"`
 	IsActive                  *bool                                `json:"isActive"`
@@ -2234,38 +2281,38 @@ type SubscriptionHistoryWhereInput struct {
 	TokenTermNotEndsWithI      *string                             `json:"tokenTerm_not_ends_with_i"`
 	TokenTermIn                []*string                           `json:"tokenTerm_in"`
 	TokenTermNotIn             []*string                           `json:"tokenTerm_not_in"`
-	PeriodLastSuccessDate      *string                             `json:"periodLastSuccessDate"`
-	PeriodLastSuccessDateNot   *string                             `json:"periodLastSuccessDate_not"`
-	PeriodLastSuccessDateLt    *string                             `json:"periodLastSuccessDate_lt"`
-	PeriodLastSuccessDateLte   *string                             `json:"periodLastSuccessDate_lte"`
-	PeriodLastSuccessDateGt    *string                             `json:"periodLastSuccessDate_gt"`
-	PeriodLastSuccessDateGte   *string                             `json:"periodLastSuccessDate_gte"`
-	PeriodLastSuccessDateIn    []*string                           `json:"periodLastSuccessDate_in"`
-	PeriodLastSuccessDateNotIn []*string                           `json:"periodLastSuccessDate_not_in"`
-	PeriodNextPayDate          *string                             `json:"periodNextPayDate"`
-	PeriodNextPayDateNot       *string                             `json:"periodNextPayDate_not"`
-	PeriodNextPayDateLt        *string                             `json:"periodNextPayDate_lt"`
-	PeriodNextPayDateLte       *string                             `json:"periodNextPayDate_lte"`
-	PeriodNextPayDateGt        *string                             `json:"periodNextPayDate_gt"`
-	PeriodNextPayDateGte       *string                             `json:"periodNextPayDate_gte"`
-	PeriodNextPayDateIn        []*string                           `json:"periodNextPayDate_in"`
-	PeriodNextPayDateNotIn     []*string                           `json:"periodNextPayDate_not_in"`
-	PeriodFirstDate            *string                             `json:"periodFirstDate"`
-	PeriodFirstDateNot         *string                             `json:"periodFirstDate_not"`
-	PeriodFirstDateLt          *string                             `json:"periodFirstDate_lt"`
-	PeriodFirstDateLte         *string                             `json:"periodFirstDate_lte"`
-	PeriodFirstDateGt          *string                             `json:"periodFirstDate_gt"`
-	PeriodFirstDateGte         *string                             `json:"periodFirstDate_gte"`
-	PeriodFirstDateIn          []*string                           `json:"periodFirstDate_in"`
-	PeriodFirstDateNotIn       []*string                           `json:"periodFirstDate_not_in"`
-	ChangePlanDatetime         *string                             `json:"changePlanDatetime"`
-	ChangePlanDatetimeNot      *string                             `json:"changePlanDatetime_not"`
-	ChangePlanDatetimeLt       *string                             `json:"changePlanDatetime_lt"`
-	ChangePlanDatetimeLte      *string                             `json:"changePlanDatetime_lte"`
-	ChangePlanDatetimeGt       *string                             `json:"changePlanDatetime_gt"`
-	ChangePlanDatetimeGte      *string                             `json:"changePlanDatetime_gte"`
-	ChangePlanDatetimeIn       []*string                           `json:"changePlanDatetime_in"`
-	ChangePlanDatetimeNotIn    []*string                           `json:"changePlanDatetime_not_in"`
+	PeriodLastSuccessDate      *int                                `json:"periodLastSuccessDate"`
+	PeriodLastSuccessDateNot   *int                                `json:"periodLastSuccessDate_not"`
+	PeriodLastSuccessDateLt    *int                                `json:"periodLastSuccessDate_lt"`
+	PeriodLastSuccessDateLte   *int                                `json:"periodLastSuccessDate_lte"`
+	PeriodLastSuccessDateGt    *int                                `json:"periodLastSuccessDate_gt"`
+	PeriodLastSuccessDateGte   *int                                `json:"periodLastSuccessDate_gte"`
+	PeriodLastSuccessDateIn    []*int                              `json:"periodLastSuccessDate_in"`
+	PeriodLastSuccessDateNotIn []*int                              `json:"periodLastSuccessDate_not_in"`
+	PeriodNextPayDate          *int                                `json:"periodNextPayDate"`
+	PeriodNextPayDateNot       *int                                `json:"periodNextPayDate_not"`
+	PeriodNextPayDateLt        *int                                `json:"periodNextPayDate_lt"`
+	PeriodNextPayDateLte       *int                                `json:"periodNextPayDate_lte"`
+	PeriodNextPayDateGt        *int                                `json:"periodNextPayDate_gt"`
+	PeriodNextPayDateGte       *int                                `json:"periodNextPayDate_gte"`
+	PeriodNextPayDateIn        []*int                              `json:"periodNextPayDate_in"`
+	PeriodNextPayDateNotIn     []*int                              `json:"periodNextPayDate_not_in"`
+	PeriodFirstDate            *int                                `json:"periodFirstDate"`
+	PeriodFirstDateNot         *int                                `json:"periodFirstDate_not"`
+	PeriodFirstDateLt          *int                                `json:"periodFirstDate_lt"`
+	PeriodFirstDateLte         *int                                `json:"periodFirstDate_lte"`
+	PeriodFirstDateGt          *int                                `json:"periodFirstDate_gt"`
+	PeriodFirstDateGte         *int                                `json:"periodFirstDate_gte"`
+	PeriodFirstDateIn          []*int                              `json:"periodFirstDate_in"`
+	PeriodFirstDateNotIn       []*int                              `json:"periodFirstDate_not_in"`
+	ChangePlanDatetime         *int                                `json:"changePlanDatetime"`
+	ChangePlanDatetimeNot      *int                                `json:"changePlanDatetime_not"`
+	ChangePlanDatetimeLt       *int                                `json:"changePlanDatetime_lt"`
+	ChangePlanDatetimeLte      *int                                `json:"changePlanDatetime_lte"`
+	ChangePlanDatetimeGt       *int                                `json:"changePlanDatetime_gt"`
+	ChangePlanDatetimeGte      *int                                `json:"changePlanDatetime_gte"`
+	ChangePlanDatetimeIn       []*int                              `json:"changePlanDatetime_in"`
+	ChangePlanDatetimeNotIn    []*int                              `json:"changePlanDatetime_not_in"`
 	Note                       *string                             `json:"note"`
 	NoteNot                    *string                             `json:"note_not"`
 	NoteContains               *string                             `json:"note_contains"`
@@ -2310,22 +2357,22 @@ type SubscriptionHistoryWhereInput struct {
 	PostIDNotEndsWithI         *string                             `json:"postId_not_ends_with_i"`
 	PostIDIn                   []*string                           `json:"postId_in"`
 	PostIDNotIn                []*string                           `json:"postId_not_in"`
-	OneTimeStartDate           *string                             `json:"oneTimeStartDate"`
-	OneTimeStartDateNot        *string                             `json:"oneTimeStartDate_not"`
-	OneTimeStartDateLt         *string                             `json:"oneTimeStartDate_lt"`
-	OneTimeStartDateLte        *string                             `json:"oneTimeStartDate_lte"`
-	OneTimeStartDateGt         *string                             `json:"oneTimeStartDate_gt"`
-	OneTimeStartDateGte        *string                             `json:"oneTimeStartDate_gte"`
-	OneTimeStartDateIn         []*string                           `json:"oneTimeStartDate_in"`
-	OneTimeStartDateNotIn      []*string                           `json:"oneTimeStartDate_not_in"`
-	OneTimeEndDate             *string                             `json:"oneTimeEndDate"`
-	OneTimeEndDateNot          *string                             `json:"oneTimeEndDate_not"`
-	OneTimeEndDateLt           *string                             `json:"oneTimeEndDate_lt"`
-	OneTimeEndDateLte          *string                             `json:"oneTimeEndDate_lte"`
-	OneTimeEndDateGt           *string                             `json:"oneTimeEndDate_gt"`
-	OneTimeEndDateGte          *string                             `json:"oneTimeEndDate_gte"`
-	OneTimeEndDateIn           []*string                           `json:"oneTimeEndDate_in"`
-	OneTimeEndDateNotIn        []*string                           `json:"oneTimeEndDate_not_in"`
+	OneTimeStartDate           *int                                `json:"oneTimeStartDate"`
+	OneTimeStartDateNot        *int                                `json:"oneTimeStartDate_not"`
+	OneTimeStartDateLt         *int                                `json:"oneTimeStartDate_lt"`
+	OneTimeStartDateLte        *int                                `json:"oneTimeStartDate_lte"`
+	OneTimeStartDateGt         *int                                `json:"oneTimeStartDate_gt"`
+	OneTimeStartDateGte        *int                                `json:"oneTimeStartDate_gte"`
+	OneTimeStartDateIn         []*int                              `json:"oneTimeStartDate_in"`
+	OneTimeStartDateNotIn      []*int                              `json:"oneTimeStartDate_not_in"`
+	OneTimeEndDate             *int                                `json:"oneTimeEndDate"`
+	OneTimeEndDateNot          *int                                `json:"oneTimeEndDate_not"`
+	OneTimeEndDateLt           *int                                `json:"oneTimeEndDate_lt"`
+	OneTimeEndDateLte          *int                                `json:"oneTimeEndDate_lte"`
+	OneTimeEndDateGt           *int                                `json:"oneTimeEndDate_gt"`
+	OneTimeEndDateGte          *int                                `json:"oneTimeEndDate_gte"`
+	OneTimeEndDateIn           []*int                              `json:"oneTimeEndDate_in"`
+	OneTimeEndDateNotIn        []*int                              `json:"oneTimeEndDate_not_in"`
 	Action                     *SubscriptionHistoryActionType      `json:"action"`
 	ActionNot                  *SubscriptionHistoryActionType      `json:"action_not"`
 	ActionIn                   []*SubscriptionHistoryActionType    `json:"action_in"`
@@ -2377,6 +2424,7 @@ type SubscriptionOrderByInput struct {
 	Amount                    *OrderDirection `json:"amount"`
 	Currency                  *OrderDirection `json:"currency"`
 	Desc                      *OrderDirection `json:"desc"`
+	Comment                   *OrderDirection `json:"comment"`
 	Email                     *OrderDirection `json:"email"`
 	OrderNumber               *OrderDirection `json:"orderNumber"`
 	IsActive                  *OrderDirection `json:"isActive"`
@@ -2409,6 +2457,7 @@ type SubscriptionPrivateUpdateInput struct {
 	Amount                    *int                                 `json:"amount"`
 	Currency                  *SubscriptionCurrencyType            `json:"currency"`
 	Desc                      *string                              `json:"desc"`
+	Comment                   *string                              `json:"comment"`
 	Email                     *string                              `json:"email"`
 	OrderNumber               *string                              `json:"orderNumber"`
 	IsActive                  *bool                                `json:"isActive"`
@@ -2510,6 +2559,24 @@ type SubscriptionWhereInput struct {
 	DescNotEndsWithI               *string                          `json:"desc_not_ends_with_i"`
 	DescIn                         []*string                        `json:"desc_in"`
 	DescNotIn                      []*string                        `json:"desc_not_in"`
+	Comment                        *string                          `json:"comment"`
+	CommentNot                     *string                          `json:"comment_not"`
+	CommentContains                *string                          `json:"comment_contains"`
+	CommentNotContains             *string                          `json:"comment_not_contains"`
+	CommentStartsWith              *string                          `json:"comment_starts_with"`
+	CommentNotStartsWith           *string                          `json:"comment_not_starts_with"`
+	CommentEndsWith                *string                          `json:"comment_ends_with"`
+	CommentNotEndsWith             *string                          `json:"comment_not_ends_with"`
+	CommentI                       *string                          `json:"comment_i"`
+	CommentNotI                    *string                          `json:"comment_not_i"`
+	CommentContainsI               *string                          `json:"comment_contains_i"`
+	CommentNotContainsI            *string                          `json:"comment_not_contains_i"`
+	CommentStartsWithI             *string                          `json:"comment_starts_with_i"`
+	CommentNotStartsWithI          *string                          `json:"comment_not_starts_with_i"`
+	CommentEndsWithI               *string                          `json:"comment_ends_with_i"`
+	CommentNotEndsWithI            *string                          `json:"comment_not_ends_with_i"`
+	CommentIn                      []*string                        `json:"comment_in"`
+	CommentNotIn                   []*string                        `json:"comment_not_in"`
 	Email                          *string                          `json:"email"`
 	EmailNot                       *string                          `json:"email_not"`
 	EmailContains                  *string                          `json:"email_contains"`
@@ -2566,14 +2633,14 @@ type SubscriptionWhereInput struct {
 	PeriodFailureTimesGte          *int                             `json:"periodFailureTimes_gte"`
 	PeriodFailureTimesIn           []*int                           `json:"periodFailureTimes_in"`
 	PeriodFailureTimesNotIn        []*int                           `json:"periodFailureTimes_not_in"`
-	PeriodLastSuccessDatetime      *int                             `json:"periodLastSuccessDatetime"`
-	PeriodLastSuccessDatetimeNot   *int                             `json:"periodLastSuccessDatetime_not"`
-	PeriodLastSuccessDatetimeLt    *int                             `json:"periodLastSuccessDatetime_lt"`
-	PeriodLastSuccessDatetimeLte   *int                             `json:"periodLastSuccessDatetime_lte"`
-	PeriodLastSuccessDatetimeGt    *int                             `json:"periodLastSuccessDatetime_gt"`
-	PeriodLastSuccessDatetimeGte   *int                             `json:"periodLastSuccessDatetime_gte"`
-	PeriodLastSuccessDatetimeIn    []*int                           `json:"periodLastSuccessDatetime_in"`
-	PeriodLastSuccessDatetimeNotIn []*int                           `json:"periodLastSuccessDatetime_not_in"`
+	PeriodLastSuccessDatetime      *string                          `json:"periodLastSuccessDatetime"`
+	PeriodLastSuccessDatetimeNot   *string                          `json:"periodLastSuccessDatetime_not"`
+	PeriodLastSuccessDatetimeLt    *string                          `json:"periodLastSuccessDatetime_lt"`
+	PeriodLastSuccessDatetimeLte   *string                          `json:"periodLastSuccessDatetime_lte"`
+	PeriodLastSuccessDatetimeGt    *string                          `json:"periodLastSuccessDatetime_gt"`
+	PeriodLastSuccessDatetimeGte   *string                          `json:"periodLastSuccessDatetime_gte"`
+	PeriodLastSuccessDatetimeIn    []*string                        `json:"periodLastSuccessDatetime_in"`
+	PeriodLastSuccessDatetimeNotIn []*string                        `json:"periodLastSuccessDatetime_not_in"`
 	PeriodNextPayDatetime          *string                          `json:"periodNextPayDatetime"`
 	PeriodNextPayDatetimeNot       *string                          `json:"periodNextPayDatetime_not"`
 	PeriodNextPayDatetimeLt        *string                          `json:"periodNextPayDatetime_lt"`
@@ -2590,22 +2657,22 @@ type SubscriptionWhereInput struct {
 	PeriodCreateDatetimeGte        *string                          `json:"periodCreateDatetime_gte"`
 	PeriodCreateDatetimeIn         []*string                        `json:"periodCreateDatetime_in"`
 	PeriodCreateDatetimeNotIn      []*string                        `json:"periodCreateDatetime_not_in"`
-	PeriodFirstDatetime            *string                          `json:"periodFirstDatetime"`
-	PeriodFirstDatetimeNot         *string                          `json:"periodFirstDatetime_not"`
-	PeriodFirstDatetimeLt          *string                          `json:"periodFirstDatetime_lt"`
-	PeriodFirstDatetimeLte         *string                          `json:"periodFirstDatetime_lte"`
-	PeriodFirstDatetimeGt          *string                          `json:"periodFirstDatetime_gt"`
-	PeriodFirstDatetimeGte         *string                          `json:"periodFirstDatetime_gte"`
-	PeriodFirstDatetimeIn          []*string                        `json:"periodFirstDatetime_in"`
-	PeriodFirstDatetimeNotIn       []*string                        `json:"periodFirstDatetime_not_in"`
-	PeriodEndDatetime              *string                          `json:"periodEndDatetime"`
-	PeriodEndDatetimeNot           *string                          `json:"periodEndDatetime_not"`
-	PeriodEndDatetimeLt            *string                          `json:"periodEndDatetime_lt"`
-	PeriodEndDatetimeLte           *string                          `json:"periodEndDatetime_lte"`
-	PeriodEndDatetimeGt            *string                          `json:"periodEndDatetime_gt"`
-	PeriodEndDatetimeGte           *string                          `json:"periodEndDatetime_gte"`
-	PeriodEndDatetimeIn            []*string                        `json:"periodEndDatetime_in"`
-	PeriodEndDatetimeNotIn         []*string                        `json:"periodEndDatetime_not_in"`
+	PeriodFirstDatetime            *int                             `json:"periodFirstDatetime"`
+	PeriodFirstDatetimeNot         *int                             `json:"periodFirstDatetime_not"`
+	PeriodFirstDatetimeLt          *int                             `json:"periodFirstDatetime_lt"`
+	PeriodFirstDatetimeLte         *int                             `json:"periodFirstDatetime_lte"`
+	PeriodFirstDatetimeGt          *int                             `json:"periodFirstDatetime_gt"`
+	PeriodFirstDatetimeGte         *int                             `json:"periodFirstDatetime_gte"`
+	PeriodFirstDatetimeIn          []*int                           `json:"periodFirstDatetime_in"`
+	PeriodFirstDatetimeNotIn       []*int                           `json:"periodFirstDatetime_not_in"`
+	PeriodEndDatetime              *int                             `json:"periodEndDatetime"`
+	PeriodEndDatetimeNot           *int                             `json:"periodEndDatetime_not"`
+	PeriodEndDatetimeLt            *int                             `json:"periodEndDatetime_lt"`
+	PeriodEndDatetimeLte           *int                             `json:"periodEndDatetime_lte"`
+	PeriodEndDatetimeGt            *int                             `json:"periodEndDatetime_gt"`
+	PeriodEndDatetimeGte           *int                             `json:"periodEndDatetime_gte"`
+	PeriodEndDatetimeIn            []*int                           `json:"periodEndDatetime_in"`
+	PeriodEndDatetimeNotIn         []*int                           `json:"periodEndDatetime_not_in"`
 	ChangePlanDatetime             *string                          `json:"changePlanDatetime"`
 	ChangePlanDatetimeNot          *string                          `json:"changePlanDatetime_not"`
 	ChangePlanDatetimeLt           *string                          `json:"changePlanDatetime_lt"`
@@ -2658,22 +2725,22 @@ type SubscriptionWhereInput struct {
 	PostIDNotEndsWithI             *string                          `json:"postId_not_ends_with_i"`
 	PostIDIn                       []*string                        `json:"postId_in"`
 	PostIDNotIn                    []*string                        `json:"postId_not_in"`
-	OneTimeStartDatetime           *string                          `json:"oneTimeStartDatetime"`
-	OneTimeStartDatetimeNot        *string                          `json:"oneTimeStartDatetime_not"`
-	OneTimeStartDatetimeLt         *string                          `json:"oneTimeStartDatetime_lt"`
-	OneTimeStartDatetimeLte        *string                          `json:"oneTimeStartDatetime_lte"`
-	OneTimeStartDatetimeGt         *string                          `json:"oneTimeStartDatetime_gt"`
-	OneTimeStartDatetimeGte        *string                          `json:"oneTimeStartDatetime_gte"`
-	OneTimeStartDatetimeIn         []*string                        `json:"oneTimeStartDatetime_in"`
-	OneTimeStartDatetimeNotIn      []*string                        `json:"oneTimeStartDatetime_not_in"`
-	OneTimeEndDatetime             *string                          `json:"oneTimeEndDatetime"`
-	OneTimeEndDatetimeNot          *string                          `json:"oneTimeEndDatetime_not"`
-	OneTimeEndDatetimeLt           *string                          `json:"oneTimeEndDatetime_lt"`
-	OneTimeEndDatetimeLte          *string                          `json:"oneTimeEndDatetime_lte"`
-	OneTimeEndDatetimeGt           *string                          `json:"oneTimeEndDatetime_gt"`
-	OneTimeEndDatetimeGte          *string                          `json:"oneTimeEndDatetime_gte"`
-	OneTimeEndDatetimeIn           []*string                        `json:"oneTimeEndDatetime_in"`
-	OneTimeEndDatetimeNotIn        []*string                        `json:"oneTimeEndDatetime_not_in"`
+	OneTimeStartDatetime           *int                             `json:"oneTimeStartDatetime"`
+	OneTimeStartDatetimeNot        *int                             `json:"oneTimeStartDatetime_not"`
+	OneTimeStartDatetimeLt         *int                             `json:"oneTimeStartDatetime_lt"`
+	OneTimeStartDatetimeLte        *int                             `json:"oneTimeStartDatetime_lte"`
+	OneTimeStartDatetimeGt         *int                             `json:"oneTimeStartDatetime_gt"`
+	OneTimeStartDatetimeGte        *int                             `json:"oneTimeStartDatetime_gte"`
+	OneTimeStartDatetimeIn         []*int                           `json:"oneTimeStartDatetime_in"`
+	OneTimeStartDatetimeNotIn      []*int                           `json:"oneTimeStartDatetime_not_in"`
+	OneTimeEndDatetime             *int                             `json:"oneTimeEndDatetime"`
+	OneTimeEndDatetimeNot          *int                             `json:"oneTimeEndDatetime_not"`
+	OneTimeEndDatetimeLt           *int                             `json:"oneTimeEndDatetime_lt"`
+	OneTimeEndDatetimeLte          *int                             `json:"oneTimeEndDatetime_lte"`
+	OneTimeEndDatetimeGt           *int                             `json:"oneTimeEndDatetime_gt"`
+	OneTimeEndDatetimeGte          *int                             `json:"oneTimeEndDatetime_gte"`
+	OneTimeEndDatetimeIn           []*int                           `json:"oneTimeEndDatetime_in"`
+	OneTimeEndDatetimeNotIn        []*int                           `json:"oneTimeEndDatetime_not_in"`
 	NewebpayPaymentInfo            *NewebpayPaymentInfoWhereInput   `json:"newebpayPaymentInfo"`
 	NewebpayPaymentInfoIsNull      *bool                            `json:"newebpayPaymentInfo_is_null"`
 	CreatedAt                      *string                          `json:"createdAt"`
@@ -3139,6 +3206,10 @@ const (
 	SortMerchandisesByCurrencyDesc  SortMerchandisesBy = "currency_DESC"
 	SortMerchandisesByStateAsc      SortMerchandisesBy = "state_ASC"
 	SortMerchandisesByStateDesc     SortMerchandisesBy = "state_DESC"
+	SortMerchandisesByDescAsc       SortMerchandisesBy = "desc_ASC"
+	SortMerchandisesByDescDesc      SortMerchandisesBy = "desc_DESC"
+	SortMerchandisesByCommentAsc    SortMerchandisesBy = "comment_ASC"
+	SortMerchandisesByCommentDesc   SortMerchandisesBy = "comment_DESC"
 	SortMerchandisesByCreatedAtAsc  SortMerchandisesBy = "createdAt_ASC"
 	SortMerchandisesByCreatedAtDesc SortMerchandisesBy = "createdAt_DESC"
 	SortMerchandisesByUpdatedAtAsc  SortMerchandisesBy = "updatedAt_ASC"
@@ -3158,6 +3229,10 @@ var AllSortMerchandisesBy = []SortMerchandisesBy{
 	SortMerchandisesByCurrencyDesc,
 	SortMerchandisesByStateAsc,
 	SortMerchandisesByStateDesc,
+	SortMerchandisesByDescAsc,
+	SortMerchandisesByDescDesc,
+	SortMerchandisesByCommentAsc,
+	SortMerchandisesByCommentDesc,
 	SortMerchandisesByCreatedAtAsc,
 	SortMerchandisesByCreatedAtDesc,
 	SortMerchandisesByUpdatedAtAsc,
@@ -3166,7 +3241,7 @@ var AllSortMerchandisesBy = []SortMerchandisesBy{
 
 func (e SortMerchandisesBy) IsValid() bool {
 	switch e {
-	case SortMerchandisesByIDAsc, SortMerchandisesByIDDesc, SortMerchandisesByNameAsc, SortMerchandisesByNameDesc, SortMerchandisesByCodeAsc, SortMerchandisesByCodeDesc, SortMerchandisesByPriceAsc, SortMerchandisesByPriceDesc, SortMerchandisesByCurrencyAsc, SortMerchandisesByCurrencyDesc, SortMerchandisesByStateAsc, SortMerchandisesByStateDesc, SortMerchandisesByCreatedAtAsc, SortMerchandisesByCreatedAtDesc, SortMerchandisesByUpdatedAtAsc, SortMerchandisesByUpdatedAtDesc:
+	case SortMerchandisesByIDAsc, SortMerchandisesByIDDesc, SortMerchandisesByNameAsc, SortMerchandisesByNameDesc, SortMerchandisesByCodeAsc, SortMerchandisesByCodeDesc, SortMerchandisesByPriceAsc, SortMerchandisesByPriceDesc, SortMerchandisesByCurrencyAsc, SortMerchandisesByCurrencyDesc, SortMerchandisesByStateAsc, SortMerchandisesByStateDesc, SortMerchandisesByDescAsc, SortMerchandisesByDescDesc, SortMerchandisesByCommentAsc, SortMerchandisesByCommentDesc, SortMerchandisesByCreatedAtAsc, SortMerchandisesByCreatedAtDesc, SortMerchandisesByUpdatedAtAsc, SortMerchandisesByUpdatedAtDesc:
 		return true
 	}
 	return false
@@ -3584,6 +3659,8 @@ const (
 	SortSubscriptionsByCurrencyDesc                  SortSubscriptionsBy = "currency_DESC"
 	SortSubscriptionsByDescAsc                       SortSubscriptionsBy = "desc_ASC"
 	SortSubscriptionsByDescDesc                      SortSubscriptionsBy = "desc_DESC"
+	SortSubscriptionsByCommentAsc                    SortSubscriptionsBy = "comment_ASC"
+	SortSubscriptionsByCommentDesc                   SortSubscriptionsBy = "comment_DESC"
 	SortSubscriptionsByEmailAsc                      SortSubscriptionsBy = "email_ASC"
 	SortSubscriptionsByEmailDesc                     SortSubscriptionsBy = "email_DESC"
 	SortSubscriptionsByOrderNumberAsc                SortSubscriptionsBy = "orderNumber_ASC"
@@ -3639,6 +3716,8 @@ var AllSortSubscriptionsBy = []SortSubscriptionsBy{
 	SortSubscriptionsByCurrencyDesc,
 	SortSubscriptionsByDescAsc,
 	SortSubscriptionsByDescDesc,
+	SortSubscriptionsByCommentAsc,
+	SortSubscriptionsByCommentDesc,
 	SortSubscriptionsByEmailAsc,
 	SortSubscriptionsByEmailDesc,
 	SortSubscriptionsByOrderNumberAsc,
@@ -3683,7 +3762,7 @@ var AllSortSubscriptionsBy = []SortSubscriptionsBy{
 
 func (e SortSubscriptionsBy) IsValid() bool {
 	switch e {
-	case SortSubscriptionsByIDAsc, SortSubscriptionsByIDDesc, SortSubscriptionsByPaymentMethodAsc, SortSubscriptionsByPaymentMethodDesc, SortSubscriptionsByStatusAsc, SortSubscriptionsByStatusDesc, SortSubscriptionsByAmountAsc, SortSubscriptionsByAmountDesc, SortSubscriptionsByCurrencyAsc, SortSubscriptionsByCurrencyDesc, SortSubscriptionsByDescAsc, SortSubscriptionsByDescDesc, SortSubscriptionsByEmailAsc, SortSubscriptionsByEmailDesc, SortSubscriptionsByOrderNumberAsc, SortSubscriptionsByOrderNumberDesc, SortSubscriptionsByIsActiveAsc, SortSubscriptionsByIsActiveDesc, SortSubscriptionsByIsCanceledAsc, SortSubscriptionsByIsCanceledDesc, SortSubscriptionsByFrequencyAsc, SortSubscriptionsByFrequencyDesc, SortSubscriptionsByNextFrequencyAsc, SortSubscriptionsByNextFrequencyDesc, SortSubscriptionsByPeriodFailureTimesAsc, SortSubscriptionsByPeriodFailureTimesDesc, SortSubscriptionsByPeriodLastSuccessDatetimeAsc, SortSubscriptionsByPeriodLastSuccessDatetimeDesc, SortSubscriptionsByPeriodNextPayDatetimeAsc, SortSubscriptionsByPeriodNextPayDatetimeDesc, SortSubscriptionsByPeriodCreateDatetimeAsc, SortSubscriptionsByPeriodCreateDatetimeDesc, SortSubscriptionsByPeriodFirstDatetimeAsc, SortSubscriptionsByPeriodFirstDatetimeDesc, SortSubscriptionsByPeriodEndDatetimeAsc, SortSubscriptionsByPeriodEndDatetimeDesc, SortSubscriptionsByChangePlanDatetimeAsc, SortSubscriptionsByChangePlanDatetimeDesc, SortSubscriptionsByNoteAsc, SortSubscriptionsByNoteDesc, SortSubscriptionsByPromoteIDAsc, SortSubscriptionsByPromoteIDDesc, SortSubscriptionsByPostIDAsc, SortSubscriptionsByPostIDDesc, SortSubscriptionsByOneTimeStartDatetimeAsc, SortSubscriptionsByOneTimeStartDatetimeDesc, SortSubscriptionsByOneTimeEndDatetimeAsc, SortSubscriptionsByOneTimeEndDatetimeDesc, SortSubscriptionsByCreatedAtAsc, SortSubscriptionsByCreatedAtDesc, SortSubscriptionsByUpdatedAtAsc, SortSubscriptionsByUpdatedAtDesc:
+	case SortSubscriptionsByIDAsc, SortSubscriptionsByIDDesc, SortSubscriptionsByPaymentMethodAsc, SortSubscriptionsByPaymentMethodDesc, SortSubscriptionsByStatusAsc, SortSubscriptionsByStatusDesc, SortSubscriptionsByAmountAsc, SortSubscriptionsByAmountDesc, SortSubscriptionsByCurrencyAsc, SortSubscriptionsByCurrencyDesc, SortSubscriptionsByDescAsc, SortSubscriptionsByDescDesc, SortSubscriptionsByCommentAsc, SortSubscriptionsByCommentDesc, SortSubscriptionsByEmailAsc, SortSubscriptionsByEmailDesc, SortSubscriptionsByOrderNumberAsc, SortSubscriptionsByOrderNumberDesc, SortSubscriptionsByIsActiveAsc, SortSubscriptionsByIsActiveDesc, SortSubscriptionsByIsCanceledAsc, SortSubscriptionsByIsCanceledDesc, SortSubscriptionsByFrequencyAsc, SortSubscriptionsByFrequencyDesc, SortSubscriptionsByNextFrequencyAsc, SortSubscriptionsByNextFrequencyDesc, SortSubscriptionsByPeriodFailureTimesAsc, SortSubscriptionsByPeriodFailureTimesDesc, SortSubscriptionsByPeriodLastSuccessDatetimeAsc, SortSubscriptionsByPeriodLastSuccessDatetimeDesc, SortSubscriptionsByPeriodNextPayDatetimeAsc, SortSubscriptionsByPeriodNextPayDatetimeDesc, SortSubscriptionsByPeriodCreateDatetimeAsc, SortSubscriptionsByPeriodCreateDatetimeDesc, SortSubscriptionsByPeriodFirstDatetimeAsc, SortSubscriptionsByPeriodFirstDatetimeDesc, SortSubscriptionsByPeriodEndDatetimeAsc, SortSubscriptionsByPeriodEndDatetimeDesc, SortSubscriptionsByChangePlanDatetimeAsc, SortSubscriptionsByChangePlanDatetimeDesc, SortSubscriptionsByNoteAsc, SortSubscriptionsByNoteDesc, SortSubscriptionsByPromoteIDAsc, SortSubscriptionsByPromoteIDDesc, SortSubscriptionsByPostIDAsc, SortSubscriptionsByPostIDDesc, SortSubscriptionsByOneTimeStartDatetimeAsc, SortSubscriptionsByOneTimeStartDatetimeDesc, SortSubscriptionsByOneTimeEndDatetimeAsc, SortSubscriptionsByOneTimeEndDatetimeDesc, SortSubscriptionsByCreatedAtAsc, SortSubscriptionsByCreatedAtDesc, SortSubscriptionsByUpdatedAtAsc, SortSubscriptionsByUpdatedAtDesc:
 		return true
 	}
 	return false

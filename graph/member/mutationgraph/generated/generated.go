@@ -153,8 +153,10 @@ type ComplexityRoot struct {
 
 	Merchandise struct {
 		Code      func(childComplexity int) int
+		Comment   func(childComplexity int) int
 		CreatedAt func(childComplexity int) int
 		Currency  func(childComplexity int) int
+		Desc      func(childComplexity int) int
 		ID        func(childComplexity int) int
 		Name      func(childComplexity int) int
 		Price     func(childComplexity int) int
@@ -215,6 +217,7 @@ type ComplexityRoot struct {
 		ApplepayPayment           func(childComplexity int, where model.ApplepayPaymentWhereInput, search *string, orderBy []*model.ApplepayPaymentOrderByInput, first *int, skip int) int
 		ApplepayPaymentCount      func(childComplexity int, where model.ApplepayPaymentWhereInput) int
 		ChangePlanDatetime        func(childComplexity int) int
+		Comment                   func(childComplexity int) int
 		CreatedAt                 func(childComplexity int) int
 		Currency                  func(childComplexity int) int
 		Desc                      func(childComplexity int) int
@@ -974,6 +977,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Merchandise.Code(childComplexity), true
 
+	case "merchandise.comment":
+		if e.complexity.Merchandise.Comment == nil {
+			break
+		}
+
+		return e.complexity.Merchandise.Comment(childComplexity), true
+
 	case "merchandise.createdAt":
 		if e.complexity.Merchandise.CreatedAt == nil {
 			break
@@ -987,6 +997,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Merchandise.Currency(childComplexity), true
+
+	case "merchandise.desc":
+		if e.complexity.Merchandise.Desc == nil {
+			break
+		}
+
+		return e.complexity.Merchandise.Desc(childComplexity), true
 
 	case "merchandise.id":
 		if e.complexity.Merchandise.ID == nil {
@@ -1343,6 +1360,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Subscription.ChangePlanDatetime(childComplexity), true
+
+	case "subscription.comment":
+		if e.complexity.Subscription.Comment == nil {
+			break
+		}
+
+		return e.complexity.Subscription.Comment(childComplexity), true
 
 	case "subscription.createdAt":
 		if e.complexity.Subscription.CreatedAt == nil {
@@ -2344,6 +2368,9 @@ type member {
   updatedAt: String
 }
 
+"""
+Nested fields are removed
+"""
 type memberInfo {
   id: ID!
   firebaseId: String
@@ -2822,6 +2849,8 @@ type merchandise {
   price: Float
   currency: merchandiseCurrencyType
   state: merchandiseStateType
+  desc: String
+  comment: String
   createdAt: String
   updatedAt: String
 }
@@ -2898,6 +2927,42 @@ input merchandiseWhereInput {
   state_not: merchandiseStateType
   state_in: [merchandiseStateType]
   state_not_in: [merchandiseStateType]
+  desc: String
+  desc_not: String
+  desc_contains: String
+  desc_not_contains: String
+  desc_starts_with: String
+  desc_not_starts_with: String
+  desc_ends_with: String
+  desc_not_ends_with: String
+  desc_i: String
+  desc_not_i: String
+  desc_contains_i: String
+  desc_not_contains_i: String
+  desc_starts_with_i: String
+  desc_not_starts_with_i: String
+  desc_ends_with_i: String
+  desc_not_ends_with_i: String
+  desc_in: [String]
+  desc_not_in: [String]
+  comment: String
+  comment_not: String
+  comment_contains: String
+  comment_not_contains: String
+  comment_starts_with: String
+  comment_not_starts_with: String
+  comment_ends_with: String
+  comment_not_ends_with: String
+  comment_i: String
+  comment_not_i: String
+  comment_contains_i: String
+  comment_not_contains_i: String
+  comment_starts_with_i: String
+  comment_not_starts_with_i: String
+  comment_ends_with_i: String
+  comment_not_ends_with_i: String
+  comment_in: [String]
+  comment_not_in: [String]
   createdAt: String
   createdAt_not: String
   createdAt_lt: String
@@ -2937,6 +3002,10 @@ enum SortMerchandisesBy {
   currency_DESC
   state_ASC
   state_DESC
+  desc_ASC
+  desc_DESC
+  comment_ASC
+  comment_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -2950,6 +3019,8 @@ input merchandiseOrderByInput {
   price: OrderDirection
   currency: OrderDirection
   state: OrderDirection
+  desc: OrderDirection
+  comment: OrderDirection
   createdAt: OrderDirection
   updatedAt: OrderDirection
 }
@@ -2960,6 +3031,8 @@ input merchandiseUpdateInput {
   price: Float
   currency: merchandiseCurrencyType
   state: merchandiseStateType
+  desc: String
+  comment: String
   createdAt: String
   updatedAt: String
 }
@@ -2975,6 +3048,8 @@ input merchandiseCreateInput {
   price: Float
   currency: merchandiseCurrencyType
   state: merchandiseStateType
+  desc: String
+  comment: String
   createdAt: String
   updatedAt: String
 }
@@ -4130,6 +4205,7 @@ type subscription {
   amount: Int
   currency: subscriptionCurrencyType
   desc: String
+  comment: String
   email: String
   orderNumber: String
   isActive: Boolean
@@ -4248,6 +4324,24 @@ input subscriptionWhereInput {
   desc_not_ends_with_i: String
   desc_in: [String]
   desc_not_in: [String]
+  comment: String
+  comment_not: String
+  comment_contains: String
+  comment_not_contains: String
+  comment_starts_with: String
+  comment_not_starts_with: String
+  comment_ends_with: String
+  comment_not_ends_with: String
+  comment_i: String
+  comment_not_i: String
+  comment_contains_i: String
+  comment_not_contains_i: String
+  comment_starts_with_i: String
+  comment_not_starts_with_i: String
+  comment_ends_with_i: String
+  comment_not_ends_with_i: String
+  comment_in: [String]
+  comment_not_in: [String]
   email: String
   email_not: String
   email_contains: String
@@ -4304,14 +4398,14 @@ input subscriptionWhereInput {
   periodFailureTimes_gte: Int
   periodFailureTimes_in: [Int]
   periodFailureTimes_not_in: [Int]
-  periodLastSuccessDatetime: Int
-  periodLastSuccessDatetime_not: Int
-  periodLastSuccessDatetime_lt: Int
-  periodLastSuccessDatetime_lte: Int
-  periodLastSuccessDatetime_gt: Int
-  periodLastSuccessDatetime_gte: Int
-  periodLastSuccessDatetime_in: [Int]
-  periodLastSuccessDatetime_not_in: [Int]
+  periodLastSuccessDatetime: String
+  periodLastSuccessDatetime_not: String
+  periodLastSuccessDatetime_lt: String
+  periodLastSuccessDatetime_lte: String
+  periodLastSuccessDatetime_gt: String
+  periodLastSuccessDatetime_gte: String
+  periodLastSuccessDatetime_in: [String]
+  periodLastSuccessDatetime_not_in: [String]
   periodNextPayDatetime: String
   periodNextPayDatetime_not: String
   periodNextPayDatetime_lt: String
@@ -4328,22 +4422,22 @@ input subscriptionWhereInput {
   periodCreateDatetime_gte: String
   periodCreateDatetime_in: [String]
   periodCreateDatetime_not_in: [String]
-  periodFirstDatetime: String
-  periodFirstDatetime_not: String
-  periodFirstDatetime_lt: String
-  periodFirstDatetime_lte: String
-  periodFirstDatetime_gt: String
-  periodFirstDatetime_gte: String
-  periodFirstDatetime_in: [String]
-  periodFirstDatetime_not_in: [String]
-  periodEndDatetime: String
-  periodEndDatetime_not: String
-  periodEndDatetime_lt: String
-  periodEndDatetime_lte: String
-  periodEndDatetime_gt: String
-  periodEndDatetime_gte: String
-  periodEndDatetime_in: [String]
-  periodEndDatetime_not_in: [String]
+  periodFirstDatetime: Int
+  periodFirstDatetime_not: Int
+  periodFirstDatetime_lt: Int
+  periodFirstDatetime_lte: Int
+  periodFirstDatetime_gt: Int
+  periodFirstDatetime_gte: Int
+  periodFirstDatetime_in: [Int]
+  periodFirstDatetime_not_in: [Int]
+  periodEndDatetime: Int
+  periodEndDatetime_not: Int
+  periodEndDatetime_lt: Int
+  periodEndDatetime_lte: Int
+  periodEndDatetime_gt: Int
+  periodEndDatetime_gte: Int
+  periodEndDatetime_in: [Int]
+  periodEndDatetime_not_in: [Int]
   changePlanDatetime: String
   changePlanDatetime_not: String
   changePlanDatetime_lt: String
@@ -4396,22 +4490,22 @@ input subscriptionWhereInput {
   postId_not_ends_with_i: String
   postId_in: [String]
   postId_not_in: [String]
-  oneTimeStartDatetime: String
-  oneTimeStartDatetime_not: String
-  oneTimeStartDatetime_lt: String
-  oneTimeStartDatetime_lte: String
-  oneTimeStartDatetime_gt: String
-  oneTimeStartDatetime_gte: String
-  oneTimeStartDatetime_in: [String]
-  oneTimeStartDatetime_not_in: [String]
-  oneTimeEndDatetime: String
-  oneTimeEndDatetime_not: String
-  oneTimeEndDatetime_lt: String
-  oneTimeEndDatetime_lte: String
-  oneTimeEndDatetime_gt: String
-  oneTimeEndDatetime_gte: String
-  oneTimeEndDatetime_in: [String]
-  oneTimeEndDatetime_not_in: [String]
+  oneTimeStartDatetime: Int
+  oneTimeStartDatetime_not: Int
+  oneTimeStartDatetime_lt: Int
+  oneTimeStartDatetime_lte: Int
+  oneTimeStartDatetime_gt: Int
+  oneTimeStartDatetime_gte: Int
+  oneTimeStartDatetime_in: [Int]
+  oneTimeStartDatetime_not_in: [Int]
+  oneTimeEndDatetime: Int
+  oneTimeEndDatetime_not: Int
+  oneTimeEndDatetime_lt: Int
+  oneTimeEndDatetime_lte: Int
+  oneTimeEndDatetime_gt: Int
+  oneTimeEndDatetime_gte: Int
+  oneTimeEndDatetime_in: [Int]
+  oneTimeEndDatetime_not_in: [Int]
   newebpayPaymentInfo: newebpayPaymentInfoWhereInput
   newebpayPaymentInfo_is_null: Boolean
   createdAt: String
@@ -4452,6 +4546,8 @@ enum SortSubscriptionsBy {
   currency_DESC
   desc_ASC
   desc_DESC
+  comment_ASC
+  comment_DESC
   email_ASC
   email_DESC
   orderNumber_ASC
@@ -4501,6 +4597,7 @@ input subscriptionOrderByInput {
   amount: OrderDirection
   currency: OrderDirection
   desc: OrderDirection
+  comment: OrderDirection
   email: OrderDirection
   orderNumber: OrderDirection
   isActive: OrderDirection
@@ -4533,6 +4630,7 @@ input subscriptionPrivateUpdateInput {
   amount: Int
   currency: subscriptionCurrencyType
   desc: String
+  comment: String
   email: String
   orderNumber: String
   isActive: Boolean
@@ -4599,6 +4697,7 @@ input subscriptionCreateInput {
   amount: Int
   currency: subscriptionCurrencyType
   desc: String
+  comment: String
   email: String
   orderNumber: String
   isActive: Boolean
@@ -4839,38 +4938,38 @@ input subscriptionHistoryWhereInput {
   tokenTerm_not_ends_with_i: String
   tokenTerm_in: [String]
   tokenTerm_not_in: [String]
-  periodLastSuccessDate: String
-  periodLastSuccessDate_not: String
-  periodLastSuccessDate_lt: String
-  periodLastSuccessDate_lte: String
-  periodLastSuccessDate_gt: String
-  periodLastSuccessDate_gte: String
-  periodLastSuccessDate_in: [String]
-  periodLastSuccessDate_not_in: [String]
-  periodNextPayDate: String
-  periodNextPayDate_not: String
-  periodNextPayDate_lt: String
-  periodNextPayDate_lte: String
-  periodNextPayDate_gt: String
-  periodNextPayDate_gte: String
-  periodNextPayDate_in: [String]
-  periodNextPayDate_not_in: [String]
-  periodFirstDate: String
-  periodFirstDate_not: String
-  periodFirstDate_lt: String
-  periodFirstDate_lte: String
-  periodFirstDate_gt: String
-  periodFirstDate_gte: String
-  periodFirstDate_in: [String]
-  periodFirstDate_not_in: [String]
-  changePlanDatetime: String
-  changePlanDatetime_not: String
-  changePlanDatetime_lt: String
-  changePlanDatetime_lte: String
-  changePlanDatetime_gt: String
-  changePlanDatetime_gte: String
-  changePlanDatetime_in: [String]
-  changePlanDatetime_not_in: [String]
+  periodLastSuccessDate: Int
+  periodLastSuccessDate_not: Int
+  periodLastSuccessDate_lt: Int
+  periodLastSuccessDate_lte: Int
+  periodLastSuccessDate_gt: Int
+  periodLastSuccessDate_gte: Int
+  periodLastSuccessDate_in: [Int]
+  periodLastSuccessDate_not_in: [Int]
+  periodNextPayDate: Int
+  periodNextPayDate_not: Int
+  periodNextPayDate_lt: Int
+  periodNextPayDate_lte: Int
+  periodNextPayDate_gt: Int
+  periodNextPayDate_gte: Int
+  periodNextPayDate_in: [Int]
+  periodNextPayDate_not_in: [Int]
+  periodFirstDate: Int
+  periodFirstDate_not: Int
+  periodFirstDate_lt: Int
+  periodFirstDate_lte: Int
+  periodFirstDate_gt: Int
+  periodFirstDate_gte: Int
+  periodFirstDate_in: [Int]
+  periodFirstDate_not_in: [Int]
+  changePlanDatetime: Int
+  changePlanDatetime_not: Int
+  changePlanDatetime_lt: Int
+  changePlanDatetime_lte: Int
+  changePlanDatetime_gt: Int
+  changePlanDatetime_gte: Int
+  changePlanDatetime_in: [Int]
+  changePlanDatetime_not_in: [Int]
   note: String
   note_not: String
   note_contains: String
@@ -4915,22 +5014,22 @@ input subscriptionHistoryWhereInput {
   postId_not_ends_with_i: String
   postId_in: [String]
   postId_not_in: [String]
-  oneTimeStartDate: String
-  oneTimeStartDate_not: String
-  oneTimeStartDate_lt: String
-  oneTimeStartDate_lte: String
-  oneTimeStartDate_gt: String
-  oneTimeStartDate_gte: String
-  oneTimeStartDate_in: [String]
-  oneTimeStartDate_not_in: [String]
-  oneTimeEndDate: String
-  oneTimeEndDate_not: String
-  oneTimeEndDate_lt: String
-  oneTimeEndDate_lte: String
-  oneTimeEndDate_gt: String
-  oneTimeEndDate_gte: String
-  oneTimeEndDate_in: [String]
-  oneTimeEndDate_not_in: [String]
+  oneTimeStartDate: Int
+  oneTimeStartDate_not: Int
+  oneTimeStartDate_lt: Int
+  oneTimeStartDate_lte: Int
+  oneTimeStartDate_gt: Int
+  oneTimeStartDate_gte: Int
+  oneTimeStartDate_in: [Int]
+  oneTimeStartDate_not_in: [Int]
+  oneTimeEndDate: Int
+  oneTimeEndDate_not: Int
+  oneTimeEndDate_lt: Int
+  oneTimeEndDate_lte: Int
+  oneTimeEndDate_gt: Int
+  oneTimeEndDate_gte: Int
+  oneTimeEndDate_in: [Int]
+  oneTimeEndDate_not_in: [Int]
   action: subscriptionHistoryActionType
   action_not: subscriptionHistoryActionType
   action_in: [subscriptionHistoryActionType]
@@ -5142,7 +5241,6 @@ input subscriptionRecurringCreateInput {
   paymentMethod: subscriptionPaymentMethodType!
   applepayPayment: applepayPaymentRelateToManyInput
   status: createSubscriptionStatusType!
-  desc: String!
   email: String!
   """
   frequency has to match a code of one of the merchandize. It will be use to fetch amount and currency.
@@ -5160,7 +5258,6 @@ input subscriptionOneTimeCreateInput {
   paymentMethod: subscriptionPaymentMethodType!
   applepayPayment: applepayPaymentRelateToManyInput
   status: createSubscriptionStatusType!
-  desc: String!
   email: String!
   note: String
   promoteId: Int
@@ -5174,7 +5271,6 @@ input subscriptionOneTimeCreateInfo {
 }
 
 input subscriptionUpdateInput {
-  desc: String
   isCanceled: Boolean
   """
   nextFrequency has to match a code of one of the merchandize. It will be use to fetch amount and currency.
@@ -5223,13 +5319,13 @@ type subscriptionCreation {
 
   Nested query is not allowed in the mutation.
   """
-  createmember(data: memberCreateInput): memberInfo
+  createmember(data: memberCreateInput!): memberInfo
   """
   It updates the member with memberUpdateInput if the member has the same **firebaseId** in the **token**.
 
   Nested query is not allowed in the mutation.
   """
-  updatemember(id: ID!, data: memberUpdateInput): memberInfo
+  updatemember(id: ID!, data: memberUpdateInput!): memberInfo
   """
   It creates a subscription with subscriptionOneTimeCreateInput, set a new order number, connect the subscription to the member with the firebaseID, and the amount/currency coresponding to the frequency in **merchandise**.
 
@@ -5255,7 +5351,7 @@ type subscriptionCreation {
 
   Nested query is not allowed in the mutation.
   """
-  updatesubscription(id: ID!, data: subscriptionUpdateInput): subscriptionInfo
+  updatesubscription(id: ID!, data: subscriptionUpdateInput!): subscriptionInfo
 }
 `, BuiltIn: false},
 }
@@ -5295,7 +5391,7 @@ func (ec *executionContext) field_Mutation_createmember_args(ctx context.Context
 	var arg0 map[string]interface{}
 	if tmp, ok := rawArgs["data"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("data"))
-		arg0, err = ec.unmarshalOmemberCreateInput2map(ctx, tmp)
+		arg0, err = ec.unmarshalNmemberCreateInput2map(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -5343,7 +5439,7 @@ func (ec *executionContext) field_Mutation_updatemember_args(ctx context.Context
 	var arg1 map[string]interface{}
 	if tmp, ok := rawArgs["data"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("data"))
-		arg1, err = ec.unmarshalOmemberUpdateInput2map(ctx, tmp)
+		arg1, err = ec.unmarshalNmemberUpdateInput2map(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -5367,7 +5463,7 @@ func (ec *executionContext) field_Mutation_updatesubscription_args(ctx context.C
 	var arg1 map[string]interface{}
 	if tmp, ok := rawArgs["data"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("data"))
-		arg1, err = ec.unmarshalOsubscriptionUpdateInput2map(ctx, tmp)
+		arg1, err = ec.unmarshalNsubscriptionUpdateInput2map(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -9896,6 +9992,70 @@ func (ec *executionContext) _merchandise_state(ctx context.Context, field graphq
 	return ec.marshalOmerchandiseStateType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMerchandiseStateType(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _merchandise_desc(ctx context.Context, field graphql.CollectedField, obj *model.Merchandise) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "merchandise",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Desc, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _merchandise_comment(ctx context.Context, field graphql.CollectedField, obj *model.Merchandise) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "merchandise",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Comment, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _merchandise_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.Merchandise) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -11601,6 +11761,38 @@ func (ec *executionContext) _subscription_desc(ctx context.Context, field graphq
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Desc, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscription_comment(ctx context.Context, field graphql.CollectedField, obj *model.Subscription) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscription",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Comment, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -21460,6 +21652,22 @@ func (ec *executionContext) unmarshalInputmerchandiseCreateInput(ctx context.Con
 			if err != nil {
 				return it, err
 			}
+		case "desc":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("desc"))
+			it.Desc, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment"))
+			it.Comment, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "createdAt":
 			var err error
 
@@ -21539,6 +21747,22 @@ func (ec *executionContext) unmarshalInputmerchandiseOrderByInput(ctx context.Co
 			if err != nil {
 				return it, err
 			}
+		case "desc":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("desc"))
+			it.Desc, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment"))
+			it.Comment, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "createdAt":
 			var err error
 
@@ -21607,6 +21831,22 @@ func (ec *executionContext) unmarshalInputmerchandiseUpdateInput(ctx context.Con
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("state"))
 			it.State, err = ec.unmarshalOmerchandiseStateType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMerchandiseStateType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "desc":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("desc"))
+			it.Desc, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment"))
+			it.Comment, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -22134,6 +22374,294 @@ func (ec *executionContext) unmarshalInputmerchandiseWhereInput(ctx context.Cont
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("state_not_in"))
 			it.StateNotIn, err = ec.unmarshalOmerchandiseStateType2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMerchandiseStateType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "desc":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("desc"))
+			it.Desc, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "desc_not":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("desc_not"))
+			it.DescNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "desc_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("desc_contains"))
+			it.DescContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "desc_not_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("desc_not_contains"))
+			it.DescNotContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "desc_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("desc_starts_with"))
+			it.DescStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "desc_not_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("desc_not_starts_with"))
+			it.DescNotStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "desc_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("desc_ends_with"))
+			it.DescEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "desc_not_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("desc_not_ends_with"))
+			it.DescNotEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "desc_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("desc_i"))
+			it.DescI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "desc_not_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("desc_not_i"))
+			it.DescNotI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "desc_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("desc_contains_i"))
+			it.DescContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "desc_not_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("desc_not_contains_i"))
+			it.DescNotContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "desc_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("desc_starts_with_i"))
+			it.DescStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "desc_not_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("desc_not_starts_with_i"))
+			it.DescNotStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "desc_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("desc_ends_with_i"))
+			it.DescEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "desc_not_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("desc_not_ends_with_i"))
+			it.DescNotEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "desc_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("desc_in"))
+			it.DescIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "desc_not_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("desc_not_in"))
+			it.DescNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment"))
+			it.Comment, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment_not":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment_not"))
+			it.CommentNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment_contains"))
+			it.CommentContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment_not_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment_not_contains"))
+			it.CommentNotContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment_starts_with"))
+			it.CommentStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment_not_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment_not_starts_with"))
+			it.CommentNotStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment_ends_with"))
+			it.CommentEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment_not_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment_not_ends_with"))
+			it.CommentNotEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment_i"))
+			it.CommentI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment_not_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment_not_i"))
+			it.CommentNotI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment_contains_i"))
+			it.CommentContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment_not_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment_not_contains_i"))
+			it.CommentNotContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment_starts_with_i"))
+			it.CommentStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment_not_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment_not_starts_with_i"))
+			it.CommentNotStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment_ends_with_i"))
+			it.CommentEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment_not_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment_not_ends_with_i"))
+			it.CommentNotEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment_in"))
+			it.CommentIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment_not_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment_not_in"))
+			it.CommentNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -27157,6 +27685,14 @@ func (ec *executionContext) unmarshalInputsubscriptionCreateInput(ctx context.Co
 			if err != nil {
 				return it, err
 			}
+		case "comment":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment"))
+			it.Comment, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "email":
 			var err error
 
@@ -29221,7 +29757,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodLastSuccessDate"))
-			it.PeriodLastSuccessDate, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.PeriodLastSuccessDate, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29229,7 +29765,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodLastSuccessDate_not"))
-			it.PeriodLastSuccessDateNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.PeriodLastSuccessDateNot, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29237,7 +29773,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodLastSuccessDate_lt"))
-			it.PeriodLastSuccessDateLt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.PeriodLastSuccessDateLt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29245,7 +29781,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodLastSuccessDate_lte"))
-			it.PeriodLastSuccessDateLte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.PeriodLastSuccessDateLte, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29253,7 +29789,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodLastSuccessDate_gt"))
-			it.PeriodLastSuccessDateGt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.PeriodLastSuccessDateGt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29261,7 +29797,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodLastSuccessDate_gte"))
-			it.PeriodLastSuccessDateGte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.PeriodLastSuccessDateGte, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29269,7 +29805,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodLastSuccessDate_in"))
-			it.PeriodLastSuccessDateIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			it.PeriodLastSuccessDateIn, err = ec.unmarshalOInt2ᚕᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29277,7 +29813,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodLastSuccessDate_not_in"))
-			it.PeriodLastSuccessDateNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			it.PeriodLastSuccessDateNotIn, err = ec.unmarshalOInt2ᚕᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29285,7 +29821,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodNextPayDate"))
-			it.PeriodNextPayDate, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.PeriodNextPayDate, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29293,7 +29829,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodNextPayDate_not"))
-			it.PeriodNextPayDateNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.PeriodNextPayDateNot, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29301,7 +29837,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodNextPayDate_lt"))
-			it.PeriodNextPayDateLt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.PeriodNextPayDateLt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29309,7 +29845,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodNextPayDate_lte"))
-			it.PeriodNextPayDateLte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.PeriodNextPayDateLte, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29317,7 +29853,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodNextPayDate_gt"))
-			it.PeriodNextPayDateGt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.PeriodNextPayDateGt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29325,7 +29861,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodNextPayDate_gte"))
-			it.PeriodNextPayDateGte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.PeriodNextPayDateGte, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29333,7 +29869,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodNextPayDate_in"))
-			it.PeriodNextPayDateIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			it.PeriodNextPayDateIn, err = ec.unmarshalOInt2ᚕᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29341,7 +29877,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodNextPayDate_not_in"))
-			it.PeriodNextPayDateNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			it.PeriodNextPayDateNotIn, err = ec.unmarshalOInt2ᚕᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29349,7 +29885,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodFirstDate"))
-			it.PeriodFirstDate, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.PeriodFirstDate, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29357,7 +29893,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodFirstDate_not"))
-			it.PeriodFirstDateNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.PeriodFirstDateNot, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29365,7 +29901,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodFirstDate_lt"))
-			it.PeriodFirstDateLt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.PeriodFirstDateLt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29373,7 +29909,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodFirstDate_lte"))
-			it.PeriodFirstDateLte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.PeriodFirstDateLte, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29381,7 +29917,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodFirstDate_gt"))
-			it.PeriodFirstDateGt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.PeriodFirstDateGt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29389,7 +29925,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodFirstDate_gte"))
-			it.PeriodFirstDateGte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.PeriodFirstDateGte, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29397,7 +29933,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodFirstDate_in"))
-			it.PeriodFirstDateIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			it.PeriodFirstDateIn, err = ec.unmarshalOInt2ᚕᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29405,7 +29941,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodFirstDate_not_in"))
-			it.PeriodFirstDateNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			it.PeriodFirstDateNotIn, err = ec.unmarshalOInt2ᚕᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29413,7 +29949,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("changePlanDatetime"))
-			it.ChangePlanDatetime, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.ChangePlanDatetime, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29421,7 +29957,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("changePlanDatetime_not"))
-			it.ChangePlanDatetimeNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.ChangePlanDatetimeNot, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29429,7 +29965,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("changePlanDatetime_lt"))
-			it.ChangePlanDatetimeLt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.ChangePlanDatetimeLt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29437,7 +29973,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("changePlanDatetime_lte"))
-			it.ChangePlanDatetimeLte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.ChangePlanDatetimeLte, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29445,7 +29981,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("changePlanDatetime_gt"))
-			it.ChangePlanDatetimeGt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.ChangePlanDatetimeGt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29453,7 +29989,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("changePlanDatetime_gte"))
-			it.ChangePlanDatetimeGte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.ChangePlanDatetimeGte, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29461,7 +29997,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("changePlanDatetime_in"))
-			it.ChangePlanDatetimeIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			it.ChangePlanDatetimeIn, err = ec.unmarshalOInt2ᚕᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29469,7 +30005,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("changePlanDatetime_not_in"))
-			it.ChangePlanDatetimeNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			it.ChangePlanDatetimeNotIn, err = ec.unmarshalOInt2ᚕᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29829,7 +30365,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("oneTimeStartDate"))
-			it.OneTimeStartDate, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.OneTimeStartDate, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29837,7 +30373,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("oneTimeStartDate_not"))
-			it.OneTimeStartDateNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.OneTimeStartDateNot, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29845,7 +30381,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("oneTimeStartDate_lt"))
-			it.OneTimeStartDateLt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.OneTimeStartDateLt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29853,7 +30389,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("oneTimeStartDate_lte"))
-			it.OneTimeStartDateLte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.OneTimeStartDateLte, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29861,7 +30397,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("oneTimeStartDate_gt"))
-			it.OneTimeStartDateGt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.OneTimeStartDateGt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29869,7 +30405,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("oneTimeStartDate_gte"))
-			it.OneTimeStartDateGte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.OneTimeStartDateGte, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29877,7 +30413,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("oneTimeStartDate_in"))
-			it.OneTimeStartDateIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			it.OneTimeStartDateIn, err = ec.unmarshalOInt2ᚕᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29885,7 +30421,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("oneTimeStartDate_not_in"))
-			it.OneTimeStartDateNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			it.OneTimeStartDateNotIn, err = ec.unmarshalOInt2ᚕᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29893,7 +30429,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("oneTimeEndDate"))
-			it.OneTimeEndDate, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.OneTimeEndDate, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29901,7 +30437,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("oneTimeEndDate_not"))
-			it.OneTimeEndDateNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.OneTimeEndDateNot, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29909,7 +30445,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("oneTimeEndDate_lt"))
-			it.OneTimeEndDateLt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.OneTimeEndDateLt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29917,7 +30453,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("oneTimeEndDate_lte"))
-			it.OneTimeEndDateLte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.OneTimeEndDateLte, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29925,7 +30461,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("oneTimeEndDate_gt"))
-			it.OneTimeEndDateGt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.OneTimeEndDateGt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29933,7 +30469,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("oneTimeEndDate_gte"))
-			it.OneTimeEndDateGte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.OneTimeEndDateGte, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29941,7 +30477,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("oneTimeEndDate_in"))
-			it.OneTimeEndDateIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			it.OneTimeEndDateIn, err = ec.unmarshalOInt2ᚕᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29949,7 +30485,7 @@ func (ec *executionContext) unmarshalInputsubscriptionHistoryWhereInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("oneTimeEndDate_not_in"))
-			it.OneTimeEndDateNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			it.OneTimeEndDateNotIn, err = ec.unmarshalOInt2ᚕᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -30107,6 +30643,14 @@ func (ec *executionContext) unmarshalInputsubscriptionOrderByInput(ctx context.C
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("desc"))
 			it.Desc, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment"))
+			it.Comment, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -30354,6 +30898,14 @@ func (ec *executionContext) unmarshalInputsubscriptionPrivateUpdateInput(ctx con
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("desc"))
 			it.Desc, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment"))
+			it.Comment, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -31129,6 +31681,150 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			if err != nil {
 				return it, err
 			}
+		case "comment":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment"))
+			it.Comment, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment_not":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment_not"))
+			it.CommentNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment_contains"))
+			it.CommentContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment_not_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment_not_contains"))
+			it.CommentNotContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment_starts_with"))
+			it.CommentStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment_not_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment_not_starts_with"))
+			it.CommentNotStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment_ends_with"))
+			it.CommentEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment_not_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment_not_ends_with"))
+			it.CommentNotEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment_i"))
+			it.CommentI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment_not_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment_not_i"))
+			it.CommentNotI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment_contains_i"))
+			it.CommentContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment_not_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment_not_contains_i"))
+			it.CommentNotContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment_starts_with_i"))
+			it.CommentStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment_not_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment_not_starts_with_i"))
+			it.CommentNotStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment_ends_with_i"))
+			it.CommentEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment_not_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment_not_ends_with_i"))
+			it.CommentNotEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment_in"))
+			it.CommentIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "comment_not_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment_not_in"))
+			it.CommentNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "email":
 			var err error
 
@@ -31581,7 +32277,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodLastSuccessDatetime"))
-			it.PeriodLastSuccessDatetime, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.PeriodLastSuccessDatetime, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -31589,7 +32285,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodLastSuccessDatetime_not"))
-			it.PeriodLastSuccessDatetimeNot, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.PeriodLastSuccessDatetimeNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -31597,7 +32293,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodLastSuccessDatetime_lt"))
-			it.PeriodLastSuccessDatetimeLt, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.PeriodLastSuccessDatetimeLt, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -31605,7 +32301,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodLastSuccessDatetime_lte"))
-			it.PeriodLastSuccessDatetimeLte, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.PeriodLastSuccessDatetimeLte, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -31613,7 +32309,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodLastSuccessDatetime_gt"))
-			it.PeriodLastSuccessDatetimeGt, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.PeriodLastSuccessDatetimeGt, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -31621,7 +32317,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodLastSuccessDatetime_gte"))
-			it.PeriodLastSuccessDatetimeGte, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.PeriodLastSuccessDatetimeGte, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -31629,7 +32325,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodLastSuccessDatetime_in"))
-			it.PeriodLastSuccessDatetimeIn, err = ec.unmarshalOInt2ᚕᚖint(ctx, v)
+			it.PeriodLastSuccessDatetimeIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -31637,7 +32333,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodLastSuccessDatetime_not_in"))
-			it.PeriodLastSuccessDatetimeNotIn, err = ec.unmarshalOInt2ᚕᚖint(ctx, v)
+			it.PeriodLastSuccessDatetimeNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -31773,7 +32469,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodFirstDatetime"))
-			it.PeriodFirstDatetime, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.PeriodFirstDatetime, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -31781,7 +32477,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodFirstDatetime_not"))
-			it.PeriodFirstDatetimeNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.PeriodFirstDatetimeNot, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -31789,7 +32485,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodFirstDatetime_lt"))
-			it.PeriodFirstDatetimeLt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.PeriodFirstDatetimeLt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -31797,7 +32493,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodFirstDatetime_lte"))
-			it.PeriodFirstDatetimeLte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.PeriodFirstDatetimeLte, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -31805,7 +32501,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodFirstDatetime_gt"))
-			it.PeriodFirstDatetimeGt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.PeriodFirstDatetimeGt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -31813,7 +32509,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodFirstDatetime_gte"))
-			it.PeriodFirstDatetimeGte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.PeriodFirstDatetimeGte, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -31821,7 +32517,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodFirstDatetime_in"))
-			it.PeriodFirstDatetimeIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			it.PeriodFirstDatetimeIn, err = ec.unmarshalOInt2ᚕᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -31829,7 +32525,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodFirstDatetime_not_in"))
-			it.PeriodFirstDatetimeNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			it.PeriodFirstDatetimeNotIn, err = ec.unmarshalOInt2ᚕᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -31837,7 +32533,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodEndDatetime"))
-			it.PeriodEndDatetime, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.PeriodEndDatetime, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -31845,7 +32541,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodEndDatetime_not"))
-			it.PeriodEndDatetimeNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.PeriodEndDatetimeNot, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -31853,7 +32549,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodEndDatetime_lt"))
-			it.PeriodEndDatetimeLt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.PeriodEndDatetimeLt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -31861,7 +32557,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodEndDatetime_lte"))
-			it.PeriodEndDatetimeLte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.PeriodEndDatetimeLte, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -31869,7 +32565,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodEndDatetime_gt"))
-			it.PeriodEndDatetimeGt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.PeriodEndDatetimeGt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -31877,7 +32573,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodEndDatetime_gte"))
-			it.PeriodEndDatetimeGte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.PeriodEndDatetimeGte, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -31885,7 +32581,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodEndDatetime_in"))
-			it.PeriodEndDatetimeIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			it.PeriodEndDatetimeIn, err = ec.unmarshalOInt2ᚕᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -31893,7 +32589,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("periodEndDatetime_not_in"))
-			it.PeriodEndDatetimeNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			it.PeriodEndDatetimeNotIn, err = ec.unmarshalOInt2ᚕᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -32317,7 +33013,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("oneTimeStartDatetime"))
-			it.OneTimeStartDatetime, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.OneTimeStartDatetime, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -32325,7 +33021,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("oneTimeStartDatetime_not"))
-			it.OneTimeStartDatetimeNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.OneTimeStartDatetimeNot, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -32333,7 +33029,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("oneTimeStartDatetime_lt"))
-			it.OneTimeStartDatetimeLt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.OneTimeStartDatetimeLt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -32341,7 +33037,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("oneTimeStartDatetime_lte"))
-			it.OneTimeStartDatetimeLte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.OneTimeStartDatetimeLte, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -32349,7 +33045,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("oneTimeStartDatetime_gt"))
-			it.OneTimeStartDatetimeGt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.OneTimeStartDatetimeGt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -32357,7 +33053,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("oneTimeStartDatetime_gte"))
-			it.OneTimeStartDatetimeGte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.OneTimeStartDatetimeGte, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -32365,7 +33061,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("oneTimeStartDatetime_in"))
-			it.OneTimeStartDatetimeIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			it.OneTimeStartDatetimeIn, err = ec.unmarshalOInt2ᚕᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -32373,7 +33069,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("oneTimeStartDatetime_not_in"))
-			it.OneTimeStartDatetimeNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			it.OneTimeStartDatetimeNotIn, err = ec.unmarshalOInt2ᚕᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -32381,7 +33077,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("oneTimeEndDatetime"))
-			it.OneTimeEndDatetime, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.OneTimeEndDatetime, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -32389,7 +33085,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("oneTimeEndDatetime_not"))
-			it.OneTimeEndDatetimeNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.OneTimeEndDatetimeNot, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -32397,7 +33093,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("oneTimeEndDatetime_lt"))
-			it.OneTimeEndDatetimeLt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.OneTimeEndDatetimeLt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -32405,7 +33101,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("oneTimeEndDatetime_lte"))
-			it.OneTimeEndDatetimeLte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.OneTimeEndDatetimeLte, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -32413,7 +33109,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("oneTimeEndDatetime_gt"))
-			it.OneTimeEndDatetimeGt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.OneTimeEndDatetimeGt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -32421,7 +33117,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("oneTimeEndDatetime_gte"))
-			it.OneTimeEndDatetimeGte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.OneTimeEndDatetimeGte, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -32429,7 +33125,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("oneTimeEndDatetime_in"))
-			it.OneTimeEndDatetimeIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			it.OneTimeEndDatetimeIn, err = ec.unmarshalOInt2ᚕᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -32437,7 +33133,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("oneTimeEndDatetime_not_in"))
-			it.OneTimeEndDatetimeNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			it.OneTimeEndDatetimeNotIn, err = ec.unmarshalOInt2ᚕᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -33296,6 +33992,10 @@ func (ec *executionContext) _merchandise(ctx context.Context, sel ast.SelectionS
 			out.Values[i] = ec._merchandise_currency(ctx, field, obj)
 		case "state":
 			out.Values[i] = ec._merchandise_state(ctx, field, obj)
+		case "desc":
+			out.Values[i] = ec._merchandise_desc(ctx, field, obj)
+		case "comment":
+			out.Values[i] = ec._merchandise_comment(ctx, field, obj)
 		case "createdAt":
 			out.Values[i] = ec._merchandise_createdAt(ctx, field, obj)
 		case "updatedAt":
@@ -33500,6 +34200,8 @@ func (ec *executionContext) _subscription(ctx context.Context, sel ast.Selection
 			out.Values[i] = ec._subscription_currency(ctx, field, obj)
 		case "desc":
 			out.Values[i] = ec._subscription_desc(ctx, field, obj)
+		case "comment":
+			out.Values[i] = ec._subscription_comment(ctx, field, obj)
 		case "email":
 			out.Values[i] = ec._subscription_email(ctx, field, obj)
 		case "orderNumber":
@@ -34165,6 +34867,10 @@ func (ec *executionContext) unmarshalNmarketingMembershipWhereInput2ᚖgithubᚗ
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) unmarshalNmemberCreateInput2map(ctx context.Context, v interface{}) (map[string]interface{}, error) {
+	return v.(map[string]interface{}), nil
+}
+
 func (ec *executionContext) unmarshalNmemberTypeType2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberTypeType(ctx context.Context, v interface{}) (model.MemberTypeType, error) {
 	var res model.MemberTypeType
 	err := res.UnmarshalGQL(v)
@@ -34173,6 +34879,10 @@ func (ec *executionContext) unmarshalNmemberTypeType2githubᚗcomᚋmirrorᚑmed
 
 func (ec *executionContext) marshalNmemberTypeType2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberTypeType(ctx context.Context, sel ast.SelectionSet, v model.MemberTypeType) graphql.Marshaler {
 	return v
+}
+
+func (ec *executionContext) unmarshalNmemberUpdateInput2map(ctx context.Context, v interface{}) (map[string]interface{}, error) {
+	return v.(map[string]interface{}), nil
 }
 
 func (ec *executionContext) unmarshalNmemberWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberWhereInput(ctx context.Context, v interface{}) (*model.MemberWhereInput, error) {
@@ -34327,6 +35037,10 @@ func (ec *executionContext) unmarshalNsubscriptionRecurringCreateInfo2githubᚗc
 }
 
 func (ec *executionContext) unmarshalNsubscriptionRecurringCreateInput2map(ctx context.Context, v interface{}) (map[string]interface{}, error) {
+	return v.(map[string]interface{}), nil
+}
+
+func (ec *executionContext) unmarshalNsubscriptionUpdateInput2map(ctx context.Context, v interface{}) (map[string]interface{}, error) {
 	return v.(map[string]interface{}), nil
 }
 

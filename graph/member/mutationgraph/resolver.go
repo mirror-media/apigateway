@@ -8,6 +8,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"strconv"
+	"time"
 
 	graphql99 "github.com/99designs/gqlgen/graphql"
 	"github.com/machinebox/graphql"
@@ -56,12 +58,14 @@ func (r Resolver) RetrieveExistingSubscriptionFromRemote(ctx context.Context, su
 	return *resp.Subscription.Member.FirebaseID, resp.Subscription.Frequency.String(), err
 }
 
-func (r Resolver) RetrieveMerchandise(ctx context.Context, code string) (price float64, currency model.MerchandiseCurrencyType, state model.MerchandiseStateType, err error) {
+func (r Resolver) RetrieveMerchandise(ctx context.Context, code string) (price float64, currency model.MerchandiseCurrencyType, state model.MerchandiseStateType, comment, description string, err error) {
 	gql := `query ($code: String) {
   merchandise(where: {code: $code}) {
     price
     currency
     state
+		comment
+		desc
   }
 }`
 	req := graphql.NewRequest(gql)
@@ -74,12 +78,12 @@ func (r Resolver) RetrieveMerchandise(ctx context.Context, code string) (price f
 	err = r.Client.Run(ctx, req, &resp)
 	if err != nil {
 		logrus.WithField("query", "RetrieveMerchandise").Error(err)
-		return 0, "", "", err
+		return 0, "", "", "", "", err
 	} else if resp.Merchandise == nil {
-		return 0, "", "", fmt.Errorf("merchandise with code %s is not found", code)
+		return 0, "", "", "", "", fmt.Errorf("merchandise with code %s is not found", code)
 	}
 
-	return *resp.Merchandise.Price, *resp.Merchandise.Currency, *resp.Merchandise.State, err
+	return *resp.Merchandise.Price, *resp.Merchandise.Currency, *resp.Merchandise.State, *resp.Merchandise.Code, *resp.Merchandise.Desc, err
 }
 
 func (r Resolver) GetMemberIDFromRemote(ctx context.Context, firebaseID string) (string, error) {
@@ -222,4 +226,16 @@ func contain(ss []string, s string) bool {
 		}
 	}
 	return false
+}
+
+func createOrderNumber(id string) (orderNumber string, err error) {
+	t := time.Now()
+	prefix := strconv.FormatInt(int64(t.Local().Year()), 10)[2:] + fmt.Sprintf("%2d", t.Local().Month()) + fmt.Sprintf("%2d", t.Local().Day())
+
+	n, err := strconv.ParseInt(id, 10, 64)
+	if err != nil {
+		return "", err
+	}
+	orderNumber = fmt.Sprintf("%s%5d", prefix, n%10000)
+	return orderNumber, nil
 }
