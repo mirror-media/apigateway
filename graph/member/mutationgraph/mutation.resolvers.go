@@ -124,7 +124,7 @@ func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data
 	if state != model.MerchandiseStateTypeActive {
 		return nil, fmt.Errorf("frequency(%s) is not %s", data["frequency"], model.MerchandiseStateTypeActive)
 	}
-	data["amount"] = int(price)
+	data["amount"] = price
 	data["currency"] = currency
 	data["comment"] = comment
 	data["desc"] = description
@@ -255,7 +255,7 @@ func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data 
 	if state != model.MerchandiseStateTypeActive {
 		return nil, fmt.Errorf("frequency(%s) is not %s", model.SubscriptionFrequencyTypeOneTime, model.MerchandiseStateTypeActive)
 	}
-	data["amount"] = int(price)
+	data["amount"] = price
 	data["currency"] = currency
 	data["comment"] = comment
 	data["desc"] = description
@@ -392,7 +392,7 @@ func (r *mutationResolver) Updatesubscription(ctx context.Context, id string, da
 		if state != model.MerchandiseStateTypeActive {
 			return nil, fmt.Errorf("frequency(%s) is not %s", model.SubscriptionFrequencyTypeOneTime, model.MerchandiseStateTypeActive)
 		}
-		data["amount"] = int(price)
+		data["amount"] = price
 		data["currency"] = currency
 	}
 

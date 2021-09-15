@@ -1948,7 +1948,7 @@ type Subscription struct {
 	AndroidpayPayment         []*AndroidpayPayment           `json:"androidpayPayment"`
 	AndroidpayPaymentCount    *int                           `json:"androidpayPaymentCount"`
 	Status                    *SubscriptionStatusType        `json:"status"`
-	Amount                    *int                           `json:"amount"`
+	Amount                    *float64                       `json:"amount"`
 	Currency                  *SubscriptionCurrencyType      `json:"currency"`
 	Desc                      *string                        `json:"desc"`
 	Comment                   *string                        `json:"comment"`
@@ -1982,7 +1982,7 @@ type SubscriptionCreateInput struct {
 	ApplepayPayment           *ApplepayPaymentRelateToManyInput    `json:"applepayPayment"`
 	AndroidpayPayment         *AndroidpayPaymentRelateToManyInput  `json:"androidpayPayment"`
 	Status                    *SubscriptionStatusType              `json:"status"`
-	Amount                    *int                                 `json:"amount"`
+	Amount                    *float64                             `json:"amount"`
 	Currency                  *SubscriptionCurrencyType            `json:"currency"`
 	Desc                      *string                              `json:"desc"`
 	Comment                   *string                              `json:"comment"`
@@ -2454,7 +2454,7 @@ type SubscriptionPrivateUpdateInput struct {
 	ApplepayPayment           *ApplepayPaymentRelateToManyInput    `json:"applepayPayment"`
 	AndroidpayPayment         *AndroidpayPaymentRelateToManyInput  `json:"androidpayPayment"`
 	Status                    *SubscriptionStatusType              `json:"status"`
-	Amount                    *int                                 `json:"amount"`
+	Amount                    *float64                             `json:"amount"`
 	Currency                  *SubscriptionCurrencyType            `json:"currency"`
 	Desc                      *string                              `json:"desc"`
 	Comment                   *string                              `json:"comment"`
@@ -2529,14 +2529,14 @@ type SubscriptionWhereInput struct {
 	StatusNot                      *SubscriptionStatusType          `json:"status_not"`
 	StatusIn                       []*SubscriptionStatusType        `json:"status_in"`
 	StatusNotIn                    []*SubscriptionStatusType        `json:"status_not_in"`
-	Amount                         *int                             `json:"amount"`
-	AmountNot                      *int                             `json:"amount_not"`
-	AmountLt                       *int                             `json:"amount_lt"`
-	AmountLte                      *int                             `json:"amount_lte"`
-	AmountGt                       *int                             `json:"amount_gt"`
-	AmountGte                      *int                             `json:"amount_gte"`
-	AmountIn                       []*int                           `json:"amount_in"`
-	AmountNotIn                    []*int                           `json:"amount_not_in"`
+	Amount                         *float64                         `json:"amount"`
+	AmountNot                      *float64                         `json:"amount_not"`
+	AmountLt                       *float64                         `json:"amount_lt"`
+	AmountLte                      *float64                         `json:"amount_lte"`
+	AmountGt                       *float64                         `json:"amount_gt"`
+	AmountGte                      *float64                         `json:"amount_gte"`
+	AmountIn                       []*float64                       `json:"amount_in"`
+	AmountNotIn                    []*float64                       `json:"amount_not_in"`
 	Currency                       *SubscriptionCurrencyType        `json:"currency"`
 	CurrencyNot                    *SubscriptionCurrencyType        `json:"currency_not"`
 	CurrencyIn                     []*SubscriptionCurrencyType      `json:"currency_in"`
