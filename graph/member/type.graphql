@@ -2198,7 +2198,7 @@ type subscription {
   ): [androidpayPayment!]
   androidpayPaymentCount(where: androidpayPaymentWhereInput! = {}): Int
   status: subscriptionStatusType
-  amount: Int
+  amount: Float
   currency: subscriptionCurrencyType
   desc: String
   comment: String
@@ -2290,14 +2290,14 @@ input subscriptionWhereInput {
   status_not: subscriptionStatusType
   status_in: [subscriptionStatusType]
   status_not_in: [subscriptionStatusType]
-  amount: Int
-  amount_not: Int
-  amount_lt: Int
-  amount_lte: Int
-  amount_gt: Int
-  amount_gte: Int
-  amount_in: [Int]
-  amount_not_in: [Int]
+  amount: Float
+  amount_not: Float
+  amount_lt: Float
+  amount_lte: Float
+  amount_gt: Float
+  amount_gte: Float
+  amount_in: [Float]
+  amount_not_in: [Float]
   currency: subscriptionCurrencyType
   currency_not: subscriptionCurrencyType
   currency_in: [subscriptionCurrencyType]
@@ -2623,7 +2623,7 @@ input subscriptionPrivateUpdateInput {
   applepayPayment: applepayPaymentRelateToManyInput
   androidpayPayment: androidpayPaymentRelateToManyInput
   status: subscriptionStatusType
-  amount: Int
+  amount: Float
   currency: subscriptionCurrencyType
   desc: String
   comment: String
@@ -2690,7 +2690,7 @@ input subscriptionCreateInput {
   applepayPayment: applepayPaymentRelateToManyInput
   androidpayPayment: androidpayPaymentRelateToManyInput
   status: subscriptionStatusType
-  amount: Int
+  amount: Float
   currency: subscriptionCurrencyType
   desc: String
   comment: String
