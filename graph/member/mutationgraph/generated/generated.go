@@ -4202,7 +4202,7 @@ type subscription {
   ): [androidpayPayment!]
   androidpayPaymentCount(where: androidpayPaymentWhereInput! = {}): Int
   status: subscriptionStatusType
-  amount: Int
+  amount: Float
   currency: subscriptionCurrencyType
   desc: String
   comment: String
@@ -4294,14 +4294,14 @@ input subscriptionWhereInput {
   status_not: subscriptionStatusType
   status_in: [subscriptionStatusType]
   status_not_in: [subscriptionStatusType]
-  amount: Int
-  amount_not: Int
-  amount_lt: Int
-  amount_lte: Int
-  amount_gt: Int
-  amount_gte: Int
-  amount_in: [Int]
-  amount_not_in: [Int]
+  amount: Float
+  amount_not: Float
+  amount_lt: Float
+  amount_lte: Float
+  amount_gt: Float
+  amount_gte: Float
+  amount_in: [Float]
+  amount_not_in: [Float]
   currency: subscriptionCurrencyType
   currency_not: subscriptionCurrencyType
   currency_in: [subscriptionCurrencyType]
@@ -4627,7 +4627,7 @@ input subscriptionPrivateUpdateInput {
   applepayPayment: applepayPaymentRelateToManyInput
   androidpayPayment: androidpayPaymentRelateToManyInput
   status: subscriptionStatusType
-  amount: Int
+  amount: Float
   currency: subscriptionCurrencyType
   desc: String
   comment: String
@@ -4694,7 +4694,7 @@ input subscriptionCreateInput {
   applepayPayment: applepayPaymentRelateToManyInput
   androidpayPayment: androidpayPaymentRelateToManyInput
   status: subscriptionStatusType
-  amount: Int
+  amount: Float
   currency: subscriptionCurrencyType
   desc: String
   comment: String
@@ -11704,9 +11704,9 @@ func (ec *executionContext) _subscription_amount(ctx context.Context, field grap
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.(*int)
+	res := resTmp.(*float64)
 	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
+	return ec.marshalOFloat2ᚖfloat64(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _subscription_currency(ctx context.Context, field graphql.CollectedField, obj *model.Subscription) (ret graphql.Marshaler) {
@@ -27664,7 +27664,7 @@ func (ec *executionContext) unmarshalInputsubscriptionCreateInput(ctx context.Co
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("amount"))
-			it.Amount, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.Amount, err = ec.unmarshalOFloat2ᚖfloat64(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -30880,7 +30880,7 @@ func (ec *executionContext) unmarshalInputsubscriptionPrivateUpdateInput(ctx con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("amount"))
-			it.Amount, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.Amount, err = ec.unmarshalOFloat2ᚖfloat64(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -31444,7 +31444,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("amount"))
-			it.Amount, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.Amount, err = ec.unmarshalOFloat2ᚖfloat64(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -31452,7 +31452,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("amount_not"))
-			it.AmountNot, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.AmountNot, err = ec.unmarshalOFloat2ᚖfloat64(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -31460,7 +31460,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("amount_lt"))
-			it.AmountLt, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.AmountLt, err = ec.unmarshalOFloat2ᚖfloat64(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -31468,7 +31468,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("amount_lte"))
-			it.AmountLte, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.AmountLte, err = ec.unmarshalOFloat2ᚖfloat64(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -31476,7 +31476,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("amount_gt"))
-			it.AmountGt, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.AmountGt, err = ec.unmarshalOFloat2ᚖfloat64(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -31484,7 +31484,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("amount_gte"))
-			it.AmountGte, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.AmountGte, err = ec.unmarshalOFloat2ᚖfloat64(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -31492,7 +31492,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("amount_in"))
-			it.AmountIn, err = ec.unmarshalOInt2ᚕᚖint(ctx, v)
+			it.AmountIn, err = ec.unmarshalOFloat2ᚕᚖfloat64(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -31500,7 +31500,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("amount_not_in"))
-			it.AmountNotIn, err = ec.unmarshalOInt2ᚕᚖint(ctx, v)
+			it.AmountNotIn, err = ec.unmarshalOFloat2ᚕᚖfloat64(ctx, v)
 			if err != nil {
 				return it, err
 			}

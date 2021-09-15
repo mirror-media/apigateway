@@ -55,7 +55,8 @@ func (r *mutationResolver) Createmember(ctx context.Context, data map[string]int
 	err = r.Client.Run(ctx, req, &resp)
 
 	if err != nil {
-		logrus.WithField("mutation", "createmember").Error(err)
+		logrus.WithField("mutation", "createmember")
+		return nil, err
 	}
 
 	return resp.MemberInfo, err
@@ -96,6 +97,7 @@ func (r *mutationResolver) Updatemember(ctx context.Context, id string, data map
 	err = r.Client.Run(ctx, req, &resp)
 	if err != nil {
 		logrus.WithField("mutation", "updatemember").Error(err)
+		return nil, err
 	}
 
 	return resp.MemberInfo, err
@@ -124,7 +126,7 @@ func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data
 	if state != model.MerchandiseStateTypeActive {
 		return nil, fmt.Errorf("frequency(%s) is not %s", data["frequency"], model.MerchandiseStateTypeActive)
 	}
-	data["amount"] = int(price)
+	data["amount"] = price
 	data["currency"] = currency
 	data["comment"] = comment
 	data["desc"] = description
@@ -163,6 +165,7 @@ func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data
 
 	if err != nil {
 		logrus.WithField("mutation", "createsubscription").Error(err)
+		return nil, err
 	}
 
 	orderNumber, err := createOrderNumber(resp.SubscriptionInfo.ID)
@@ -255,7 +258,7 @@ func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data 
 	if state != model.MerchandiseStateTypeActive {
 		return nil, fmt.Errorf("frequency(%s) is not %s", model.SubscriptionFrequencyTypeOneTime, model.MerchandiseStateTypeActive)
 	}
-	data["amount"] = int(price)
+	data["amount"] = price
 	data["currency"] = currency
 	data["comment"] = comment
 	data["desc"] = description
@@ -294,6 +297,7 @@ func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data 
 
 	if err != nil {
 		logrus.WithField("mutation", "createsubscription").Error(err)
+		return nil, err
 	}
 
 	orderNumber, err := createOrderNumber(resp.SubscriptionInfo.ID)
@@ -392,7 +396,7 @@ func (r *mutationResolver) Updatesubscription(ctx context.Context, id string, da
 		if state != model.MerchandiseStateTypeActive {
 			return nil, fmt.Errorf("frequency(%s) is not %s", model.SubscriptionFrequencyTypeOneTime, model.MerchandiseStateTypeActive)
 		}
-		data["amount"] = int(price)
+		data["amount"] = price
 		data["currency"] = currency
 	}
 
