@@ -83,7 +83,7 @@ func (r Resolver) RetrieveMerchandise(ctx context.Context, code string) (price f
 		return 0, "", "", "", "", fmt.Errorf("merchandise with code %s is not found", code)
 	}
 
-	return *resp.Merchandise.Price, *resp.Merchandise.Currency, *resp.Merchandise.State, *resp.Merchandise.Code, *resp.Merchandise.Desc, err
+	return *resp.Merchandise.Price, *resp.Merchandise.Currency, *resp.Merchandise.State, *resp.Merchandise.Comment, *resp.Merchandise.Desc, err
 }
 
 func (r Resolver) GetMemberIDFromRemote(ctx context.Context, firebaseID string) (string, error) {
