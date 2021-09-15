@@ -128,7 +128,7 @@ func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data
 	data["currency"] = currency
 	data["comment"] = comment
 	data["desc"] = description
-	data["orderNumber"] = "preparing-" + xid.New().String()
+	data["orderNumber"] = "preparing-order-" + xid.New().String()
 
 	// Construct GraphQL mutation
 
@@ -259,7 +259,7 @@ func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data 
 	data["currency"] = currency
 	data["comment"] = comment
 	data["desc"] = description
-	data["orderNumber"] = "preparing-" + xid.New().String()
+	data["orderNumber"] = "preparing-order-" + xid.New().String()
 
 	// Construct GraphQL mutation
 
