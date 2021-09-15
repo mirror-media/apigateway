@@ -8,6 +8,8 @@ type Mutation {
   """
   It updates the member with memberUpdateInput if the member has the same **firebaseId** in the **token**.
 
+  If the state is updated to **inactive**, it will also delete the firebase user with the same Firebae ID. If the member is updated sucessfully, but the firebase user is not deleted, an error will be returned.
+
   Nested query is not allowed in the mutation.
   """
   updatemember(id: ID!, data: memberUpdateInput!): memberInfo
