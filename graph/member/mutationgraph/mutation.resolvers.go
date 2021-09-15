@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"firebase.google.com/go/v4/auth"
 	graphqlclient "github.com/machinebox/graphql"
 	"github.com/mirror-media/apigateway/graph/member/model"
 	"github.com/mirror-media/apigateway/graph/member/mutationgraph/generated"
@@ -98,6 +99,20 @@ func (r *mutationResolver) Updatemember(ctx context.Context, id string, data map
 	if err != nil {
 		logrus.WithField("mutation", "updatemember").Error(err)
 		return nil, err
+	}
+
+	state, ok := data["state"]
+	var client *auth.Client
+	if ok && state.(string) == model.MemberStateTypeInactive.String() {
+		client, err = FirebaseClientFromContext(ctx)
+		if err != nil {
+			err = errors.Wrap(err, fmt.Sprintf("deleting firebase user(%s) failed with nil firebase client", firebaseID))
+			logrus.WithField("mutation", "updatemember").Error(err)
+		} else {
+			if err = client.DeleteUser(ctx, firebaseID); err != nil {
+				logrus.WithField("mutation", "updatemember.DeleteUser").Errorf("error deleting firebase user: %v\n", err)
+			}
+		}
 	}
 
 	return resp.MemberInfo, err
