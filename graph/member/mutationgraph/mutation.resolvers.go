@@ -13,6 +13,7 @@ import (
 	"github.com/mirror-media/apigateway/graph/member/model"
 	"github.com/mirror-media/apigateway/graph/member/mutationgraph/generated"
 	"github.com/mirror-media/apigateway/payment"
+	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 )
 
@@ -170,8 +171,7 @@ func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data
 
 	resp.SubscriptionInfo.OrderNumber = &orderNumber
 
-	go func() {
-		gql = `
+	gql = `
 mutation ($id: ID!, $orderNumber: String!) {
   updatesubscription(id: $id, data: {orderNumber: $orderNumber}) {
     orderNumber
@@ -179,16 +179,16 @@ mutation ($id: ID!, $orderNumber: String!) {
 }
 `
 
-		req = graphqlclient.NewRequest(gql)
-		req.Var("id", resp.SubscriptionInfo.ID)
-		req.Var("orderNumber", orderNumber)
+	req = graphqlclient.NewRequest(gql)
+	req.Var("id", resp.SubscriptionInfo.ID)
+	req.Var("orderNumber", orderNumber)
 
-		resp := map[string]interface{}{}
-		err = r.Client.Run(ctx, req, &resp)
-		if err != nil {
-			logrus.WithField("mutation", "createsubscription.updatesubscription").Error(err)
-		}
-	}()
+	err = r.Client.Run(ctx, req, nil)
+	if err != nil {
+		err = errors.Wrapf(err, "update odernumber to subscription(%s) encounter error", resp.SubscriptionInfo.ID)
+		logrus.WithField("mutation", "createsubscription.updatesubscription").Error(err)
+		return nil, err
+	}
 
 	createAt := *resp.SubscriptionInfo.CreatedAt
 
@@ -301,8 +301,7 @@ func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data 
 
 	resp.SubscriptionInfo.OrderNumber = &orderNumber
 
-	go func() {
-		gql = `
+	gql = `
 mutation ($id: ID!, $orderNumber: String!) {
   updatesubscription(id: $id, data: {orderNumber: $orderNumber}) {
     orderNumber
@@ -310,16 +309,16 @@ mutation ($id: ID!, $orderNumber: String!) {
 }
 `
 
-		req = graphqlclient.NewRequest(gql)
-		req.Var("id", resp.SubscriptionInfo.ID)
-		req.Var("orderNumber", orderNumber)
+	req = graphqlclient.NewRequest(gql)
+	req.Var("id", resp.SubscriptionInfo.ID)
+	req.Var("orderNumber", orderNumber)
 
-		resp := map[string]interface{}{}
-		err = r.Client.Run(ctx, req, &resp)
-		if err != nil {
-			logrus.WithField("mutation", "createsubscription.updatesubscription").Error(err)
-		}
-	}()
+	err = r.Client.Run(ctx, req, nil)
+	if err != nil {
+		err = errors.Wrapf(err, "update odernumber to subscription(%s) encounter error", resp.SubscriptionInfo.ID)
+		logrus.WithField("mutation", "createsubscription.updatesubscription").Error(err)
+		return nil, err
+	}
 
 	createAt := *resp.SubscriptionInfo.CreatedAt
 
