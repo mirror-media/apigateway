@@ -26,6 +26,7 @@ require (
 	github.com/mitchellh/copystructure v1.2.0 // indirect
 	github.com/nats-io/nats.go v1.12.1 // indirect
 	github.com/pkg/errors v0.9.1
+	github.com/rs/xid v1.3.0
 	github.com/sirupsen/logrus v1.8.1
 	github.com/spf13/viper v1.8.1
 	github.com/tidwall/sjson v1.2.1
