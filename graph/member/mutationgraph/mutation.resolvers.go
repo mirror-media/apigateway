@@ -14,6 +14,7 @@ import (
 	"github.com/mirror-media/apigateway/graph/member/mutationgraph/generated"
 	"github.com/mirror-media/apigateway/payment"
 	"github.com/pkg/errors"
+	"github.com/rs/xid"
 	"github.com/sirupsen/logrus"
 )
 
@@ -127,6 +128,7 @@ func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data
 	data["currency"] = currency
 	data["comment"] = comment
 	data["desc"] = description
+	data["orderNumber"] = "preparing-order-" + xid.New().String()
 
 	// Construct GraphQL mutation
 
@@ -257,6 +259,7 @@ func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data 
 	data["currency"] = currency
 	data["comment"] = comment
 	data["desc"] = description
+	data["orderNumber"] = "preparing-order-" + xid.New().String()
 
 	// Construct GraphQL mutation
 
