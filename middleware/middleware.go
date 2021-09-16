@@ -1,5 +1,13 @@
 package middleware
 
+import (
+	"bytes"
+	"fmt"
+	"io"
+
+	"github.com/gin-gonic/gin"
+)
+
 type CtxKey string
 
 const (
@@ -16,3 +24,16 @@ const (
 	// GCtxUserIDKey is the key of a string of a User ID in *gin.Context
 	GCtxUserIDKey string = "GCtxUserID"
 )
+
+// PrintPayloadDebug prints the request body to stdout. Do not use it in production
+func PrintPayloadDebug(c *gin.Context) {
+	req := c.Request
+
+	body, _ := io.ReadAll(req.Body)
+
+	fmt.Println(string(body))
+
+	req.Body = io.NopCloser(bytes.NewReader(body))
+
+	c.Next()
+}
