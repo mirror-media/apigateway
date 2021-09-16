@@ -3,16 +3,13 @@ package handler
 import (
 	"context"
 	"net/http"
-	"time"
 
 	http2 "github.com/jensneuse/graphql-go-tools/examples/federation/gateway/http"
 	"github.com/mirror-media/apigateway/graph"
 
 	"github.com/jensneuse/abstractlogger"
 	"github.com/jensneuse/graphql-go-tools/pkg/engine/datasource/graphql_datasource"
-	"github.com/jensneuse/graphql-go-tools/pkg/engine/datasource/httpclient"
 	"github.com/jensneuse/graphql-go-tools/pkg/graphql"
-	"github.com/jensneuse/graphql-go-tools/pkg/graphql/federation"
 	"github.com/sirupsen/logrus"
 )
 
@@ -48,18 +45,7 @@ func NewAPIGatewayGraphQLHandler(memberUpstreamURL, mutationUpstreamURL, typeSch
 		logrus.Panic("mutation schema is not valid:", validation.Errors.Error(), "first one is:", validation.Errors.ErrorByIndex(0))
 	}
 
-	defaultClient := httpclient.DefaultNetHttpClient
-
-	factory := federation.NewEngineConfigV2Factory(
-		&http.Client{
-			Transport: &http.Transport{
-				MaxIdleConns:    10,
-				IdleConnTimeout: 30 * time.Second,
-			},
-			CheckRedirect: defaultClient.CheckRedirect,
-			Jar:           defaultClient.Jar,
-			Timeout:       defaultClient.Timeout,
-		},
+	factory := graphql.NewFederationEngineConfigFactory(
 		[]graphql_datasource.Configuration{
 			{
 				Fetch: graphql_datasource.FetchConfiguration{
@@ -79,7 +65,7 @@ func NewAPIGatewayGraphQLHandler(memberUpstreamURL, mutationUpstreamURL, typeSch
 					ServiceSDL: string(mutationSchema.Document()),
 				},
 			},
-		}...,
+		},
 	)
 
 	engineConfig, err := factory.EngineV2Configuration()
