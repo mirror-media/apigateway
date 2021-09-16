@@ -42,9 +42,6 @@ type Conf struct {
 	FirebaseCredentialFilePath  string
 	FirebaseRealtimeDatabaseURL string
 	Port                        int
-	ProjectID                   string
-	PubSubSubscribeMember       string
-	PubSubTopicMember           string
 	RedisService                RedisService
 	ServiceEndpoints            ServiceEndpoints
 	NewebPayStore               NewebPayStore
