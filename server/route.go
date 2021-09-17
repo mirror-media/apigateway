@@ -13,6 +13,7 @@ import (
 	"github.com/mirror-media/apigateway/handler"
 	"github.com/mirror-media/apigateway/middleware"
 	"github.com/mirror-media/apigateway/payment"
+	"github.com/mirror-media/apigateway/token"
 
 	"github.com/gin-gonic/gin"
 )
@@ -59,6 +60,22 @@ func SetRoute(server *Server) error {
 	v2GraphqlMemberRouter := v2TokenAuthenticatedWithFirebaseRouter.Use(middleware.AuthenticateMemberQueryAndFirebaseIDInArguments, middleware.PatchNullVariablesInGraphqlVariables)
 
 	v2GraphqlMemberRouter.POST("graphql/member", gin.WrapH(v2GraphHandler))
+
+	// v1 api
+	v1Router := apiRouter.Group("/v1")
+	v1tokenStateRouter := v1Router.Use(middleware.SetIDTokenOnly(server.firebaseClient))
+	v1tokenStateRouter.GET("/tokenState", func(c *gin.Context) {
+		t := c.Value(middleware.GCtxTokenKey).(token.Token)
+		if t == nil {
+			c.JSON(http.StatusBadRequest, Reply{
+				TokenState: nil,
+			})
+			return
+		}
+		c.JSON(http.StatusOK, Reply{
+			TokenState: t.GetTokenState(),
+		})
+	})
 
 	// v0 api proxy every request to the restful serverce
 	v0Router := apiRouter.Group("/v0")
