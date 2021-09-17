@@ -90,7 +90,7 @@ func patchNullVariablesInGraphql(input []byte) ([]byte, error) {
 			err = errors.Wrap(err, "cannot replace null string in variables")
 			return nil, err
 		}
-		input, err = sjson.SetBytes(input, "variables", variables)
+		input, err = sjson.SetRawBytes(input, "variables", variables)
 		if err != nil {
 			err = errors.Wrap(err, "cannot set variables to input")
 			return nil, err
