@@ -179,26 +179,15 @@ func AuthenticateMemberQueryAndFirebaseIDInArguments(c *gin.Context) {
 	})
 
 	graphqlRequest := graphql.Request{}
-	body, err := io.ReadAll(c.Request.Body)
+	bodyReader := c.Request.Body
+	defer bodyReader.Close()
+	body, err := io.ReadAll(bodyReader)
 	if err != nil {
 		logger.Warn(err)
 		c.AbortWithError(http.StatusBadRequest, fmt.Errorf("cannot read http request body"))
 		return
 	}
 	c.Request.Body = io.NopCloser(bytes.NewReader(body))
-
-	// t, err := graphqlRequest.OperationType()
-	// if err != nil {
-	// 	e := fmt.Errorf("cannot get operation type")
-	// 	c.AbortWithError(http.StatusBadRequest, e)
-	// 	logger.Warn(errors.Wrap(err, e.Error()))
-	// 	return
-	// }
-
-	// if t != graphql.OperationTypeQuery && t != graphql.OperationTypeUnknown {
-	// 	c.Next()
-	// 	return
-	// }
 
 	reader := bytes.NewReader(body)
 	if err := graphql.UnmarshalRequest(reader, &graphqlRequest); err != nil {
