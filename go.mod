@@ -10,6 +10,7 @@ require (
 	github.com/Masterminds/goutils v1.1.1 // indirect
 	github.com/bcgodev/logrus-formatter-gke v1.0.0
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
+	github.com/dave/jennifer v1.4.1 // indirect
 	github.com/eclipse/paho.mqtt.golang v1.3.5 // indirect
 	github.com/fsnotify/fsnotify v1.5.1 // indirect
 	github.com/gin-gonic/gin v1.7.4
@@ -24,14 +25,18 @@ require (
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/googleapis/gax-go/v2 v2.1.1 // indirect
 	github.com/huandu/xstrings v1.3.2 // indirect
+	github.com/iancoleman/strcase v0.2.0 // indirect
 	github.com/imdario/mergo v0.3.12 // indirect
 	github.com/jensneuse/abstractlogger v0.0.4
-	github.com/jensneuse/graphql-go-tools v1.25.0
-	github.com/jensneuse/graphql-go-tools/examples/federation v0.0.0-20210910154601-7707a291adb6
+	github.com/jensneuse/graphql-go-tools v1.26.1
+	github.com/jensneuse/graphql-go-tools/examples/chat v0.0.0-20210918113535-1f7aad4726e6 // indirect
+	github.com/jensneuse/graphql-go-tools/examples/federation v0.0.0-20210918113535-1f7aad4726e6
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/compress v1.13.6 // indirect
+	github.com/logrusorgru/aurora v2.0.3+incompatible // indirect
 	github.com/machinebox/graphql v0.2.2
 	github.com/matryer/is v1.4.0 // indirect
+	github.com/mattn/go-colorable v0.1.8 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
 	github.com/mitchellh/copystructure v1.2.0 // indirect
 	github.com/mitchellh/mapstructure v1.4.2 // indirect
@@ -40,9 +45,11 @@ require (
 	github.com/olvrng/ujson v1.1.0
 	github.com/pelletier/go-toml v1.9.4 // indirect
 	github.com/pkg/errors v0.9.1
+	github.com/rs/cors v1.8.0 // indirect
 	github.com/rs/xid v1.3.0
 	github.com/sirupsen/logrus v1.8.1
 	github.com/spf13/cast v1.4.1 // indirect
+	github.com/spf13/cobra v1.2.1 // indirect
 	github.com/spf13/viper v1.8.1
 	github.com/tidwall/sjson v1.2.2
 	github.com/ugorji/go v1.2.6 // indirect
@@ -50,8 +57,8 @@ require (
 	go.uber.org/multierr v1.7.0 // indirect
 	go.uber.org/zap v1.19.1 // indirect
 	golang.org/x/crypto v0.0.0-20210915214749-c084706c2272 // indirect
-	golang.org/x/net v0.0.0-20210916014120-12bc252f5db8 // indirect
-	golang.org/x/sys v0.0.0-20210915083310-ed5796bab164 // indirect
+	golang.org/x/net v0.0.0-20210917221730-978cfadd31cf // indirect
+	golang.org/x/sys v0.0.0-20210917161153-d61c044b1678 // indirect
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/time v0.0.0-20201208040808-7e3f01d25324 // indirect
 	google.golang.org/api v0.57.0
