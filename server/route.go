@@ -57,7 +57,7 @@ func SetRoute(server *Server) error {
 
 	v2GraphHandler := handler.NewAPIGatewayGraphQLHandler("https://israfel.mirrormedia.mg/api/graphql", "http://localhost:8888/api/v2/graphql/member", "graph/member/type.graphql", "graph/member/query.graphql", "graph/member/mutation.graphql")
 
-	v2GraphqlMemberRouter := v2TokenAuthenticatedWithFirebaseRouter.Use(middleware.AuthenticateMemberQueryAndFirebaseIDInArguments, middleware.PatchNullVariablesInGraphqlVariables)
+	v2GraphqlMemberRouter := v2TokenAuthenticatedWithFirebaseRouter.Use(middleware.AuthenticateMemberQueryAndFirebaseIDInArguments)
 
 	v2GraphqlMemberRouter.POST("graphql/member", gin.WrapH(v2GraphHandler))
 
@@ -99,7 +99,7 @@ func SetMemberMutationRoute(server *Server) error {
 
 	v2tokenStateRouter := v2Router.Use(middleware.SetIDTokenOnly(server.firebaseClient))
 
-	v2TokenAuthenticatedWithFirebaseRouter := v2tokenStateRouter.Use(middleware.AuthenticateIDToken(server.firebaseClient), middleware.AuthenticateMemberQueryAndFirebaseIDInArguments, middleware.PatchNullVariablesInGraphqlVariables, middleware.FirebaseClientToContextMiddleware(server.firebaseClient), middleware.FirebaseDBClientToContextMiddleware(server.firebaseDatabaseClient))
+	v2TokenAuthenticatedWithFirebaseRouter := v2tokenStateRouter.Use(middleware.AuthenticateIDToken(server.firebaseClient), middleware.AuthenticateMemberQueryAndFirebaseIDInArguments, middleware.FirebaseClientToContextMiddleware(server.firebaseClient), middleware.FirebaseDBClientToContextMiddleware(server.firebaseDatabaseClient))
 
 	c := server.Conf
 
