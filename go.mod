@@ -10,7 +10,6 @@ require (
 	github.com/Masterminds/goutils v1.1.1 // indirect
 	github.com/bcgodev/logrus-formatter-gke v1.0.0
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
-	github.com/dave/jennifer v1.4.1 // indirect
 	github.com/eclipse/paho.mqtt.golang v1.3.5 // indirect
 	github.com/fsnotify/fsnotify v1.5.1 // indirect
 	github.com/gin-gonic/gin v1.7.4
@@ -25,7 +24,6 @@ require (
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/googleapis/gax-go/v2 v2.1.1 // indirect
 	github.com/huandu/xstrings v1.3.2 // indirect
-	github.com/iancoleman/strcase v0.2.0 // indirect
 	github.com/imdario/mergo v0.3.12 // indirect
 	github.com/jensneuse/abstractlogger v0.0.4
 	github.com/jensneuse/graphql-go-tools v1.26.1
@@ -45,11 +43,9 @@ require (
 	github.com/olvrng/ujson v1.1.0
 	github.com/pelletier/go-toml v1.9.4 // indirect
 	github.com/pkg/errors v0.9.1
-	github.com/rs/cors v1.8.0 // indirect
 	github.com/rs/xid v1.3.0
 	github.com/sirupsen/logrus v1.8.1
 	github.com/spf13/cast v1.4.1 // indirect
-	github.com/spf13/cobra v1.2.1 // indirect
 	github.com/spf13/viper v1.8.1
 	github.com/tidwall/sjson v1.2.2
 	github.com/ugorji/go v1.2.6 // indirect
