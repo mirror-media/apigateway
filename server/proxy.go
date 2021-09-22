@@ -226,6 +226,11 @@ func ModifyReverseProxyResponse(c *gin.Context, rdb cache.Rediser, cacheTTL int,
 }
 
 // getMemberSubscription will return hasMemberPremiumPrivilege as false and subscribedPostIDs as empty map if skipMemberCheck is true
+var nonPremiumType = map[model.MemberTypeType]interface{}{
+	model.MemberTypeTypeNone:             nil,
+	model.MemberTypeTypeSubscribeOneTime: nil,
+}
+
 func getMemberSubscription(c *gin.Context, logger *logrus.Entry, memberGraphqlEndpoint string, skipMemberCheck bool) (hasMemberPremiumPrivilege bool, subscribedPostIDs map[string]interface{}, err error) {
 	// declare before we use it to make sure a instance is returned
 	subscribedPostIDs = make(map[string]interface{})
@@ -239,9 +244,9 @@ func getMemberSubscription(c *gin.Context, logger *logrus.Entry, memberGraphqlEn
 	}
 	gql := `
 query ($firebaseId: String!) {
-  member(where: {firebaseId: $firebaseId}) {
-    subscription(where: {isActive: true}) {
-      frequency
+  member(where:{firebaseId: $firebaseId, state: active}){
+		type
+    subscription(where:{frequency: one_time, isActive: true}){
       postId
     }
   }
@@ -250,26 +255,26 @@ query ($firebaseId: String!) {
 	req := graphqlclient.NewRequest(gql)
 	req.Var("firebaseId", firebaseID)
 	// data := model.Member{}
-	member := struct {
+	resp := struct {
 		Member model.Member `json:"member"`
 	}{}
 
 	client := graphql.NewClient(memberGraphqlEndpoint, graphql.WithHTTPClient(httpclient.DefaultNetHttpClient))
-	err = client.Run(context.TODO(), req, &member)
+	err = client.Run(context.TODO(), req, &resp)
 	if err != nil {
 		err = fmt.Errorf("cannot fetch member and subscription state from member server:%v", err)
 		return false, subscribedPostIDs, err
 	}
 
-	data := member.Member
-	if data.Subscription != nil {
-		for _, s := range data.Subscription {
-			if *s.Frequency == model.SubscriptionFrequencyTypeOneTime {
-				subscribedPostIDs[*s.PostID] = nil
-			} else {
-				hasMemberPremiumPrivilege = true
-				break
-			}
+	member := resp.Member
+	if member.Subscription != nil {
+		for _, s := range member.Subscription {
+			subscribedPostIDs[*s.PostID] = nil
+		}
+	}
+	if member.Type != nil {
+		if _, isNotPremium := nonPremiumType[*member.Type]; !isNotPremium {
+			hasMemberPremiumPrivilege = true
 		}
 	}
 	return hasMemberPremiumPrivilege, subscribedPostIDs, err
