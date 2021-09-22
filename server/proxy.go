@@ -102,12 +102,11 @@ func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cach
 			subscribedPostIDs := map[string]interface{}{}
 			// TODO use go routine
 			if tokenState == token.OK && !isOriginalPathStory {
-				skipMemberCheck := !emailVerified || hasPremiumPrivilege
+				skipMemberCheck := hasPremiumPrivilege
 
-				hasMemberPremiumPrivilege := false
+				var hasMemberPremiumPrivilege bool
 				hasMemberPremiumPrivilege, subscribedPostIDs, err = getMemberSubscription(c, logger, memberGraphqlEndpoint, skipMemberCheck)
 
-				hasPremiumPrivilege = hasPremiumPrivilege || hasMemberPremiumPrivilege
 				if err != nil {
 					logger.Error(err)
 					c.AbortWithStatusJSON(http.StatusInternalServerError, Reply{
@@ -116,12 +115,14 @@ func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cach
 					close(premiumAccessChan)
 					return
 				}
+
+				hasPremiumPrivilege = hasPremiumPrivilege || hasMemberPremiumPrivilege
 			}
 			premiumAccessChan <- premiumAccess{
 				isPrivileged: hasPremiumPrivilege,
 				postIDs:      subscribedPostIDs,
 			}
-		}(c.Copy())
+		}(c)
 
 		var body []byte
 		redisKey := fmt.Sprintf("%s.%s.%s.%s", "apigateway", "proxy", "uri", c.Request.RequestURI)
@@ -194,7 +195,7 @@ func ModifyReverseProxyResponse(c *gin.Context, rdb cache.Rediser, cacheTTL int,
 			if !ok {
 				return nil
 			}
-			fmt.Println(premiumAccess)
+
 			var itemsLength int
 			if itemsLength, body, err = modifyPostItems(logger, body, premiumAccess.postIDs, premiumAccess.isPrivileged); err != nil {
 				logger.Errorf("modifyPostItems encounter error: %s", err)
@@ -235,6 +236,7 @@ var nonPremiumType = map[model.MemberTypeType]interface{}{
 func getMemberSubscription(c *gin.Context, logger *logrus.Entry, memberGraphqlEndpoint string, skipMemberCheck bool) (hasMemberPremiumPrivilege bool, subscribedPostIDs map[string]interface{}, err error) {
 	// declare before we use it to make sure a instance is returned
 	subscribedPostIDs = make(map[string]interface{})
+
 	if skipMemberCheck {
 		return false, subscribedPostIDs, nil
 	}
@@ -245,8 +247,9 @@ func getMemberSubscription(c *gin.Context, logger *logrus.Entry, memberGraphqlEn
 	}
 	gql := `
 query ($firebaseId: String!) {
-  member(where:{firebaseId: $firebaseId, state: active}){
+  member(where:{firebaseId: $firebaseId}){
 		type
+		state
     subscription(where:{frequency: one_time, isActive: true}){
       postId
     }
@@ -273,7 +276,7 @@ query ($firebaseId: String!) {
 			subscribedPostIDs[*s.PostID] = nil
 		}
 	}
-	if member.Type != nil {
+	if member.State != nil && *member.State == model.MemberStateTypeActive && member.Type != nil {
 		if _, isNotPremium := nonPremiumType[*member.Type]; !isNotPremium {
 			hasMemberPremiumPrivilege = true
 		}
