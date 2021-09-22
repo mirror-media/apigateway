@@ -8,7 +8,7 @@ type Query {
   It will responde with all merchandises.
   """
   allMerchandises(
-    where: merchandiseWhereInput!
+    where: merchandiseWhereInput! = {}
     search: String
     orderBy: [merchandiseOrderByInput!]! = []
     first: Int
