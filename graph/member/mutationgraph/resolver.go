@@ -230,12 +230,13 @@ func contain(ss []string, s string) bool {
 
 func createOrderNumber(id string) (orderNumber string, err error) {
 	t := time.Now()
-	prefix := strconv.FormatInt(int64(t.Local().Year()), 10)[2:] + fmt.Sprintf("%02d", t.Local().Month()) + fmt.Sprintf("%02d", t.Local().Day())
+	prefix := "M"
+	date := strconv.FormatInt(int64(t.Local().Year()), 10)[2:] + fmt.Sprintf("%02d", t.Local().Month()) + fmt.Sprintf("%02d", t.Local().Day())
 
 	n, err := strconv.ParseInt(id, 10, 64)
 	if err != nil {
 		return "", err
 	}
-	orderNumber = fmt.Sprintf("%s%05d", prefix, n%10000)
+	orderNumber = fmt.Sprintf("%s%s%05d", prefix, date, n%10000)
 	return orderNumber, nil
 }
