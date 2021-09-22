@@ -27,6 +27,11 @@ import (
 
 // FIXME the file is way toooooooo long
 
+type premiumAccess struct {
+	isPrivileged bool
+	postIDs      map[string]interface{}
+}
+
 func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cache.Rediser, cacheTTL int, memberGraphqlEndpoint string) func(c *gin.Context) {
 	targetQuery := target.RawQuery
 	director := func(req *http.Request) {
@@ -74,8 +79,6 @@ func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cach
 			tokenState = typedToken.GetTokenState()
 		}
 
-		var subscribedPostIDs = make(map[string]interface{})
-		var hasPremiumPrivilege bool
 		// Workaround without refactoring
 		// "/story" path will not check member and subscription state
 		if strings.HasSuffix(pathBaseToStrip, "/") {
@@ -84,30 +87,42 @@ func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cach
 		trimmedPath := strings.TrimPrefix(c.Request.URL.Path, pathBaseToStrip)
 		isOriginalPathStory := (trimmedPath == "/story")
 
+		premiumAccessChan := make(chan premiumAccess)
 		// TODO refactor to config
-		var emailVerified bool
-		var email string
-		if isTokenExist {
-			email, emailVerified = typedToken.GetEmail()
+		go func(c *gin.Context) {
+			var hasPremiumPrivilege bool
+			var emailVerified bool
+			var email string
+			if isTokenExist {
+				email, emailVerified = typedToken.GetEmail()
 
-			hasPremiumPrivilege = emailVerified && (strings.HasSuffix(email, "@mirrormedia.mg") || strings.HasSuffix(email, "@mnews.tw") || strings.HasSuffix(email, "@mirrorfiction.com"))
-		}
-
-		if tokenState == token.OK && !isOriginalPathStory {
-			skipMemberCheck := !emailVerified || hasPremiumPrivilege
-
-			var hasMemberPremiumPrivilege bool
-			hasMemberPremiumPrivilege, subscribedPostIDs, err = getMemberSubscription(c, logger, memberGraphqlEndpoint, skipMemberCheck)
-
-			hasPremiumPrivilege = hasPremiumPrivilege || hasMemberPremiumPrivilege
-			if err != nil {
-				logger.Error(err)
-				c.AbortWithStatusJSON(http.StatusInternalServerError, Reply{
-					TokenState: tokenState,
-				})
-				return
+				hasPremiumPrivilege = emailVerified && (strings.HasSuffix(email, "@mirrormedia.mg") || strings.HasSuffix(email, "@mnews.tw") || strings.HasSuffix(email, "@mirrorfiction.com"))
 			}
-		}
+
+			subscribedPostIDs := map[string]interface{}{}
+			// TODO use go routine
+			if tokenState == token.OK && !isOriginalPathStory {
+				skipMemberCheck := hasPremiumPrivilege
+
+				var hasMemberPremiumPrivilege bool
+				hasMemberPremiumPrivilege, subscribedPostIDs, err = getMemberSubscription(c, logger, memberGraphqlEndpoint, skipMemberCheck)
+
+				if err != nil {
+					logger.Error(err)
+					c.AbortWithStatusJSON(http.StatusInternalServerError, Reply{
+						TokenState: tokenState,
+					})
+					close(premiumAccessChan)
+					return
+				}
+
+				hasPremiumPrivilege = hasPremiumPrivilege || hasMemberPremiumPrivilege
+			}
+			premiumAccessChan <- premiumAccess{
+				isPrivileged: hasPremiumPrivilege,
+				postIDs:      subscribedPostIDs,
+			}
+		}(c)
 
 		var body []byte
 		redisKey := fmt.Sprintf("%s.%s.%s.%s", "apigateway", "proxy", "uri", c.Request.RequestURI)
@@ -121,8 +136,12 @@ func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cach
 			switch path := c.Request.URL.Path; {
 			case strings.HasSuffix(path, "/getposts") || strings.HasSuffix(path, "/posts") || strings.HasSuffix(path, "/post"):
 				// break the switch to continue with response from proxied request
+				access, ok := <-premiumAccessChan
+				if !ok {
+					return
+				}
 				var itemsLength int
-				if itemsLength, body, err = modifyPostItems(logger, body, subscribedPostIDs, hasPremiumPrivilege); err != nil {
+				if itemsLength, body, err = modifyPostItems(logger, body, access.postIDs, access.isPrivileged); err != nil {
 					logger.Warnf("modifyPostItems in cache encounter error: %s", err)
 					break
 				}
@@ -142,19 +161,19 @@ func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cach
 
 		reverseProxy := httputil.ReverseProxy{
 			Director:       director,
-			ModifyResponse: ModifyReverseProxyResponse(c, rdb, cacheTTL, tokenState, subscribedPostIDs, hasPremiumPrivilege),
+			ModifyResponse: ModifyReverseProxyResponse(c, rdb, cacheTTL, tokenState, premiumAccessChan),
 		}
 		reverseProxy.ServeHTTP(c.Writer, c.Request)
 	}
 }
 
-func ModifyReverseProxyResponse(c *gin.Context, rdb cache.Rediser, cacheTTL int, tokenState string, subscribedPostIDs map[string]interface{}, hasPremiumPrivilege bool) func(*http.Response) error {
+func ModifyReverseProxyResponse(c *gin.Context, rdb cache.Rediser, cacheTTL int, tokenState string, premiumAccessChan chan premiumAccess) func(*http.Response) error {
 	logger := logrus.WithFields(logrus.Fields{
 		"path": c.FullPath(),
 	})
 	return func(r *http.Response) error {
 		body, err := io.ReadAll(r.Body)
-		_ = r.Body.Close()
+		defer r.Body.Close()
 		if err != nil {
 			logger.Errorf("encounter error when reading proxy response:", err)
 			return err
@@ -172,8 +191,13 @@ func ModifyReverseProxyResponse(c *gin.Context, rdb cache.Rediser, cacheTTL int,
 		// TODO refactor condition
 		case strings.HasSuffix(path, "/getposts") || strings.HasSuffix(path, "/posts") || strings.HasSuffix(path, "/post"):
 
+			premiumAccess, ok := <-premiumAccessChan
+			if !ok {
+				return nil
+			}
+
 			var itemsLength int
-			if itemsLength, body, err = modifyPostItems(logger, body, subscribedPostIDs, hasPremiumPrivilege); err != nil {
+			if itemsLength, body, err = modifyPostItems(logger, body, premiumAccess.postIDs, premiumAccess.isPrivileged); err != nil {
 				logger.Errorf("modifyPostItems encounter error: %s", err)
 				return err
 			}
@@ -204,9 +228,15 @@ func ModifyReverseProxyResponse(c *gin.Context, rdb cache.Rediser, cacheTTL int,
 }
 
 // getMemberSubscription will return hasMemberPremiumPrivilege as false and subscribedPostIDs as empty map if skipMemberCheck is true
+var nonPremiumType = map[model.MemberTypeType]interface{}{
+	model.MemberTypeTypeNone:             nil,
+	model.MemberTypeTypeSubscribeOneTime: nil,
+}
+
 func getMemberSubscription(c *gin.Context, logger *logrus.Entry, memberGraphqlEndpoint string, skipMemberCheck bool) (hasMemberPremiumPrivilege bool, subscribedPostIDs map[string]interface{}, err error) {
 	// declare before we use it to make sure a instance is returned
 	subscribedPostIDs = make(map[string]interface{})
+
 	if skipMemberCheck {
 		return false, subscribedPostIDs, nil
 	}
@@ -217,9 +247,10 @@ func getMemberSubscription(c *gin.Context, logger *logrus.Entry, memberGraphqlEn
 	}
 	gql := `
 query ($firebaseId: String!) {
-  member(where: {firebaseId: $firebaseId}) {
-    subscription(where: {isActive: true}) {
-      frequency
+  member(where:{firebaseId: $firebaseId}){
+		type
+		state
+    subscription(where:{frequency: one_time, isActive: true}){
       postId
     }
   }
@@ -228,26 +259,26 @@ query ($firebaseId: String!) {
 	req := graphqlclient.NewRequest(gql)
 	req.Var("firebaseId", firebaseID)
 	// data := model.Member{}
-	member := struct {
+	resp := struct {
 		Member model.Member `json:"member"`
 	}{}
 
 	client := graphql.NewClient(memberGraphqlEndpoint, graphql.WithHTTPClient(httpclient.DefaultNetHttpClient))
-	err = client.Run(context.TODO(), req, &member)
+	err = client.Run(context.TODO(), req, &resp)
 	if err != nil {
 		err = fmt.Errorf("cannot fetch member and subscription state from member server:%v", err)
 		return false, subscribedPostIDs, err
 	}
 
-	data := member.Member
-	if data.Subscription != nil {
-		for _, s := range data.Subscription {
-			if *s.Frequency == model.SubscriptionFrequencyTypeOneTime {
-				subscribedPostIDs[*s.PostID] = nil
-			} else {
-				hasMemberPremiumPrivilege = true
-				break
-			}
+	member := resp.Member
+	if member.Subscription != nil {
+		for _, s := range member.Subscription {
+			subscribedPostIDs[*s.PostID] = nil
+		}
+	}
+	if member.State != nil && *member.State == model.MemberStateTypeActive && member.Type != nil {
+		if _, isNotPremium := nonPremiumType[*member.Type]; !isNotPremium {
+			hasMemberPremiumPrivilege = true
 		}
 	}
 	return hasMemberPremiumPrivilege, subscribedPostIDs, err
