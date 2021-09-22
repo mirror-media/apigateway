@@ -190,12 +190,13 @@ func ModifyReverseProxyResponse(c *gin.Context, rdb cache.Rediser, cacheTTL int,
 		// TODO refactor condition
 		case strings.HasSuffix(path, "/getposts") || strings.HasSuffix(path, "/posts") || strings.HasSuffix(path, "/post"):
 
-			access, ok := <-premiumAccessChan
+			premiumAccess, ok := <-premiumAccessChan
 			if !ok {
 				return nil
 			}
+			fmt.Println(premiumAccess)
 			var itemsLength int
-			if itemsLength, body, err = modifyPostItems(logger, body, access.postIDs, access.isPrivileged); err != nil {
+			if itemsLength, body, err = modifyPostItems(logger, body, premiumAccess.postIDs, premiumAccess.isPrivileged); err != nil {
 				logger.Errorf("modifyPostItems encounter error: %s", err)
 				return err
 			}
