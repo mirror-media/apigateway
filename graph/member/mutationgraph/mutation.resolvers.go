@@ -101,20 +101,6 @@ func (r *mutationResolver) Updatemember(ctx context.Context, id string, data map
 		return nil, err
 	}
 
-	state, ok := data["state"]
-	var client *auth.Client
-	if ok && state.(string) == model.MemberStateTypeInactive.String() {
-		client, err = FirebaseClientFromContext(ctx)
-		if err != nil {
-			err = errors.Wrap(err, fmt.Sprintf("deleting firebase user(%s) failed with nil firebase client", firebaseID))
-			logrus.WithField("mutation", "updatemember").Error(err)
-		} else {
-			if err = client.DeleteUser(ctx, firebaseID); err != nil {
-				logrus.WithField("mutation", "updatemember.DeleteUser").Errorf("error deleting firebase user: %v\n", err)
-			}
-		}
-	}
-
 	return resp.MemberInfo, err
 }
 
