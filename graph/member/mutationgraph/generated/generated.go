@@ -5384,6 +5384,11 @@ input subscriptionRecurringCreateInput {
   frequency: subscriptionFrequencyType!
   note: String
   promoteId: Int
+  loveCode: Int
+  carrierType: Int
+  carrierNum: String
+  buyerName: String
+  buyerUBN: String
 }
 
 input subscriptionRecurringCreateInfo {
@@ -5397,6 +5402,11 @@ input subscriptionOneTimeCreateInput {
   email: String!
   note: String
   promoteId: Int
+  loveCode: Int
+  carrierType: Int
+  carrierNum: String
+  buyerName: String
+  buyerUBN: String
   postId: String!
 }
 
