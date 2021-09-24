@@ -17,7 +17,7 @@ require (
 	github.com/go-redis/redis/v8 v8.11.3
 	github.com/gobuffalo/envy v1.9.0 // indirect
 	github.com/gobuffalo/packd v1.0.0 // indirect
-	github.com/gobwas/ws v1.1.0 // indirect
+	github.com/gobwas/ws v1.1.0
 	github.com/golang-jwt/jwt/v4 v4.0.0
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/google/go-querystring v1.1.0
@@ -28,7 +28,7 @@ require (
 	github.com/jensneuse/abstractlogger v0.0.4
 	github.com/jensneuse/graphql-go-tools v1.26.1
 	github.com/jensneuse/graphql-go-tools/examples/chat v0.0.0-20210918113535-1f7aad4726e6 // indirect
-	github.com/jensneuse/graphql-go-tools/examples/federation v0.0.0-20210918113535-1f7aad4726e6
+	github.com/jensneuse/graphql-go-tools/examples/federation v0.0.0-20210918113535-1f7aad4726e6 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/compress v1.13.6 // indirect
 	github.com/logrusorgru/aurora v2.0.3+incompatible // indirect
@@ -54,7 +54,7 @@ require (
 	go.uber.org/zap v1.19.1 // indirect
 	golang.org/x/crypto v0.0.0-20210915214749-c084706c2272 // indirect
 	golang.org/x/net v0.0.0-20210917221730-978cfadd31cf // indirect
-	golang.org/x/sys v0.0.0-20210917161153-d61c044b1678 // indirect
+	golang.org/x/sys v0.0.0-20210923061019-b8560ed6a9b7 // indirect
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/time v0.0.0-20201208040808-7e3f01d25324 // indirect
 	google.golang.org/api v0.57.0

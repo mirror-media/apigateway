@@ -4,8 +4,8 @@ import (
 	"context"
 	"net/http"
 
-	http2 "github.com/jensneuse/graphql-go-tools/examples/federation/gateway/http"
 	"github.com/mirror-media/apigateway/graph"
+	"github.com/mirror-media/apigateway/graph/http2"
 
 	"github.com/jensneuse/abstractlogger"
 	"github.com/jensneuse/graphql-go-tools/pkg/engine/datasource/graphql_datasource"
@@ -80,7 +80,6 @@ func NewAPIGatewayGraphQLHandler(memberUpstreamURL, mutationUpstreamURL, typeSch
 		logrus.Panic(err)
 	}
 
-	// TODO extract the handler wrapper from the example
 	handler := http2.NewGraphqlHTTPHandler(mergedSchema, executionEngine, nil, logger)
 
 	return handler
