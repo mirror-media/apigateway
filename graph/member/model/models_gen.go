@@ -288,11 +288,11 @@ type Invoice struct {
 	Desc              *string              `json:"desc"`
 	InvoiceNo         *string              `json:"invoiceNo"`
 	Category          *InvoiceCategoryType `json:"category"`
-	BuyerName         *string              `json:"buyerName"`
-	BuyerUbn          *string              `json:"buyerUBN"`
+	LoveCode          *int                 `json:"loveCode"`
 	CarrierType       *int                 `json:"carrierType"`
 	CarrierNum        *string              `json:"carrierNum"`
-	LoveCode          *int                 `json:"loveCode"`
+	BuyerName         *string              `json:"buyerName"`
+	BuyerUbn          *string              `json:"buyerUBN"`
 	Status            *InvoiceStatusType   `json:"status"`
 	CreatedAt         *string              `json:"createdAt"`
 	UpdatedAt         *string              `json:"updatedAt"`
@@ -307,11 +307,11 @@ type InvoiceCreateInput struct {
 	Desc              *string                            `json:"desc"`
 	InvoiceNo         *string                            `json:"invoiceNo"`
 	Category          *InvoiceCategoryType               `json:"category"`
-	BuyerName         *string                            `json:"buyerName"`
-	BuyerUbn          *string                            `json:"buyerUBN"`
+	LoveCode          *int                               `json:"loveCode"`
 	CarrierType       *int                               `json:"carrierType"`
 	CarrierNum        *string                            `json:"carrierNum"`
-	LoveCode          *int                               `json:"loveCode"`
+	BuyerName         *string                            `json:"buyerName"`
+	BuyerUbn          *string                            `json:"buyerUBN"`
 	Status            *InvoiceStatusType                 `json:"status"`
 	CreatedAt         *string                            `json:"createdAt"`
 	UpdatedAt         *string                            `json:"updatedAt"`
@@ -324,11 +324,11 @@ type InvoiceOrderByInput struct {
 	Desc        *OrderDirection `json:"desc"`
 	InvoiceNo   *OrderDirection `json:"invoiceNo"`
 	Category    *OrderDirection `json:"category"`
-	BuyerName   *OrderDirection `json:"buyerName"`
-	BuyerUbn    *OrderDirection `json:"buyerUBN"`
+	LoveCode    *OrderDirection `json:"loveCode"`
 	CarrierType *OrderDirection `json:"carrierType"`
 	CarrierNum  *OrderDirection `json:"carrierNum"`
-	LoveCode    *OrderDirection `json:"loveCode"`
+	BuyerName   *OrderDirection `json:"buyerName"`
+	BuyerUbn    *OrderDirection `json:"buyerUBN"`
 	Status      *OrderDirection `json:"status"`
 	CreatedAt   *OrderDirection `json:"createdAt"`
 	UpdatedAt   *OrderDirection `json:"updatedAt"`
@@ -350,11 +350,11 @@ type InvoiceUpdateInput struct {
 	Desc              *string                            `json:"desc"`
 	InvoiceNo         *string                            `json:"invoiceNo"`
 	Category          *InvoiceCategoryType               `json:"category"`
-	BuyerName         *string                            `json:"buyerName"`
-	BuyerUbn          *string                            `json:"buyerUBN"`
+	LoveCode          *int                               `json:"loveCode"`
 	CarrierType       *int                               `json:"carrierType"`
 	CarrierNum        *string                            `json:"carrierNum"`
-	LoveCode          *int                               `json:"loveCode"`
+	BuyerName         *string                            `json:"buyerName"`
+	BuyerUbn          *string                            `json:"buyerUBN"`
 	Status            *InvoiceStatusType                 `json:"status"`
 	CreatedAt         *string                            `json:"createdAt"`
 	UpdatedAt         *string                            `json:"updatedAt"`
@@ -443,6 +443,36 @@ type InvoiceWhereInput struct {
 	CategoryNot              *InvoiceCategoryType         `json:"category_not"`
 	CategoryIn               []*InvoiceCategoryType       `json:"category_in"`
 	CategoryNotIn            []*InvoiceCategoryType       `json:"category_not_in"`
+	LoveCode                 *int                         `json:"loveCode"`
+	LoveCodeNot              *int                         `json:"loveCode_not"`
+	LoveCodeLt               *int                         `json:"loveCode_lt"`
+	LoveCodeLte              *int                         `json:"loveCode_lte"`
+	LoveCodeGt               *int                         `json:"loveCode_gt"`
+	LoveCodeGte              *int                         `json:"loveCode_gte"`
+	LoveCodeIn               []*int                       `json:"loveCode_in"`
+	LoveCodeNotIn            []*int                       `json:"loveCode_not_in"`
+	CarrierType              *int                         `json:"carrierType"`
+	CarrierTypeNot           *int                         `json:"carrierType_not"`
+	CarrierTypeIn            []*int                       `json:"carrierType_in"`
+	CarrierTypeNotIn         []*int                       `json:"carrierType_not_in"`
+	CarrierNum               *string                      `json:"carrierNum"`
+	CarrierNumNot            *string                      `json:"carrierNum_not"`
+	CarrierNumContains       *string                      `json:"carrierNum_contains"`
+	CarrierNumNotContains    *string                      `json:"carrierNum_not_contains"`
+	CarrierNumStartsWith     *string                      `json:"carrierNum_starts_with"`
+	CarrierNumNotStartsWith  *string                      `json:"carrierNum_not_starts_with"`
+	CarrierNumEndsWith       *string                      `json:"carrierNum_ends_with"`
+	CarrierNumNotEndsWith    *string                      `json:"carrierNum_not_ends_with"`
+	CarrierNumI              *string                      `json:"carrierNum_i"`
+	CarrierNumNotI           *string                      `json:"carrierNum_not_i"`
+	CarrierNumContainsI      *string                      `json:"carrierNum_contains_i"`
+	CarrierNumNotContainsI   *string                      `json:"carrierNum_not_contains_i"`
+	CarrierNumStartsWithI    *string                      `json:"carrierNum_starts_with_i"`
+	CarrierNumNotStartsWithI *string                      `json:"carrierNum_not_starts_with_i"`
+	CarrierNumEndsWithI      *string                      `json:"carrierNum_ends_with_i"`
+	CarrierNumNotEndsWithI   *string                      `json:"carrierNum_not_ends_with_i"`
+	CarrierNumIn             []*string                    `json:"carrierNum_in"`
+	CarrierNumNotIn          []*string                    `json:"carrierNum_not_in"`
 	BuyerName                *string                      `json:"buyerName"`
 	BuyerNameNot             *string                      `json:"buyerName_not"`
 	BuyerNameContains        *string                      `json:"buyerName_contains"`
@@ -479,36 +509,6 @@ type InvoiceWhereInput struct {
 	BuyerUbnNotEndsWithI     *string                      `json:"buyerUBN_not_ends_with_i"`
 	BuyerUbnIn               []*string                    `json:"buyerUBN_in"`
 	BuyerUbnNotIn            []*string                    `json:"buyerUBN_not_in"`
-	CarrierType              *int                         `json:"carrierType"`
-	CarrierTypeNot           *int                         `json:"carrierType_not"`
-	CarrierTypeIn            []*int                       `json:"carrierType_in"`
-	CarrierTypeNotIn         []*int                       `json:"carrierType_not_in"`
-	CarrierNum               *string                      `json:"carrierNum"`
-	CarrierNumNot            *string                      `json:"carrierNum_not"`
-	CarrierNumContains       *string                      `json:"carrierNum_contains"`
-	CarrierNumNotContains    *string                      `json:"carrierNum_not_contains"`
-	CarrierNumStartsWith     *string                      `json:"carrierNum_starts_with"`
-	CarrierNumNotStartsWith  *string                      `json:"carrierNum_not_starts_with"`
-	CarrierNumEndsWith       *string                      `json:"carrierNum_ends_with"`
-	CarrierNumNotEndsWith    *string                      `json:"carrierNum_not_ends_with"`
-	CarrierNumI              *string                      `json:"carrierNum_i"`
-	CarrierNumNotI           *string                      `json:"carrierNum_not_i"`
-	CarrierNumContainsI      *string                      `json:"carrierNum_contains_i"`
-	CarrierNumNotContainsI   *string                      `json:"carrierNum_not_contains_i"`
-	CarrierNumStartsWithI    *string                      `json:"carrierNum_starts_with_i"`
-	CarrierNumNotStartsWithI *string                      `json:"carrierNum_not_starts_with_i"`
-	CarrierNumEndsWithI      *string                      `json:"carrierNum_ends_with_i"`
-	CarrierNumNotEndsWithI   *string                      `json:"carrierNum_not_ends_with_i"`
-	CarrierNumIn             []*string                    `json:"carrierNum_in"`
-	CarrierNumNotIn          []*string                    `json:"carrierNum_not_in"`
-	LoveCode                 *int                         `json:"loveCode"`
-	LoveCodeNot              *int                         `json:"loveCode_not"`
-	LoveCodeLt               *int                         `json:"loveCode_lt"`
-	LoveCodeLte              *int                         `json:"loveCode_lte"`
-	LoveCodeGt               *int                         `json:"loveCode_gt"`
-	LoveCodeGte              *int                         `json:"loveCode_gte"`
-	LoveCodeIn               []*int                       `json:"loveCode_in"`
-	LoveCodeNotIn            []*int                       `json:"loveCode_not_in"`
 	Status                   *InvoiceStatusType           `json:"status"`
 	StatusNot                *InvoiceStatusType           `json:"status_not"`
 	StatusIn                 []*InvoiceStatusType         `json:"status_in"`
@@ -1971,6 +1971,11 @@ type Subscription struct {
 	OneTimeStartDatetime      *string                        `json:"oneTimeStartDatetime"`
 	OneTimeEndDatetime        *string                        `json:"oneTimeEndDatetime"`
 	NewebpayPaymentInfo       *NewebpayPaymentInfo           `json:"newebpayPaymentInfo"`
+	LoveCode                  *int                           `json:"loveCode"`
+	CarrierType               *int                           `json:"carrierType"`
+	CarrierNum                *string                        `json:"carrierNum"`
+	BuyerName                 *string                        `json:"buyerName"`
+	BuyerUbn                  *string                        `json:"buyerUBN"`
 	CreatedAt                 *string                        `json:"createdAt"`
 	UpdatedAt                 *string                        `json:"updatedAt"`
 }
@@ -2005,6 +2010,11 @@ type SubscriptionCreateInput struct {
 	OneTimeStartDatetime      *string                              `json:"oneTimeStartDatetime"`
 	OneTimeEndDatetime        *string                              `json:"oneTimeEndDatetime"`
 	NewebpayPaymentInfo       *NewebpayPaymentInfoRelateToOneInput `json:"newebpayPaymentInfo"`
+	LoveCode                  *int                                 `json:"loveCode"`
+	CarrierType               *int                                 `json:"carrierType"`
+	CarrierNum                *string                              `json:"carrierNum"`
+	BuyerName                 *string                              `json:"buyerName"`
+	BuyerUbn                  *string                              `json:"buyerUBN"`
 	CreatedAt                 *string                              `json:"createdAt"`
 	UpdatedAt                 *string                              `json:"updatedAt"`
 }
@@ -2443,6 +2453,11 @@ type SubscriptionOrderByInput struct {
 	PostID                    *OrderDirection `json:"postId"`
 	OneTimeStartDatetime      *OrderDirection `json:"oneTimeStartDatetime"`
 	OneTimeEndDatetime        *OrderDirection `json:"oneTimeEndDatetime"`
+	LoveCode                  *OrderDirection `json:"loveCode"`
+	CarrierType               *OrderDirection `json:"carrierType"`
+	CarrierNum                *OrderDirection `json:"carrierNum"`
+	BuyerName                 *OrderDirection `json:"buyerName"`
+	BuyerUbn                  *OrderDirection `json:"buyerUBN"`
 	CreatedAt                 *OrderDirection `json:"createdAt"`
 	UpdatedAt                 *OrderDirection `json:"updatedAt"`
 }
@@ -2477,6 +2492,11 @@ type SubscriptionPrivateUpdateInput struct {
 	OneTimeStartDatetime      *string                              `json:"oneTimeStartDatetime"`
 	OneTimeEndDatetime        *string                              `json:"oneTimeEndDatetime"`
 	NewebpayPaymentInfo       *NewebpayPaymentInfoRelateToOneInput `json:"newebpayPaymentInfo"`
+	LoveCode                  *int                                 `json:"loveCode"`
+	CarrierType               *int                                 `json:"carrierType"`
+	CarrierNum                *string                              `json:"carrierNum"`
+	BuyerName                 *string                              `json:"buyerName"`
+	BuyerUbn                  *string                              `json:"buyerUBN"`
 	CreatedAt                 *string                              `json:"createdAt"`
 	UpdatedAt                 *string                              `json:"updatedAt"`
 }
@@ -2743,6 +2763,72 @@ type SubscriptionWhereInput struct {
 	OneTimeEndDatetimeNotIn        []*int                           `json:"oneTimeEndDatetime_not_in"`
 	NewebpayPaymentInfo            *NewebpayPaymentInfoWhereInput   `json:"newebpayPaymentInfo"`
 	NewebpayPaymentInfoIsNull      *bool                            `json:"newebpayPaymentInfo_is_null"`
+	LoveCode                       *int                             `json:"loveCode"`
+	LoveCodeNot                    *int                             `json:"loveCode_not"`
+	LoveCodeLt                     *int                             `json:"loveCode_lt"`
+	LoveCodeLte                    *int                             `json:"loveCode_lte"`
+	LoveCodeGt                     *int                             `json:"loveCode_gt"`
+	LoveCodeGte                    *int                             `json:"loveCode_gte"`
+	LoveCodeIn                     []*int                           `json:"loveCode_in"`
+	LoveCodeNotIn                  []*int                           `json:"loveCode_not_in"`
+	CarrierType                    *int                             `json:"carrierType"`
+	CarrierTypeNot                 *int                             `json:"carrierType_not"`
+	CarrierTypeIn                  []*int                           `json:"carrierType_in"`
+	CarrierTypeNotIn               []*int                           `json:"carrierType_not_in"`
+	CarrierNum                     *string                          `json:"carrierNum"`
+	CarrierNumNot                  *string                          `json:"carrierNum_not"`
+	CarrierNumContains             *string                          `json:"carrierNum_contains"`
+	CarrierNumNotContains          *string                          `json:"carrierNum_not_contains"`
+	CarrierNumStartsWith           *string                          `json:"carrierNum_starts_with"`
+	CarrierNumNotStartsWith        *string                          `json:"carrierNum_not_starts_with"`
+	CarrierNumEndsWith             *string                          `json:"carrierNum_ends_with"`
+	CarrierNumNotEndsWith          *string                          `json:"carrierNum_not_ends_with"`
+	CarrierNumI                    *string                          `json:"carrierNum_i"`
+	CarrierNumNotI                 *string                          `json:"carrierNum_not_i"`
+	CarrierNumContainsI            *string                          `json:"carrierNum_contains_i"`
+	CarrierNumNotContainsI         *string                          `json:"carrierNum_not_contains_i"`
+	CarrierNumStartsWithI          *string                          `json:"carrierNum_starts_with_i"`
+	CarrierNumNotStartsWithI       *string                          `json:"carrierNum_not_starts_with_i"`
+	CarrierNumEndsWithI            *string                          `json:"carrierNum_ends_with_i"`
+	CarrierNumNotEndsWithI         *string                          `json:"carrierNum_not_ends_with_i"`
+	CarrierNumIn                   []*string                        `json:"carrierNum_in"`
+	CarrierNumNotIn                []*string                        `json:"carrierNum_not_in"`
+	BuyerName                      *string                          `json:"buyerName"`
+	BuyerNameNot                   *string                          `json:"buyerName_not"`
+	BuyerNameContains              *string                          `json:"buyerName_contains"`
+	BuyerNameNotContains           *string                          `json:"buyerName_not_contains"`
+	BuyerNameStartsWith            *string                          `json:"buyerName_starts_with"`
+	BuyerNameNotStartsWith         *string                          `json:"buyerName_not_starts_with"`
+	BuyerNameEndsWith              *string                          `json:"buyerName_ends_with"`
+	BuyerNameNotEndsWith           *string                          `json:"buyerName_not_ends_with"`
+	BuyerNameI                     *string                          `json:"buyerName_i"`
+	BuyerNameNotI                  *string                          `json:"buyerName_not_i"`
+	BuyerNameContainsI             *string                          `json:"buyerName_contains_i"`
+	BuyerNameNotContainsI          *string                          `json:"buyerName_not_contains_i"`
+	BuyerNameStartsWithI           *string                          `json:"buyerName_starts_with_i"`
+	BuyerNameNotStartsWithI        *string                          `json:"buyerName_not_starts_with_i"`
+	BuyerNameEndsWithI             *string                          `json:"buyerName_ends_with_i"`
+	BuyerNameNotEndsWithI          *string                          `json:"buyerName_not_ends_with_i"`
+	BuyerNameIn                    []*string                        `json:"buyerName_in"`
+	BuyerNameNotIn                 []*string                        `json:"buyerName_not_in"`
+	BuyerUbn                       *string                          `json:"buyerUBN"`
+	BuyerUbnNot                    *string                          `json:"buyerUBN_not"`
+	BuyerUbnContains               *string                          `json:"buyerUBN_contains"`
+	BuyerUbnNotContains            *string                          `json:"buyerUBN_not_contains"`
+	BuyerUbnStartsWith             *string                          `json:"buyerUBN_starts_with"`
+	BuyerUbnNotStartsWith          *string                          `json:"buyerUBN_not_starts_with"`
+	BuyerUbnEndsWith               *string                          `json:"buyerUBN_ends_with"`
+	BuyerUbnNotEndsWith            *string                          `json:"buyerUBN_not_ends_with"`
+	BuyerUbnI                      *string                          `json:"buyerUBN_i"`
+	BuyerUbnNotI                   *string                          `json:"buyerUBN_not_i"`
+	BuyerUbnContainsI              *string                          `json:"buyerUBN_contains_i"`
+	BuyerUbnNotContainsI           *string                          `json:"buyerUBN_not_contains_i"`
+	BuyerUbnStartsWithI            *string                          `json:"buyerUBN_starts_with_i"`
+	BuyerUbnNotStartsWithI         *string                          `json:"buyerUBN_not_starts_with_i"`
+	BuyerUbnEndsWithI              *string                          `json:"buyerUBN_ends_with_i"`
+	BuyerUbnNotEndsWithI           *string                          `json:"buyerUBN_not_ends_with_i"`
+	BuyerUbnIn                     []*string                        `json:"buyerUBN_in"`
+	BuyerUbnNotIn                  []*string                        `json:"buyerUBN_not_in"`
 	CreatedAt                      *string                          `json:"createdAt"`
 	CreatedAtNot                   *string                          `json:"createdAt_not"`
 	CreatedAtLt                    *string                          `json:"createdAt_lt"`
@@ -2923,16 +3009,16 @@ const (
 	SortInvoicesByInvoiceNoDesc   SortInvoicesBy = "invoiceNo_DESC"
 	SortInvoicesByCategoryAsc     SortInvoicesBy = "category_ASC"
 	SortInvoicesByCategoryDesc    SortInvoicesBy = "category_DESC"
-	SortInvoicesByBuyerNameAsc    SortInvoicesBy = "buyerName_ASC"
-	SortInvoicesByBuyerNameDesc   SortInvoicesBy = "buyerName_DESC"
-	SortInvoicesByBuyerUbnAsc     SortInvoicesBy = "buyerUBN_ASC"
-	SortInvoicesByBuyerUbnDesc    SortInvoicesBy = "buyerUBN_DESC"
+	SortInvoicesByLoveCodeAsc     SortInvoicesBy = "loveCode_ASC"
+	SortInvoicesByLoveCodeDesc    SortInvoicesBy = "loveCode_DESC"
 	SortInvoicesByCarrierTypeAsc  SortInvoicesBy = "carrierType_ASC"
 	SortInvoicesByCarrierTypeDesc SortInvoicesBy = "carrierType_DESC"
 	SortInvoicesByCarrierNumAsc   SortInvoicesBy = "carrierNum_ASC"
 	SortInvoicesByCarrierNumDesc  SortInvoicesBy = "carrierNum_DESC"
-	SortInvoicesByLoveCodeAsc     SortInvoicesBy = "loveCode_ASC"
-	SortInvoicesByLoveCodeDesc    SortInvoicesBy = "loveCode_DESC"
+	SortInvoicesByBuyerNameAsc    SortInvoicesBy = "buyerName_ASC"
+	SortInvoicesByBuyerNameDesc   SortInvoicesBy = "buyerName_DESC"
+	SortInvoicesByBuyerUbnAsc     SortInvoicesBy = "buyerUBN_ASC"
+	SortInvoicesByBuyerUbnDesc    SortInvoicesBy = "buyerUBN_DESC"
 	SortInvoicesByStatusAsc       SortInvoicesBy = "status_ASC"
 	SortInvoicesByStatusDesc      SortInvoicesBy = "status_DESC"
 	SortInvoicesByCreatedAtAsc    SortInvoicesBy = "createdAt_ASC"
@@ -2954,16 +3040,16 @@ var AllSortInvoicesBy = []SortInvoicesBy{
 	SortInvoicesByInvoiceNoDesc,
 	SortInvoicesByCategoryAsc,
 	SortInvoicesByCategoryDesc,
-	SortInvoicesByBuyerNameAsc,
-	SortInvoicesByBuyerNameDesc,
-	SortInvoicesByBuyerUbnAsc,
-	SortInvoicesByBuyerUbnDesc,
+	SortInvoicesByLoveCodeAsc,
+	SortInvoicesByLoveCodeDesc,
 	SortInvoicesByCarrierTypeAsc,
 	SortInvoicesByCarrierTypeDesc,
 	SortInvoicesByCarrierNumAsc,
 	SortInvoicesByCarrierNumDesc,
-	SortInvoicesByLoveCodeAsc,
-	SortInvoicesByLoveCodeDesc,
+	SortInvoicesByBuyerNameAsc,
+	SortInvoicesByBuyerNameDesc,
+	SortInvoicesByBuyerUbnAsc,
+	SortInvoicesByBuyerUbnDesc,
 	SortInvoicesByStatusAsc,
 	SortInvoicesByStatusDesc,
 	SortInvoicesByCreatedAtAsc,
@@ -2974,7 +3060,7 @@ var AllSortInvoicesBy = []SortInvoicesBy{
 
 func (e SortInvoicesBy) IsValid() bool {
 	switch e {
-	case SortInvoicesByIDAsc, SortInvoicesByIDDesc, SortInvoicesByAmountAsc, SortInvoicesByAmountDesc, SortInvoicesByEmailAsc, SortInvoicesByEmailDesc, SortInvoicesByDescAsc, SortInvoicesByDescDesc, SortInvoicesByInvoiceNoAsc, SortInvoicesByInvoiceNoDesc, SortInvoicesByCategoryAsc, SortInvoicesByCategoryDesc, SortInvoicesByBuyerNameAsc, SortInvoicesByBuyerNameDesc, SortInvoicesByBuyerUbnAsc, SortInvoicesByBuyerUbnDesc, SortInvoicesByCarrierTypeAsc, SortInvoicesByCarrierTypeDesc, SortInvoicesByCarrierNumAsc, SortInvoicesByCarrierNumDesc, SortInvoicesByLoveCodeAsc, SortInvoicesByLoveCodeDesc, SortInvoicesByStatusAsc, SortInvoicesByStatusDesc, SortInvoicesByCreatedAtAsc, SortInvoicesByCreatedAtDesc, SortInvoicesByUpdatedAtAsc, SortInvoicesByUpdatedAtDesc:
+	case SortInvoicesByIDAsc, SortInvoicesByIDDesc, SortInvoicesByAmountAsc, SortInvoicesByAmountDesc, SortInvoicesByEmailAsc, SortInvoicesByEmailDesc, SortInvoicesByDescAsc, SortInvoicesByDescDesc, SortInvoicesByInvoiceNoAsc, SortInvoicesByInvoiceNoDesc, SortInvoicesByCategoryAsc, SortInvoicesByCategoryDesc, SortInvoicesByLoveCodeAsc, SortInvoicesByLoveCodeDesc, SortInvoicesByCarrierTypeAsc, SortInvoicesByCarrierTypeDesc, SortInvoicesByCarrierNumAsc, SortInvoicesByCarrierNumDesc, SortInvoicesByBuyerNameAsc, SortInvoicesByBuyerNameDesc, SortInvoicesByBuyerUbnAsc, SortInvoicesByBuyerUbnDesc, SortInvoicesByStatusAsc, SortInvoicesByStatusDesc, SortInvoicesByCreatedAtAsc, SortInvoicesByCreatedAtDesc, SortInvoicesByUpdatedAtAsc, SortInvoicesByUpdatedAtDesc:
 		return true
 	}
 	return false
@@ -3697,6 +3783,16 @@ const (
 	SortSubscriptionsByOneTimeStartDatetimeDesc      SortSubscriptionsBy = "oneTimeStartDatetime_DESC"
 	SortSubscriptionsByOneTimeEndDatetimeAsc         SortSubscriptionsBy = "oneTimeEndDatetime_ASC"
 	SortSubscriptionsByOneTimeEndDatetimeDesc        SortSubscriptionsBy = "oneTimeEndDatetime_DESC"
+	SortSubscriptionsByLoveCodeAsc                   SortSubscriptionsBy = "loveCode_ASC"
+	SortSubscriptionsByLoveCodeDesc                  SortSubscriptionsBy = "loveCode_DESC"
+	SortSubscriptionsByCarrierTypeAsc                SortSubscriptionsBy = "carrierType_ASC"
+	SortSubscriptionsByCarrierTypeDesc               SortSubscriptionsBy = "carrierType_DESC"
+	SortSubscriptionsByCarrierNumAsc                 SortSubscriptionsBy = "carrierNum_ASC"
+	SortSubscriptionsByCarrierNumDesc                SortSubscriptionsBy = "carrierNum_DESC"
+	SortSubscriptionsByBuyerNameAsc                  SortSubscriptionsBy = "buyerName_ASC"
+	SortSubscriptionsByBuyerNameDesc                 SortSubscriptionsBy = "buyerName_DESC"
+	SortSubscriptionsByBuyerUbnAsc                   SortSubscriptionsBy = "buyerUBN_ASC"
+	SortSubscriptionsByBuyerUbnDesc                  SortSubscriptionsBy = "buyerUBN_DESC"
 	SortSubscriptionsByCreatedAtAsc                  SortSubscriptionsBy = "createdAt_ASC"
 	SortSubscriptionsByCreatedAtDesc                 SortSubscriptionsBy = "createdAt_DESC"
 	SortSubscriptionsByUpdatedAtAsc                  SortSubscriptionsBy = "updatedAt_ASC"
@@ -3754,6 +3850,16 @@ var AllSortSubscriptionsBy = []SortSubscriptionsBy{
 	SortSubscriptionsByOneTimeStartDatetimeDesc,
 	SortSubscriptionsByOneTimeEndDatetimeAsc,
 	SortSubscriptionsByOneTimeEndDatetimeDesc,
+	SortSubscriptionsByLoveCodeAsc,
+	SortSubscriptionsByLoveCodeDesc,
+	SortSubscriptionsByCarrierTypeAsc,
+	SortSubscriptionsByCarrierTypeDesc,
+	SortSubscriptionsByCarrierNumAsc,
+	SortSubscriptionsByCarrierNumDesc,
+	SortSubscriptionsByBuyerNameAsc,
+	SortSubscriptionsByBuyerNameDesc,
+	SortSubscriptionsByBuyerUbnAsc,
+	SortSubscriptionsByBuyerUbnDesc,
 	SortSubscriptionsByCreatedAtAsc,
 	SortSubscriptionsByCreatedAtDesc,
 	SortSubscriptionsByUpdatedAtAsc,
@@ -3762,7 +3868,7 @@ var AllSortSubscriptionsBy = []SortSubscriptionsBy{
 
 func (e SortSubscriptionsBy) IsValid() bool {
 	switch e {
-	case SortSubscriptionsByIDAsc, SortSubscriptionsByIDDesc, SortSubscriptionsByPaymentMethodAsc, SortSubscriptionsByPaymentMethodDesc, SortSubscriptionsByStatusAsc, SortSubscriptionsByStatusDesc, SortSubscriptionsByAmountAsc, SortSubscriptionsByAmountDesc, SortSubscriptionsByCurrencyAsc, SortSubscriptionsByCurrencyDesc, SortSubscriptionsByDescAsc, SortSubscriptionsByDescDesc, SortSubscriptionsByCommentAsc, SortSubscriptionsByCommentDesc, SortSubscriptionsByEmailAsc, SortSubscriptionsByEmailDesc, SortSubscriptionsByOrderNumberAsc, SortSubscriptionsByOrderNumberDesc, SortSubscriptionsByIsActiveAsc, SortSubscriptionsByIsActiveDesc, SortSubscriptionsByIsCanceledAsc, SortSubscriptionsByIsCanceledDesc, SortSubscriptionsByFrequencyAsc, SortSubscriptionsByFrequencyDesc, SortSubscriptionsByNextFrequencyAsc, SortSubscriptionsByNextFrequencyDesc, SortSubscriptionsByPeriodFailureTimesAsc, SortSubscriptionsByPeriodFailureTimesDesc, SortSubscriptionsByPeriodLastSuccessDatetimeAsc, SortSubscriptionsByPeriodLastSuccessDatetimeDesc, SortSubscriptionsByPeriodNextPayDatetimeAsc, SortSubscriptionsByPeriodNextPayDatetimeDesc, SortSubscriptionsByPeriodCreateDatetimeAsc, SortSubscriptionsByPeriodCreateDatetimeDesc, SortSubscriptionsByPeriodFirstDatetimeAsc, SortSubscriptionsByPeriodFirstDatetimeDesc, SortSubscriptionsByPeriodEndDatetimeAsc, SortSubscriptionsByPeriodEndDatetimeDesc, SortSubscriptionsByChangePlanDatetimeAsc, SortSubscriptionsByChangePlanDatetimeDesc, SortSubscriptionsByNoteAsc, SortSubscriptionsByNoteDesc, SortSubscriptionsByPromoteIDAsc, SortSubscriptionsByPromoteIDDesc, SortSubscriptionsByPostIDAsc, SortSubscriptionsByPostIDDesc, SortSubscriptionsByOneTimeStartDatetimeAsc, SortSubscriptionsByOneTimeStartDatetimeDesc, SortSubscriptionsByOneTimeEndDatetimeAsc, SortSubscriptionsByOneTimeEndDatetimeDesc, SortSubscriptionsByCreatedAtAsc, SortSubscriptionsByCreatedAtDesc, SortSubscriptionsByUpdatedAtAsc, SortSubscriptionsByUpdatedAtDesc:
+	case SortSubscriptionsByIDAsc, SortSubscriptionsByIDDesc, SortSubscriptionsByPaymentMethodAsc, SortSubscriptionsByPaymentMethodDesc, SortSubscriptionsByStatusAsc, SortSubscriptionsByStatusDesc, SortSubscriptionsByAmountAsc, SortSubscriptionsByAmountDesc, SortSubscriptionsByCurrencyAsc, SortSubscriptionsByCurrencyDesc, SortSubscriptionsByDescAsc, SortSubscriptionsByDescDesc, SortSubscriptionsByCommentAsc, SortSubscriptionsByCommentDesc, SortSubscriptionsByEmailAsc, SortSubscriptionsByEmailDesc, SortSubscriptionsByOrderNumberAsc, SortSubscriptionsByOrderNumberDesc, SortSubscriptionsByIsActiveAsc, SortSubscriptionsByIsActiveDesc, SortSubscriptionsByIsCanceledAsc, SortSubscriptionsByIsCanceledDesc, SortSubscriptionsByFrequencyAsc, SortSubscriptionsByFrequencyDesc, SortSubscriptionsByNextFrequencyAsc, SortSubscriptionsByNextFrequencyDesc, SortSubscriptionsByPeriodFailureTimesAsc, SortSubscriptionsByPeriodFailureTimesDesc, SortSubscriptionsByPeriodLastSuccessDatetimeAsc, SortSubscriptionsByPeriodLastSuccessDatetimeDesc, SortSubscriptionsByPeriodNextPayDatetimeAsc, SortSubscriptionsByPeriodNextPayDatetimeDesc, SortSubscriptionsByPeriodCreateDatetimeAsc, SortSubscriptionsByPeriodCreateDatetimeDesc, SortSubscriptionsByPeriodFirstDatetimeAsc, SortSubscriptionsByPeriodFirstDatetimeDesc, SortSubscriptionsByPeriodEndDatetimeAsc, SortSubscriptionsByPeriodEndDatetimeDesc, SortSubscriptionsByChangePlanDatetimeAsc, SortSubscriptionsByChangePlanDatetimeDesc, SortSubscriptionsByNoteAsc, SortSubscriptionsByNoteDesc, SortSubscriptionsByPromoteIDAsc, SortSubscriptionsByPromoteIDDesc, SortSubscriptionsByPostIDAsc, SortSubscriptionsByPostIDDesc, SortSubscriptionsByOneTimeStartDatetimeAsc, SortSubscriptionsByOneTimeStartDatetimeDesc, SortSubscriptionsByOneTimeEndDatetimeAsc, SortSubscriptionsByOneTimeEndDatetimeDesc, SortSubscriptionsByLoveCodeAsc, SortSubscriptionsByLoveCodeDesc, SortSubscriptionsByCarrierTypeAsc, SortSubscriptionsByCarrierTypeDesc, SortSubscriptionsByCarrierNumAsc, SortSubscriptionsByCarrierNumDesc, SortSubscriptionsByBuyerNameAsc, SortSubscriptionsByBuyerNameDesc, SortSubscriptionsByBuyerUbnAsc, SortSubscriptionsByBuyerUbnDesc, SortSubscriptionsByCreatedAtAsc, SortSubscriptionsByCreatedAtDesc, SortSubscriptionsByUpdatedAtAsc, SortSubscriptionsByUpdatedAtDesc:
 		return true
 	}
 	return false
