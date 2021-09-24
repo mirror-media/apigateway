@@ -9,7 +9,6 @@ import (
 	"strings"
 	"time"
 
-	"firebase.google.com/go/v4/auth"
 	graphqlclient "github.com/machinebox/graphql"
 	"github.com/mirror-media/apigateway/graph/member/model"
 	"github.com/mirror-media/apigateway/graph/member/mutationgraph/generated"
