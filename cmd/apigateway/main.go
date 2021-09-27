@@ -3,17 +3,22 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
 
+	"cloud.google.com/go/storage"
 	formatter "github.com/bcgodev/logrus-formatter-gke"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 
+	ffclient "github.com/thomaspoignant/go-feature-flag"
+
 	"github.com/mirror-media/apigateway/config"
+	"github.com/mirror-media/apigateway/featureflag"
 	"github.com/mirror-media/apigateway/server"
 	"github.com/spf13/viper"
 )
@@ -41,6 +46,29 @@ func main() {
 	if err != nil {
 		logrus.Fatalf("unable to decode into struct, %v", err)
 	}
+
+	client, err := storage.NewClient(context.Background())
+	if err != nil {
+		logrus.Fatal(err)
+	}
+	object := client.Bucket(cfg.FeatureToggles.Bucket).Object(cfg.FeatureToggles.Object)
+
+	ffclient.Init(ffclient.Config{
+		PollingInterval: 60 * time.Second,
+		Logger:          log.New(os.Stdout, "", 0),
+		Context:         context.Background(),
+		Retriever: &featureflag.Bucket{
+			Object: object,
+		},
+		FileFormat:              cfg.FeatureToggles.Type,
+		StartWithRetrieverError: false,
+	})
+	// Check init errors.
+	if err != nil {
+		logrus.Fatal(err)
+	}
+	// defer closing ffclient
+	defer ffclient.Close()
 
 	svr, err := server.NewServer(cfg)
 	if err != nil {

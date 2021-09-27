@@ -6,6 +6,8 @@ import (
 
 	"github.com/mirror-media/apigateway/graph"
 	"github.com/mirror-media/apigateway/graph/http2"
+	ffclient "github.com/thomaspoignant/go-feature-flag"
+	"github.com/thomaspoignant/go-feature-flag/ffuser"
 
 	"github.com/jensneuse/abstractlogger"
 	"github.com/jensneuse/graphql-go-tools/pkg/engine/datasource/graphql_datasource"
@@ -45,28 +47,33 @@ func NewAPIGatewayGraphQLHandler(memberUpstreamURL, mutationUpstreamURL, typeSch
 		logrus.Panic("mutation schema is not valid:", validation.Errors.Error(), "first one is:", validation.Errors.ErrorByIndex(0))
 	}
 
-	factory := graphql.NewFederationEngineConfigFactory(
-		[]graphql_datasource.Configuration{
-			{
-				Fetch: graphql_datasource.FetchConfiguration{
-					URL: memberUpstreamURL,
-				},
-				Federation: graphql_datasource.FederationConfiguration{
-					Enabled:    false,
-					ServiceSDL: string(querySchema.Document()),
-				},
-			}, {
-				Fetch: graphql_datasource.FetchConfiguration{
-					URL:    mutationUpstreamURL,
-					Header: http.Header{"Authorization": []string{"{{ .request.headers.Authorization }}"}},
-				},
-				Federation: graphql_datasource.FederationConfiguration{
-					Enabled:    false,
-					ServiceSDL: string(mutationSchema.Document()),
-				},
+	datasource := []graphql_datasource.Configuration{
+		{
+			Fetch: graphql_datasource.FetchConfiguration{
+				URL: memberUpstreamURL,
+			},
+			Federation: graphql_datasource.FederationConfiguration{
+				Enabled:    false,
+				ServiceSDL: string(querySchema.Document()),
 			},
 		},
-	)
+	}
+
+	isPremiumSubscriptionEnabled, _ := ffclient.BoolVariation("premium-subscription", ffuser.NewUser(""), false)
+	if isPremiumSubscriptionEnabled {
+		datasource = append(datasource, graphql_datasource.Configuration{
+			Fetch: graphql_datasource.FetchConfiguration{
+				URL:    mutationUpstreamURL,
+				Header: http.Header{"Authorization": []string{"{{ .request.headers.Authorization }}"}},
+			},
+			Federation: graphql_datasource.FederationConfiguration{
+				Enabled:    false,
+				ServiceSDL: string(mutationSchema.Document()),
+			},
+		})
+	}
+
+	factory := graphql.NewFederationEngineConfigFactory(datasource)
 
 	engineConfig, err := factory.EngineV2Configuration()
 	if err != nil {
