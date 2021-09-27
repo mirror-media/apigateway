@@ -3,8 +3,9 @@ module github.com/mirror-media/apigateway
 go 1.16
 
 require (
+	cloud.google.com/go v0.95.0 // indirect
 	cloud.google.com/go/firestore v1.6.0 // indirect
-	cloud.google.com/go/storage v1.16.1 // indirect
+	cloud.google.com/go/storage v1.16.1
 	firebase.google.com/go/v4 v4.6.0
 	github.com/99designs/gqlgen v0.14.0
 	github.com/Masterminds/goutils v1.1.1 // indirect
@@ -47,17 +48,19 @@ require (
 	github.com/sirupsen/logrus v1.8.1
 	github.com/spf13/cast v1.4.1 // indirect
 	github.com/spf13/viper v1.8.1
+	github.com/thomaspoignant/go-feature-flag v0.18.5
 	github.com/tidwall/sjson v1.2.2
 	github.com/ugorji/go v1.2.6 // indirect
 	github.com/vektah/gqlparser/v2 v2.2.0
 	go.uber.org/multierr v1.7.0 // indirect
 	go.uber.org/zap v1.19.1 // indirect
 	golang.org/x/crypto v0.0.0-20210915214749-c084706c2272 // indirect
-	golang.org/x/net v0.0.0-20210917221730-978cfadd31cf // indirect
-	golang.org/x/sys v0.0.0-20210923061019-b8560ed6a9b7 // indirect
+	golang.org/x/net v0.0.0-20210924151903-3ad01bbaa167 // indirect
+	golang.org/x/sys v0.0.0-20210927052749-1cf2251ac284 // indirect
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/time v0.0.0-20201208040808-7e3f01d25324 // indirect
 	google.golang.org/api v0.57.0
-	google.golang.org/genproto v0.0.0-20210916144049-3192f974c780 // indirect
+	google.golang.org/genproto v0.0.0-20210924002016-3dee208752a0 // indirect
+	google.golang.org/grpc v1.41.0 // indirect
 	gopkg.in/ini.v1 v1.63.2 // indirect
 )

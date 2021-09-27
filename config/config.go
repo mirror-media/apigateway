@@ -37,6 +37,12 @@ type NewebPayStore struct {
 	Version             string // Use 1.6
 }
 
+type FeatureToggles struct {
+	Bucket string
+	Object string
+	Type   string
+}
+
 type Conf struct {
 	Address                     string
 	FirebaseCredentialFilePath  string
@@ -47,6 +53,7 @@ type Conf struct {
 	NewebPayStore               NewebPayStore
 	TokenSecretName             string
 	V0RESTfulSvrTargetURL       string
+	FeatureToggles              FeatureToggles
 }
 
 func (c *Conf) Valid() bool {

@@ -22,6 +22,8 @@ import (
 	"github.com/mirror-media/apigateway/middleware"
 	"github.com/mirror-media/apigateway/token"
 	"github.com/sirupsen/logrus"
+	ffclient "github.com/thomaspoignant/go-feature-flag"
+	"github.com/thomaspoignant/go-feature-flag/ffuser"
 	"github.com/tidwall/sjson"
 )
 
@@ -224,11 +226,6 @@ func ModifyReverseProxyResponse(c *gin.Context, rdb cache.Rediser, cacheTTL int,
 }
 
 // getMemberSubscription will return hasMemberPremiumPrivilege as false and subscribedPostIDs as empty map if skipMemberCheck is true
-var nonPremiumType = map[model.MemberTypeType]interface{}{
-	model.MemberTypeTypeNone:             nil,
-	model.MemberTypeTypeSubscribeOneTime: nil,
-}
-
 func getMemberSubscription(c *gin.Context, logger *logrus.Entry, memberGraphqlEndpoint string, skipMemberCheck bool) (hasMemberPremiumPrivilege bool, subscribedPostIDs map[string]interface{}, err error) {
 	// declare before we use it to make sure a instance is returned
 	subscribedPostIDs = make(map[string]interface{})
@@ -273,6 +270,16 @@ query ($firebaseId: String!) {
 		}
 	}
 	if member.State != nil && *member.State == model.MemberStateTypeActive && member.Type != nil {
+		var nonPremiumType map[model.MemberTypeType]interface{}
+		isPremiumSubscriptionEnabled, _ := ffclient.BoolVariation("premium-subscription", ffuser.NewUser(""), false)
+		if isPremiumSubscriptionEnabled {
+			nonPremiumType = map[model.MemberTypeType]interface{}{
+				model.MemberTypeTypeNone:             nil,
+				model.MemberTypeTypeSubscribeOneTime: nil,
+			}
+		} else {
+			nonPremiumType = map[model.MemberTypeType]interface{}{}
+		}
 		if _, isNotPremium := nonPremiumType[*member.Type]; !isNotPremium {
 			hasMemberPremiumPrivilege = true
 		}
