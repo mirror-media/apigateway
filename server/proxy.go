@@ -93,14 +93,21 @@ func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cach
 			var hasPremiumPrivilege bool
 			var emailVerified bool
 			var email string
+			subscribedPostIDs := map[string]interface{}{}
+
+			defer func() {
+				premiumAccessChan <- premiumAccess{
+					isPrivileged: hasPremiumPrivilege,
+					postIDs:      subscribedPostIDs,
+				}
+			}()
+
 			if isTokenExist {
 				email, emailVerified = typedToken.GetEmail()
 
 				hasPremiumPrivilege = emailVerified && (strings.HasSuffix(email, "@mirrormedia.mg") || strings.HasSuffix(email, "@mnews.tw") || strings.HasSuffix(email, "@mirrorfiction.com"))
 			}
 
-			subscribedPostIDs := map[string]interface{}{}
-			// TODO use go routine
 			if tokenState == token.OK && !isOriginalPathStory {
 				skipMemberCheck := hasPremiumPrivilege
 
@@ -109,18 +116,10 @@ func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cach
 
 				if err != nil {
 					logger.Error(err)
-					c.AbortWithStatusJSON(http.StatusInternalServerError, Reply{
-						TokenState: tokenState,
-					})
-					close(premiumAccessChan)
 					return
 				}
 
 				hasPremiumPrivilege = hasPremiumPrivilege || hasMemberPremiumPrivilege
-			}
-			premiumAccessChan <- premiumAccess{
-				isPrivileged: hasPremiumPrivilege,
-				postIDs:      subscribedPostIDs,
 			}
 		}(c)
 
@@ -135,13 +134,13 @@ func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cach
 		} else {
 			switch path := c.Request.URL.Path; {
 			case strings.HasSuffix(path, "/getposts") || strings.HasSuffix(path, "/posts") || strings.HasSuffix(path, "/post"):
+				// block the workflow before the premium premiumAccess is computed
+				premiumAccess := <-premiumAccessChan
+
 				// break the switch to continue with response from proxied request
-				access, ok := <-premiumAccessChan
-				if !ok {
-					return
-				}
+
 				var itemsLength int
-				if itemsLength, body, err = modifyPostItems(logger, body, access.postIDs, access.isPrivileged); err != nil {
+				if itemsLength, body, err = modifyPostItems(logger, body, premiumAccess.postIDs, premiumAccess.isPrivileged); err != nil {
 					logger.Warnf("modifyPostItems in cache encounter error: %s", err)
 					break
 				}
@@ -191,10 +190,7 @@ func ModifyReverseProxyResponse(c *gin.Context, rdb cache.Rediser, cacheTTL int,
 		// TODO refactor condition
 		case strings.HasSuffix(path, "/getposts") || strings.HasSuffix(path, "/posts") || strings.HasSuffix(path, "/post"):
 
-			premiumAccess, ok := <-premiumAccessChan
-			if !ok {
-				return nil
-			}
+			premiumAccess := <-premiumAccessChan
 
 			var itemsLength int
 			if itemsLength, body, err = modifyPostItems(logger, body, premiumAccess.postIDs, premiumAccess.isPrivileged); err != nil {
