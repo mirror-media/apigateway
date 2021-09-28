@@ -1,5 +1,5 @@
 workspace:
-  path: /mm-apigateway
+  path: /apigateway
 pipeline:
   startSlack:
     image: plugins/slack
