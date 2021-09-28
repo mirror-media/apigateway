@@ -1,18 +1,22 @@
-FROM golang:1.16-alpine AS build
+FROM golang:1.17-bullseye AS build
 
 WORKDIR /api-gateway
+RUN apt update && apt install build-essential -y
 
 COPY . .
-
-RUN apk add --update --no-cache make && \
-    go get ./... && \
+RUN go mod download && \
     make all
 
-FROM alpine:latest
+FROM debian:bullseye
 
 WORKDIR /api-gateway
 
-COPY --from=build /api-gateway/bin/ .
+RUN apt update && apt install ca-certificates -y && apt clean 
+
+COPY --from=build ./api-gateway/bin/ .
+COPY configs ./configs
+COPY graph/member/*.graphql ./graph/member/
+COPY scripts/start.sh .
 
 EXPOSE 8080
-CMD ["./apigateway"]
+CMD ["./start.sh"]
