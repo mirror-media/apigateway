@@ -1,5 +1,5 @@
 .PHONY: all
-all: ./bin/apigateway
+all: ./bin/apigateway ./bin/membermutation
 
 bin/%: $(shell find . -type f -name '*.go')
 	@mkdir -p $(dir $@)

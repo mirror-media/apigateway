@@ -21,18 +21,39 @@ type RedisService struct {
 	Type      string // 1. single, 2. sentinel, 3. cluster
 }
 
+type NewebPayStore struct {
+	CallbackHost        string
+	CallbackProtocol    string
+	ClientBackPath      string
+	ID                  string
+	IsAbleToModifyEmail int8 // Use 1
+	LoginType           int8 // Use 0
+	NotifyProtocol      string
+	NotifyHost          string
+	NotifyPath          string
+	Is3DSecure          int8   // Use 1
+	RespondType         string // Use JSON
+	ReturnPath          string
+	Version             string // Use 1.6
+}
+
+type FeatureToggles struct {
+	Bucket string
+	Object string
+	Type   string
+}
+
 type Conf struct {
 	Address                     string
 	FirebaseCredentialFilePath  string
 	FirebaseRealtimeDatabaseURL string
 	Port                        int
-	ProjectID                   string
-	PubSubSubscribeMember       string
-	PubSubTopicMember           string
 	RedisService                RedisService
 	ServiceEndpoints            ServiceEndpoints
+	NewebPayStore               NewebPayStore
 	TokenSecretName             string
-	V0RESTfulSrvTargetURL       string
+	V0RESTfulSvrTargetURL       string
+	FeatureToggles              FeatureToggles
 }
 
 func (c *Conf) Valid() bool {

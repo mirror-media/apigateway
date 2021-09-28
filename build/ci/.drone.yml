@@ -1,5 +1,5 @@
 workspace:
-  path: /mm-apigateway
+  path: /apigateway
 pipeline:
   startSlack:
     image: plugins/slack
@@ -21,6 +21,8 @@ pipeline:
       - gcloud source repos clone configs gcr_configs
       - mkdir configs
       - cp ./gcr_configs/mirror-media/mm-apigateway/dev/config.yaml ./configs/config.yaml
+      - cp ./gcr_configs/mirror-media/mm-apigateway/dev/graphql.yaml ./configs/graphql.yaml
+      - cp ./gcr_configs/mirror-media/mm-apigateway/dev/membermutationConfig.yaml ./configs/membermutationConfig.yaml
       - cp ./gcr_configs/mirror-media/mm-apigateway/dev/firebaseCredential.json ./configs/firebaseCredential.json
       - cp ./gcr_configs/mirror-media/mm-apigateway/dev/.kube.yml ./.kube.yml
       - rm -rf gcr_configs
