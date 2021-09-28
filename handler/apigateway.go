@@ -6,8 +6,6 @@ import (
 
 	"github.com/mirror-media/apigateway/graph"
 	"github.com/mirror-media/apigateway/graph/http2"
-	ffclient "github.com/thomaspoignant/go-feature-flag"
-	"github.com/thomaspoignant/go-feature-flag/ffuser"
 
 	"github.com/jensneuse/abstractlogger"
 	"github.com/jensneuse/graphql-go-tools/pkg/engine/datasource/graphql_datasource"
@@ -59,19 +57,16 @@ func NewAPIGatewayGraphQLHandler(memberUpstreamURL, mutationUpstreamURL, typeSch
 		},
 	}
 
-	isPremiumSubscriptionEnabled, _ := ffclient.BoolVariation("premium-subscription", ffuser.NewUser(""), false)
-	if isPremiumSubscriptionEnabled {
-		datasource = append(datasource, graphql_datasource.Configuration{
-			Fetch: graphql_datasource.FetchConfiguration{
-				URL:    mutationUpstreamURL,
-				Header: http.Header{"Authorization": []string{"{{ .request.headers.Authorization }}"}},
-			},
-			Federation: graphql_datasource.FederationConfiguration{
-				Enabled:    false,
-				ServiceSDL: string(mutationSchema.Document()),
-			},
-		})
-	}
+	datasource = append(datasource, graphql_datasource.Configuration{
+		Fetch: graphql_datasource.FetchConfiguration{
+			URL:    mutationUpstreamURL,
+			Header: http.Header{"Authorization": []string{"{{ .request.headers.Authorization }}"}},
+		},
+		Federation: graphql_datasource.FederationConfiguration{
+			Enabled:    false,
+			ServiceSDL: string(mutationSchema.Document()),
+		},
+	})
 
 	factory := graphql.NewFederationEngineConfigFactory(datasource)
 
