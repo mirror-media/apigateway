@@ -17,7 +17,7 @@ import (
 
 var logger = abstractlogger.NewLogrusLogger(logrus.New(), abstractlogger.InfoLevel)
 
-func NewAPIGatewayGraphQLHandler(memberUpstreamURL, mutationUpstreamURL, typeSchemaPath, querySchemaPath, mutationSchemaPath string) http.Handler {
+func NewAPIGatewayGraphQLHandler(memberUpstreamURL, mutationUpstreamURL, typeSchemaPath, querySchemaPath, mutationMemberSchemaPath, mutationSubscriptionSchemaPath string) http.Handler {
 
 	querySchema, err := graph.AlchemizeSchema(typeSchemaPath, querySchemaPath)
 	if err != nil {
@@ -33,20 +33,6 @@ func NewAPIGatewayGraphQLHandler(memberUpstreamURL, mutationUpstreamURL, typeSch
 		logrus.Panic("query schema is not valid:", validation.Errors.Error(), "first one is:", validation.Errors.ErrorByIndex(0))
 	}
 
-	mutationSchema, err := graph.AlchemizeSchema(typeSchemaPath, mutationSchemaPath)
-	if err != nil {
-		logrus.Panic(err)
-	}
-
-	validation, err = mutationSchema.Validate()
-	if err != nil {
-		logrus.Panic(err)
-	}
-	if !validation.Valid {
-		validation.Errors.ErrorByIndex(0)
-		logrus.Panic("mutation schema is not valid:", validation.Errors.Error(), "first one is:", validation.Errors.ErrorByIndex(0))
-	}
-
 	datasource := []graphql_datasource.Configuration{
 		{
 			Fetch: graphql_datasource.FetchConfiguration{
@@ -59,8 +45,44 @@ func NewAPIGatewayGraphQLHandler(memberUpstreamURL, mutationUpstreamURL, typeSch
 		},
 	}
 
-	isPremiumSubscriptionEnabled, _ := ffclient.BoolVariation("premium-subscription", ffuser.NewUser(""), false)
-	if isPremiumSubscriptionEnabled {
+	if isPremiumSubscriptionEnabled, _ := ffclient.BoolVariation("premium-subscription", ffuser.NewUser(""), false); isPremiumSubscriptionEnabled {
+		mutationMemberSchema, err := graph.AlchemizeSchema(typeSchemaPath, mutationMemberSchemaPath)
+		if err != nil {
+			logrus.Panic(err)
+		}
+
+		validation, err = mutationMemberSchema.Validate()
+		if err != nil {
+			logrus.Panic(err)
+		}
+		if !validation.Valid {
+			validation.Errors.ErrorByIndex(0)
+			logrus.Panic("mutation member schema is not valid:", validation.Errors.Error(), "first one is:", validation.Errors.ErrorByIndex(0))
+		}
+		datasource = append(datasource, graphql_datasource.Configuration{
+			Fetch: graphql_datasource.FetchConfiguration{
+				URL:    mutationUpstreamURL,
+				Header: http.Header{"Authorization": []string{"{{ .request.headers.Authorization }}"}},
+			},
+			Federation: graphql_datasource.FederationConfiguration{
+				Enabled:    false,
+				ServiceSDL: string(mutationMemberSchema.Document()),
+			},
+		})
+	} else {
+		mutationSchema, err := graph.AlchemizeSchema(typeSchemaPath, mutationMemberSchemaPath, mutationSubscriptionSchemaPath)
+		if err != nil {
+			logrus.Panic(err)
+		}
+
+		validation, err = mutationSchema.Validate()
+		if err != nil {
+			logrus.Panic(err)
+		}
+		if !validation.Valid {
+			validation.Errors.ErrorByIndex(0)
+			logrus.Panic("mutation schema is not valid:", validation.Errors.Error(), "first one is:", validation.Errors.ErrorByIndex(0))
+		}
 		datasource = append(datasource, graphql_datasource.Configuration{
 			Fetch: graphql_datasource.FetchConfiguration{
 				URL:    mutationUpstreamURL,
