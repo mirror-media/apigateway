@@ -14,7 +14,6 @@ WORKDIR /api-gateway
 RUN apt update && apt install ca-certificates -y && apt clean 
 
 COPY --from=build ./api-gateway/bin/ .
-COPY configs ./configs
 COPY graph/member/*.graphql ./graph/member/
 COPY scripts/start.sh .
 
