@@ -1,0 +1,16 @@
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - "-f"
+      - "build/ci/mm/${BRANCH_NAME}/Dockerfile"
+      - "-t"
+      - "gcr.io/${PROJECT_ID}/apigateway:${BRANCH_NAME}_${SHORT_SHA}"
+      - .
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - gcr.io/$PROJECT_ID/apigateway
+timeout: 1200s
+images:
+  - gcr.io/$PROJECT_ID/apigateway
