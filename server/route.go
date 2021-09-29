@@ -64,7 +64,7 @@ func SetRoute(server *Server) error {
 		mutationSchemaPath = "graph/member/mutation-member-only.graphql"
 	}
 
-	v2GraphHandler := handler.NewAPIGatewayGraphQLHandler("https://israfel.mirrormedia.mg/api/graphql", "http://localhost:8888/api/v2/graphql/member", "graph/member/type.graphql", "graph/member/query.graphql", mutationSchemaPath)
+	v2GraphHandler := handler.NewAPIGatewayGraphQLHandler(server.Conf.ServiceEndpoints.UserGraphQL, "http://localhost:8888/api/v2/graphql/member", "graph/member/type.graphql", "graph/member/query.graphql", mutationSchemaPath)
 
 	v2GraphqlMemberRouter := v2TokenAuthenticatedWithFirebaseRouter.Use(middleware.AuthenticateMemberQueryAndFirebaseIDInArguments)
 
