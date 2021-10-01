@@ -126,6 +126,7 @@ func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data
 	if state != model.MerchandiseStateTypeActive {
 		return nil, fmt.Errorf("frequency(%s) is not %s", data["frequency"], model.MerchandiseStateTypeActive)
 	}
+	data["nextFrequency"] = data["frequency"]
 	data["amount"] = price
 	data["currency"] = currency
 	data["comment"] = comment
