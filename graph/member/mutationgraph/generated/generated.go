@@ -173,6 +173,7 @@ type ComplexityRoot struct {
 		CardInfoLastFour func(childComplexity int) int
 		CreatedAt        func(childComplexity int) int
 		Eci              func(childComplexity int) int
+		Frequency        func(childComplexity int) int
 		ID               func(childComplexity int) int
 		Invoice          func(childComplexity int) int
 		MerchantID       func(childComplexity int) int
@@ -1100,6 +1101,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.NewebpayPayment.Eci(childComplexity), true
+
+	case "newebpayPayment.frequency":
+		if e.complexity.NewebpayPayment.Frequency == nil {
+			break
+		}
+
+		return e.complexity.NewebpayPayment.Frequency(childComplexity), true
 
 	case "newebpayPayment.id":
 		if e.complexity.NewebpayPayment.ID == nil {
@@ -3445,8 +3453,15 @@ type newebpayPayment {
   cardInfoLastFour: String
   cardInfoFirstSix: String
   cardInfoExp: String
+  frequency: newebpayPaymentFrequencyType
   createdAt: String
   updatedAt: String
+}
+
+enum newebpayPaymentFrequencyType {
+  one_time
+  yearly
+  monthly
 }
 
 input newebpayPaymentWhereInput {
@@ -3722,6 +3737,10 @@ input newebpayPaymentWhereInput {
   cardInfoExp_not_ends_with_i: String
   cardInfoExp_in: [String]
   cardInfoExp_not_in: [String]
+  frequency: newebpayPaymentFrequencyType
+  frequency_not: newebpayPaymentFrequencyType
+  frequency_in: [newebpayPaymentFrequencyType]
+  frequency_not_in: [newebpayPaymentFrequencyType]
   createdAt: String
   createdAt_not: String
   createdAt_lt: String
@@ -3782,6 +3801,8 @@ enum SortNewebpayPaymentsBy {
   cardInfoFirstSix_DESC
   cardInfoExp_ASC
   cardInfoExp_DESC
+  frequency_ASC
+  frequency_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -3806,6 +3827,7 @@ input newebpayPaymentOrderByInput {
   cardInfoLastFour: OrderDirection
   cardInfoFirstSix: OrderDirection
   cardInfoExp: OrderDirection
+  frequency: OrderDirection
   createdAt: OrderDirection
   updatedAt: OrderDirection
 }
@@ -3829,6 +3851,7 @@ input newebpayPaymentUpdateInput {
   cardInfoLastFour: String
   cardInfoFirstSix: String
   cardInfoExp: String
+  frequency: newebpayPaymentFrequencyType
   createdAt: String
   updatedAt: String
 }
@@ -3864,6 +3887,7 @@ input newebpayPaymentCreateInput {
   cardInfoLastFour: String
   cardInfoFirstSix: String
   cardInfoExp: String
+  frequency: newebpayPaymentFrequencyType
   createdAt: String
   updatedAt: String
 }
@@ -10876,6 +10900,38 @@ func (ec *executionContext) _newebpayPayment_cardInfoExp(ctx context.Context, fi
 	res := resTmp.(*string)
 	fc.Result = res
 	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _newebpayPayment_frequency(ctx context.Context, field graphql.CollectedField, obj *model.NewebpayPayment) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "newebpayPayment",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Frequency, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.NewebpayPaymentFrequencyType)
+	fc.Result = res
+	return ec.marshalOnewebpayPaymentFrequencyType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐNewebpayPaymentFrequencyType(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _newebpayPayment_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.NewebpayPayment) (ret graphql.Marshaler) {
@@ -23314,6 +23370,14 @@ func (ec *executionContext) unmarshalInputnewebpayPaymentCreateInput(ctx context
 			if err != nil {
 				return it, err
 			}
+		case "frequency":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("frequency"))
+			it.Frequency, err = ec.unmarshalOnewebpayPaymentFrequencyType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐNewebpayPaymentFrequencyType(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "createdAt":
 			var err error
 
@@ -24347,6 +24411,14 @@ func (ec *executionContext) unmarshalInputnewebpayPaymentOrderByInput(ctx contex
 			if err != nil {
 				return it, err
 			}
+		case "frequency":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("frequency"))
+			it.Frequency, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "createdAt":
 			var err error
 
@@ -24613,6 +24685,14 @@ func (ec *executionContext) unmarshalInputnewebpayPaymentUpdateInput(ctx context
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cardInfoExp"))
 			it.CardInfoExp, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "frequency":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("frequency"))
+			it.Frequency, err = ec.unmarshalOnewebpayPaymentFrequencyType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐNewebpayPaymentFrequencyType(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -26820,6 +26900,38 @@ func (ec *executionContext) unmarshalInputnewebpayPaymentWhereInput(ctx context.
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cardInfoExp_not_in"))
 			it.CardInfoExpNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "frequency":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("frequency"))
+			it.Frequency, err = ec.unmarshalOnewebpayPaymentFrequencyType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐNewebpayPaymentFrequencyType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "frequency_not":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("frequency_not"))
+			it.FrequencyNot, err = ec.unmarshalOnewebpayPaymentFrequencyType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐNewebpayPaymentFrequencyType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "frequency_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("frequency_in"))
+			it.FrequencyIn, err = ec.unmarshalOnewebpayPaymentFrequencyType2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐNewebpayPaymentFrequencyType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "frequency_not_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("frequency_not_in"))
+			it.FrequencyNotIn, err = ec.unmarshalOnewebpayPaymentFrequencyType2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐNewebpayPaymentFrequencyType(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -35018,6 +35130,8 @@ func (ec *executionContext) _newebpayPayment(ctx context.Context, sel ast.Select
 			out.Values[i] = ec._newebpayPayment_cardInfoFirstSix(ctx, field, obj)
 		case "cardInfoExp":
 			out.Values[i] = ec._newebpayPayment_cardInfoExp(ctx, field, obj)
+		case "frequency":
+			out.Values[i] = ec._newebpayPayment_frequency(ctx, field, obj)
 		case "createdAt":
 			out.Values[i] = ec._newebpayPayment_createdAt(ctx, field, obj)
 		case "updatedAt":
@@ -37818,6 +37932,87 @@ func (ec *executionContext) unmarshalOnewebpayPaymentCreateInput2ᚖgithubᚗcom
 	}
 	res, err := ec.unmarshalInputnewebpayPaymentCreateInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalOnewebpayPaymentFrequencyType2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐNewebpayPaymentFrequencyType(ctx context.Context, v interface{}) ([]*model.NewebpayPaymentFrequencyType, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var vSlice []interface{}
+	if v != nil {
+		if tmp1, ok := v.([]interface{}); ok {
+			vSlice = tmp1
+		} else {
+			vSlice = []interface{}{v}
+		}
+	}
+	var err error
+	res := make([]*model.NewebpayPaymentFrequencyType, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalOnewebpayPaymentFrequencyType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐNewebpayPaymentFrequencyType(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) marshalOnewebpayPaymentFrequencyType2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐNewebpayPaymentFrequencyType(ctx context.Context, sel ast.SelectionSet, v []*model.NewebpayPaymentFrequencyType) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalOnewebpayPaymentFrequencyType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐNewebpayPaymentFrequencyType(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	return ret
+}
+
+func (ec *executionContext) unmarshalOnewebpayPaymentFrequencyType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐNewebpayPaymentFrequencyType(ctx context.Context, v interface{}) (*model.NewebpayPaymentFrequencyType, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var res = new(model.NewebpayPaymentFrequencyType)
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalOnewebpayPaymentFrequencyType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐNewebpayPaymentFrequencyType(ctx context.Context, sel ast.SelectionSet, v *model.NewebpayPaymentFrequencyType) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return v
 }
 
 func (ec *executionContext) marshalOnewebpayPaymentInfo2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐNewebpayPaymentInfo(ctx context.Context, sel ast.SelectionSet, v *model.NewebpayPaymentInfo) graphql.Marshaler {
