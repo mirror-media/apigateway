@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	_ "github.com/99designs/gqlgen/cmd"
 	graphqlclient "github.com/machinebox/graphql"
 	"github.com/mirror-media/apigateway/graph/member/model"
 	"github.com/mirror-media/apigateway/graph/member/mutationgraph/generated"
