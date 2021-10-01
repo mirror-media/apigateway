@@ -3,7 +3,6 @@ package http2
 
 import (
 	"bytes"
-	"fmt"
 	"net/http"
 
 	log "github.com/jensneuse/abstractlogger"
@@ -24,8 +23,8 @@ func (b beforeFetchHook) OnBeforeFetch(ctx resolve.HookContext, input []byte) {
 }
 
 var BeforeFetchHook beforeFetchHook = func(ctx resolve.HookContext, input []byte) {
-	fmt.Println("ctx.CurrentPath:" + string(ctx.CurrentPath))
-	fmt.Println("input:" + string(input))
+	// fmt.Println("ctx.CurrentPath:" + string(ctx.CurrentPath))
+	// fmt.Println("input:" + string(input))
 }
 
 func (g *GraphQLHTTPRequestHandler) handleHTTP(w http.ResponseWriter, r *http.Request) {
