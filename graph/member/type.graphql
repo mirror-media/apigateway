@@ -17,7 +17,7 @@ type invoice {
   invoiceNo: String
   category: invoiceCategoryType
   loveCode: Int
-  carrierType: Int
+  carrierType: String
   carrierNum: String
   buyerName: String
   buyerUBN: String
@@ -34,7 +34,7 @@ enum invoiceCategoryType {
 enum invoiceStatusType {
   success
   failed
-  cancelled
+  canceled
 }
 
 input invoiceWhereInput {
@@ -128,10 +128,10 @@ input invoiceWhereInput {
   loveCode_gte: Int
   loveCode_in: [Int]
   loveCode_not_in: [Int]
-  carrierType: Int
-  carrierType_not: Int
-  carrierType_in: [Int]
-  carrierType_not_in: [Int]
+  carrierType: String
+  carrierType_not: String
+  carrierType_in: [String]
+  carrierType_not_in: [String]
   carrierNum: String
   carrierNum_not: String
   carrierNum_contains: String
@@ -273,7 +273,7 @@ input invoiceUpdateInput {
   invoiceNo: String
   category: invoiceCategoryType
   loveCode: Int
-  carrierType: Int
+  carrierType: String
   carrierNum: String
   buyerName: String
   buyerUBN: String
@@ -318,7 +318,7 @@ input invoiceCreateInput {
   invoiceNo: String
   category: invoiceCategoryType
   loveCode: Int
-  carrierType: Int
+  carrierType: String
   carrierNum: String
   buyerName: String
   buyerUBN: String
@@ -2237,8 +2237,9 @@ type subscription {
   oneTimeStartDatetime: String
   oneTimeEndDatetime: String
   newebpayPaymentInfo: newebpayPaymentInfo
+  category: subscriptionCategoryType
   loveCode: Int
-  carrierType: Int
+  carrierType: String
   carrierNum: String
   buyerName: String
   buyerUBN: String
@@ -2279,6 +2280,11 @@ enum subscriptionNextFrequencyType {
 
 enum updateSubscriptionNextFrequencyType {
   yearly
+}
+
+enum subscriptionCategoryType {
+  b2b
+  b2c
 }
 
 input subscriptionWhereInput {
@@ -2525,6 +2531,10 @@ input subscriptionWhereInput {
   oneTimeEndDatetime_not_in: [Int]
   newebpayPaymentInfo: newebpayPaymentInfoWhereInput
   newebpayPaymentInfo_is_null: Boolean
+  category: subscriptionCategoryType
+  category_not: subscriptionCategoryType
+  category_in: [subscriptionCategoryType]
+  category_not_in: [subscriptionCategoryType]
   loveCode: Int
   loveCode_not: Int
   loveCode_lt: Int
@@ -2533,10 +2543,10 @@ input subscriptionWhereInput {
   loveCode_gte: Int
   loveCode_in: [Int]
   loveCode_not_in: [Int]
-  carrierType: Int
-  carrierType_not: Int
-  carrierType_in: [Int]
-  carrierType_not_in: [Int]
+  carrierType: String
+  carrierType_not: String
+  carrierType_in: [String]
+  carrierType_not_in: [String]
   carrierNum: String
   carrierNum_not: String
   carrierNum_contains: String
@@ -2667,6 +2677,8 @@ enum SortSubscriptionsBy {
   oneTimeStartDatetime_DESC
   oneTimeEndDatetime_ASC
   oneTimeEndDatetime_DESC
+  category_ASC
+  category_DESC
   loveCode_ASC
   loveCode_DESC
   carrierType_ASC
@@ -2709,6 +2721,7 @@ input subscriptionOrderByInput {
   postId: OrderDirection
   oneTimeStartDatetime: OrderDirection
   oneTimeEndDatetime: OrderDirection
+  category: OrderDirection
   loveCode: OrderDirection
   carrierType: OrderDirection
   carrierNum: OrderDirection
@@ -2748,8 +2761,9 @@ input subscriptionPrivateUpdateInput {
   oneTimeStartDatetime: String
   oneTimeEndDatetime: String
   newebpayPaymentInfo: newebpayPaymentInfoRelateToOneInput
+  category: subscriptionCategoryType
   loveCode: Int
-  carrierType: Int
+  carrierType: String
   carrierNum: String
   buyerName: String
   buyerUBN: String
@@ -2820,8 +2834,9 @@ input subscriptionCreateInput {
   oneTimeStartDatetime: String
   oneTimeEndDatetime: String
   newebpayPaymentInfo: newebpayPaymentInfoRelateToOneInput
+  category: subscriptionCategoryType
   loveCode: Int
-  carrierType: Int
+  carrierType: String
   carrierNum: String
   buyerName: String
   buyerUBN: String
@@ -2867,7 +2882,7 @@ enum subscriptionHistoryStatusType {
   paid
   fail
   stopped
-  cancelled
+  canceled
   invalid
 }
 
@@ -2884,7 +2899,7 @@ enum subscriptionHistoryFrequencyType {
 enum subscriptionHistoryActionType {
   purge
   upgrade
-  cancelled
+  canceled
 }
 
 input subscriptionHistoryWhereInput {
@@ -3357,7 +3372,8 @@ input subscriptionRecurringCreateInput {
   note: String
   promoteId: Int
   loveCode: Int
-  carrierType: Int
+  category: subscriptionCategoryType
+  carrierType: String
   carrierNum: String
   buyerName: String
   buyerUBN: String
@@ -3375,7 +3391,8 @@ input subscriptionOneTimeCreateInput {
   note: String
   promoteId: Int
   loveCode: Int
-  carrierType: Int
+  category: subscriptionCategoryType
+  carrierType: String
   carrierNum: String
   buyerName: String
   buyerUBN: String
@@ -3418,6 +3435,11 @@ type subscriptionInfo {
   changePlanDatetime: String
   note: String
   promoteId: Int
+  category: subscriptionCategoryType
+  carrierType: String
+  carrierNum: String
+  buyerName: String
+  buyerUBN: String
   postId: String
   oneTimeStartDatetime: String
   oneTimeEndDatetime: String

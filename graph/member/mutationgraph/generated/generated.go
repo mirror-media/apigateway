@@ -221,6 +221,7 @@ type ComplexityRoot struct {
 		BuyerUbn                  func(childComplexity int) int
 		CarrierNum                func(childComplexity int) int
 		CarrierType               func(childComplexity int) int
+		Category                  func(childComplexity int) int
 		ChangePlanDatetime        func(childComplexity int) int
 		Comment                   func(childComplexity int) int
 		CreatedAt                 func(childComplexity int) int
@@ -289,6 +290,11 @@ type ComplexityRoot struct {
 
 	SubscriptionInfo struct {
 		Amount                    func(childComplexity int) int
+		BuyerName                 func(childComplexity int) int
+		BuyerUbn                  func(childComplexity int) int
+		CarrierNum                func(childComplexity int) int
+		CarrierType               func(childComplexity int) int
+		Category                  func(childComplexity int) int
 		ChangePlanDatetime        func(childComplexity int) int
 		CreatedAt                 func(childComplexity int) int
 		Currency                  func(childComplexity int) int
@@ -1395,6 +1401,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Subscription.CarrierType(childComplexity), true
 
+	case "subscription.category":
+		if e.complexity.Subscription.Category == nil {
+			break
+		}
+
+		return e.complexity.Subscription.Category(childComplexity), true
+
 	case "subscription.changePlanDatetime":
 		if e.complexity.Subscription.ChangePlanDatetime == nil {
 			break
@@ -1818,6 +1831,41 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.SubscriptionInfo.Amount(childComplexity), true
 
+	case "subscriptionInfo.buyerName":
+		if e.complexity.SubscriptionInfo.BuyerName == nil {
+			break
+		}
+
+		return e.complexity.SubscriptionInfo.BuyerName(childComplexity), true
+
+	case "subscriptionInfo.buyerUBN":
+		if e.complexity.SubscriptionInfo.BuyerUbn == nil {
+			break
+		}
+
+		return e.complexity.SubscriptionInfo.BuyerUbn(childComplexity), true
+
+	case "subscriptionInfo.carrierNum":
+		if e.complexity.SubscriptionInfo.CarrierNum == nil {
+			break
+		}
+
+		return e.complexity.SubscriptionInfo.CarrierNum(childComplexity), true
+
+	case "subscriptionInfo.carrierType":
+		if e.complexity.SubscriptionInfo.CarrierType == nil {
+			break
+		}
+
+		return e.complexity.SubscriptionInfo.CarrierType(childComplexity), true
+
+	case "subscriptionInfo.category":
+		if e.complexity.SubscriptionInfo.Category == nil {
+			break
+		}
+
+		return e.complexity.SubscriptionInfo.Category(childComplexity), true
+
 	case "subscriptionInfo.changePlanDatetime":
 		if e.complexity.SubscriptionInfo.ChangePlanDatetime == nil {
 			break
@@ -2069,7 +2117,7 @@ type invoice {
   invoiceNo: String
   category: invoiceCategoryType
   loveCode: Int
-  carrierType: Int
+  carrierType: String
   carrierNum: String
   buyerName: String
   buyerUBN: String
@@ -2086,7 +2134,7 @@ enum invoiceCategoryType {
 enum invoiceStatusType {
   success
   failed
-  cancelled
+  canceled
 }
 
 input invoiceWhereInput {
@@ -2180,10 +2228,10 @@ input invoiceWhereInput {
   loveCode_gte: Int
   loveCode_in: [Int]
   loveCode_not_in: [Int]
-  carrierType: Int
-  carrierType_not: Int
-  carrierType_in: [Int]
-  carrierType_not_in: [Int]
+  carrierType: String
+  carrierType_not: String
+  carrierType_in: [String]
+  carrierType_not_in: [String]
   carrierNum: String
   carrierNum_not: String
   carrierNum_contains: String
@@ -2325,7 +2373,7 @@ input invoiceUpdateInput {
   invoiceNo: String
   category: invoiceCategoryType
   loveCode: Int
-  carrierType: Int
+  carrierType: String
   carrierNum: String
   buyerName: String
   buyerUBN: String
@@ -2370,7 +2418,7 @@ input invoiceCreateInput {
   invoiceNo: String
   category: invoiceCategoryType
   loveCode: Int
-  carrierType: Int
+  carrierType: String
   carrierNum: String
   buyerName: String
   buyerUBN: String
@@ -4289,8 +4337,9 @@ type subscription {
   oneTimeStartDatetime: String
   oneTimeEndDatetime: String
   newebpayPaymentInfo: newebpayPaymentInfo
+  category: subscriptionCategoryType
   loveCode: Int
-  carrierType: Int
+  carrierType: String
   carrierNum: String
   buyerName: String
   buyerUBN: String
@@ -4331,6 +4380,11 @@ enum subscriptionNextFrequencyType {
 
 enum updateSubscriptionNextFrequencyType {
   yearly
+}
+
+enum subscriptionCategoryType {
+  b2b
+  b2c
 }
 
 input subscriptionWhereInput {
@@ -4577,6 +4631,10 @@ input subscriptionWhereInput {
   oneTimeEndDatetime_not_in: [Int]
   newebpayPaymentInfo: newebpayPaymentInfoWhereInput
   newebpayPaymentInfo_is_null: Boolean
+  category: subscriptionCategoryType
+  category_not: subscriptionCategoryType
+  category_in: [subscriptionCategoryType]
+  category_not_in: [subscriptionCategoryType]
   loveCode: Int
   loveCode_not: Int
   loveCode_lt: Int
@@ -4585,10 +4643,10 @@ input subscriptionWhereInput {
   loveCode_gte: Int
   loveCode_in: [Int]
   loveCode_not_in: [Int]
-  carrierType: Int
-  carrierType_not: Int
-  carrierType_in: [Int]
-  carrierType_not_in: [Int]
+  carrierType: String
+  carrierType_not: String
+  carrierType_in: [String]
+  carrierType_not_in: [String]
   carrierNum: String
   carrierNum_not: String
   carrierNum_contains: String
@@ -4719,6 +4777,8 @@ enum SortSubscriptionsBy {
   oneTimeStartDatetime_DESC
   oneTimeEndDatetime_ASC
   oneTimeEndDatetime_DESC
+  category_ASC
+  category_DESC
   loveCode_ASC
   loveCode_DESC
   carrierType_ASC
@@ -4761,6 +4821,7 @@ input subscriptionOrderByInput {
   postId: OrderDirection
   oneTimeStartDatetime: OrderDirection
   oneTimeEndDatetime: OrderDirection
+  category: OrderDirection
   loveCode: OrderDirection
   carrierType: OrderDirection
   carrierNum: OrderDirection
@@ -4800,8 +4861,9 @@ input subscriptionPrivateUpdateInput {
   oneTimeStartDatetime: String
   oneTimeEndDatetime: String
   newebpayPaymentInfo: newebpayPaymentInfoRelateToOneInput
+  category: subscriptionCategoryType
   loveCode: Int
-  carrierType: Int
+  carrierType: String
   carrierNum: String
   buyerName: String
   buyerUBN: String
@@ -4872,8 +4934,9 @@ input subscriptionCreateInput {
   oneTimeStartDatetime: String
   oneTimeEndDatetime: String
   newebpayPaymentInfo: newebpayPaymentInfoRelateToOneInput
+  category: subscriptionCategoryType
   loveCode: Int
-  carrierType: Int
+  carrierType: String
   carrierNum: String
   buyerName: String
   buyerUBN: String
@@ -4919,7 +4982,7 @@ enum subscriptionHistoryStatusType {
   paid
   fail
   stopped
-  cancelled
+  canceled
   invalid
 }
 
@@ -4936,7 +4999,7 @@ enum subscriptionHistoryFrequencyType {
 enum subscriptionHistoryActionType {
   purge
   upgrade
-  cancelled
+  canceled
 }
 
 input subscriptionHistoryWhereInput {
@@ -5409,7 +5472,8 @@ input subscriptionRecurringCreateInput {
   note: String
   promoteId: Int
   loveCode: Int
-  carrierType: Int
+  category: subscriptionCategoryType
+  carrierType: String
   carrierNum: String
   buyerName: String
   buyerUBN: String
@@ -5427,7 +5491,8 @@ input subscriptionOneTimeCreateInput {
   note: String
   promoteId: Int
   loveCode: Int
-  carrierType: Int
+  category: subscriptionCategoryType
+  carrierType: String
   carrierNum: String
   buyerName: String
   buyerUBN: String
@@ -5470,6 +5535,11 @@ type subscriptionInfo {
   changePlanDatetime: String
   note: String
   promoteId: Int
+  category: subscriptionCategoryType
+  carrierType: String
+  carrierNum: String
+  buyerName: String
+  buyerUBN: String
   postId: String
   oneTimeStartDatetime: String
   oneTimeEndDatetime: String
@@ -8020,9 +8090,9 @@ func (ec *executionContext) _invoice_carrierType(ctx context.Context, field grap
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.(*int)
+	res := resTmp.(*string)
 	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _invoice_carrierNum(ctx context.Context, field graphql.CollectedField, obj *model.Invoice) (ret graphql.Marshaler) {
@@ -12617,6 +12687,38 @@ func (ec *executionContext) _subscription_newebpayPaymentInfo(ctx context.Contex
 	return ec.marshalOnewebpayPaymentInfo2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐNewebpayPaymentInfo(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _subscription_category(ctx context.Context, field graphql.CollectedField, obj *model.Subscription) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscription",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Category, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.SubscriptionCategoryType)
+	fc.Result = res
+	return ec.marshalOsubscriptionCategoryType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionCategoryType(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _subscription_loveCode(ctx context.Context, field graphql.CollectedField, obj *model.Subscription) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -12676,9 +12778,9 @@ func (ec *executionContext) _subscription_carrierType(ctx context.Context, field
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.(*int)
+	res := resTmp.(*string)
 	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _subscription_carrierNum(ctx context.Context, field graphql.CollectedField, obj *model.Subscription) (ret graphql.Marshaler) {
@@ -14352,6 +14454,166 @@ func (ec *executionContext) _subscriptionInfo_promoteId(ctx context.Context, fie
 	res := resTmp.(*int)
 	fc.Result = res
 	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscriptionInfo_category(ctx context.Context, field graphql.CollectedField, obj *model.SubscriptionInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscriptionInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Category, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.SubscriptionCategoryType)
+	fc.Result = res
+	return ec.marshalOsubscriptionCategoryType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionCategoryType(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscriptionInfo_carrierType(ctx context.Context, field graphql.CollectedField, obj *model.SubscriptionInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscriptionInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CarrierType, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscriptionInfo_carrierNum(ctx context.Context, field graphql.CollectedField, obj *model.SubscriptionInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscriptionInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CarrierNum, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscriptionInfo_buyerName(ctx context.Context, field graphql.CollectedField, obj *model.SubscriptionInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscriptionInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.BuyerName, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscriptionInfo_buyerUBN(ctx context.Context, field graphql.CollectedField, obj *model.SubscriptionInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscriptionInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.BuyerUbn, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _subscriptionInfo_postId(ctx context.Context, field graphql.CollectedField, obj *model.SubscriptionInfo) (ret graphql.Marshaler) {
@@ -16293,7 +16555,7 @@ func (ec *executionContext) unmarshalInputinvoiceCreateInput(ctx context.Context
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("carrierType"))
-			it.CarrierType, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.CarrierType, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -16610,7 +16872,7 @@ func (ec *executionContext) unmarshalInputinvoiceUpdateInput(ctx context.Context
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("carrierType"))
-			it.CarrierType, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.CarrierType, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -17401,7 +17663,7 @@ func (ec *executionContext) unmarshalInputinvoiceWhereInput(ctx context.Context,
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("carrierType"))
-			it.CarrierType, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.CarrierType, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -17409,7 +17671,7 @@ func (ec *executionContext) unmarshalInputinvoiceWhereInput(ctx context.Context,
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("carrierType_not"))
-			it.CarrierTypeNot, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.CarrierTypeNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -17417,7 +17679,7 @@ func (ec *executionContext) unmarshalInputinvoiceWhereInput(ctx context.Context,
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("carrierType_in"))
-			it.CarrierTypeIn, err = ec.unmarshalOInt2ᚕᚖint(ctx, v)
+			it.CarrierTypeIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -17425,7 +17687,7 @@ func (ec *executionContext) unmarshalInputinvoiceWhereInput(ctx context.Context,
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("carrierType_not_in"))
-			it.CarrierTypeNotIn, err = ec.unmarshalOInt2ᚕᚖint(ctx, v)
+			it.CarrierTypeNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -28264,6 +28526,14 @@ func (ec *executionContext) unmarshalInputsubscriptionCreateInput(ctx context.Co
 			if err != nil {
 				return it, err
 			}
+		case "category":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("category"))
+			it.Category, err = ec.unmarshalOsubscriptionCategoryType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionCategoryType(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "loveCode":
 			var err error
 
@@ -28276,7 +28546,7 @@ func (ec *executionContext) unmarshalInputsubscriptionCreateInput(ctx context.Co
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("carrierType"))
-			it.CarrierType, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.CarrierType, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -31257,6 +31527,14 @@ func (ec *executionContext) unmarshalInputsubscriptionOrderByInput(ctx context.C
 			if err != nil {
 				return it, err
 			}
+		case "category":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("category"))
+			it.Category, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "loveCode":
 			var err error
 
@@ -31560,6 +31838,14 @@ func (ec *executionContext) unmarshalInputsubscriptionPrivateUpdateInput(ctx con
 			if err != nil {
 				return it, err
 			}
+		case "category":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("category"))
+			it.Category, err = ec.unmarshalOsubscriptionCategoryType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionCategoryType(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "loveCode":
 			var err error
 
@@ -31572,7 +31858,7 @@ func (ec *executionContext) unmarshalInputsubscriptionPrivateUpdateInput(ctx con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("carrierType"))
-			it.CarrierType, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.CarrierType, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -33692,6 +33978,38 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			if err != nil {
 				return it, err
 			}
+		case "category":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("category"))
+			it.Category, err = ec.unmarshalOsubscriptionCategoryType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionCategoryType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "category_not":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("category_not"))
+			it.CategoryNot, err = ec.unmarshalOsubscriptionCategoryType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionCategoryType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "category_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("category_in"))
+			it.CategoryIn, err = ec.unmarshalOsubscriptionCategoryType2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionCategoryType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "category_not_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("category_not_in"))
+			it.CategoryNotIn, err = ec.unmarshalOsubscriptionCategoryType2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionCategoryType(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "loveCode":
 			var err error
 
@@ -33760,7 +34078,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("carrierType"))
-			it.CarrierType, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.CarrierType, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -33768,7 +34086,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("carrierType_not"))
-			it.CarrierTypeNot, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.CarrierTypeNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -33776,7 +34094,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("carrierType_in"))
-			it.CarrierTypeIn, err = ec.unmarshalOInt2ᚕᚖint(ctx, v)
+			it.CarrierTypeIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -33784,7 +34102,7 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("carrierType_not_in"))
-			it.CarrierTypeNotIn, err = ec.unmarshalOInt2ᚕᚖint(ctx, v)
+			it.CarrierTypeNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -35309,6 +35627,8 @@ func (ec *executionContext) _subscription(ctx context.Context, sel ast.Selection
 			out.Values[i] = ec._subscription_oneTimeEndDatetime(ctx, field, obj)
 		case "newebpayPaymentInfo":
 			out.Values[i] = ec._subscription_newebpayPaymentInfo(ctx, field, obj)
+		case "category":
+			out.Values[i] = ec._subscription_category(ctx, field, obj)
 		case "loveCode":
 			out.Values[i] = ec._subscription_loveCode(ctx, field, obj)
 		case "carrierType":
@@ -35492,6 +35812,16 @@ func (ec *executionContext) _subscriptionInfo(ctx context.Context, sel ast.Selec
 			out.Values[i] = ec._subscriptionInfo_note(ctx, field, obj)
 		case "promoteId":
 			out.Values[i] = ec._subscriptionInfo_promoteId(ctx, field, obj)
+		case "category":
+			out.Values[i] = ec._subscriptionInfo_category(ctx, field, obj)
+		case "carrierType":
+			out.Values[i] = ec._subscriptionInfo_carrierType(ctx, field, obj)
+		case "carrierNum":
+			out.Values[i] = ec._subscriptionInfo_carrierNum(ctx, field, obj)
+		case "buyerName":
+			out.Values[i] = ec._subscriptionInfo_buyerName(ctx, field, obj)
+		case "buyerUBN":
+			out.Values[i] = ec._subscriptionInfo_buyerUBN(ctx, field, obj)
 		case "postId":
 			out.Values[i] = ec._subscriptionInfo_postId(ctx, field, obj)
 		case "oneTimeStartDatetime":
@@ -38428,6 +38758,87 @@ func (ec *executionContext) marshalOsubscription2ᚖgithubᚗcomᚋmirrorᚑmedi
 		return graphql.Null
 	}
 	return ec._subscription(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalOsubscriptionCategoryType2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionCategoryType(ctx context.Context, v interface{}) ([]*model.SubscriptionCategoryType, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var vSlice []interface{}
+	if v != nil {
+		if tmp1, ok := v.([]interface{}); ok {
+			vSlice = tmp1
+		} else {
+			vSlice = []interface{}{v}
+		}
+	}
+	var err error
+	res := make([]*model.SubscriptionCategoryType, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalOsubscriptionCategoryType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionCategoryType(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) marshalOsubscriptionCategoryType2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionCategoryType(ctx context.Context, sel ast.SelectionSet, v []*model.SubscriptionCategoryType) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalOsubscriptionCategoryType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionCategoryType(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	return ret
+}
+
+func (ec *executionContext) unmarshalOsubscriptionCategoryType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionCategoryType(ctx context.Context, v interface{}) (*model.SubscriptionCategoryType, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var res = new(model.SubscriptionCategoryType)
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalOsubscriptionCategoryType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionCategoryType(ctx context.Context, sel ast.SelectionSet, v *model.SubscriptionCategoryType) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return v
 }
 
 func (ec *executionContext) unmarshalOsubscriptionCreateInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionCreateInput(ctx context.Context, v interface{}) ([]*model.SubscriptionCreateInput, error) {
