@@ -1278,27 +1278,28 @@ type MerchandiseWhereUniqueInput struct {
 }
 
 type NewebpayPayment struct {
-	ID               string        `json:"id"`
-	Subscription     *Subscription `json:"subscription"`
-	Invoice          *Invoice      `json:"invoice"`
-	Amount           *int          `json:"amount"`
-	Status           *string       `json:"status"`
-	PaymentMethod    *string       `json:"paymentMethod"`
-	PaymentTime      *string       `json:"paymentTime"`
-	TradeNumber      *string       `json:"tradeNumber"`
-	Message          *string       `json:"message"`
-	MerchantID       *string       `json:"merchantId"`
-	OrderNumber      *string       `json:"orderNumber"`
-	TokenUseStatus   *int          `json:"tokenUseStatus"`
-	RespondCode      *string       `json:"respondCode"`
-	Eci              *string       `json:"ECI"`
-	AuthCode         *string       `json:"authCode"`
-	AuthBank         *string       `json:"authBank"`
-	CardInfoLastFour *string       `json:"cardInfoLastFour"`
-	CardInfoFirstSix *string       `json:"cardInfoFirstSix"`
-	CardInfoExp      *string       `json:"cardInfoExp"`
-	CreatedAt        *string       `json:"createdAt"`
-	UpdatedAt        *string       `json:"updatedAt"`
+	ID               string                        `json:"id"`
+	Subscription     *Subscription                 `json:"subscription"`
+	Invoice          *Invoice                      `json:"invoice"`
+	Amount           *int                          `json:"amount"`
+	Status           *string                       `json:"status"`
+	PaymentMethod    *string                       `json:"paymentMethod"`
+	PaymentTime      *string                       `json:"paymentTime"`
+	TradeNumber      *string                       `json:"tradeNumber"`
+	Message          *string                       `json:"message"`
+	MerchantID       *string                       `json:"merchantId"`
+	OrderNumber      *string                       `json:"orderNumber"`
+	TokenUseStatus   *int                          `json:"tokenUseStatus"`
+	RespondCode      *string                       `json:"respondCode"`
+	Eci              *string                       `json:"ECI"`
+	AuthCode         *string                       `json:"authCode"`
+	AuthBank         *string                       `json:"authBank"`
+	CardInfoLastFour *string                       `json:"cardInfoLastFour"`
+	CardInfoFirstSix *string                       `json:"cardInfoFirstSix"`
+	CardInfoExp      *string                       `json:"cardInfoExp"`
+	Frequency        *NewebpayPaymentFrequencyType `json:"frequency"`
+	CreatedAt        *string                       `json:"createdAt"`
+	UpdatedAt        *string                       `json:"updatedAt"`
 }
 
 type NewebpayPaymentCreateInput struct {
@@ -1320,6 +1321,7 @@ type NewebpayPaymentCreateInput struct {
 	CardInfoLastFour *string                       `json:"cardInfoLastFour"`
 	CardInfoFirstSix *string                       `json:"cardInfoFirstSix"`
 	CardInfoExp      *string                       `json:"cardInfoExp"`
+	Frequency        *NewebpayPaymentFrequencyType `json:"frequency"`
 	CreatedAt        *string                       `json:"createdAt"`
 	UpdatedAt        *string                       `json:"updatedAt"`
 }
@@ -1467,6 +1469,7 @@ type NewebpayPaymentOrderByInput struct {
 	CardInfoLastFour *OrderDirection `json:"cardInfoLastFour"`
 	CardInfoFirstSix *OrderDirection `json:"cardInfoFirstSix"`
 	CardInfoExp      *OrderDirection `json:"cardInfoExp"`
+	Frequency        *OrderDirection `json:"frequency"`
 	CreatedAt        *OrderDirection `json:"createdAt"`
 	UpdatedAt        *OrderDirection `json:"updatedAt"`
 }
@@ -1504,301 +1507,306 @@ type NewebpayPaymentUpdateInput struct {
 	CardInfoLastFour *string                       `json:"cardInfoLastFour"`
 	CardInfoFirstSix *string                       `json:"cardInfoFirstSix"`
 	CardInfoExp      *string                       `json:"cardInfoExp"`
+	Frequency        *NewebpayPaymentFrequencyType `json:"frequency"`
 	CreatedAt        *string                       `json:"createdAt"`
 	UpdatedAt        *string                       `json:"updatedAt"`
 }
 
 type NewebpayPaymentWhereInput struct {
-	And                            []*NewebpayPaymentWhereInput `json:"AND"`
-	Or                             []*NewebpayPaymentWhereInput `json:"OR"`
-	ID                             *string                      `json:"id"`
-	IDNot                          *string                      `json:"id_not"`
-	IDLt                           *string                      `json:"id_lt"`
-	IDLte                          *string                      `json:"id_lte"`
-	IDGt                           *string                      `json:"id_gt"`
-	IDGte                          *string                      `json:"id_gte"`
-	IDIn                           []string                     `json:"id_in"`
-	IDNotIn                        []string                     `json:"id_not_in"`
-	Subscription                   *SubscriptionWhereInput      `json:"subscription"`
-	SubscriptionIsNull             *bool                        `json:"subscription_is_null"`
-	Invoice                        *InvoiceWhereInput           `json:"invoice"`
-	InvoiceIsNull                  *bool                        `json:"invoice_is_null"`
-	Amount                         *int                         `json:"amount"`
-	AmountNot                      *int                         `json:"amount_not"`
-	AmountLt                       *int                         `json:"amount_lt"`
-	AmountLte                      *int                         `json:"amount_lte"`
-	AmountGt                       *int                         `json:"amount_gt"`
-	AmountGte                      *int                         `json:"amount_gte"`
-	AmountIn                       []*int                       `json:"amount_in"`
-	AmountNotIn                    []*int                       `json:"amount_not_in"`
-	Status                         *string                      `json:"status"`
-	StatusNot                      *string                      `json:"status_not"`
-	StatusContains                 *string                      `json:"status_contains"`
-	StatusNotContains              *string                      `json:"status_not_contains"`
-	StatusStartsWith               *string                      `json:"status_starts_with"`
-	StatusNotStartsWith            *string                      `json:"status_not_starts_with"`
-	StatusEndsWith                 *string                      `json:"status_ends_with"`
-	StatusNotEndsWith              *string                      `json:"status_not_ends_with"`
-	StatusI                        *string                      `json:"status_i"`
-	StatusNotI                     *string                      `json:"status_not_i"`
-	StatusContainsI                *string                      `json:"status_contains_i"`
-	StatusNotContainsI             *string                      `json:"status_not_contains_i"`
-	StatusStartsWithI              *string                      `json:"status_starts_with_i"`
-	StatusNotStartsWithI           *string                      `json:"status_not_starts_with_i"`
-	StatusEndsWithI                *string                      `json:"status_ends_with_i"`
-	StatusNotEndsWithI             *string                      `json:"status_not_ends_with_i"`
-	StatusIn                       []*string                    `json:"status_in"`
-	StatusNotIn                    []*string                    `json:"status_not_in"`
-	PaymentMethod                  *string                      `json:"paymentMethod"`
-	PaymentMethodNot               *string                      `json:"paymentMethod_not"`
-	PaymentMethodContains          *string                      `json:"paymentMethod_contains"`
-	PaymentMethodNotContains       *string                      `json:"paymentMethod_not_contains"`
-	PaymentMethodStartsWith        *string                      `json:"paymentMethod_starts_with"`
-	PaymentMethodNotStartsWith     *string                      `json:"paymentMethod_not_starts_with"`
-	PaymentMethodEndsWith          *string                      `json:"paymentMethod_ends_with"`
-	PaymentMethodNotEndsWith       *string                      `json:"paymentMethod_not_ends_with"`
-	PaymentMethodI                 *string                      `json:"paymentMethod_i"`
-	PaymentMethodNotI              *string                      `json:"paymentMethod_not_i"`
-	PaymentMethodContainsI         *string                      `json:"paymentMethod_contains_i"`
-	PaymentMethodNotContainsI      *string                      `json:"paymentMethod_not_contains_i"`
-	PaymentMethodStartsWithI       *string                      `json:"paymentMethod_starts_with_i"`
-	PaymentMethodNotStartsWithI    *string                      `json:"paymentMethod_not_starts_with_i"`
-	PaymentMethodEndsWithI         *string                      `json:"paymentMethod_ends_with_i"`
-	PaymentMethodNotEndsWithI      *string                      `json:"paymentMethod_not_ends_with_i"`
-	PaymentMethodIn                []*string                    `json:"paymentMethod_in"`
-	PaymentMethodNotIn             []*string                    `json:"paymentMethod_not_in"`
-	PaymentTime                    *string                      `json:"paymentTime"`
-	PaymentTimeNot                 *string                      `json:"paymentTime_not"`
-	PaymentTimeLt                  *string                      `json:"paymentTime_lt"`
-	PaymentTimeLte                 *string                      `json:"paymentTime_lte"`
-	PaymentTimeGt                  *string                      `json:"paymentTime_gt"`
-	PaymentTimeGte                 *string                      `json:"paymentTime_gte"`
-	PaymentTimeIn                  []*string                    `json:"paymentTime_in"`
-	PaymentTimeNotIn               []*string                    `json:"paymentTime_not_in"`
-	TradeNumber                    *string                      `json:"tradeNumber"`
-	TradeNumberNot                 *string                      `json:"tradeNumber_not"`
-	TradeNumberContains            *string                      `json:"tradeNumber_contains"`
-	TradeNumberNotContains         *string                      `json:"tradeNumber_not_contains"`
-	TradeNumberStartsWith          *string                      `json:"tradeNumber_starts_with"`
-	TradeNumberNotStartsWith       *string                      `json:"tradeNumber_not_starts_with"`
-	TradeNumberEndsWith            *string                      `json:"tradeNumber_ends_with"`
-	TradeNumberNotEndsWith         *string                      `json:"tradeNumber_not_ends_with"`
-	TradeNumberI                   *string                      `json:"tradeNumber_i"`
-	TradeNumberNotI                *string                      `json:"tradeNumber_not_i"`
-	TradeNumberContainsI           *string                      `json:"tradeNumber_contains_i"`
-	TradeNumberNotContainsI        *string                      `json:"tradeNumber_not_contains_i"`
-	TradeNumberStartsWithI         *string                      `json:"tradeNumber_starts_with_i"`
-	TradeNumberNotStartsWithI      *string                      `json:"tradeNumber_not_starts_with_i"`
-	TradeNumberEndsWithI           *string                      `json:"tradeNumber_ends_with_i"`
-	TradeNumberNotEndsWithI        *string                      `json:"tradeNumber_not_ends_with_i"`
-	TradeNumberIn                  []*string                    `json:"tradeNumber_in"`
-	TradeNumberNotIn               []*string                    `json:"tradeNumber_not_in"`
-	Message                        *string                      `json:"message"`
-	MessageNot                     *string                      `json:"message_not"`
-	MessageContains                *string                      `json:"message_contains"`
-	MessageNotContains             *string                      `json:"message_not_contains"`
-	MessageStartsWith              *string                      `json:"message_starts_with"`
-	MessageNotStartsWith           *string                      `json:"message_not_starts_with"`
-	MessageEndsWith                *string                      `json:"message_ends_with"`
-	MessageNotEndsWith             *string                      `json:"message_not_ends_with"`
-	MessageI                       *string                      `json:"message_i"`
-	MessageNotI                    *string                      `json:"message_not_i"`
-	MessageContainsI               *string                      `json:"message_contains_i"`
-	MessageNotContainsI            *string                      `json:"message_not_contains_i"`
-	MessageStartsWithI             *string                      `json:"message_starts_with_i"`
-	MessageNotStartsWithI          *string                      `json:"message_not_starts_with_i"`
-	MessageEndsWithI               *string                      `json:"message_ends_with_i"`
-	MessageNotEndsWithI            *string                      `json:"message_not_ends_with_i"`
-	MessageIn                      []*string                    `json:"message_in"`
-	MessageNotIn                   []*string                    `json:"message_not_in"`
-	MerchantID                     *string                      `json:"merchantId"`
-	MerchantIDNot                  *string                      `json:"merchantId_not"`
-	MerchantIDContains             *string                      `json:"merchantId_contains"`
-	MerchantIDNotContains          *string                      `json:"merchantId_not_contains"`
-	MerchantIDStartsWith           *string                      `json:"merchantId_starts_with"`
-	MerchantIDNotStartsWith        *string                      `json:"merchantId_not_starts_with"`
-	MerchantIDEndsWith             *string                      `json:"merchantId_ends_with"`
-	MerchantIDNotEndsWith          *string                      `json:"merchantId_not_ends_with"`
-	MerchantIDI                    *string                      `json:"merchantId_i"`
-	MerchantIDNotI                 *string                      `json:"merchantId_not_i"`
-	MerchantIDContainsI            *string                      `json:"merchantId_contains_i"`
-	MerchantIDNotContainsI         *string                      `json:"merchantId_not_contains_i"`
-	MerchantIDStartsWithI          *string                      `json:"merchantId_starts_with_i"`
-	MerchantIDNotStartsWithI       *string                      `json:"merchantId_not_starts_with_i"`
-	MerchantIDEndsWithI            *string                      `json:"merchantId_ends_with_i"`
-	MerchantIDNotEndsWithI         *string                      `json:"merchantId_not_ends_with_i"`
-	MerchantIDIn                   []*string                    `json:"merchantId_in"`
-	MerchantIDNotIn                []*string                    `json:"merchantId_not_in"`
-	OrderNumber                    *string                      `json:"orderNumber"`
-	OrderNumberNot                 *string                      `json:"orderNumber_not"`
-	OrderNumberContains            *string                      `json:"orderNumber_contains"`
-	OrderNumberNotContains         *string                      `json:"orderNumber_not_contains"`
-	OrderNumberStartsWith          *string                      `json:"orderNumber_starts_with"`
-	OrderNumberNotStartsWith       *string                      `json:"orderNumber_not_starts_with"`
-	OrderNumberEndsWith            *string                      `json:"orderNumber_ends_with"`
-	OrderNumberNotEndsWith         *string                      `json:"orderNumber_not_ends_with"`
-	OrderNumberI                   *string                      `json:"orderNumber_i"`
-	OrderNumberNotI                *string                      `json:"orderNumber_not_i"`
-	OrderNumberContainsI           *string                      `json:"orderNumber_contains_i"`
-	OrderNumberNotContainsI        *string                      `json:"orderNumber_not_contains_i"`
-	OrderNumberStartsWithI         *string                      `json:"orderNumber_starts_with_i"`
-	OrderNumberNotStartsWithI      *string                      `json:"orderNumber_not_starts_with_i"`
-	OrderNumberEndsWithI           *string                      `json:"orderNumber_ends_with_i"`
-	OrderNumberNotEndsWithI        *string                      `json:"orderNumber_not_ends_with_i"`
-	OrderNumberIn                  []*string                    `json:"orderNumber_in"`
-	OrderNumberNotIn               []*string                    `json:"orderNumber_not_in"`
-	TokenUseStatus                 *int                         `json:"tokenUseStatus"`
-	TokenUseStatusNot              *int                         `json:"tokenUseStatus_not"`
-	TokenUseStatusLt               *int                         `json:"tokenUseStatus_lt"`
-	TokenUseStatusLte              *int                         `json:"tokenUseStatus_lte"`
-	TokenUseStatusGt               *int                         `json:"tokenUseStatus_gt"`
-	TokenUseStatusGte              *int                         `json:"tokenUseStatus_gte"`
-	TokenUseStatusIn               []*int                       `json:"tokenUseStatus_in"`
-	TokenUseStatusNotIn            []*int                       `json:"tokenUseStatus_not_in"`
-	RespondCode                    *string                      `json:"respondCode"`
-	RespondCodeNot                 *string                      `json:"respondCode_not"`
-	RespondCodeContains            *string                      `json:"respondCode_contains"`
-	RespondCodeNotContains         *string                      `json:"respondCode_not_contains"`
-	RespondCodeStartsWith          *string                      `json:"respondCode_starts_with"`
-	RespondCodeNotStartsWith       *string                      `json:"respondCode_not_starts_with"`
-	RespondCodeEndsWith            *string                      `json:"respondCode_ends_with"`
-	RespondCodeNotEndsWith         *string                      `json:"respondCode_not_ends_with"`
-	RespondCodeI                   *string                      `json:"respondCode_i"`
-	RespondCodeNotI                *string                      `json:"respondCode_not_i"`
-	RespondCodeContainsI           *string                      `json:"respondCode_contains_i"`
-	RespondCodeNotContainsI        *string                      `json:"respondCode_not_contains_i"`
-	RespondCodeStartsWithI         *string                      `json:"respondCode_starts_with_i"`
-	RespondCodeNotStartsWithI      *string                      `json:"respondCode_not_starts_with_i"`
-	RespondCodeEndsWithI           *string                      `json:"respondCode_ends_with_i"`
-	RespondCodeNotEndsWithI        *string                      `json:"respondCode_not_ends_with_i"`
-	RespondCodeIn                  []*string                    `json:"respondCode_in"`
-	RespondCodeNotIn               []*string                    `json:"respondCode_not_in"`
-	Eci                            *string                      `json:"ECI"`
-	EciNot                         *string                      `json:"ECI_not"`
-	EciContains                    *string                      `json:"ECI_contains"`
-	EciNotContains                 *string                      `json:"ECI_not_contains"`
-	EciStartsWith                  *string                      `json:"ECI_starts_with"`
-	EciNotStartsWith               *string                      `json:"ECI_not_starts_with"`
-	EciEndsWith                    *string                      `json:"ECI_ends_with"`
-	EciNotEndsWith                 *string                      `json:"ECI_not_ends_with"`
-	EciI                           *string                      `json:"ECI_i"`
-	EciNotI                        *string                      `json:"ECI_not_i"`
-	EciContainsI                   *string                      `json:"ECI_contains_i"`
-	EciNotContainsI                *string                      `json:"ECI_not_contains_i"`
-	EciStartsWithI                 *string                      `json:"ECI_starts_with_i"`
-	EciNotStartsWithI              *string                      `json:"ECI_not_starts_with_i"`
-	EciEndsWithI                   *string                      `json:"ECI_ends_with_i"`
-	EciNotEndsWithI                *string                      `json:"ECI_not_ends_with_i"`
-	EciIn                          []*string                    `json:"ECI_in"`
-	EciNotIn                       []*string                    `json:"ECI_not_in"`
-	AuthCode                       *string                      `json:"authCode"`
-	AuthCodeNot                    *string                      `json:"authCode_not"`
-	AuthCodeContains               *string                      `json:"authCode_contains"`
-	AuthCodeNotContains            *string                      `json:"authCode_not_contains"`
-	AuthCodeStartsWith             *string                      `json:"authCode_starts_with"`
-	AuthCodeNotStartsWith          *string                      `json:"authCode_not_starts_with"`
-	AuthCodeEndsWith               *string                      `json:"authCode_ends_with"`
-	AuthCodeNotEndsWith            *string                      `json:"authCode_not_ends_with"`
-	AuthCodeI                      *string                      `json:"authCode_i"`
-	AuthCodeNotI                   *string                      `json:"authCode_not_i"`
-	AuthCodeContainsI              *string                      `json:"authCode_contains_i"`
-	AuthCodeNotContainsI           *string                      `json:"authCode_not_contains_i"`
-	AuthCodeStartsWithI            *string                      `json:"authCode_starts_with_i"`
-	AuthCodeNotStartsWithI         *string                      `json:"authCode_not_starts_with_i"`
-	AuthCodeEndsWithI              *string                      `json:"authCode_ends_with_i"`
-	AuthCodeNotEndsWithI           *string                      `json:"authCode_not_ends_with_i"`
-	AuthCodeIn                     []*string                    `json:"authCode_in"`
-	AuthCodeNotIn                  []*string                    `json:"authCode_not_in"`
-	AuthBank                       *string                      `json:"authBank"`
-	AuthBankNot                    *string                      `json:"authBank_not"`
-	AuthBankContains               *string                      `json:"authBank_contains"`
-	AuthBankNotContains            *string                      `json:"authBank_not_contains"`
-	AuthBankStartsWith             *string                      `json:"authBank_starts_with"`
-	AuthBankNotStartsWith          *string                      `json:"authBank_not_starts_with"`
-	AuthBankEndsWith               *string                      `json:"authBank_ends_with"`
-	AuthBankNotEndsWith            *string                      `json:"authBank_not_ends_with"`
-	AuthBankI                      *string                      `json:"authBank_i"`
-	AuthBankNotI                   *string                      `json:"authBank_not_i"`
-	AuthBankContainsI              *string                      `json:"authBank_contains_i"`
-	AuthBankNotContainsI           *string                      `json:"authBank_not_contains_i"`
-	AuthBankStartsWithI            *string                      `json:"authBank_starts_with_i"`
-	AuthBankNotStartsWithI         *string                      `json:"authBank_not_starts_with_i"`
-	AuthBankEndsWithI              *string                      `json:"authBank_ends_with_i"`
-	AuthBankNotEndsWithI           *string                      `json:"authBank_not_ends_with_i"`
-	AuthBankIn                     []*string                    `json:"authBank_in"`
-	AuthBankNotIn                  []*string                    `json:"authBank_not_in"`
-	CardInfoLastFour               *string                      `json:"cardInfoLastFour"`
-	CardInfoLastFourNot            *string                      `json:"cardInfoLastFour_not"`
-	CardInfoLastFourContains       *string                      `json:"cardInfoLastFour_contains"`
-	CardInfoLastFourNotContains    *string                      `json:"cardInfoLastFour_not_contains"`
-	CardInfoLastFourStartsWith     *string                      `json:"cardInfoLastFour_starts_with"`
-	CardInfoLastFourNotStartsWith  *string                      `json:"cardInfoLastFour_not_starts_with"`
-	CardInfoLastFourEndsWith       *string                      `json:"cardInfoLastFour_ends_with"`
-	CardInfoLastFourNotEndsWith    *string                      `json:"cardInfoLastFour_not_ends_with"`
-	CardInfoLastFourI              *string                      `json:"cardInfoLastFour_i"`
-	CardInfoLastFourNotI           *string                      `json:"cardInfoLastFour_not_i"`
-	CardInfoLastFourContainsI      *string                      `json:"cardInfoLastFour_contains_i"`
-	CardInfoLastFourNotContainsI   *string                      `json:"cardInfoLastFour_not_contains_i"`
-	CardInfoLastFourStartsWithI    *string                      `json:"cardInfoLastFour_starts_with_i"`
-	CardInfoLastFourNotStartsWithI *string                      `json:"cardInfoLastFour_not_starts_with_i"`
-	CardInfoLastFourEndsWithI      *string                      `json:"cardInfoLastFour_ends_with_i"`
-	CardInfoLastFourNotEndsWithI   *string                      `json:"cardInfoLastFour_not_ends_with_i"`
-	CardInfoLastFourIn             []*string                    `json:"cardInfoLastFour_in"`
-	CardInfoLastFourNotIn          []*string                    `json:"cardInfoLastFour_not_in"`
-	CardInfoFirstSix               *string                      `json:"cardInfoFirstSix"`
-	CardInfoFirstSixNot            *string                      `json:"cardInfoFirstSix_not"`
-	CardInfoFirstSixContains       *string                      `json:"cardInfoFirstSix_contains"`
-	CardInfoFirstSixNotContains    *string                      `json:"cardInfoFirstSix_not_contains"`
-	CardInfoFirstSixStartsWith     *string                      `json:"cardInfoFirstSix_starts_with"`
-	CardInfoFirstSixNotStartsWith  *string                      `json:"cardInfoFirstSix_not_starts_with"`
-	CardInfoFirstSixEndsWith       *string                      `json:"cardInfoFirstSix_ends_with"`
-	CardInfoFirstSixNotEndsWith    *string                      `json:"cardInfoFirstSix_not_ends_with"`
-	CardInfoFirstSixI              *string                      `json:"cardInfoFirstSix_i"`
-	CardInfoFirstSixNotI           *string                      `json:"cardInfoFirstSix_not_i"`
-	CardInfoFirstSixContainsI      *string                      `json:"cardInfoFirstSix_contains_i"`
-	CardInfoFirstSixNotContainsI   *string                      `json:"cardInfoFirstSix_not_contains_i"`
-	CardInfoFirstSixStartsWithI    *string                      `json:"cardInfoFirstSix_starts_with_i"`
-	CardInfoFirstSixNotStartsWithI *string                      `json:"cardInfoFirstSix_not_starts_with_i"`
-	CardInfoFirstSixEndsWithI      *string                      `json:"cardInfoFirstSix_ends_with_i"`
-	CardInfoFirstSixNotEndsWithI   *string                      `json:"cardInfoFirstSix_not_ends_with_i"`
-	CardInfoFirstSixIn             []*string                    `json:"cardInfoFirstSix_in"`
-	CardInfoFirstSixNotIn          []*string                    `json:"cardInfoFirstSix_not_in"`
-	CardInfoExp                    *string                      `json:"cardInfoExp"`
-	CardInfoExpNot                 *string                      `json:"cardInfoExp_not"`
-	CardInfoExpContains            *string                      `json:"cardInfoExp_contains"`
-	CardInfoExpNotContains         *string                      `json:"cardInfoExp_not_contains"`
-	CardInfoExpStartsWith          *string                      `json:"cardInfoExp_starts_with"`
-	CardInfoExpNotStartsWith       *string                      `json:"cardInfoExp_not_starts_with"`
-	CardInfoExpEndsWith            *string                      `json:"cardInfoExp_ends_with"`
-	CardInfoExpNotEndsWith         *string                      `json:"cardInfoExp_not_ends_with"`
-	CardInfoExpI                   *string                      `json:"cardInfoExp_i"`
-	CardInfoExpNotI                *string                      `json:"cardInfoExp_not_i"`
-	CardInfoExpContainsI           *string                      `json:"cardInfoExp_contains_i"`
-	CardInfoExpNotContainsI        *string                      `json:"cardInfoExp_not_contains_i"`
-	CardInfoExpStartsWithI         *string                      `json:"cardInfoExp_starts_with_i"`
-	CardInfoExpNotStartsWithI      *string                      `json:"cardInfoExp_not_starts_with_i"`
-	CardInfoExpEndsWithI           *string                      `json:"cardInfoExp_ends_with_i"`
-	CardInfoExpNotEndsWithI        *string                      `json:"cardInfoExp_not_ends_with_i"`
-	CardInfoExpIn                  []*string                    `json:"cardInfoExp_in"`
-	CardInfoExpNotIn               []*string                    `json:"cardInfoExp_not_in"`
-	CreatedAt                      *string                      `json:"createdAt"`
-	CreatedAtNot                   *string                      `json:"createdAt_not"`
-	CreatedAtLt                    *string                      `json:"createdAt_lt"`
-	CreatedAtLte                   *string                      `json:"createdAt_lte"`
-	CreatedAtGt                    *string                      `json:"createdAt_gt"`
-	CreatedAtGte                   *string                      `json:"createdAt_gte"`
-	CreatedAtIn                    []*string                    `json:"createdAt_in"`
-	CreatedAtNotIn                 []*string                    `json:"createdAt_not_in"`
-	UpdatedAt                      *string                      `json:"updatedAt"`
-	UpdatedAtNot                   *string                      `json:"updatedAt_not"`
-	UpdatedAtLt                    *string                      `json:"updatedAt_lt"`
-	UpdatedAtLte                   *string                      `json:"updatedAt_lte"`
-	UpdatedAtGt                    *string                      `json:"updatedAt_gt"`
-	UpdatedAtGte                   *string                      `json:"updatedAt_gte"`
-	UpdatedAtIn                    []*string                    `json:"updatedAt_in"`
-	UpdatedAtNotIn                 []*string                    `json:"updatedAt_not_in"`
-	CreatedByIsNull                *bool                        `json:"createdBy_is_null"`
-	UpdatedByIsNull                *bool                        `json:"updatedBy_is_null"`
+	And                            []*NewebpayPaymentWhereInput    `json:"AND"`
+	Or                             []*NewebpayPaymentWhereInput    `json:"OR"`
+	ID                             *string                         `json:"id"`
+	IDNot                          *string                         `json:"id_not"`
+	IDLt                           *string                         `json:"id_lt"`
+	IDLte                          *string                         `json:"id_lte"`
+	IDGt                           *string                         `json:"id_gt"`
+	IDGte                          *string                         `json:"id_gte"`
+	IDIn                           []string                        `json:"id_in"`
+	IDNotIn                        []string                        `json:"id_not_in"`
+	Subscription                   *SubscriptionWhereInput         `json:"subscription"`
+	SubscriptionIsNull             *bool                           `json:"subscription_is_null"`
+	Invoice                        *InvoiceWhereInput              `json:"invoice"`
+	InvoiceIsNull                  *bool                           `json:"invoice_is_null"`
+	Amount                         *int                            `json:"amount"`
+	AmountNot                      *int                            `json:"amount_not"`
+	AmountLt                       *int                            `json:"amount_lt"`
+	AmountLte                      *int                            `json:"amount_lte"`
+	AmountGt                       *int                            `json:"amount_gt"`
+	AmountGte                      *int                            `json:"amount_gte"`
+	AmountIn                       []*int                          `json:"amount_in"`
+	AmountNotIn                    []*int                          `json:"amount_not_in"`
+	Status                         *string                         `json:"status"`
+	StatusNot                      *string                         `json:"status_not"`
+	StatusContains                 *string                         `json:"status_contains"`
+	StatusNotContains              *string                         `json:"status_not_contains"`
+	StatusStartsWith               *string                         `json:"status_starts_with"`
+	StatusNotStartsWith            *string                         `json:"status_not_starts_with"`
+	StatusEndsWith                 *string                         `json:"status_ends_with"`
+	StatusNotEndsWith              *string                         `json:"status_not_ends_with"`
+	StatusI                        *string                         `json:"status_i"`
+	StatusNotI                     *string                         `json:"status_not_i"`
+	StatusContainsI                *string                         `json:"status_contains_i"`
+	StatusNotContainsI             *string                         `json:"status_not_contains_i"`
+	StatusStartsWithI              *string                         `json:"status_starts_with_i"`
+	StatusNotStartsWithI           *string                         `json:"status_not_starts_with_i"`
+	StatusEndsWithI                *string                         `json:"status_ends_with_i"`
+	StatusNotEndsWithI             *string                         `json:"status_not_ends_with_i"`
+	StatusIn                       []*string                       `json:"status_in"`
+	StatusNotIn                    []*string                       `json:"status_not_in"`
+	PaymentMethod                  *string                         `json:"paymentMethod"`
+	PaymentMethodNot               *string                         `json:"paymentMethod_not"`
+	PaymentMethodContains          *string                         `json:"paymentMethod_contains"`
+	PaymentMethodNotContains       *string                         `json:"paymentMethod_not_contains"`
+	PaymentMethodStartsWith        *string                         `json:"paymentMethod_starts_with"`
+	PaymentMethodNotStartsWith     *string                         `json:"paymentMethod_not_starts_with"`
+	PaymentMethodEndsWith          *string                         `json:"paymentMethod_ends_with"`
+	PaymentMethodNotEndsWith       *string                         `json:"paymentMethod_not_ends_with"`
+	PaymentMethodI                 *string                         `json:"paymentMethod_i"`
+	PaymentMethodNotI              *string                         `json:"paymentMethod_not_i"`
+	PaymentMethodContainsI         *string                         `json:"paymentMethod_contains_i"`
+	PaymentMethodNotContainsI      *string                         `json:"paymentMethod_not_contains_i"`
+	PaymentMethodStartsWithI       *string                         `json:"paymentMethod_starts_with_i"`
+	PaymentMethodNotStartsWithI    *string                         `json:"paymentMethod_not_starts_with_i"`
+	PaymentMethodEndsWithI         *string                         `json:"paymentMethod_ends_with_i"`
+	PaymentMethodNotEndsWithI      *string                         `json:"paymentMethod_not_ends_with_i"`
+	PaymentMethodIn                []*string                       `json:"paymentMethod_in"`
+	PaymentMethodNotIn             []*string                       `json:"paymentMethod_not_in"`
+	PaymentTime                    *string                         `json:"paymentTime"`
+	PaymentTimeNot                 *string                         `json:"paymentTime_not"`
+	PaymentTimeLt                  *string                         `json:"paymentTime_lt"`
+	PaymentTimeLte                 *string                         `json:"paymentTime_lte"`
+	PaymentTimeGt                  *string                         `json:"paymentTime_gt"`
+	PaymentTimeGte                 *string                         `json:"paymentTime_gte"`
+	PaymentTimeIn                  []*string                       `json:"paymentTime_in"`
+	PaymentTimeNotIn               []*string                       `json:"paymentTime_not_in"`
+	TradeNumber                    *string                         `json:"tradeNumber"`
+	TradeNumberNot                 *string                         `json:"tradeNumber_not"`
+	TradeNumberContains            *string                         `json:"tradeNumber_contains"`
+	TradeNumberNotContains         *string                         `json:"tradeNumber_not_contains"`
+	TradeNumberStartsWith          *string                         `json:"tradeNumber_starts_with"`
+	TradeNumberNotStartsWith       *string                         `json:"tradeNumber_not_starts_with"`
+	TradeNumberEndsWith            *string                         `json:"tradeNumber_ends_with"`
+	TradeNumberNotEndsWith         *string                         `json:"tradeNumber_not_ends_with"`
+	TradeNumberI                   *string                         `json:"tradeNumber_i"`
+	TradeNumberNotI                *string                         `json:"tradeNumber_not_i"`
+	TradeNumberContainsI           *string                         `json:"tradeNumber_contains_i"`
+	TradeNumberNotContainsI        *string                         `json:"tradeNumber_not_contains_i"`
+	TradeNumberStartsWithI         *string                         `json:"tradeNumber_starts_with_i"`
+	TradeNumberNotStartsWithI      *string                         `json:"tradeNumber_not_starts_with_i"`
+	TradeNumberEndsWithI           *string                         `json:"tradeNumber_ends_with_i"`
+	TradeNumberNotEndsWithI        *string                         `json:"tradeNumber_not_ends_with_i"`
+	TradeNumberIn                  []*string                       `json:"tradeNumber_in"`
+	TradeNumberNotIn               []*string                       `json:"tradeNumber_not_in"`
+	Message                        *string                         `json:"message"`
+	MessageNot                     *string                         `json:"message_not"`
+	MessageContains                *string                         `json:"message_contains"`
+	MessageNotContains             *string                         `json:"message_not_contains"`
+	MessageStartsWith              *string                         `json:"message_starts_with"`
+	MessageNotStartsWith           *string                         `json:"message_not_starts_with"`
+	MessageEndsWith                *string                         `json:"message_ends_with"`
+	MessageNotEndsWith             *string                         `json:"message_not_ends_with"`
+	MessageI                       *string                         `json:"message_i"`
+	MessageNotI                    *string                         `json:"message_not_i"`
+	MessageContainsI               *string                         `json:"message_contains_i"`
+	MessageNotContainsI            *string                         `json:"message_not_contains_i"`
+	MessageStartsWithI             *string                         `json:"message_starts_with_i"`
+	MessageNotStartsWithI          *string                         `json:"message_not_starts_with_i"`
+	MessageEndsWithI               *string                         `json:"message_ends_with_i"`
+	MessageNotEndsWithI            *string                         `json:"message_not_ends_with_i"`
+	MessageIn                      []*string                       `json:"message_in"`
+	MessageNotIn                   []*string                       `json:"message_not_in"`
+	MerchantID                     *string                         `json:"merchantId"`
+	MerchantIDNot                  *string                         `json:"merchantId_not"`
+	MerchantIDContains             *string                         `json:"merchantId_contains"`
+	MerchantIDNotContains          *string                         `json:"merchantId_not_contains"`
+	MerchantIDStartsWith           *string                         `json:"merchantId_starts_with"`
+	MerchantIDNotStartsWith        *string                         `json:"merchantId_not_starts_with"`
+	MerchantIDEndsWith             *string                         `json:"merchantId_ends_with"`
+	MerchantIDNotEndsWith          *string                         `json:"merchantId_not_ends_with"`
+	MerchantIDI                    *string                         `json:"merchantId_i"`
+	MerchantIDNotI                 *string                         `json:"merchantId_not_i"`
+	MerchantIDContainsI            *string                         `json:"merchantId_contains_i"`
+	MerchantIDNotContainsI         *string                         `json:"merchantId_not_contains_i"`
+	MerchantIDStartsWithI          *string                         `json:"merchantId_starts_with_i"`
+	MerchantIDNotStartsWithI       *string                         `json:"merchantId_not_starts_with_i"`
+	MerchantIDEndsWithI            *string                         `json:"merchantId_ends_with_i"`
+	MerchantIDNotEndsWithI         *string                         `json:"merchantId_not_ends_with_i"`
+	MerchantIDIn                   []*string                       `json:"merchantId_in"`
+	MerchantIDNotIn                []*string                       `json:"merchantId_not_in"`
+	OrderNumber                    *string                         `json:"orderNumber"`
+	OrderNumberNot                 *string                         `json:"orderNumber_not"`
+	OrderNumberContains            *string                         `json:"orderNumber_contains"`
+	OrderNumberNotContains         *string                         `json:"orderNumber_not_contains"`
+	OrderNumberStartsWith          *string                         `json:"orderNumber_starts_with"`
+	OrderNumberNotStartsWith       *string                         `json:"orderNumber_not_starts_with"`
+	OrderNumberEndsWith            *string                         `json:"orderNumber_ends_with"`
+	OrderNumberNotEndsWith         *string                         `json:"orderNumber_not_ends_with"`
+	OrderNumberI                   *string                         `json:"orderNumber_i"`
+	OrderNumberNotI                *string                         `json:"orderNumber_not_i"`
+	OrderNumberContainsI           *string                         `json:"orderNumber_contains_i"`
+	OrderNumberNotContainsI        *string                         `json:"orderNumber_not_contains_i"`
+	OrderNumberStartsWithI         *string                         `json:"orderNumber_starts_with_i"`
+	OrderNumberNotStartsWithI      *string                         `json:"orderNumber_not_starts_with_i"`
+	OrderNumberEndsWithI           *string                         `json:"orderNumber_ends_with_i"`
+	OrderNumberNotEndsWithI        *string                         `json:"orderNumber_not_ends_with_i"`
+	OrderNumberIn                  []*string                       `json:"orderNumber_in"`
+	OrderNumberNotIn               []*string                       `json:"orderNumber_not_in"`
+	TokenUseStatus                 *int                            `json:"tokenUseStatus"`
+	TokenUseStatusNot              *int                            `json:"tokenUseStatus_not"`
+	TokenUseStatusLt               *int                            `json:"tokenUseStatus_lt"`
+	TokenUseStatusLte              *int                            `json:"tokenUseStatus_lte"`
+	TokenUseStatusGt               *int                            `json:"tokenUseStatus_gt"`
+	TokenUseStatusGte              *int                            `json:"tokenUseStatus_gte"`
+	TokenUseStatusIn               []*int                          `json:"tokenUseStatus_in"`
+	TokenUseStatusNotIn            []*int                          `json:"tokenUseStatus_not_in"`
+	RespondCode                    *string                         `json:"respondCode"`
+	RespondCodeNot                 *string                         `json:"respondCode_not"`
+	RespondCodeContains            *string                         `json:"respondCode_contains"`
+	RespondCodeNotContains         *string                         `json:"respondCode_not_contains"`
+	RespondCodeStartsWith          *string                         `json:"respondCode_starts_with"`
+	RespondCodeNotStartsWith       *string                         `json:"respondCode_not_starts_with"`
+	RespondCodeEndsWith            *string                         `json:"respondCode_ends_with"`
+	RespondCodeNotEndsWith         *string                         `json:"respondCode_not_ends_with"`
+	RespondCodeI                   *string                         `json:"respondCode_i"`
+	RespondCodeNotI                *string                         `json:"respondCode_not_i"`
+	RespondCodeContainsI           *string                         `json:"respondCode_contains_i"`
+	RespondCodeNotContainsI        *string                         `json:"respondCode_not_contains_i"`
+	RespondCodeStartsWithI         *string                         `json:"respondCode_starts_with_i"`
+	RespondCodeNotStartsWithI      *string                         `json:"respondCode_not_starts_with_i"`
+	RespondCodeEndsWithI           *string                         `json:"respondCode_ends_with_i"`
+	RespondCodeNotEndsWithI        *string                         `json:"respondCode_not_ends_with_i"`
+	RespondCodeIn                  []*string                       `json:"respondCode_in"`
+	RespondCodeNotIn               []*string                       `json:"respondCode_not_in"`
+	Eci                            *string                         `json:"ECI"`
+	EciNot                         *string                         `json:"ECI_not"`
+	EciContains                    *string                         `json:"ECI_contains"`
+	EciNotContains                 *string                         `json:"ECI_not_contains"`
+	EciStartsWith                  *string                         `json:"ECI_starts_with"`
+	EciNotStartsWith               *string                         `json:"ECI_not_starts_with"`
+	EciEndsWith                    *string                         `json:"ECI_ends_with"`
+	EciNotEndsWith                 *string                         `json:"ECI_not_ends_with"`
+	EciI                           *string                         `json:"ECI_i"`
+	EciNotI                        *string                         `json:"ECI_not_i"`
+	EciContainsI                   *string                         `json:"ECI_contains_i"`
+	EciNotContainsI                *string                         `json:"ECI_not_contains_i"`
+	EciStartsWithI                 *string                         `json:"ECI_starts_with_i"`
+	EciNotStartsWithI              *string                         `json:"ECI_not_starts_with_i"`
+	EciEndsWithI                   *string                         `json:"ECI_ends_with_i"`
+	EciNotEndsWithI                *string                         `json:"ECI_not_ends_with_i"`
+	EciIn                          []*string                       `json:"ECI_in"`
+	EciNotIn                       []*string                       `json:"ECI_not_in"`
+	AuthCode                       *string                         `json:"authCode"`
+	AuthCodeNot                    *string                         `json:"authCode_not"`
+	AuthCodeContains               *string                         `json:"authCode_contains"`
+	AuthCodeNotContains            *string                         `json:"authCode_not_contains"`
+	AuthCodeStartsWith             *string                         `json:"authCode_starts_with"`
+	AuthCodeNotStartsWith          *string                         `json:"authCode_not_starts_with"`
+	AuthCodeEndsWith               *string                         `json:"authCode_ends_with"`
+	AuthCodeNotEndsWith            *string                         `json:"authCode_not_ends_with"`
+	AuthCodeI                      *string                         `json:"authCode_i"`
+	AuthCodeNotI                   *string                         `json:"authCode_not_i"`
+	AuthCodeContainsI              *string                         `json:"authCode_contains_i"`
+	AuthCodeNotContainsI           *string                         `json:"authCode_not_contains_i"`
+	AuthCodeStartsWithI            *string                         `json:"authCode_starts_with_i"`
+	AuthCodeNotStartsWithI         *string                         `json:"authCode_not_starts_with_i"`
+	AuthCodeEndsWithI              *string                         `json:"authCode_ends_with_i"`
+	AuthCodeNotEndsWithI           *string                         `json:"authCode_not_ends_with_i"`
+	AuthCodeIn                     []*string                       `json:"authCode_in"`
+	AuthCodeNotIn                  []*string                       `json:"authCode_not_in"`
+	AuthBank                       *string                         `json:"authBank"`
+	AuthBankNot                    *string                         `json:"authBank_not"`
+	AuthBankContains               *string                         `json:"authBank_contains"`
+	AuthBankNotContains            *string                         `json:"authBank_not_contains"`
+	AuthBankStartsWith             *string                         `json:"authBank_starts_with"`
+	AuthBankNotStartsWith          *string                         `json:"authBank_not_starts_with"`
+	AuthBankEndsWith               *string                         `json:"authBank_ends_with"`
+	AuthBankNotEndsWith            *string                         `json:"authBank_not_ends_with"`
+	AuthBankI                      *string                         `json:"authBank_i"`
+	AuthBankNotI                   *string                         `json:"authBank_not_i"`
+	AuthBankContainsI              *string                         `json:"authBank_contains_i"`
+	AuthBankNotContainsI           *string                         `json:"authBank_not_contains_i"`
+	AuthBankStartsWithI            *string                         `json:"authBank_starts_with_i"`
+	AuthBankNotStartsWithI         *string                         `json:"authBank_not_starts_with_i"`
+	AuthBankEndsWithI              *string                         `json:"authBank_ends_with_i"`
+	AuthBankNotEndsWithI           *string                         `json:"authBank_not_ends_with_i"`
+	AuthBankIn                     []*string                       `json:"authBank_in"`
+	AuthBankNotIn                  []*string                       `json:"authBank_not_in"`
+	CardInfoLastFour               *string                         `json:"cardInfoLastFour"`
+	CardInfoLastFourNot            *string                         `json:"cardInfoLastFour_not"`
+	CardInfoLastFourContains       *string                         `json:"cardInfoLastFour_contains"`
+	CardInfoLastFourNotContains    *string                         `json:"cardInfoLastFour_not_contains"`
+	CardInfoLastFourStartsWith     *string                         `json:"cardInfoLastFour_starts_with"`
+	CardInfoLastFourNotStartsWith  *string                         `json:"cardInfoLastFour_not_starts_with"`
+	CardInfoLastFourEndsWith       *string                         `json:"cardInfoLastFour_ends_with"`
+	CardInfoLastFourNotEndsWith    *string                         `json:"cardInfoLastFour_not_ends_with"`
+	CardInfoLastFourI              *string                         `json:"cardInfoLastFour_i"`
+	CardInfoLastFourNotI           *string                         `json:"cardInfoLastFour_not_i"`
+	CardInfoLastFourContainsI      *string                         `json:"cardInfoLastFour_contains_i"`
+	CardInfoLastFourNotContainsI   *string                         `json:"cardInfoLastFour_not_contains_i"`
+	CardInfoLastFourStartsWithI    *string                         `json:"cardInfoLastFour_starts_with_i"`
+	CardInfoLastFourNotStartsWithI *string                         `json:"cardInfoLastFour_not_starts_with_i"`
+	CardInfoLastFourEndsWithI      *string                         `json:"cardInfoLastFour_ends_with_i"`
+	CardInfoLastFourNotEndsWithI   *string                         `json:"cardInfoLastFour_not_ends_with_i"`
+	CardInfoLastFourIn             []*string                       `json:"cardInfoLastFour_in"`
+	CardInfoLastFourNotIn          []*string                       `json:"cardInfoLastFour_not_in"`
+	CardInfoFirstSix               *string                         `json:"cardInfoFirstSix"`
+	CardInfoFirstSixNot            *string                         `json:"cardInfoFirstSix_not"`
+	CardInfoFirstSixContains       *string                         `json:"cardInfoFirstSix_contains"`
+	CardInfoFirstSixNotContains    *string                         `json:"cardInfoFirstSix_not_contains"`
+	CardInfoFirstSixStartsWith     *string                         `json:"cardInfoFirstSix_starts_with"`
+	CardInfoFirstSixNotStartsWith  *string                         `json:"cardInfoFirstSix_not_starts_with"`
+	CardInfoFirstSixEndsWith       *string                         `json:"cardInfoFirstSix_ends_with"`
+	CardInfoFirstSixNotEndsWith    *string                         `json:"cardInfoFirstSix_not_ends_with"`
+	CardInfoFirstSixI              *string                         `json:"cardInfoFirstSix_i"`
+	CardInfoFirstSixNotI           *string                         `json:"cardInfoFirstSix_not_i"`
+	CardInfoFirstSixContainsI      *string                         `json:"cardInfoFirstSix_contains_i"`
+	CardInfoFirstSixNotContainsI   *string                         `json:"cardInfoFirstSix_not_contains_i"`
+	CardInfoFirstSixStartsWithI    *string                         `json:"cardInfoFirstSix_starts_with_i"`
+	CardInfoFirstSixNotStartsWithI *string                         `json:"cardInfoFirstSix_not_starts_with_i"`
+	CardInfoFirstSixEndsWithI      *string                         `json:"cardInfoFirstSix_ends_with_i"`
+	CardInfoFirstSixNotEndsWithI   *string                         `json:"cardInfoFirstSix_not_ends_with_i"`
+	CardInfoFirstSixIn             []*string                       `json:"cardInfoFirstSix_in"`
+	CardInfoFirstSixNotIn          []*string                       `json:"cardInfoFirstSix_not_in"`
+	CardInfoExp                    *string                         `json:"cardInfoExp"`
+	CardInfoExpNot                 *string                         `json:"cardInfoExp_not"`
+	CardInfoExpContains            *string                         `json:"cardInfoExp_contains"`
+	CardInfoExpNotContains         *string                         `json:"cardInfoExp_not_contains"`
+	CardInfoExpStartsWith          *string                         `json:"cardInfoExp_starts_with"`
+	CardInfoExpNotStartsWith       *string                         `json:"cardInfoExp_not_starts_with"`
+	CardInfoExpEndsWith            *string                         `json:"cardInfoExp_ends_with"`
+	CardInfoExpNotEndsWith         *string                         `json:"cardInfoExp_not_ends_with"`
+	CardInfoExpI                   *string                         `json:"cardInfoExp_i"`
+	CardInfoExpNotI                *string                         `json:"cardInfoExp_not_i"`
+	CardInfoExpContainsI           *string                         `json:"cardInfoExp_contains_i"`
+	CardInfoExpNotContainsI        *string                         `json:"cardInfoExp_not_contains_i"`
+	CardInfoExpStartsWithI         *string                         `json:"cardInfoExp_starts_with_i"`
+	CardInfoExpNotStartsWithI      *string                         `json:"cardInfoExp_not_starts_with_i"`
+	CardInfoExpEndsWithI           *string                         `json:"cardInfoExp_ends_with_i"`
+	CardInfoExpNotEndsWithI        *string                         `json:"cardInfoExp_not_ends_with_i"`
+	CardInfoExpIn                  []*string                       `json:"cardInfoExp_in"`
+	CardInfoExpNotIn               []*string                       `json:"cardInfoExp_not_in"`
+	Frequency                      *NewebpayPaymentFrequencyType   `json:"frequency"`
+	FrequencyNot                   *NewebpayPaymentFrequencyType   `json:"frequency_not"`
+	FrequencyIn                    []*NewebpayPaymentFrequencyType `json:"frequency_in"`
+	FrequencyNotIn                 []*NewebpayPaymentFrequencyType `json:"frequency_not_in"`
+	CreatedAt                      *string                         `json:"createdAt"`
+	CreatedAtNot                   *string                         `json:"createdAt_not"`
+	CreatedAtLt                    *string                         `json:"createdAt_lt"`
+	CreatedAtLte                   *string                         `json:"createdAt_lte"`
+	CreatedAtGt                    *string                         `json:"createdAt_gt"`
+	CreatedAtGte                   *string                         `json:"createdAt_gte"`
+	CreatedAtIn                    []*string                       `json:"createdAt_in"`
+	CreatedAtNotIn                 []*string                       `json:"createdAt_not_in"`
+	UpdatedAt                      *string                         `json:"updatedAt"`
+	UpdatedAtNot                   *string                         `json:"updatedAt_not"`
+	UpdatedAtLt                    *string                         `json:"updatedAt_lt"`
+	UpdatedAtLte                   *string                         `json:"updatedAt_lte"`
+	UpdatedAtGt                    *string                         `json:"updatedAt_gt"`
+	UpdatedAtGte                   *string                         `json:"updatedAt_gte"`
+	UpdatedAtIn                    []*string                       `json:"updatedAt_in"`
+	UpdatedAtNotIn                 []*string                       `json:"updatedAt_not_in"`
+	CreatedByIsNull                *bool                           `json:"createdBy_is_null"`
+	UpdatedByIsNull                *bool                           `json:"updatedBy_is_null"`
 }
 
 type NewebpayPaymentWhereUniqueInput struct {
@@ -3452,6 +3460,8 @@ const (
 	SortNewebpayPaymentsByCardInfoFirstSixDesc SortNewebpayPaymentsBy = "cardInfoFirstSix_DESC"
 	SortNewebpayPaymentsByCardInfoExpAsc       SortNewebpayPaymentsBy = "cardInfoExp_ASC"
 	SortNewebpayPaymentsByCardInfoExpDesc      SortNewebpayPaymentsBy = "cardInfoExp_DESC"
+	SortNewebpayPaymentsByFrequencyAsc         SortNewebpayPaymentsBy = "frequency_ASC"
+	SortNewebpayPaymentsByFrequencyDesc        SortNewebpayPaymentsBy = "frequency_DESC"
 	SortNewebpayPaymentsByCreatedAtAsc         SortNewebpayPaymentsBy = "createdAt_ASC"
 	SortNewebpayPaymentsByCreatedAtDesc        SortNewebpayPaymentsBy = "createdAt_DESC"
 	SortNewebpayPaymentsByUpdatedAtAsc         SortNewebpayPaymentsBy = "updatedAt_ASC"
@@ -3493,6 +3503,8 @@ var AllSortNewebpayPaymentsBy = []SortNewebpayPaymentsBy{
 	SortNewebpayPaymentsByCardInfoFirstSixDesc,
 	SortNewebpayPaymentsByCardInfoExpAsc,
 	SortNewebpayPaymentsByCardInfoExpDesc,
+	SortNewebpayPaymentsByFrequencyAsc,
+	SortNewebpayPaymentsByFrequencyDesc,
 	SortNewebpayPaymentsByCreatedAtAsc,
 	SortNewebpayPaymentsByCreatedAtDesc,
 	SortNewebpayPaymentsByUpdatedAtAsc,
@@ -3501,7 +3513,7 @@ var AllSortNewebpayPaymentsBy = []SortNewebpayPaymentsBy{
 
 func (e SortNewebpayPaymentsBy) IsValid() bool {
 	switch e {
-	case SortNewebpayPaymentsByIDAsc, SortNewebpayPaymentsByIDDesc, SortNewebpayPaymentsByAmountAsc, SortNewebpayPaymentsByAmountDesc, SortNewebpayPaymentsByStatusAsc, SortNewebpayPaymentsByStatusDesc, SortNewebpayPaymentsByPaymentMethodAsc, SortNewebpayPaymentsByPaymentMethodDesc, SortNewebpayPaymentsByPaymentTimeAsc, SortNewebpayPaymentsByPaymentTimeDesc, SortNewebpayPaymentsByTradeNumberAsc, SortNewebpayPaymentsByTradeNumberDesc, SortNewebpayPaymentsByMessageAsc, SortNewebpayPaymentsByMessageDesc, SortNewebpayPaymentsByMerchantIDAsc, SortNewebpayPaymentsByMerchantIDDesc, SortNewebpayPaymentsByOrderNumberAsc, SortNewebpayPaymentsByOrderNumberDesc, SortNewebpayPaymentsByTokenUseStatusAsc, SortNewebpayPaymentsByTokenUseStatusDesc, SortNewebpayPaymentsByRespondCodeAsc, SortNewebpayPaymentsByRespondCodeDesc, SortNewebpayPaymentsByEciAsc, SortNewebpayPaymentsByEciDesc, SortNewebpayPaymentsByAuthCodeAsc, SortNewebpayPaymentsByAuthCodeDesc, SortNewebpayPaymentsByAuthBankAsc, SortNewebpayPaymentsByAuthBankDesc, SortNewebpayPaymentsByCardInfoLastFourAsc, SortNewebpayPaymentsByCardInfoLastFourDesc, SortNewebpayPaymentsByCardInfoFirstSixAsc, SortNewebpayPaymentsByCardInfoFirstSixDesc, SortNewebpayPaymentsByCardInfoExpAsc, SortNewebpayPaymentsByCardInfoExpDesc, SortNewebpayPaymentsByCreatedAtAsc, SortNewebpayPaymentsByCreatedAtDesc, SortNewebpayPaymentsByUpdatedAtAsc, SortNewebpayPaymentsByUpdatedAtDesc:
+	case SortNewebpayPaymentsByIDAsc, SortNewebpayPaymentsByIDDesc, SortNewebpayPaymentsByAmountAsc, SortNewebpayPaymentsByAmountDesc, SortNewebpayPaymentsByStatusAsc, SortNewebpayPaymentsByStatusDesc, SortNewebpayPaymentsByPaymentMethodAsc, SortNewebpayPaymentsByPaymentMethodDesc, SortNewebpayPaymentsByPaymentTimeAsc, SortNewebpayPaymentsByPaymentTimeDesc, SortNewebpayPaymentsByTradeNumberAsc, SortNewebpayPaymentsByTradeNumberDesc, SortNewebpayPaymentsByMessageAsc, SortNewebpayPaymentsByMessageDesc, SortNewebpayPaymentsByMerchantIDAsc, SortNewebpayPaymentsByMerchantIDDesc, SortNewebpayPaymentsByOrderNumberAsc, SortNewebpayPaymentsByOrderNumberDesc, SortNewebpayPaymentsByTokenUseStatusAsc, SortNewebpayPaymentsByTokenUseStatusDesc, SortNewebpayPaymentsByRespondCodeAsc, SortNewebpayPaymentsByRespondCodeDesc, SortNewebpayPaymentsByEciAsc, SortNewebpayPaymentsByEciDesc, SortNewebpayPaymentsByAuthCodeAsc, SortNewebpayPaymentsByAuthCodeDesc, SortNewebpayPaymentsByAuthBankAsc, SortNewebpayPaymentsByAuthBankDesc, SortNewebpayPaymentsByCardInfoLastFourAsc, SortNewebpayPaymentsByCardInfoLastFourDesc, SortNewebpayPaymentsByCardInfoFirstSixAsc, SortNewebpayPaymentsByCardInfoFirstSixDesc, SortNewebpayPaymentsByCardInfoExpAsc, SortNewebpayPaymentsByCardInfoExpDesc, SortNewebpayPaymentsByFrequencyAsc, SortNewebpayPaymentsByFrequencyDesc, SortNewebpayPaymentsByCreatedAtAsc, SortNewebpayPaymentsByCreatedAtDesc, SortNewebpayPaymentsByUpdatedAtAsc, SortNewebpayPaymentsByUpdatedAtDesc:
 		return true
 	}
 	return false
@@ -4268,6 +4280,49 @@ func (e *MerchandiseStateType) UnmarshalGQL(v interface{}) error {
 }
 
 func (e MerchandiseStateType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type NewebpayPaymentFrequencyType string
+
+const (
+	NewebpayPaymentFrequencyTypeOneTime NewebpayPaymentFrequencyType = "one_time"
+	NewebpayPaymentFrequencyTypeYearly  NewebpayPaymentFrequencyType = "yearly"
+	NewebpayPaymentFrequencyTypeMonthly NewebpayPaymentFrequencyType = "monthly"
+)
+
+var AllNewebpayPaymentFrequencyType = []NewebpayPaymentFrequencyType{
+	NewebpayPaymentFrequencyTypeOneTime,
+	NewebpayPaymentFrequencyTypeYearly,
+	NewebpayPaymentFrequencyTypeMonthly,
+}
+
+func (e NewebpayPaymentFrequencyType) IsValid() bool {
+	switch e {
+	case NewebpayPaymentFrequencyTypeOneTime, NewebpayPaymentFrequencyTypeYearly, NewebpayPaymentFrequencyTypeMonthly:
+		return true
+	}
+	return false
+}
+
+func (e NewebpayPaymentFrequencyType) String() string {
+	return string(e)
+}
+
+func (e *NewebpayPaymentFrequencyType) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = NewebpayPaymentFrequencyType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid newebpayPaymentFrequencyType", str)
+	}
+	return nil
+}
+
+func (e NewebpayPaymentFrequencyType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 

@@ -1401,8 +1401,15 @@ type newebpayPayment {
   cardInfoLastFour: String
   cardInfoFirstSix: String
   cardInfoExp: String
+  frequency: newebpayPaymentFrequencyType
   createdAt: String
   updatedAt: String
+}
+
+enum newebpayPaymentFrequencyType {
+  one_time
+  yearly
+  monthly
 }
 
 input newebpayPaymentWhereInput {
@@ -1678,6 +1685,10 @@ input newebpayPaymentWhereInput {
   cardInfoExp_not_ends_with_i: String
   cardInfoExp_in: [String]
   cardInfoExp_not_in: [String]
+  frequency: newebpayPaymentFrequencyType
+  frequency_not: newebpayPaymentFrequencyType
+  frequency_in: [newebpayPaymentFrequencyType]
+  frequency_not_in: [newebpayPaymentFrequencyType]
   createdAt: String
   createdAt_not: String
   createdAt_lt: String
@@ -1738,6 +1749,8 @@ enum SortNewebpayPaymentsBy {
   cardInfoFirstSix_DESC
   cardInfoExp_ASC
   cardInfoExp_DESC
+  frequency_ASC
+  frequency_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -1762,6 +1775,7 @@ input newebpayPaymentOrderByInput {
   cardInfoLastFour: OrderDirection
   cardInfoFirstSix: OrderDirection
   cardInfoExp: OrderDirection
+  frequency: OrderDirection
   createdAt: OrderDirection
   updatedAt: OrderDirection
 }
@@ -1785,6 +1799,7 @@ input newebpayPaymentUpdateInput {
   cardInfoLastFour: String
   cardInfoFirstSix: String
   cardInfoExp: String
+  frequency: newebpayPaymentFrequencyType
   createdAt: String
   updatedAt: String
 }
@@ -1820,6 +1835,7 @@ input newebpayPaymentCreateInput {
   cardInfoLastFour: String
   cardInfoFirstSix: String
   cardInfoExp: String
+  frequency: newebpayPaymentFrequencyType
   createdAt: String
   updatedAt: String
 }
