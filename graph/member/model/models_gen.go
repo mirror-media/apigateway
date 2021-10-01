@@ -289,7 +289,7 @@ type Invoice struct {
 	InvoiceNo         *string              `json:"invoiceNo"`
 	Category          *InvoiceCategoryType `json:"category"`
 	LoveCode          *int                 `json:"loveCode"`
-	CarrierType       *int                 `json:"carrierType"`
+	CarrierType       *string              `json:"carrierType"`
 	CarrierNum        *string              `json:"carrierNum"`
 	BuyerName         *string              `json:"buyerName"`
 	BuyerUbn          *string              `json:"buyerUBN"`
@@ -308,7 +308,7 @@ type InvoiceCreateInput struct {
 	InvoiceNo         *string                            `json:"invoiceNo"`
 	Category          *InvoiceCategoryType               `json:"category"`
 	LoveCode          *int                               `json:"loveCode"`
-	CarrierType       *int                               `json:"carrierType"`
+	CarrierType       *string                            `json:"carrierType"`
 	CarrierNum        *string                            `json:"carrierNum"`
 	BuyerName         *string                            `json:"buyerName"`
 	BuyerUbn          *string                            `json:"buyerUBN"`
@@ -351,7 +351,7 @@ type InvoiceUpdateInput struct {
 	InvoiceNo         *string                            `json:"invoiceNo"`
 	Category          *InvoiceCategoryType               `json:"category"`
 	LoveCode          *int                               `json:"loveCode"`
-	CarrierType       *int                               `json:"carrierType"`
+	CarrierType       *string                            `json:"carrierType"`
 	CarrierNum        *string                            `json:"carrierNum"`
 	BuyerName         *string                            `json:"buyerName"`
 	BuyerUbn          *string                            `json:"buyerUBN"`
@@ -451,10 +451,10 @@ type InvoiceWhereInput struct {
 	LoveCodeGte              *int                         `json:"loveCode_gte"`
 	LoveCodeIn               []*int                       `json:"loveCode_in"`
 	LoveCodeNotIn            []*int                       `json:"loveCode_not_in"`
-	CarrierType              *int                         `json:"carrierType"`
-	CarrierTypeNot           *int                         `json:"carrierType_not"`
-	CarrierTypeIn            []*int                       `json:"carrierType_in"`
-	CarrierTypeNotIn         []*int                       `json:"carrierType_not_in"`
+	CarrierType              *string                      `json:"carrierType"`
+	CarrierTypeNot           *string                      `json:"carrierType_not"`
+	CarrierTypeIn            []*string                    `json:"carrierType_in"`
+	CarrierTypeNotIn         []*string                    `json:"carrierType_not_in"`
 	CarrierNum               *string                      `json:"carrierNum"`
 	CarrierNumNot            *string                      `json:"carrierNum_not"`
 	CarrierNumContains       *string                      `json:"carrierNum_contains"`
@@ -1979,8 +1979,9 @@ type Subscription struct {
 	OneTimeStartDatetime      *string                        `json:"oneTimeStartDatetime"`
 	OneTimeEndDatetime        *string                        `json:"oneTimeEndDatetime"`
 	NewebpayPaymentInfo       *NewebpayPaymentInfo           `json:"newebpayPaymentInfo"`
+	Category                  *SubscriptionCategoryType      `json:"category"`
 	LoveCode                  *int                           `json:"loveCode"`
-	CarrierType               *int                           `json:"carrierType"`
+	CarrierType               *string                        `json:"carrierType"`
 	CarrierNum                *string                        `json:"carrierNum"`
 	BuyerName                 *string                        `json:"buyerName"`
 	BuyerUbn                  *string                        `json:"buyerUBN"`
@@ -2018,8 +2019,9 @@ type SubscriptionCreateInput struct {
 	OneTimeStartDatetime      *string                              `json:"oneTimeStartDatetime"`
 	OneTimeEndDatetime        *string                              `json:"oneTimeEndDatetime"`
 	NewebpayPaymentInfo       *NewebpayPaymentInfoRelateToOneInput `json:"newebpayPaymentInfo"`
+	Category                  *SubscriptionCategoryType            `json:"category"`
 	LoveCode                  *int                                 `json:"loveCode"`
-	CarrierType               *int                                 `json:"carrierType"`
+	CarrierType               *string                              `json:"carrierType"`
 	CarrierNum                *string                              `json:"carrierNum"`
 	BuyerName                 *string                              `json:"buyerName"`
 	BuyerUbn                  *string                              `json:"buyerUBN"`
@@ -2422,6 +2424,11 @@ type SubscriptionInfo struct {
 	ChangePlanDatetime        *string                        `json:"changePlanDatetime"`
 	Note                      *string                        `json:"note"`
 	PromoteID                 *int                           `json:"promoteId"`
+	Category                  *SubscriptionCategoryType      `json:"category"`
+	CarrierType               *string                        `json:"carrierType"`
+	CarrierNum                *string                        `json:"carrierNum"`
+	BuyerName                 *string                        `json:"buyerName"`
+	BuyerUbn                  *string                        `json:"buyerUBN"`
 	PostID                    *string                        `json:"postId"`
 	OneTimeStartDatetime      *string                        `json:"oneTimeStartDatetime"`
 	OneTimeEndDatetime        *string                        `json:"oneTimeEndDatetime"`
@@ -2461,6 +2468,7 @@ type SubscriptionOrderByInput struct {
 	PostID                    *OrderDirection `json:"postId"`
 	OneTimeStartDatetime      *OrderDirection `json:"oneTimeStartDatetime"`
 	OneTimeEndDatetime        *OrderDirection `json:"oneTimeEndDatetime"`
+	Category                  *OrderDirection `json:"category"`
 	LoveCode                  *OrderDirection `json:"loveCode"`
 	CarrierType               *OrderDirection `json:"carrierType"`
 	CarrierNum                *OrderDirection `json:"carrierNum"`
@@ -2500,8 +2508,9 @@ type SubscriptionPrivateUpdateInput struct {
 	OneTimeStartDatetime      *string                              `json:"oneTimeStartDatetime"`
 	OneTimeEndDatetime        *string                              `json:"oneTimeEndDatetime"`
 	NewebpayPaymentInfo       *NewebpayPaymentInfoRelateToOneInput `json:"newebpayPaymentInfo"`
+	Category                  *SubscriptionCategoryType            `json:"category"`
 	LoveCode                  *int                                 `json:"loveCode"`
-	CarrierType               *int                                 `json:"carrierType"`
+	CarrierType               *string                              `json:"carrierType"`
 	CarrierNum                *string                              `json:"carrierNum"`
 	BuyerName                 *string                              `json:"buyerName"`
 	BuyerUbn                  *string                              `json:"buyerUBN"`
@@ -2771,6 +2780,10 @@ type SubscriptionWhereInput struct {
 	OneTimeEndDatetimeNotIn        []*int                           `json:"oneTimeEndDatetime_not_in"`
 	NewebpayPaymentInfo            *NewebpayPaymentInfoWhereInput   `json:"newebpayPaymentInfo"`
 	NewebpayPaymentInfoIsNull      *bool                            `json:"newebpayPaymentInfo_is_null"`
+	Category                       *SubscriptionCategoryType        `json:"category"`
+	CategoryNot                    *SubscriptionCategoryType        `json:"category_not"`
+	CategoryIn                     []*SubscriptionCategoryType      `json:"category_in"`
+	CategoryNotIn                  []*SubscriptionCategoryType      `json:"category_not_in"`
 	LoveCode                       *int                             `json:"loveCode"`
 	LoveCodeNot                    *int                             `json:"loveCode_not"`
 	LoveCodeLt                     *int                             `json:"loveCode_lt"`
@@ -2779,10 +2792,10 @@ type SubscriptionWhereInput struct {
 	LoveCodeGte                    *int                             `json:"loveCode_gte"`
 	LoveCodeIn                     []*int                           `json:"loveCode_in"`
 	LoveCodeNotIn                  []*int                           `json:"loveCode_not_in"`
-	CarrierType                    *int                             `json:"carrierType"`
-	CarrierTypeNot                 *int                             `json:"carrierType_not"`
-	CarrierTypeIn                  []*int                           `json:"carrierType_in"`
-	CarrierTypeNotIn               []*int                           `json:"carrierType_not_in"`
+	CarrierType                    *string                          `json:"carrierType"`
+	CarrierTypeNot                 *string                          `json:"carrierType_not"`
+	CarrierTypeIn                  []*string                        `json:"carrierType_in"`
+	CarrierTypeNotIn               []*string                        `json:"carrierType_not_in"`
 	CarrierNum                     *string                          `json:"carrierNum"`
 	CarrierNumNot                  *string                          `json:"carrierNum_not"`
 	CarrierNumContains             *string                          `json:"carrierNum_contains"`
@@ -3795,6 +3808,8 @@ const (
 	SortSubscriptionsByOneTimeStartDatetimeDesc      SortSubscriptionsBy = "oneTimeStartDatetime_DESC"
 	SortSubscriptionsByOneTimeEndDatetimeAsc         SortSubscriptionsBy = "oneTimeEndDatetime_ASC"
 	SortSubscriptionsByOneTimeEndDatetimeDesc        SortSubscriptionsBy = "oneTimeEndDatetime_DESC"
+	SortSubscriptionsByCategoryAsc                   SortSubscriptionsBy = "category_ASC"
+	SortSubscriptionsByCategoryDesc                  SortSubscriptionsBy = "category_DESC"
 	SortSubscriptionsByLoveCodeAsc                   SortSubscriptionsBy = "loveCode_ASC"
 	SortSubscriptionsByLoveCodeDesc                  SortSubscriptionsBy = "loveCode_DESC"
 	SortSubscriptionsByCarrierTypeAsc                SortSubscriptionsBy = "carrierType_ASC"
@@ -3862,6 +3877,8 @@ var AllSortSubscriptionsBy = []SortSubscriptionsBy{
 	SortSubscriptionsByOneTimeStartDatetimeDesc,
 	SortSubscriptionsByOneTimeEndDatetimeAsc,
 	SortSubscriptionsByOneTimeEndDatetimeDesc,
+	SortSubscriptionsByCategoryAsc,
+	SortSubscriptionsByCategoryDesc,
 	SortSubscriptionsByLoveCodeAsc,
 	SortSubscriptionsByLoveCodeDesc,
 	SortSubscriptionsByCarrierTypeAsc,
@@ -3880,7 +3897,7 @@ var AllSortSubscriptionsBy = []SortSubscriptionsBy{
 
 func (e SortSubscriptionsBy) IsValid() bool {
 	switch e {
-	case SortSubscriptionsByIDAsc, SortSubscriptionsByIDDesc, SortSubscriptionsByPaymentMethodAsc, SortSubscriptionsByPaymentMethodDesc, SortSubscriptionsByStatusAsc, SortSubscriptionsByStatusDesc, SortSubscriptionsByAmountAsc, SortSubscriptionsByAmountDesc, SortSubscriptionsByCurrencyAsc, SortSubscriptionsByCurrencyDesc, SortSubscriptionsByDescAsc, SortSubscriptionsByDescDesc, SortSubscriptionsByCommentAsc, SortSubscriptionsByCommentDesc, SortSubscriptionsByEmailAsc, SortSubscriptionsByEmailDesc, SortSubscriptionsByOrderNumberAsc, SortSubscriptionsByOrderNumberDesc, SortSubscriptionsByIsActiveAsc, SortSubscriptionsByIsActiveDesc, SortSubscriptionsByIsCanceledAsc, SortSubscriptionsByIsCanceledDesc, SortSubscriptionsByFrequencyAsc, SortSubscriptionsByFrequencyDesc, SortSubscriptionsByNextFrequencyAsc, SortSubscriptionsByNextFrequencyDesc, SortSubscriptionsByPeriodFailureTimesAsc, SortSubscriptionsByPeriodFailureTimesDesc, SortSubscriptionsByPeriodLastSuccessDatetimeAsc, SortSubscriptionsByPeriodLastSuccessDatetimeDesc, SortSubscriptionsByPeriodNextPayDatetimeAsc, SortSubscriptionsByPeriodNextPayDatetimeDesc, SortSubscriptionsByPeriodCreateDatetimeAsc, SortSubscriptionsByPeriodCreateDatetimeDesc, SortSubscriptionsByPeriodFirstDatetimeAsc, SortSubscriptionsByPeriodFirstDatetimeDesc, SortSubscriptionsByPeriodEndDatetimeAsc, SortSubscriptionsByPeriodEndDatetimeDesc, SortSubscriptionsByChangePlanDatetimeAsc, SortSubscriptionsByChangePlanDatetimeDesc, SortSubscriptionsByNoteAsc, SortSubscriptionsByNoteDesc, SortSubscriptionsByPromoteIDAsc, SortSubscriptionsByPromoteIDDesc, SortSubscriptionsByPostIDAsc, SortSubscriptionsByPostIDDesc, SortSubscriptionsByOneTimeStartDatetimeAsc, SortSubscriptionsByOneTimeStartDatetimeDesc, SortSubscriptionsByOneTimeEndDatetimeAsc, SortSubscriptionsByOneTimeEndDatetimeDesc, SortSubscriptionsByLoveCodeAsc, SortSubscriptionsByLoveCodeDesc, SortSubscriptionsByCarrierTypeAsc, SortSubscriptionsByCarrierTypeDesc, SortSubscriptionsByCarrierNumAsc, SortSubscriptionsByCarrierNumDesc, SortSubscriptionsByBuyerNameAsc, SortSubscriptionsByBuyerNameDesc, SortSubscriptionsByBuyerUbnAsc, SortSubscriptionsByBuyerUbnDesc, SortSubscriptionsByCreatedAtAsc, SortSubscriptionsByCreatedAtDesc, SortSubscriptionsByUpdatedAtAsc, SortSubscriptionsByUpdatedAtDesc:
+	case SortSubscriptionsByIDAsc, SortSubscriptionsByIDDesc, SortSubscriptionsByPaymentMethodAsc, SortSubscriptionsByPaymentMethodDesc, SortSubscriptionsByStatusAsc, SortSubscriptionsByStatusDesc, SortSubscriptionsByAmountAsc, SortSubscriptionsByAmountDesc, SortSubscriptionsByCurrencyAsc, SortSubscriptionsByCurrencyDesc, SortSubscriptionsByDescAsc, SortSubscriptionsByDescDesc, SortSubscriptionsByCommentAsc, SortSubscriptionsByCommentDesc, SortSubscriptionsByEmailAsc, SortSubscriptionsByEmailDesc, SortSubscriptionsByOrderNumberAsc, SortSubscriptionsByOrderNumberDesc, SortSubscriptionsByIsActiveAsc, SortSubscriptionsByIsActiveDesc, SortSubscriptionsByIsCanceledAsc, SortSubscriptionsByIsCanceledDesc, SortSubscriptionsByFrequencyAsc, SortSubscriptionsByFrequencyDesc, SortSubscriptionsByNextFrequencyAsc, SortSubscriptionsByNextFrequencyDesc, SortSubscriptionsByPeriodFailureTimesAsc, SortSubscriptionsByPeriodFailureTimesDesc, SortSubscriptionsByPeriodLastSuccessDatetimeAsc, SortSubscriptionsByPeriodLastSuccessDatetimeDesc, SortSubscriptionsByPeriodNextPayDatetimeAsc, SortSubscriptionsByPeriodNextPayDatetimeDesc, SortSubscriptionsByPeriodCreateDatetimeAsc, SortSubscriptionsByPeriodCreateDatetimeDesc, SortSubscriptionsByPeriodFirstDatetimeAsc, SortSubscriptionsByPeriodFirstDatetimeDesc, SortSubscriptionsByPeriodEndDatetimeAsc, SortSubscriptionsByPeriodEndDatetimeDesc, SortSubscriptionsByChangePlanDatetimeAsc, SortSubscriptionsByChangePlanDatetimeDesc, SortSubscriptionsByNoteAsc, SortSubscriptionsByNoteDesc, SortSubscriptionsByPromoteIDAsc, SortSubscriptionsByPromoteIDDesc, SortSubscriptionsByPostIDAsc, SortSubscriptionsByPostIDDesc, SortSubscriptionsByOneTimeStartDatetimeAsc, SortSubscriptionsByOneTimeStartDatetimeDesc, SortSubscriptionsByOneTimeEndDatetimeAsc, SortSubscriptionsByOneTimeEndDatetimeDesc, SortSubscriptionsByCategoryAsc, SortSubscriptionsByCategoryDesc, SortSubscriptionsByLoveCodeAsc, SortSubscriptionsByLoveCodeDesc, SortSubscriptionsByCarrierTypeAsc, SortSubscriptionsByCarrierTypeDesc, SortSubscriptionsByCarrierNumAsc, SortSubscriptionsByCarrierNumDesc, SortSubscriptionsByBuyerNameAsc, SortSubscriptionsByBuyerNameDesc, SortSubscriptionsByBuyerUbnAsc, SortSubscriptionsByBuyerUbnDesc, SortSubscriptionsByCreatedAtAsc, SortSubscriptionsByCreatedAtDesc, SortSubscriptionsByUpdatedAtAsc, SortSubscriptionsByUpdatedAtDesc:
 		return true
 	}
 	return false
@@ -3991,20 +4008,20 @@ func (e InvoiceCategoryType) MarshalGQL(w io.Writer) {
 type InvoiceStatusType string
 
 const (
-	InvoiceStatusTypeSuccess   InvoiceStatusType = "success"
-	InvoiceStatusTypeFailed    InvoiceStatusType = "failed"
-	InvoiceStatusTypeCancelled InvoiceStatusType = "cancelled"
+	InvoiceStatusTypeSuccess  InvoiceStatusType = "success"
+	InvoiceStatusTypeFailed   InvoiceStatusType = "failed"
+	InvoiceStatusTypeCanceled InvoiceStatusType = "canceled"
 )
 
 var AllInvoiceStatusType = []InvoiceStatusType{
 	InvoiceStatusTypeSuccess,
 	InvoiceStatusTypeFailed,
-	InvoiceStatusTypeCancelled,
+	InvoiceStatusTypeCanceled,
 }
 
 func (e InvoiceStatusType) IsValid() bool {
 	switch e {
-	case InvoiceStatusTypeSuccess, InvoiceStatusTypeFailed, InvoiceStatusTypeCancelled:
+	case InvoiceStatusTypeSuccess, InvoiceStatusTypeFailed, InvoiceStatusTypeCanceled:
 		return true
 	}
 	return false
@@ -4408,6 +4425,47 @@ func (e PromotionStateType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+type SubscriptionCategoryType string
+
+const (
+	SubscriptionCategoryTypeB2b SubscriptionCategoryType = "b2b"
+	SubscriptionCategoryTypeB2c SubscriptionCategoryType = "b2c"
+)
+
+var AllSubscriptionCategoryType = []SubscriptionCategoryType{
+	SubscriptionCategoryTypeB2b,
+	SubscriptionCategoryTypeB2c,
+}
+
+func (e SubscriptionCategoryType) IsValid() bool {
+	switch e {
+	case SubscriptionCategoryTypeB2b, SubscriptionCategoryTypeB2c:
+		return true
+	}
+	return false
+}
+
+func (e SubscriptionCategoryType) String() string {
+	return string(e)
+}
+
+func (e *SubscriptionCategoryType) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SubscriptionCategoryType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid subscriptionCategoryType", str)
+	}
+	return nil
+}
+
+func (e SubscriptionCategoryType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
 type SubscriptionCurrencyType string
 
 const (
@@ -4493,20 +4551,20 @@ func (e SubscriptionFrequencyType) MarshalGQL(w io.Writer) {
 type SubscriptionHistoryActionType string
 
 const (
-	SubscriptionHistoryActionTypePurge     SubscriptionHistoryActionType = "purge"
-	SubscriptionHistoryActionTypeUpgrade   SubscriptionHistoryActionType = "upgrade"
-	SubscriptionHistoryActionTypeCancelled SubscriptionHistoryActionType = "cancelled"
+	SubscriptionHistoryActionTypePurge    SubscriptionHistoryActionType = "purge"
+	SubscriptionHistoryActionTypeUpgrade  SubscriptionHistoryActionType = "upgrade"
+	SubscriptionHistoryActionTypeCanceled SubscriptionHistoryActionType = "canceled"
 )
 
 var AllSubscriptionHistoryActionType = []SubscriptionHistoryActionType{
 	SubscriptionHistoryActionTypePurge,
 	SubscriptionHistoryActionTypeUpgrade,
-	SubscriptionHistoryActionTypeCancelled,
+	SubscriptionHistoryActionTypeCanceled,
 }
 
 func (e SubscriptionHistoryActionType) IsValid() bool {
 	switch e {
-	case SubscriptionHistoryActionTypePurge, SubscriptionHistoryActionTypeUpgrade, SubscriptionHistoryActionTypeCancelled:
+	case SubscriptionHistoryActionTypePurge, SubscriptionHistoryActionTypeUpgrade, SubscriptionHistoryActionTypeCanceled:
 		return true
 	}
 	return false
@@ -4618,13 +4676,13 @@ func (e SubscriptionHistoryFrequencyType) MarshalGQL(w io.Writer) {
 type SubscriptionHistoryStatusType string
 
 const (
-	SubscriptionHistoryStatusTypeToPay     SubscriptionHistoryStatusType = "to_pay"
-	SubscriptionHistoryStatusTypePaying    SubscriptionHistoryStatusType = "paying"
-	SubscriptionHistoryStatusTypePaid      SubscriptionHistoryStatusType = "paid"
-	SubscriptionHistoryStatusTypeFail      SubscriptionHistoryStatusType = "fail"
-	SubscriptionHistoryStatusTypeStopped   SubscriptionHistoryStatusType = "stopped"
-	SubscriptionHistoryStatusTypeCancelled SubscriptionHistoryStatusType = "cancelled"
-	SubscriptionHistoryStatusTypeInvalid   SubscriptionHistoryStatusType = "invalid"
+	SubscriptionHistoryStatusTypeToPay    SubscriptionHistoryStatusType = "to_pay"
+	SubscriptionHistoryStatusTypePaying   SubscriptionHistoryStatusType = "paying"
+	SubscriptionHistoryStatusTypePaid     SubscriptionHistoryStatusType = "paid"
+	SubscriptionHistoryStatusTypeFail     SubscriptionHistoryStatusType = "fail"
+	SubscriptionHistoryStatusTypeStopped  SubscriptionHistoryStatusType = "stopped"
+	SubscriptionHistoryStatusTypeCanceled SubscriptionHistoryStatusType = "canceled"
+	SubscriptionHistoryStatusTypeInvalid  SubscriptionHistoryStatusType = "invalid"
 )
 
 var AllSubscriptionHistoryStatusType = []SubscriptionHistoryStatusType{
@@ -4633,13 +4691,13 @@ var AllSubscriptionHistoryStatusType = []SubscriptionHistoryStatusType{
 	SubscriptionHistoryStatusTypePaid,
 	SubscriptionHistoryStatusTypeFail,
 	SubscriptionHistoryStatusTypeStopped,
-	SubscriptionHistoryStatusTypeCancelled,
+	SubscriptionHistoryStatusTypeCanceled,
 	SubscriptionHistoryStatusTypeInvalid,
 }
 
 func (e SubscriptionHistoryStatusType) IsValid() bool {
 	switch e {
-	case SubscriptionHistoryStatusTypeToPay, SubscriptionHistoryStatusTypePaying, SubscriptionHistoryStatusTypePaid, SubscriptionHistoryStatusTypeFail, SubscriptionHistoryStatusTypeStopped, SubscriptionHistoryStatusTypeCancelled, SubscriptionHistoryStatusTypeInvalid:
+	case SubscriptionHistoryStatusTypeToPay, SubscriptionHistoryStatusTypePaying, SubscriptionHistoryStatusTypePaid, SubscriptionHistoryStatusTypeFail, SubscriptionHistoryStatusTypeStopped, SubscriptionHistoryStatusTypeCanceled, SubscriptionHistoryStatusTypeInvalid:
 		return true
 	}
 	return false
