@@ -2127,8 +2127,8 @@ type invoice {
 }
 
 enum invoiceCategoryType {
-  b2b
-  b2c
+  B2B
+  B2C
 }
 
 enum invoiceStatusType {
@@ -4383,8 +4383,8 @@ enum updateSubscriptionNextFrequencyType {
 }
 
 enum subscriptionCategoryType {
-  b2b
-  b2c
+  B2B
+  B2C
 }
 
 input subscriptionWhereInput {

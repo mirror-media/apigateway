@@ -3967,8 +3967,8 @@ func (e CreateSubscriptionStatusType) MarshalGQL(w io.Writer) {
 type InvoiceCategoryType string
 
 const (
-	InvoiceCategoryTypeB2b InvoiceCategoryType = "b2b"
-	InvoiceCategoryTypeB2c InvoiceCategoryType = "b2c"
+	InvoiceCategoryTypeB2b InvoiceCategoryType = "B2B"
+	InvoiceCategoryTypeB2c InvoiceCategoryType = "B2C"
 )
 
 var AllInvoiceCategoryType = []InvoiceCategoryType{
@@ -4428,8 +4428,8 @@ func (e PromotionStateType) MarshalGQL(w io.Writer) {
 type SubscriptionCategoryType string
 
 const (
-	SubscriptionCategoryTypeB2b SubscriptionCategoryType = "b2b"
-	SubscriptionCategoryTypeB2c SubscriptionCategoryType = "b2c"
+	SubscriptionCategoryTypeB2b SubscriptionCategoryType = "B2B"
+	SubscriptionCategoryTypeB2c SubscriptionCategoryType = "B2C"
 )
 
 var AllSubscriptionCategoryType = []SubscriptionCategoryType{
