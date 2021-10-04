@@ -34,7 +34,7 @@ type premiumAccess struct {
 	postIDs      map[string]interface{}
 }
 
-func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cache.Rediser, cacheTTL int, memberGraphqlEndpoint string) func(c *gin.Context) {
+func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cache.Rediser, cacheTTL int, memberGraphqlEndpoint string, privilegedEmailDomains map[string]bool) func(c *gin.Context) {
 	targetQuery := target.RawQuery
 	director := func(req *http.Request) {
 		if strings.HasSuffix(pathBaseToStrip, "/") {
@@ -106,8 +106,11 @@ func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cach
 
 			if isTokenExist {
 				email, emailVerified = typedToken.GetEmail()
+				emailParts := strings.Split(email, "@")
+				domain := emailParts[len(emailParts)-1]
+				isDomainPrivileged := privilegedEmailDomains[domain]
 
-				hasPremiumPrivilege = emailVerified && (strings.HasSuffix(email, "@mirrormedia.mg") || strings.HasSuffix(email, "@mnews.tw") || strings.HasSuffix(email, "@mirrorfiction.com"))
+				hasPremiumPrivilege = emailVerified && isDomainPrivileged
 			}
 
 			if tokenState == token.OK && !isOriginalPathStory {

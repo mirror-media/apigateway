@@ -94,7 +94,7 @@ func SetRoute(server *Server) error {
 		return err
 	}
 
-	v0tokenStateRouter.Any("/*wildcard", NewSingleHostReverseProxy(proxyURL, v0Router.BasePath(), server.Rdb, server.Conf.RedisService.Cache.TTL, server.Conf.ServiceEndpoints.UserGraphQL))
+	v0tokenStateRouter.Any("/*wildcard", NewSingleHostReverseProxy(proxyURL, v0Router.BasePath(), server.Rdb, server.Conf.RedisService.Cache.TTL, server.Conf.ServiceEndpoints.UserGraphQL, server.Conf.PrivilegedEmailDomains))
 
 	return nil
 }
