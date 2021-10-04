@@ -38,7 +38,7 @@ func main() {
 	}
 
 	var cfg config.Conf
-	err = viper.Unmarshal(&cfg)
+	err = v.Unmarshal(&cfg)
 	if err != nil {
 		logrus.Fatalf("unable to decode into struct, %v", err)
 	}
