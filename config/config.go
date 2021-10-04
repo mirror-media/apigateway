@@ -54,6 +54,7 @@ type Conf struct {
 	TokenSecretName             string
 	V0RESTfulSvrTargetURL       string
 	FeatureToggles              FeatureToggles
+	PrivilegedEmailDomains      map[string]bool
 }
 
 func (c *Conf) Valid() bool {

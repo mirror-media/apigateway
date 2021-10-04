@@ -25,12 +25,13 @@ func init() {
 
 func main() {
 
+	v := viper.NewWithOptions(viper.KeyDelimiter("::"))
 	// name of config file (without extension)
-	viper.SetConfigName("membermutationConfig")
+	v.SetConfigName("membermutationConfig")
 	// optionally look for config in the working directory
-	viper.AddConfigPath("./configs")
+	v.AddConfigPath("./configs")
 	// Find and read the config file
-	err := viper.ReadInConfig()
+	err := v.ReadInConfig()
 	// Handle errors reading the config file
 	if err != nil {
 		logrus.Fatalf("fatal error config file: %s", err)

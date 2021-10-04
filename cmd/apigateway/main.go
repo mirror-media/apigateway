@@ -29,20 +29,20 @@ func init() {
 }
 
 func main() {
-
+	v := viper.NewWithOptions(viper.KeyDelimiter("::"))
 	// name of config file (without extension)
-	viper.SetConfigName("config")
+	v.SetConfigName("config")
 	// optionally look for config in the working directory
-	viper.AddConfigPath("./configs")
+	v.AddConfigPath("./configs")
 	// Find and read the config file
-	err := viper.ReadInConfig()
+	err := v.ReadInConfig()
 	// Handle errors reading the config file
 	if err != nil {
 		logrus.Fatalf("fatal error config file: %s", err)
 	}
 
 	var cfg config.Conf
-	err = viper.Unmarshal(&cfg)
+	err = v.Unmarshal(&cfg)
 	if err != nil {
 		logrus.Fatalf("unable to decode into struct, %v", err)
 	}
