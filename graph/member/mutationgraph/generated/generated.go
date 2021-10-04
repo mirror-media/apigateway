@@ -5472,7 +5472,7 @@ input subscriptionRecurringCreateInput {
   note: String
   promoteId: Int
   loveCode: Int
-  category: subscriptionCategoryType
+  category: subscriptionCategoryType!
   carrierType: String
   carrierNum: String
   buyerName: String
@@ -5491,7 +5491,7 @@ input subscriptionOneTimeCreateInput {
   note: String
   promoteId: Int
   loveCode: Int
-  category: subscriptionCategoryType
+  category: subscriptionCategoryType!
   carrierType: String
   carrierNum: String
   buyerName: String
@@ -36368,6 +36368,16 @@ func (ec *executionContext) marshalNsubscription2ᚖgithubᚗcomᚋmirrorᚑmedi
 		return graphql.Null
 	}
 	return ec._subscription(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNsubscriptionCategoryType2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionCategoryType(ctx context.Context, v interface{}) (model.SubscriptionCategoryType, error) {
+	var res model.SubscriptionCategoryType
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNsubscriptionCategoryType2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionCategoryType(ctx context.Context, sel ast.SelectionSet, v model.SubscriptionCategoryType) graphql.Marshaler {
+	return v
 }
 
 func (ec *executionContext) unmarshalNsubscriptionFrequencyType2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionFrequencyType(ctx context.Context, v interface{}) (model.SubscriptionFrequencyType, error) {

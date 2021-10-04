@@ -3372,7 +3372,7 @@ input subscriptionRecurringCreateInput {
   note: String
   promoteId: Int
   loveCode: Int
-  category: subscriptionCategoryType
+  category: subscriptionCategoryType!
   carrierType: String
   carrierNum: String
   buyerName: String
@@ -3391,7 +3391,7 @@ input subscriptionOneTimeCreateInput {
   note: String
   promoteId: Int
   loveCode: Int
-  category: subscriptionCategoryType
+  category: subscriptionCategoryType!
   carrierType: String
   carrierNum: String
   buyerName: String
