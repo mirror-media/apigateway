@@ -55,10 +55,10 @@ func SetRoute(server *Server) error {
 	v2Router := apiRouter.Group("/v2")
 	v2tokenStateRouter := v2Router.Use(middleware.SetIDTokenOnly(server.firebaseClient))
 
-	v2TokenAuthenticatedWithFirebaseRouter := v2tokenStateRouter.Use(middleware.AuthenticateIDToken(server.firebaseClient), middleware.FirebaseClientToContextMiddleware(server.firebaseClient), middleware.FirebaseDBClientToContextMiddleware(server.firebaseDatabaseClient))
+	v2TokenAuthenticatedWithFirebaseRouter := v2tokenStateRouter.Use(middleware.GetFirebaseIDUnverified(server.firebaseClient), middleware.FirebaseClientToContextMiddleware(server.firebaseClient), middleware.FirebaseDBClientToContextMiddleware(server.firebaseDatabaseClient))
 
 	var mutationSchemaPath string
-	if isPremiumSubscriptionEnabled, _ := ffclient.BoolVariation("premium-subscription", ffuser.NewUser(""), false); isPremiumSubscriptionEnabled {
+	if isPremiumSubscriptionEnabled, _ := ffclient.BoolVariation("premium-subscription", ffuser.NewUser(""), true); isPremiumSubscriptionEnabled {
 		mutationSchemaPath = "graph/member/mutation.graphql"
 	} else {
 		mutationSchemaPath = "graph/member/mutation-member-only.graphql"
@@ -66,7 +66,7 @@ func SetRoute(server *Server) error {
 
 	v2GraphHandler := handler.NewAPIGatewayGraphQLHandler(server.Conf.ServiceEndpoints.UserGraphQL, "http://localhost:8888/api/v2/graphql/member", "graph/member/type.graphql", "graph/member/query.graphql", mutationSchemaPath)
 
-	v2GraphqlMemberRouter := v2TokenAuthenticatedWithFirebaseRouter.Use(middleware.AuthenticateMemberQueryAndFirebaseIDInArguments)
+	v2GraphqlMemberRouter := v2TokenAuthenticatedWithFirebaseRouter
 
 	v2GraphqlMemberRouter.POST("graphql/member", gin.WrapH(v2GraphHandler))
 
@@ -108,7 +108,7 @@ func SetMemberMutationRoute(server *Server) error {
 
 	v2tokenStateRouter := v2Router.Use(middleware.SetIDTokenOnly(server.firebaseClient))
 
-	v2TokenAuthenticatedWithFirebaseRouter := v2tokenStateRouter.Use(middleware.AuthenticateIDToken(server.firebaseClient), middleware.AuthenticateMemberQueryAndFirebaseIDInArguments, middleware.FirebaseClientToContextMiddleware(server.firebaseClient), middleware.FirebaseDBClientToContextMiddleware(server.firebaseDatabaseClient))
+	v2TokenAuthenticatedWithFirebaseRouter := v2tokenStateRouter.Use(middleware.GetFirebaseIDUnverified(server.firebaseClient), middleware.FirebaseClientToContextMiddleware(server.firebaseClient), middleware.FirebaseDBClientToContextMiddleware(server.firebaseDatabaseClient))
 
 	c := server.Conf
 
