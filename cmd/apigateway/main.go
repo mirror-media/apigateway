@@ -54,7 +54,7 @@ func main() {
 	object := client.Bucket(cfg.FeatureToggles.Bucket).Object(cfg.FeatureToggles.Object)
 
 	ffclient.Init(ffclient.Config{
-		PollingInterval: 3 * time.Second,
+		PollingInterval: 60 * time.Second,
 		Logger:          log.New(os.Stdout, "", 0),
 		Context:         context.Background(),
 		Retriever: &featureflag.Bucket{

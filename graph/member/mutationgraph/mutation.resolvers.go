@@ -380,10 +380,6 @@ func (r *mutationResolver) Updatesubscription(ctx context.Context, id string, da
 		return nil, err
 	}
 
-	if isCanceled, ok := data["isCanceled"]; ok && (isCanceled != true) {
-		return nil, errors.New("invalid mutation: you may not un-cancel the subscription")
-	}
-
 	_firebaseID, _frequency, err := r.RetrieveExistingSubscriptionFromRemote(ctx, id)
 	if err != nil {
 		return nil, err
