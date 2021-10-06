@@ -2,8 +2,6 @@ module github.com/mirror-media/apigateway
 
 go 1.16
 
-replace github.com/machinebox/graphql => github.com/bcgodev/graphql v0.3.0
-
 require (
 	cloud.google.com/go v0.95.0 // indirect
 	cloud.google.com/go/firestore v1.6.0 // indirect
