@@ -103,6 +103,7 @@ type NewebpayTradeInfo struct {
 	ReturnURL           string              `url:"ReturnURL,omitempty"`
 	StoreID             string              `url:"MerchantID"`
 	TimeStamp           string              `url:"TimeStamp"`
+	TokenTerm           string              `url:"TokenTerm,omitempty"`
 	Version             string              `url:"Version"`
 }
 
@@ -112,7 +113,6 @@ type NewebpayTradeInfoAgreement struct {
 	ItemDesc        string  `url:"ItemDesc"`
 	OrderComment    string  `url:"OrderComment"`
 	P3D             Boolean `url:"P3D"`
-	TokenTerm       string  `url:"TokenTerm"`
 }
 
 type NewebpayTradeInfoMGP struct {
@@ -179,13 +179,13 @@ func (s NewebPayStore) CreateNewebpayAgreementPayload(agreementInfo NewebpayAgre
 			ReturnURL:           returnURL,
 			StoreID:             s.ID,
 			TimeStamp:           strconv.FormatInt(purchaseInfo.PurchasedAtUnixTime, 10),
+			TokenTerm:           agreementInfo.TokenTerm,
 			Version:             s.Version,
 		},
 		CreditAgreement: 1,
 		OrderComment:    agreementInfo.OrderComment,
 		ItemDesc:        agreementInfo.ItemDesc,
 		P3D:             s.Is3DSecure,
-		TokenTerm:       agreementInfo.TokenTerm,
 	}
 	v, err := query.Values(tradeInfo)
 	payload = v.Encode()
@@ -252,6 +252,7 @@ func (s NewebPayStore) CreateNewebpayMPGPayload(newebpayMGPInfo NewebpayMGPInfo,
 			ReturnURL:           returnURL,
 			StoreID:             s.ID,
 			TimeStamp:           strconv.FormatInt(purchaseInfo.PurchasedAtUnixTime, 10),
+			TokenTerm:           newebpayMGPInfo.TokenTerm,
 			Version:             s.Version,
 		},
 		ItemDescription: newebpayMGPInfo.ItemDescription,
