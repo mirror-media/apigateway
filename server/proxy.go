@@ -317,32 +317,34 @@ func modifyPostItems(logger *logrus.Entry, body []byte, subscribedPostIDs map[st
 
 	// modify body at the end and truncate the post depending on the post and member state
 	for i, item := range items.Items {
+		var isPostPremium bool
 		for _, category := range item.Categories {
-			isPostPremium := category.IsMemberOnly != nil && *category.IsMemberOnly
-			if isPostPremium && isPostToBeTruncate(isPostPremium, item.ID, hasPremiumPrivilege, subscribedPostIDs) {
-				APIDataLength := len(item.Content.APIData)
-				truncatedEnd := minInt(3, APIDataLength)
-				if item.WordCount >= 1000 {
-					truncatedEnd = minInt(5, APIDataLength)
-				}
-				truncatedAPIData := item.Content.APIData[0:truncatedEnd]
-				body, err = sjson.SetBytes(body, fmt.Sprintf("_items.%d.content.apiData", i), truncatedAPIData)
-				if err != nil {
-					err = fmt.Errorf("encounter error when truncating apiData: %v", err)
-					return 0, nil, err
-				}
-				body, err = sjson.SetBytes(body, fmt.Sprintf("_items.%d.isTruncated", i), true)
-				if err != nil {
-					err = fmt.Errorf("encounter error setting isTruncated to true for _items.%d: %v", i, err)
-					return 0, nil, err
-				}
-				break
-			} else {
-				body, err = sjson.SetBytes(body, fmt.Sprintf("_items.%d.isTruncated", i), false)
-				if err != nil {
-					err = fmt.Errorf("encounter error setting isTruncated to false for _items.%d: %v", i, err)
-					return 0, nil, err
-				}
+			isPostPremium = category.IsMemberOnly != nil && *category.IsMemberOnly
+			break
+		}
+
+		if isPostPremium && isPostToBeTruncate(isPostPremium, item.ID, hasPremiumPrivilege, subscribedPostIDs) {
+			APIDataLength := len(item.Content.APIData)
+			truncatedEnd := minInt(3, APIDataLength)
+			if item.WordCount >= 1000 {
+				truncatedEnd = minInt(5, APIDataLength)
+			}
+			truncatedAPIData := item.Content.APIData[0:truncatedEnd]
+			body, err = sjson.SetBytes(body, fmt.Sprintf("_items.%d.content.apiData", i), truncatedAPIData)
+			if err != nil {
+				err = fmt.Errorf("encounter error when truncating apiData: %v", err)
+				return 0, nil, err
+			}
+			body, err = sjson.SetBytes(body, fmt.Sprintf("_items.%d.isTruncated", i), true)
+			if err != nil {
+				err = fmt.Errorf("encounter error setting isTruncated to true for _items.%d: %v", i, err)
+				return 0, nil, err
+			}
+		} else {
+			body, err = sjson.SetBytes(body, fmt.Sprintf("_items.%d.isTruncated", i), false)
+			if err != nil {
+				err = fmt.Errorf("encounter error setting isTruncated to false for _items.%d: %v", i, err)
+				return 0, nil, err
 			}
 		}
 	}
