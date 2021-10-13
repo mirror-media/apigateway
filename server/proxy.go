@@ -319,8 +319,10 @@ func modifyPostItems(logger *logrus.Entry, body []byte, subscribedPostIDs map[st
 	for i, item := range items.Items {
 		var isPostPremium bool
 		for _, category := range item.Categories {
-			isPostPremium = category.IsMemberOnly != nil && *category.IsMemberOnly
-			break
+			if category.IsMemberOnly != nil && *category.IsMemberOnly {
+				isPostPremium = true
+				break
+			}
 		}
 
 		if isPostPremium && isPostToBeTruncate(isPostPremium, item.ID, hasPremiumPrivilege, subscribedPostIDs) {
