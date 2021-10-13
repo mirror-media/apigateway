@@ -310,11 +310,11 @@ func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data 
 	resp.SubscriptionInfo.OrderNumber = &orderNumber
 
 	gql = `
-mutation ($id: ID!, $orderNumber: String!) {
-  updatesubscription(id: $id, data: {orderNumber: $orderNumber}) {
-    orderNumber
-  }
-}
+	mutation ($id: ID!, $orderNumber: String!) {
+	  updatesubscription(id: $id, data: {orderNumber: $orderNumber}) {
+	    orderNumber
+	  }
+	}
 `
 
 	req = graphqlclient.NewRequest(gql)
