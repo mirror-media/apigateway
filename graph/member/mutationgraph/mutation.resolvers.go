@@ -9,7 +9,6 @@ import (
 	"strings"
 	"time"
 
-	_ "github.com/99designs/gqlgen/cmd"
 	graphqlclient "github.com/machinebox/graphql"
 	"github.com/mirror-media/apigateway/graph/member/model"
 	"github.com/mirror-media/apigateway/graph/member/mutationgraph/generated"
@@ -311,11 +310,11 @@ func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data 
 	resp.SubscriptionInfo.OrderNumber = &orderNumber
 
 	gql = `
-mutation ($id: ID!, $orderNumber: String!) {
-  updatesubscription(id: $id, data: {orderNumber: $orderNumber}) {
-    orderNumber
-  }
-}
+	mutation ($id: ID!, $orderNumber: String!) {
+	  updatesubscription(id: $id, data: {orderNumber: $orderNumber}) {
+	    orderNumber
+	  }
+	}
 `
 
 	req = graphqlclient.NewRequest(gql)
