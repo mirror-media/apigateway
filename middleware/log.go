@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"bytes"
 	"encoding/json"
+	"fmt"
 
 	"firebase.google.com/go/v4/auth"
 	"github.com/gin-gonic/gin"
@@ -102,18 +103,19 @@ func LogPremiumMemberResponseMiddleware(c *gin.Context) {
 	c.Writer = blw
 	c.Next()
 
+	code := c.Writer.Status()
 	var message interface{}
 	err := json.Unmarshal(blw.body.Bytes(), &message)
 
 	if c.GetBool(GCtxIsPremiumKey) {
 		if err != nil {
-			logrus.WithField("logging.googleapis.com/labels", map[string]interface{}{"payload": blw.body.String()}).Info("logging payload for premium member in labels")
+			logrus.WithField("logging.googleapis.com/labels", map[string]interface{}{"payload": blw.body.String()}).Info(fmt.Sprintf("(%d)logging payload for premium member in labels", code))
 		} else {
 			buf := bytes.Buffer{}
 			enc := json.NewEncoder(bufio.NewWriter(&buf))
 			enc.SetEscapeHTML(false)
 			enc.Encode(message)
-			logrus.WithField("logging.googleapis.com/labels", map[string]interface{}{"payload": buf.String()}).Info("logging payload for premium member in labels")
+			logrus.WithField("logging.googleapis.com/labels", map[string]interface{}{"payload": buf.String()}).Info(fmt.Sprintf("(%d)logging payload for premium member in labels", code))
 		}
 	}
 }
