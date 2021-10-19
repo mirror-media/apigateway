@@ -28,7 +28,7 @@ func (h LogrusMemberHook) Fire(e *logrus.Entry) error {
 	data := map[string]interface{}{
 		"firebaseId":      h.firebaseID,
 		"email":           h.email,
-		"isEmailVerified": h.isVerified,
+		"isEmailVerified": fmt.Sprintf("%v", h.isVerified),
 		"tokenState":      h.tokenState,
 	}
 	m, ok := e.Data["logging.googleapis.com/labels"]
