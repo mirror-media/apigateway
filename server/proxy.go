@@ -96,12 +96,13 @@ func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cach
 			var email string
 			subscribedPostIDs := map[string]interface{}{}
 
-			defer func() {
+			defer func(c *gin.Context) {
+				c.Set(middleware.GCtxIsPremiumKey, hasPremiumPrivilege)
 				premiumAccessChan <- premiumAccess{
 					isPrivileged: hasPremiumPrivilege,
 					postIDs:      subscribedPostIDs,
 				}
-			}()
+			}(c)
 
 			if isTokenExist {
 				email, emailVerified = typedToken.GetEmail()
