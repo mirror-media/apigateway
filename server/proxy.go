@@ -13,6 +13,7 @@ import (
 	"strings"
 	"time"
 
+	"firebase.google.com/go/v4/auth"
 	"github.com/gin-gonic/gin"
 	"github.com/jensneuse/graphql-go-tools/pkg/engine/datasource/httpclient"
 	"github.com/machinebox/graphql"
@@ -32,7 +33,7 @@ type premiumAccess struct {
 	postIDs      map[string]interface{}
 }
 
-func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cache.Rediser, cacheTTL int, memberGraphqlEndpoint string, privilegedEmailDomains map[string]bool) func(c *gin.Context) {
+func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cache.Rediser, cacheTTL int, memberGraphqlEndpoint string, privilegedEmailDomains map[string]bool, firebaseClient *auth.Client) func(c *gin.Context) {
 	targetQuery := target.RawQuery
 	director := func(req *http.Request) {
 		if strings.HasSuffix(pathBaseToStrip, "/") {
@@ -88,7 +89,7 @@ func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cach
 		isOriginalPathStory := (trimmedPath == "/story")
 
 		premiumAccessChan := make(chan premiumAccess)
-		// TODO refactor to config
+		// TODO refactor
 		go func(c *gin.Context) {
 			var hasPremiumPrivilege bool
 			var emailVerified bool
