@@ -107,13 +107,13 @@ func LogPremiumMemberResponseMiddleware(c *gin.Context) {
 
 	if c.GetBool(GCtxIsPremiumKey) {
 		if err != nil {
-			logrus.WithField("response.payload", blw.body.String()).Info()
+			logrus.WithField("logging.googleapis.com/labels", map[string]interface{}{"payload": blw.body.String()}).Info("logging payload for premium member in labels")
 		} else {
 			buf := bytes.Buffer{}
 			enc := json.NewEncoder(bufio.NewWriter(&buf))
 			enc.SetEscapeHTML(false)
 			enc.Encode(message)
-			logrus.WithField("logging.googleapis.com/labels", map[string]interface{}{"payload": buf.String()}).Info()
+			logrus.WithField("logging.googleapis.com/labels", map[string]interface{}{"payload": buf.String()}).Info("logging payload for premium member in labels")
 		}
 	}
 }
