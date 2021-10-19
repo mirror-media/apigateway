@@ -1,6 +1,10 @@
 package middleware
 
 import (
+	"bufio"
+	"bytes"
+	"encoding/json"
+
 	"firebase.google.com/go/v4/auth"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
@@ -75,5 +79,41 @@ func AddFirebaseTokenInfoToLogrusHook(firebaseClient *auth.Client) func(c *gin.C
 		logrus.AddHook(hook)
 
 		c.Next()
+	}
+}
+
+type bodyLogWriter struct {
+	gin.ResponseWriter
+	body *bytes.Buffer
+}
+
+func (w bodyLogWriter) Write(b []byte) (int, error) {
+	w.body.Write(b)
+	return w.ResponseWriter.Write(b)
+}
+
+func (w bodyLogWriter) WriteString(s string) (int, error) {
+	w.body.WriteString(s)
+	return w.ResponseWriter.WriteString(s)
+}
+
+func LogPremiumMemberResponseMiddleware(c *gin.Context) {
+	blw := &bodyLogWriter{body: bytes.NewBufferString(""), ResponseWriter: c.Writer}
+	c.Writer = blw
+	c.Next()
+
+	var message interface{}
+	err := json.Unmarshal(blw.body.Bytes(), &message)
+
+	if c.GetBool(GCtxIsPremiumKey) {
+		if err != nil {
+			logrus.WithField("response.payload", blw.body.String()).Info()
+		} else {
+			buf := bytes.Buffer{}
+			enc := json.NewEncoder(bufio.NewWriter(&buf))
+			enc.SetEscapeHTML(false)
+			enc.Encode(message)
+			logrus.WithField("logging.googleapis.com/labels", map[string]interface{}{"payload": buf.String()}).Info()
+		}
 	}
 }
