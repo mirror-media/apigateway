@@ -13,6 +13,7 @@ import (
 	"strings"
 	"time"
 
+	"firebase.google.com/go/v4/auth"
 	"github.com/gin-gonic/gin"
 	"github.com/jensneuse/graphql-go-tools/pkg/engine/datasource/httpclient"
 	"github.com/machinebox/graphql"
@@ -22,8 +23,6 @@ import (
 	"github.com/mirror-media/apigateway/middleware"
 	"github.com/mirror-media/apigateway/token"
 	"github.com/sirupsen/logrus"
-	ffclient "github.com/thomaspoignant/go-feature-flag"
-	"github.com/thomaspoignant/go-feature-flag/ffuser"
 	"github.com/tidwall/sjson"
 )
 
@@ -34,7 +33,7 @@ type premiumAccess struct {
 	postIDs      map[string]interface{}
 }
 
-func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cache.Rediser, cacheTTL int, memberGraphqlEndpoint string, privilegedEmailDomains map[string]bool) func(c *gin.Context) {
+func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cache.Rediser, cacheTTL int, memberGraphqlEndpoint string, privilegedEmailDomains map[string]bool, firebaseClient *auth.Client) func(c *gin.Context) {
 	targetQuery := target.RawQuery
 	director := func(req *http.Request) {
 		if strings.HasSuffix(pathBaseToStrip, "/") {
@@ -90,19 +89,20 @@ func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cach
 		isOriginalPathStory := (trimmedPath == "/story")
 
 		premiumAccessChan := make(chan premiumAccess)
-		// TODO refactor to config
+		// TODO refactor
 		go func(c *gin.Context) {
 			var hasPremiumPrivilege bool
 			var emailVerified bool
 			var email string
 			subscribedPostIDs := map[string]interface{}{}
 
-			defer func() {
+			defer func(c *gin.Context) {
+				c.Set(middleware.GCtxIsPremiumKey, hasPremiumPrivilege)
 				premiumAccessChan <- premiumAccess{
 					isPrivileged: hasPremiumPrivilege,
 					postIDs:      subscribedPostIDs,
 				}
-			}()
+			}(c)
 
 			if isTokenExist {
 				email, emailVerified = typedToken.GetEmail()
@@ -273,16 +273,11 @@ query ($firebaseId: String!) {
 		}
 	}
 	if member.State != nil && *member.State == model.MemberStateTypeActive && member.Type != nil {
-		var nonPremiumType map[model.MemberTypeType]interface{}
-		isPremiumSubscriptionEnabled, _ := ffclient.BoolVariation("premium-subscription", ffuser.NewUser(""), false)
-		if isPremiumSubscriptionEnabled {
-			nonPremiumType = map[model.MemberTypeType]interface{}{
-				model.MemberTypeTypeNone:             nil,
-				model.MemberTypeTypeSubscribeOneTime: nil,
-			}
-		} else {
-			nonPremiumType = map[model.MemberTypeType]interface{}{}
+		nonPremiumType := map[model.MemberTypeType]interface{}{
+			model.MemberTypeTypeNone:             nil,
+			model.MemberTypeTypeSubscribeOneTime: nil,
 		}
+
 		if _, isNotPremium := nonPremiumType[*member.Type]; !isNotPremium {
 			hasMemberPremiumPrivilege = true
 		}

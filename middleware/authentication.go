@@ -75,7 +75,7 @@ func GetFirebaseIDUnverified(firebaseClient *auth.Client) gin.HandlerFunc {
 		c.Set(GCtxTokenKey, token)
 
 		s, _ := token.GetTokenString()
-		claims := jwt.StandardClaims{}
+		claims := jwt.RegisteredClaims{}
 		_, _, err = new(jwt.Parser).ParseUnverified(s, &claims)
 
 		if err == nil {

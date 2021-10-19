@@ -14,8 +14,6 @@ import (
 	"github.com/mirror-media/apigateway/middleware"
 	"github.com/mirror-media/apigateway/payment"
 	"github.com/mirror-media/apigateway/token"
-	ffclient "github.com/thomaspoignant/go-feature-flag"
-	"github.com/thomaspoignant/go-feature-flag/ffuser"
 
 	"github.com/gin-gonic/gin"
 )
@@ -53,16 +51,11 @@ func SetRoute(server *Server) error {
 
 	// v2 api
 	v2Router := apiRouter.Group("/v2")
-	v2tokenStateRouter := v2Router.Use(middleware.SetIDTokenOnly(server.firebaseClient))
+	v2tokenStateRouter := v2Router.Use(middleware.SetIDTokenOnly(server.firebaseClient), middleware.AddFirebaseTokenInfoToLogrusHook(server.firebaseClient))
 
 	v2TokenAuthenticatedWithFirebaseRouter := v2tokenStateRouter.Use(middleware.AuthenticateIDToken(server.firebaseClient), middleware.FirebaseClientToContextMiddleware(server.firebaseClient), middleware.FirebaseDBClientToContextMiddleware(server.firebaseDatabaseClient))
 
-	var mutationSchemaPath string
-	if isPremiumSubscriptionEnabled, _ := ffclient.BoolVariation("premium-subscription", ffuser.NewUser(""), false); isPremiumSubscriptionEnabled {
-		mutationSchemaPath = "graph/member/mutation.graphql"
-	} else {
-		mutationSchemaPath = "graph/member/mutation-member-only.graphql"
-	}
+	mutationSchemaPath := "graph/member/mutation.graphql"
 
 	v2GraphHandler := handler.NewAPIGatewayGraphQLHandler(server.Conf.ServiceEndpoints.UserGraphQL, "http://localhost:8888/api/v2/graphql/member", "graph/member/type.graphql", "graph/member/query.graphql", mutationSchemaPath)
 
@@ -72,7 +65,7 @@ func SetRoute(server *Server) error {
 
 	// v1 api
 	v1Router := apiRouter.Group("/v1")
-	v1tokenStateRouter := v1Router.Use(middleware.SetIDTokenOnly(server.firebaseClient))
+	v1tokenStateRouter := v1Router.Use(middleware.SetIDTokenOnly(server.firebaseClient), middleware.AddFirebaseTokenInfoToLogrusHook(server.firebaseClient))
 	v1tokenStateRouter.GET("/tokenState", func(c *gin.Context) {
 		t := c.Value(middleware.GCtxTokenKey).(token.Token)
 		if t == nil {
@@ -88,13 +81,13 @@ func SetRoute(server *Server) error {
 
 	// v0 api proxy every request to the restful serverce
 	v0Router := apiRouter.Group("/v0")
-	v0tokenStateRouter := v0Router.Use(middleware.SetIDTokenOnly(server.firebaseClient), middleware.SetUserID(server.firebaseClient))
+	v0tokenStateRouter := v0Router.Use(middleware.SetIDTokenOnly(server.firebaseClient), middleware.SetUserID(server.firebaseClient), middleware.AddFirebaseTokenInfoToLogrusHook(server.firebaseClient), middleware.LogPremiumMemberResponseMiddleware)
 	proxyURL, err := url.Parse(server.Conf.V0RESTfulSvrTargetURL)
 	if err != nil {
 		return err
 	}
 
-	v0tokenStateRouter.Any("/*wildcard", NewSingleHostReverseProxy(proxyURL, v0Router.BasePath(), server.Rdb, server.Conf.RedisService.Cache.TTL, server.Conf.ServiceEndpoints.UserGraphQL, server.Conf.PrivilegedEmailDomains))
+	v0tokenStateRouter.Any("/*wildcard", NewSingleHostReverseProxy(proxyURL, v0Router.BasePath(), server.Rdb, server.Conf.RedisService.Cache.TTL, server.Conf.ServiceEndpoints.UserGraphQL, server.Conf.PrivilegedEmailDomains, server.firebaseClient))
 
 	return nil
 }

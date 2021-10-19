@@ -23,6 +23,8 @@ const (
 	GCtxTokenKey string = "GCtxToken"
 	// GCtxUserIDKey is the key of a string of a User ID in *gin.Context
 	GCtxUserIDKey string = "GCtxUserID"
+	// GCtxIsPremiumKey is the key of a boolean value to show the premium status of the member/anonymous
+	GCtxIsPremiumKey = "GCtxIsPremiumMember"
 )
 
 // PrintPayloadDebug prints the request body to stdout. Do not use it in production
