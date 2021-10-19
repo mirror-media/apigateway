@@ -20,11 +20,19 @@ func (h LogrusMemberHook) Levels() []logrus.Level {
 }
 
 func (h LogrusMemberHook) Fire(e *logrus.Entry) error {
-	e.Data["logging.googleapis.com/labels"] = map[string]interface{}{
+	data := map[string]interface{}{
 		"firebaseId":      h.firebaseID,
 		"email":           h.email,
 		"isEmailVerified": h.isVerified,
 		"tokenState":      h.tokenState,
+	}
+	m, ok := e.Data["logging.googleapis.com/labels"]
+	if !ok {
+		e.Data["logging.googleapis.com/labels"] = data
+	} else {
+		for k, v := range data {
+			m.(map[string]interface{})[k] = v
+		}
 	}
 	return nil
 }
