@@ -22,8 +22,6 @@ import (
 	"github.com/mirror-media/apigateway/middleware"
 	"github.com/mirror-media/apigateway/token"
 	"github.com/sirupsen/logrus"
-	ffclient "github.com/thomaspoignant/go-feature-flag"
-	"github.com/thomaspoignant/go-feature-flag/ffuser"
 	"github.com/tidwall/sjson"
 )
 
@@ -273,16 +271,11 @@ query ($firebaseId: String!) {
 		}
 	}
 	if member.State != nil && *member.State == model.MemberStateTypeActive && member.Type != nil {
-		var nonPremiumType map[model.MemberTypeType]interface{}
-		isPremiumSubscriptionEnabled, _ := ffclient.BoolVariation("premium-subscription", ffuser.NewUser(""), false)
-		if isPremiumSubscriptionEnabled {
-			nonPremiumType = map[model.MemberTypeType]interface{}{
-				model.MemberTypeTypeNone:             nil,
-				model.MemberTypeTypeSubscribeOneTime: nil,
-			}
-		} else {
-			nonPremiumType = map[model.MemberTypeType]interface{}{}
+		nonPremiumType := map[model.MemberTypeType]interface{}{
+			model.MemberTypeTypeNone:             nil,
+			model.MemberTypeTypeSubscribeOneTime: nil,
 		}
+
 		if _, isNotPremium := nonPremiumType[*member.Type]; !isNotPremium {
 			hasMemberPremiumPrivilege = true
 		}

@@ -14,8 +14,6 @@ import (
 	"github.com/mirror-media/apigateway/middleware"
 	"github.com/mirror-media/apigateway/payment"
 	"github.com/mirror-media/apigateway/token"
-	ffclient "github.com/thomaspoignant/go-feature-flag"
-	"github.com/thomaspoignant/go-feature-flag/ffuser"
 
 	"github.com/gin-gonic/gin"
 )
@@ -55,14 +53,9 @@ func SetRoute(server *Server) error {
 	v2Router := apiRouter.Group("/v2")
 	v2tokenStateRouter := v2Router.Use(middleware.SetIDTokenOnly(server.firebaseClient))
 
-	v2TokenAuthenticatedWithFirebaseRouter := v2tokenStateRouter.Use(middleware.AuthenticateIDToken(server.firebaseClient), middleware.FirebaseClientToContextMiddleware(server.firebaseClient), middleware.FirebaseDBClientToContextMiddleware(server.firebaseDatabaseClient))
+	v2TokenAuthenticatedWithFirebaseRouter := v2tokenStateRouter.Use(middleware.GetFirebaseIDUnverified(server.firebaseClient), middleware.FirebaseClientToContextMiddleware(server.firebaseClient), middleware.FirebaseDBClientToContextMiddleware(server.firebaseDatabaseClient))
 
-	var mutationSchemaPath string
-	if isPremiumSubscriptionEnabled, _ := ffclient.BoolVariation("premium-subscription", ffuser.NewUser(""), false); isPremiumSubscriptionEnabled {
-		mutationSchemaPath = "graph/member/mutation.graphql"
-	} else {
-		mutationSchemaPath = "graph/member/mutation-member-only.graphql"
-	}
+	mutationSchemaPath := "graph/member/mutation.graphql"
 
 	v2GraphHandler := handler.NewAPIGatewayGraphQLHandler(server.Conf.ServiceEndpoints.UserGraphQL, "http://localhost:8888/api/v2/graphql/member", "graph/member/type.graphql", "graph/member/query.graphql", mutationSchemaPath)
 
