@@ -48,6 +48,7 @@ type FirebaseTokenClaims struct {
 	IsEmailVerified bool   `json:"email_verified,omitempty"`
 }
 
+// FIXME Possible memory leak and the use of conext with AddHook is wrong
 func AddFirebaseTokenInfoToLogrusHook(firebaseClient *auth.Client) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		var firebaseID, email, tokenState string
@@ -98,6 +99,7 @@ func (w bodyLogWriter) WriteString(s string) (int, error) {
 	return w.ResponseWriter.WriteString(s)
 }
 
+// FIXME Possible memory leak
 func LogPremiumMemberResponseMiddleware(c *gin.Context) {
 	blw := &bodyLogWriter{body: bytes.NewBufferString(""), ResponseWriter: c.Writer}
 	c.Writer = blw
