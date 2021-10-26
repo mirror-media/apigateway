@@ -51,7 +51,7 @@ func SetRoute(server *Server) error {
 
 	// v2 api
 	v2Router := apiRouter.Group("/v2")
-	v2tokenStateRouter := v2Router.Use(middleware.SetIDTokenOnly(server.firebaseClient), middleware.AddFirebaseTokenInfoToLogrusHook(server.firebaseClient))
+	v2tokenStateRouter := v2Router.Use(middleware.SetIDTokenOnly(server.firebaseClient))
 
 	v2TokenAuthenticatedWithFirebaseRouter := v2tokenStateRouter.Use(middleware.AuthenticateIDToken(server.firebaseClient), middleware.FirebaseClientToContextMiddleware(server.firebaseClient), middleware.FirebaseDBClientToContextMiddleware(server.firebaseDatabaseClient))
 
@@ -65,7 +65,7 @@ func SetRoute(server *Server) error {
 
 	// v1 api
 	v1Router := apiRouter.Group("/v1")
-	v1tokenStateRouter := v1Router.Use(middleware.SetIDTokenOnly(server.firebaseClient), middleware.AddFirebaseTokenInfoToLogrusHook(server.firebaseClient))
+	v1tokenStateRouter := v1Router.Use(middleware.SetIDTokenOnly(server.firebaseClient))
 	v1tokenStateRouter.GET("/tokenState", func(c *gin.Context) {
 		t := c.Value(middleware.GCtxTokenKey).(token.Token)
 		if t == nil {
@@ -81,7 +81,7 @@ func SetRoute(server *Server) error {
 
 	// v0 api proxy every request to the restful serverce
 	v0Router := apiRouter.Group("/v0")
-	v0tokenStateRouter := v0Router.Use(middleware.SetIDTokenOnly(server.firebaseClient), middleware.SetUserID(server.firebaseClient), middleware.AddFirebaseTokenInfoToLogrusHook(server.firebaseClient), middleware.LogPremiumMemberResponseMiddleware)
+	v0tokenStateRouter := v0Router.Use(middleware.SetIDTokenOnly(server.firebaseClient), middleware.SetUserID(server.firebaseClient))
 	proxyURL, err := url.Parse(server.Conf.V0RESTfulSvrTargetURL)
 	if err != nil {
 		return err
