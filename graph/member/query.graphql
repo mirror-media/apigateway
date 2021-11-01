@@ -4,7 +4,7 @@ type Query {
   """
   member(where: memberWhereUniqueInput!): member
 
-  allMembers(where: memberWhereUniqueInput!): [member!]
+  allMembers(where: memberWhereInput!): [member!]
 
   """
   It will responde with all merchandises.
