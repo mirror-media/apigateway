@@ -394,15 +394,13 @@ func (r *mutationResolver) Updatesubscription(ctx context.Context, id string, da
 
 	if nextFrequency, ok := data["nextFrequency"]; ok {
 		nextFrequencyString, _ := nextFrequency.(string)
-		price, currency, state, _, _, err := r.RetrieveMerchandise(ctx, nextFrequencyString)
+		_, _, state, _, _, err := r.RetrieveMerchandise(ctx, nextFrequencyString)
 		if err != nil {
 			return nil, err
 		}
 		if state != model.MerchandiseStateTypeActive {
 			return nil, fmt.Errorf("frequency(%s) is not %s", model.SubscriptionFrequencyTypeOneTime, model.MerchandiseStateTypeActive)
 		}
-		data["amount"] = price
-		data["currency"] = currency
 	}
 
 	// Construct GraphQL mutation
