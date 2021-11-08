@@ -6,6 +6,7 @@ package mutationgraph
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"strings"
 	"time"
 
@@ -169,11 +170,8 @@ func (r *mutationResolver) CreateSubscriptionRecurring(ctx context.Context, data
 		return nil, err
 	}
 
-	orderNumber, err := createOrderNumber(resp.SubscriptionInfo.ID)
-	if err != nil {
-		logrus.WithField("mutation", "createsubscription").Errorf("creating order number for subscription(%s) and member(%s)", resp.SubscriptionInfo.ID, firebaseID, err)
-		return nil, err
-	}
+	id, _ := strconv.ParseUint(resp.SubscriptionInfo.ID, 10, 64)
+	orderNumber := createOrderNumberByTaipeiTZ(time.Now(), id)
 
 	resp.SubscriptionInfo.OrderNumber = &orderNumber
 
@@ -300,12 +298,8 @@ func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data 
 		logrus.WithField("mutation", "createsubscription").Error(err)
 		return nil, err
 	}
-
-	orderNumber, err := createOrderNumber(resp.SubscriptionInfo.ID)
-	if err != nil {
-		logrus.WithField("mutation", "createsubscription").Errorf("creating order number for subscription(%s) and member(%s)", resp.SubscriptionInfo.ID, firebaseID, err)
-		return nil, err
-	}
+	id, _ := strconv.ParseUint(resp.SubscriptionInfo.ID, 10, 64)
+	orderNumber := createOrderNumberByTaipeiTZ(time.Now(), id)
 
 	resp.SubscriptionInfo.OrderNumber = &orderNumber
 

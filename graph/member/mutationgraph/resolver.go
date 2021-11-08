@@ -228,15 +228,13 @@ func contain(ss []string, s string) bool {
 	return false
 }
 
-func createOrderNumber(id string) (orderNumber string, err error) {
-	t := time.Now()
+func createOrderNumberByTaipeiTZ(t time.Time, id uint64) (orderNumber string) {
+	tz := time.FixedZone("Asia/Taipei", 8*3600)
+	t = t.In(tz)
 	prefix := "M"
-	date := strconv.FormatInt(int64(t.Local().Year()), 10)[2:] + fmt.Sprintf("%02d", t.Local().Month()) + fmt.Sprintf("%02d", t.Local().Day())
 
-	n, err := strconv.ParseInt(id, 10, 64)
-	if err != nil {
-		return "", err
-	}
-	orderNumber = fmt.Sprintf("%s%s%05d", prefix, date, n%10000)
-	return orderNumber, nil
+	date := strconv.FormatInt(int64(t.Year()), 10)[2:] + fmt.Sprintf("%02d", t.Month()) + fmt.Sprintf("%02d", t.Day())
+
+	orderNumber = fmt.Sprintf("%s%s%05d", prefix, date, id%10000)
+	return orderNumber
 }
