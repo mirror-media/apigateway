@@ -42,6 +42,14 @@ func Test_createOrderNumberByTaipeiTZ(t *testing.T) {
 			},
 			wantOrderNumber: "M21110800001",
 		},
+		{
+			name: "10:00 at ast",
+			args: args{
+				t:  astAM10,
+				id: 100001,
+			},
+			wantOrderNumber: "M21110800001",
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
