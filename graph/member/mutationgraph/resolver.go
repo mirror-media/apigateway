@@ -229,7 +229,7 @@ func contain(ss []string, s string) bool {
 }
 
 func createOrderNumberByTaipeiTZ(t time.Time, id uint64) (orderNumber string) {
-	tz := time.FixedZone("Asia/Taipei", 8*3600)
+	tz, _ := time.LoadLocation("Asia/Taipei")
 	t = t.In(tz)
 	prefix := "M"
 
