@@ -13,6 +13,15 @@ type Mutation {
   Nested query is not allowed in the mutation.
   """
   updatemember(id: ID!, data: memberUpdateInput!): memberInfo
+
+  """
+  It creates a subscription with subscriptionAppleCreateInfo, set a new order number, validate the receipt, and set the amount/currency coresponding to the **receipt**.
+  It will also creates a paypemt record binding to the subscription.
+  """
+  createAppleSubscription(
+    info: subscriptionAppleCreateInfo!
+  ): subscriptionCreation
+
   """
   It creates a subscription with subscriptionOneTimeCreateInput, set a new order number, connect the subscription to the member with the firebaseID, and the amount/currency coresponding to the frequency in **merchandise**.
 
