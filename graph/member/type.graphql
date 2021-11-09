@@ -3128,8 +3128,8 @@ input subscriptionOneTimeCreateInfo {
 }
 
 input subscriptionAppleCreateInfo {
-  firebaseId string
-  receipt JSON
+  firebaseId: string!
+  receipt: JSON!
 }
 
 """
