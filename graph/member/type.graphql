@@ -3038,6 +3038,11 @@ enum updateMemberStateType {
   inactive
 }
 
+enum createSubscriptionAppSourceType {
+  app_store
+  google_play
+}
+
 input memberUpdateInput {
   email: String
   state: updateMemberStateType
@@ -3125,6 +3130,14 @@ input subscriptionOneTimeCreateInfo {
   postSlug: String!
   postTitle: String!
   returnToPath: String!
+}
+
+input subscriptionAppCreateInfo {
+  firebaseId: String!
+  productId: String!
+  source: createSubscriptionAppSourceType!
+  verificationData: String!
+  packageName: String!
 }
 
 input subscriptionUpdateInput {
