@@ -16,7 +16,7 @@ type Mutation {
 
   """
   It creates a subscription with subscriptionAppCreateInfo, set a new order number, validate the info, and set the amount/currency coresponding to the **info**.
-  It will also creates a paypemt record binding to the subscription.
+  It will also creates a payment record binding to the subscription.
   """
   createAppSubscription(info: subscriptionAppCreateInfo!): subscriptionCreation
 
