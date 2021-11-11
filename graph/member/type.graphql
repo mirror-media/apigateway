@@ -3137,6 +3137,7 @@ input subscriptionAppCreateInfo {
   productId: String!
   source: createSubscriptionAppSourceType!
   verificationData: String!
+  packageName: String!
 }
 
 input subscriptionUpdateInput {
