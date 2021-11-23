@@ -3038,7 +3038,7 @@ enum updateMemberStateType {
   inactive
 }
 
-enum createSubscriptionAppSourceType {
+enum upseartSubscriptionAppSourceType {
   app_store
   google_play
 }
@@ -3132,10 +3132,10 @@ input subscriptionOneTimeCreateInfo {
   returnToPath: String!
 }
 
-input subscriptionAppCreateInfo {
+input subscriptionAppUpseartInfo {
   firebaseId: String!
   productId: String!
-  source: createSubscriptionAppSourceType!
+  source: upseartSubscriptionAppSourceType!
   verificationData: String!
   packageName: String!
 }
