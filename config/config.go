@@ -55,6 +55,7 @@ type Conf struct {
 	V0RESTfulSvrTargetURL       string
 	FeatureToggles              FeatureToggles
 	PrivilegedEmailDomains      map[string]bool
+	AppUpsertSubscriptionAPIs   map[string]string
 }
 
 func (c *Conf) Valid() bool {
