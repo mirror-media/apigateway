@@ -3186,3 +3186,7 @@ type subscriptionCreation {
   subscription: subscriptionInfo!
   newebpayPayload: String
 }
+
+type subscriptionUpsert {
+  success: Boolean
+}
