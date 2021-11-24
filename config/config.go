@@ -1,7 +1,9 @@
 package config
 
 type ServiceEndpoints struct {
-	UserGraphQL string
+	UserGraphQL                 string
+	PlayStoreUpsertSubscription string
+	AppStoreUpsertSubscription  string
 }
 
 type RedisAddress struct {
