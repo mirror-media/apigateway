@@ -3039,6 +3039,11 @@ enum updateMemberStateType {
   inactive
 }
 
+enum upsertSubscriptionAppSourceType {
+  app_store
+  google_play
+}
+
 input memberUpdateInput {
   email: String
   state: updateMemberStateType
@@ -3128,6 +3133,14 @@ input subscriptionOneTimeCreateInfo {
   returnToPath: String!
 }
 
+input subscriptionAppUpsertInfo {
+  firebaseId: String!
+  productId: String!
+  source: upsertSubscriptionAppSourceType!
+  verificationData: String!
+  packageName: String!
+}
+
 input subscriptionUpdateInput {
   isCanceled: Boolean
   """
@@ -3173,4 +3186,8 @@ type subscriptionInfo {
 type subscriptionCreation {
   subscription: subscriptionInfo!
   newebpayPayload: String
+}
+
+type subscriptionUpsert {
+  success: Boolean!
 }

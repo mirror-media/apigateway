@@ -47,6 +47,7 @@ type ComplexityRoot struct {
 		CreatesSubscriptionOneTime  func(childComplexity int, data map[string]interface{}, info model.SubscriptionOneTimeCreateInfo) int
 		Updatemember                func(childComplexity int, id string, data map[string]interface{}) int
 		Updatesubscription          func(childComplexity int, id string, data map[string]interface{}) int
+		UpsertAppSubscription       func(childComplexity int, info model.SubscriptionAppUpsertInfo) int
 	}
 
 	Query struct {
@@ -320,11 +321,16 @@ type ComplexityRoot struct {
 		Status                    func(childComplexity int) int
 		UpdatedAt                 func(childComplexity int) int
 	}
+
+	SubscriptionUpsert struct {
+		Success func(childComplexity int) int
+	}
 }
 
 type MutationResolver interface {
 	Createmember(ctx context.Context, data map[string]interface{}) (*model.MemberInfo, error)
 	Updatemember(ctx context.Context, id string, data map[string]interface{}) (*model.MemberInfo, error)
+	UpsertAppSubscription(ctx context.Context, info model.SubscriptionAppUpsertInfo) (*model.SubscriptionUpsert, error)
 	CreateSubscriptionRecurring(ctx context.Context, data map[string]interface{}, info model.SubscriptionRecurringCreateInfo) (*model.SubscriptionCreation, error)
 	CreatesSubscriptionOneTime(ctx context.Context, data map[string]interface{}, info model.SubscriptionOneTimeCreateInfo) (*model.SubscriptionCreation, error)
 	Updatesubscription(ctx context.Context, id string, data map[string]interface{}) (*model.SubscriptionInfo, error)
@@ -404,6 +410,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.Updatesubscription(childComplexity, args["id"].(string), args["data"].(map[string]interface{})), true
+
+	case "Mutation.upsertAppSubscription":
+		if e.complexity.Mutation.UpsertAppSubscription == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_upsertAppSubscription_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpsertAppSubscription(childComplexity, args["info"].(model.SubscriptionAppUpsertInfo)), true
 
 	case "androidpayPayment.createdAt":
 		if e.complexity.AndroidpayPayment.CreatedAt == nil {
@@ -2033,6 +2051,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.SubscriptionInfo.UpdatedAt(childComplexity), true
+
+	case "subscriptionUpsert.success":
+		if e.complexity.SubscriptionUpsert.Success == nil {
+			break
+		}
+
+		return e.complexity.SubscriptionUpsert.Success(childComplexity), true
 
 	}
 	return 0, false
@@ -5139,6 +5164,11 @@ enum updateMemberStateType {
   inactive
 }
 
+enum upsertSubscriptionAppSourceType {
+  app_store
+  google_play
+}
+
 input memberUpdateInput {
   email: String
   state: updateMemberStateType
@@ -5228,6 +5258,14 @@ input subscriptionOneTimeCreateInfo {
   returnToPath: String!
 }
 
+input subscriptionAppUpsertInfo {
+  firebaseId: String!
+  productId: String!
+  source: upsertSubscriptionAppSourceType!
+  verificationData: String!
+  packageName: String!
+}
+
 input subscriptionUpdateInput {
   isCanceled: Boolean
   """
@@ -5274,6 +5312,10 @@ type subscriptionCreation {
   subscription: subscriptionInfo!
   newebpayPayload: String
 }
+
+type subscriptionUpsert {
+  success: Boolean!
+}
 `, BuiltIn: false},
 	{Name: "mutation.graphql", Input: `type Mutation {
   """
@@ -5290,6 +5332,13 @@ type subscriptionCreation {
   Nested query is not allowed in the mutation.
   """
   updatemember(id: ID!, data: memberUpdateInput!): memberInfo
+
+  """
+  It creates a subscription with subscriptionAppUpsertInfo, set a new order number, validate the info, and set the amount/currency coresponding to the **info**, if such subscription already exists, it will update the subscription.
+  It will also creates or update a payment record binding to the subscription.
+  """
+  upsertAppSubscription(info: subscriptionAppUpsertInfo!): subscriptionUpsert
+
   """
   It creates a subscription with subscriptionOneTimeCreateInput, set a new order number, connect the subscription to the member with the firebaseID, and the amount/currency coresponding to the frequency in **merchandise**.
 
@@ -5433,6 +5482,21 @@ func (ec *executionContext) field_Mutation_updatesubscription_args(ctx context.C
 		}
 	}
 	args["data"] = arg1
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_upsertAppSubscription_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.SubscriptionAppUpsertInfo
+	if tmp, ok := rawArgs["info"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("info"))
+		arg0, err = ec.unmarshalNsubscriptionAppUpsertInfo2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionAppUpsertInfo(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["info"] = arg0
 	return args, nil
 }
 
@@ -5829,6 +5893,45 @@ func (ec *executionContext) _Mutation_updatemember(ctx context.Context, field gr
 	res := resTmp.(*model.MemberInfo)
 	fc.Result = res
 	return ec.marshalOmemberInfo2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberInfo(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_upsertAppSubscription(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_upsertAppSubscription_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpsertAppSubscription(rctx, args["info"].(model.SubscriptionAppUpsertInfo))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.SubscriptionUpsert)
+	fc.Result = res
+	return ec.marshalOsubscriptionUpsert2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionUpsert(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Mutation_createSubscriptionRecurring(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -14497,6 +14600,41 @@ func (ec *executionContext) _subscriptionInfo_updatedAt(ctx context.Context, fie
 	res := resTmp.(*string)
 	fc.Result = res
 	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscriptionUpsert_success(ctx context.Context, field graphql.CollectedField, obj *model.SubscriptionUpsert) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscriptionUpsert",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Success, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
 }
 
 // endregion **************************** field.gotpl *****************************
@@ -25784,6 +25922,61 @@ func (ec *executionContext) unmarshalInputpromotionWhereUniqueInput(ctx context.
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputsubscriptionAppUpsertInfo(ctx context.Context, obj interface{}) (model.SubscriptionAppUpsertInfo, error) {
+	var it model.SubscriptionAppUpsertInfo
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	for k, v := range asMap {
+		switch k {
+		case "firebaseId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("firebaseId"))
+			it.FirebaseID, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "productId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("productId"))
+			it.ProductID, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "source":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("source"))
+			it.Source, err = ec.unmarshalNupsertSubscriptionAppSourceType2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐUpsertSubscriptionAppSourceType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "verificationData":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("verificationData"))
+			it.VerificationData, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "packageName":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("packageName"))
+			it.PackageName, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputsubscriptionCreateInput(ctx context.Context, obj interface{}) (model.SubscriptionCreateInput, error) {
 	var it model.SubscriptionCreateInput
 	asMap := map[string]interface{}{}
@@ -32245,6 +32438,8 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			out.Values[i] = ec._Mutation_createmember(ctx, field)
 		case "updatemember":
 			out.Values[i] = ec._Mutation_updatemember(ctx, field)
+		case "upsertAppSubscription":
+			out.Values[i] = ec._Mutation_upsertAppSubscription(ctx, field)
 		case "createSubscriptionRecurring":
 			out.Values[i] = ec._Mutation_createSubscriptionRecurring(ctx, field)
 		case "createsSubscriptionOneTime":
@@ -33342,6 +33537,33 @@ func (ec *executionContext) _subscriptionInfo(ctx context.Context, sel ast.Selec
 	return out
 }
 
+var subscriptionUpsertImplementors = []string{"subscriptionUpsert"}
+
+func (ec *executionContext) _subscriptionUpsert(ctx context.Context, sel ast.SelectionSet, obj *model.SubscriptionUpsert) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, subscriptionUpsertImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("subscriptionUpsert")
+		case "success":
+			out.Values[i] = ec._subscriptionUpsert_success(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 // endregion **************************** object.gotpl ****************************
 
 // region    ***************************** type.gotpl *****************************
@@ -33864,6 +34086,11 @@ func (ec *executionContext) marshalNsubscription2ᚖgithubᚗcomᚋmirrorᚑmedi
 	return ec._subscription(ctx, sel, v)
 }
 
+func (ec *executionContext) unmarshalNsubscriptionAppUpsertInfo2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionAppUpsertInfo(ctx context.Context, v interface{}) (model.SubscriptionAppUpsertInfo, error) {
+	res, err := ec.unmarshalInputsubscriptionAppUpsertInfo(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) unmarshalNsubscriptionCategoryType2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionCategoryType(ctx context.Context, v interface{}) (model.SubscriptionCategoryType, error) {
 	var res model.SubscriptionCategoryType
 	err := res.UnmarshalGQL(v)
@@ -33965,6 +34192,16 @@ func (ec *executionContext) unmarshalNsubscriptionWhereInput2githubᚗcomᚋmirr
 func (ec *executionContext) unmarshalNsubscriptionWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionWhereInput(ctx context.Context, v interface{}) (*model.SubscriptionWhereInput, error) {
 	res, err := ec.unmarshalInputsubscriptionWhereInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNupsertSubscriptionAppSourceType2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐUpsertSubscriptionAppSourceType(ctx context.Context, v interface{}) (model.UpsertSubscriptionAppSourceType, error) {
+	var res model.UpsertSubscriptionAppSourceType
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNupsertSubscriptionAppSourceType2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐUpsertSubscriptionAppSourceType(ctx context.Context, sel ast.SelectionSet, v model.UpsertSubscriptionAppSourceType) graphql.Marshaler {
+	return v
 }
 
 func (ec *executionContext) unmarshalOBoolean2bool(ctx context.Context, v interface{}) (bool, error) {
@@ -36954,6 +37191,13 @@ func (ec *executionContext) unmarshalOsubscriptionUpdateInput2map(ctx context.Co
 		return nil, nil
 	}
 	return v.(map[string]interface{}), nil
+}
+
+func (ec *executionContext) marshalOsubscriptionUpsert2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionUpsert(ctx context.Context, sel ast.SelectionSet, v *model.SubscriptionUpsert) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._subscriptionUpsert(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalOsubscriptionWhereInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionWhereInputᚄ(ctx context.Context, v interface{}) ([]*model.SubscriptionWhereInput, error) {

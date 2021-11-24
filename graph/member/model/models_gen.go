@@ -1711,6 +1711,14 @@ type Subscription struct {
 	UpdatedAt                 *string                        `json:"updatedAt"`
 }
 
+type SubscriptionAppUpsertInfo struct {
+	FirebaseID       string                          `json:"firebaseId"`
+	ProductID        string                          `json:"productId"`
+	Source           UpsertSubscriptionAppSourceType `json:"source"`
+	VerificationData string                          `json:"verificationData"`
+	PackageName      string                          `json:"packageName"`
+}
+
 type SubscriptionCreateInput struct {
 	Member                    *MemberRelateToOneInput              `json:"member"`
 	PaymentMethod             *SubscriptionPaymentMethodType       `json:"paymentMethod"`
@@ -2256,6 +2264,10 @@ type SubscriptionRelateToOneInput struct {
 	Connect       *SubscriptionWhereUniqueInput `json:"connect"`
 	Disconnect    *SubscriptionWhereUniqueInput `json:"disconnect"`
 	DisconnectAll *bool                         `json:"disconnectAll"`
+}
+
+type SubscriptionUpsert struct {
+	Success bool `json:"success"`
 }
 
 type SubscriptionWhereInput struct {
@@ -4697,5 +4709,46 @@ func (e *UpdateSubscriptionStatusType) UnmarshalGQL(v interface{}) error {
 }
 
 func (e UpdateSubscriptionStatusType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type UpsertSubscriptionAppSourceType string
+
+const (
+	UpsertSubscriptionAppSourceTypeAppStore   UpsertSubscriptionAppSourceType = "app_store"
+	UpsertSubscriptionAppSourceTypeGooglePlay UpsertSubscriptionAppSourceType = "google_play"
+)
+
+var AllUpsertSubscriptionAppSourceType = []UpsertSubscriptionAppSourceType{
+	UpsertSubscriptionAppSourceTypeAppStore,
+	UpsertSubscriptionAppSourceTypeGooglePlay,
+}
+
+func (e UpsertSubscriptionAppSourceType) IsValid() bool {
+	switch e {
+	case UpsertSubscriptionAppSourceTypeAppStore, UpsertSubscriptionAppSourceTypeGooglePlay:
+		return true
+	}
+	return false
+}
+
+func (e UpsertSubscriptionAppSourceType) String() string {
+	return string(e)
+}
+
+func (e *UpsertSubscriptionAppSourceType) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = UpsertSubscriptionAppSourceType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid upsertSubscriptionAppSourceType", str)
+	}
+	return nil
+}
+
+func (e UpsertSubscriptionAppSourceType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
