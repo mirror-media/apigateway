@@ -3188,5 +3188,5 @@ type subscriptionCreation {
 }
 
 type subscriptionUpsert {
-  success: Boolean
+  success: Boolean!
 }
