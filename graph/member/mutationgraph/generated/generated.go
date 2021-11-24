@@ -2520,6 +2520,7 @@ enum memberTypeType {
   subscribe_yearly
   subscribe_monthly
   subscribe_one_time
+  subscribe_group
   marketing
   none
 }

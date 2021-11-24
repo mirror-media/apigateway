@@ -3913,6 +3913,7 @@ const (
 	MemberTypeTypeSubscribeYearly  MemberTypeType = "subscribe_yearly"
 	MemberTypeTypeSubscribeMonthly MemberTypeType = "subscribe_monthly"
 	MemberTypeTypeSubscribeOneTime MemberTypeType = "subscribe_one_time"
+	MemberTypeTypeSubscribeGroup   MemberTypeType = "subscribe_group"
 	MemberTypeTypeMarketing        MemberTypeType = "marketing"
 	MemberTypeTypeNone             MemberTypeType = "none"
 )
@@ -3921,13 +3922,14 @@ var AllMemberTypeType = []MemberTypeType{
 	MemberTypeTypeSubscribeYearly,
 	MemberTypeTypeSubscribeMonthly,
 	MemberTypeTypeSubscribeOneTime,
+	MemberTypeTypeSubscribeGroup,
 	MemberTypeTypeMarketing,
 	MemberTypeTypeNone,
 }
 
 func (e MemberTypeType) IsValid() bool {
 	switch e {
-	case MemberTypeTypeSubscribeYearly, MemberTypeTypeSubscribeMonthly, MemberTypeTypeSubscribeOneTime, MemberTypeTypeMarketing, MemberTypeTypeNone:
+	case MemberTypeTypeSubscribeYearly, MemberTypeTypeSubscribeMonthly, MemberTypeTypeSubscribeOneTime, MemberTypeTypeSubscribeGroup, MemberTypeTypeMarketing, MemberTypeTypeNone:
 		return true
 	}
 	return false
