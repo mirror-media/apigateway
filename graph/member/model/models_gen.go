@@ -1694,6 +1694,7 @@ type Subscription struct {
 	PeriodCreateDatetime      *string                        `json:"periodCreateDatetime"`
 	PeriodFirstDatetime       *string                        `json:"periodFirstDatetime"`
 	PeriodEndDatetime         *string                        `json:"periodEndDatetime"`
+	GooglePlayPurchaseToken   *string                        `json:"googlePlayPurchaseToken"`
 	ChangePlanDatetime        *string                        `json:"changePlanDatetime"`
 	Note                      *string                        `json:"note"`
 	PromoteID                 *int                           `json:"promoteId"`

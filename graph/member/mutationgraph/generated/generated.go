@@ -230,6 +230,7 @@ type ComplexityRoot struct {
 		Desc                      func(childComplexity int) int
 		Email                     func(childComplexity int) int
 		Frequency                 func(childComplexity int) int
+		GooglePlayPurchaseToken   func(childComplexity int) int
 		ID                        func(childComplexity int) int
 		IsActive                  func(childComplexity int) int
 		IsCanceled                func(childComplexity int) int
@@ -1474,6 +1475,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Subscription.Frequency(childComplexity), true
+
+	case "subscription.googlePlayPurchaseToken":
+		if e.complexity.Subscription.GooglePlayPurchaseToken == nil {
+			break
+		}
+
+		return e.complexity.Subscription.GooglePlayPurchaseToken(childComplexity), true
 
 	case "subscription.id":
 		if e.complexity.Subscription.ID == nil {
@@ -4078,6 +4086,7 @@ type subscription {
   periodCreateDatetime: String
   periodFirstDatetime: String
   periodEndDatetime: String
+  googlePlayPurchaseToken: String
   changePlanDatetime: String
   note: String
   promoteId: Int
@@ -12276,6 +12285,38 @@ func (ec *executionContext) _subscription_periodEndDatetime(ctx context.Context,
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.PeriodEndDatetime, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscription_googlePlayPurchaseToken(ctx context.Context, field graphql.CollectedField, obj *model.Subscription) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscription",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.GooglePlayPurchaseToken, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -33307,6 +33348,8 @@ func (ec *executionContext) _subscription(ctx context.Context, sel ast.Selection
 			out.Values[i] = ec._subscription_periodFirstDatetime(ctx, field, obj)
 		case "periodEndDatetime":
 			out.Values[i] = ec._subscription_periodEndDatetime(ctx, field, obj)
+		case "googlePlayPurchaseToken":
+			out.Values[i] = ec._subscription_googlePlayPurchaseToken(ctx, field, obj)
 		case "changePlanDatetime":
 			out.Values[i] = ec._subscription_changePlanDatetime(ctx, field, obj)
 		case "note":
