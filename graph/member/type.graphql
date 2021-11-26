@@ -1953,6 +1953,7 @@ type subscription {
   periodCreateDatetime: String
   periodFirstDatetime: String
   periodEndDatetime: String
+  googlePlayPurchaseToken: String
   changePlanDatetime: String
   note: String
   promoteId: Int
