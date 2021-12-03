@@ -44,6 +44,11 @@ type WebhookPlayStoreResponse struct {
 	Data    Data   `json:"data"`
 }
 
+type WebhookAppStoreResponse struct {
+	Status  string `json:"status"`
+	Message string `json:"message"`
+}
+
 type Data struct {
 	ID                      string `json:"id"`
 	OrderNumber             string `json:"orderNumber"`

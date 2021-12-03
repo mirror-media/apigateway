@@ -118,6 +118,46 @@ func (r *mutationResolver) UpsertAppSubscription(ctx context.Context, info model
 	var ret *model.SubscriptionUpsert
 	switch info.Source {
 	case model.UpsertSubscriptionAppSourceTypeAppStore:
+		logrus.Debug("UpsertAppSubscription: AppStore")
+		body, _ := json.Marshal(map[string]interface{}{
+			"receiptData": info.VerificationData,
+			"firebaseId":  firebaseID,
+		})
+		postBody := bytes.NewBuffer(body)
+		resp, err := http.Post(r.Conf.ServiceEndpoints.AppStoreUpsertSubscription, "application/json", postBody)
+		if err != nil {
+			logrus.Error("posting request to AppStoreUpsertSubscription,"+r.Conf.ServiceEndpoints.AppStoreUpsertSubscription+" ,failed:", err)
+			return nil, err
+		}
+		defer resp.Body.Close()
+
+		if resp.StatusCode != http.StatusOK {
+			logrus.Error("posting request to AppStoreUpsertSubscription,"+r.Conf.ServiceEndpoints.AppStoreUpsertSubscription+" ,failed:", resp.StatusCode)
+			return nil, fmt.Errorf("internal error")
+		}
+
+		body, err = io.ReadAll(resp.Body)
+		if err != nil {
+			logrus.Error("parsing play store subscription webhook body encountered an error:", err)
+			return nil, fmt.Errorf("internal error")
+		}
+
+		var respData WebhookAppStoreResponse
+		err = json.Unmarshal(body, &respData)
+		if err != nil {
+			logrus.Error("unmarshalling play store subscription webhook body encountered an error:", err, string(body))
+			return nil, fmt.Errorf("internal error")
+		}
+
+		if respData.Status == "success" {
+			ret = &model.SubscriptionUpsert{
+				Success: true,
+			}
+		} else {
+			ret = &model.SubscriptionUpsert{}
+			err = fmt.Errorf(respData.Message)
+		}
+		return ret, err
 	case model.UpsertSubscriptionAppSourceTypeGooglePlay:
 		logrus.Debug("UpsertAppSubscription: GooglePlay")
 		body, _ := json.Marshal(map[string]interface{}{
