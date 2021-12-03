@@ -23,6 +23,10 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+var netClient = &http.Client{
+	Timeout: time.Second * 30,
+}
+
 func (r *mutationResolver) Createmember(ctx context.Context, data map[string]interface{}) (*model.MemberInfo, error) {
 	if data == nil {
 		return nil, fmt.Errorf("data cannot be null")
@@ -124,7 +128,7 @@ func (r *mutationResolver) UpsertAppSubscription(ctx context.Context, info model
 			"firebaseId":  firebaseID,
 		})
 		postBody := bytes.NewBuffer(body)
-		resp, err := http.Post(r.Conf.ServiceEndpoints.AppStoreUpsertSubscription, "application/json", postBody)
+		resp, err := netClient.Post(r.Conf.ServiceEndpoints.AppStoreUpsertSubscription, "application/json", postBody)
 		if err != nil {
 			logrus.Error("posting request to AppStoreUpsertSubscription,"+r.Conf.ServiceEndpoints.AppStoreUpsertSubscription+" ,failed:", err)
 			return nil, err
@@ -167,7 +171,7 @@ func (r *mutationResolver) UpsertAppSubscription(ctx context.Context, info model
 			"packageName":    info.PackageName,
 		})
 		postBody := bytes.NewBuffer(body)
-		resp, err := http.Post(r.Conf.ServiceEndpoints.PlayStoreUpsertSubscription, "application/json", postBody)
+		resp, err := netClient.Post(r.Conf.ServiceEndpoints.PlayStoreUpsertSubscription, "application/json", postBody)
 		if err != nil {
 			logrus.Error("posting request to PlayStoreUpsertSubscription,"+r.Conf.ServiceEndpoints.PlayStoreUpsertSubscription+" ,failed:", err)
 			return nil, err
