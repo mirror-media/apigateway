@@ -53,40 +53,64 @@ type ComplexityRoot struct {
 	Query struct {
 	}
 
-	AndroidpayPayment struct {
-		CreatedAt    func(childComplexity int) int
-		ID           func(childComplexity int) int
-		Invoice      func(childComplexity int) int
-		Subscription func(childComplexity int) int
-		UpdatedAt    func(childComplexity int) int
+	AppStorePayment struct {
+		Amount                func(childComplexity int) int
+		CreatedAt             func(childComplexity int) int
+		ExpiryDate            func(childComplexity int) int
+		Frequency             func(childComplexity int) int
+		ID                    func(childComplexity int) int
+		OriginalPurchaseDate  func(childComplexity int) int
+		OriginalTransactionID func(childComplexity int) int
+		ProductID             func(childComplexity int) int
+		PurchaseDate          func(childComplexity int) int
+		Subscription          func(childComplexity int) int
+		TransactionID         func(childComplexity int) int
+		UpdatedAt             func(childComplexity int) int
 	}
 
-	ApplepayPayment struct {
-		CreatedAt    func(childComplexity int) int
-		ID           func(childComplexity int) int
-		Invoice      func(childComplexity int) int
-		Subscription func(childComplexity int) int
-		UpdatedAt    func(childComplexity int) int
+	GooglePlayPayment struct {
+		Amount              func(childComplexity int) int
+		CreatedAt           func(childComplexity int) int
+		Currency            func(childComplexity int) int
+		ID                  func(childComplexity int) int
+		OrderID             func(childComplexity int) int
+		Subscription        func(childComplexity int) int
+		TransactionDatetime func(childComplexity int) int
+		UpdatedAt           func(childComplexity int) int
+	}
+
+	Group struct {
+		ApprovedBy     func(childComplexity int) int
+		Company        func(childComplexity int) int
+		CreatedAt      func(childComplexity int) int
+		EndDate        func(childComplexity int) int
+		ID             func(childComplexity int) int
+		Invoice        func(childComplexity int) int
+		Member         func(childComplexity int, where model.MemberWhereInput, search *string, orderBy []*model.MemberOrderByInput, first *int, skip int) int
+		MemberCount    func(childComplexity int, where model.MemberWhereInput) int
+		Note           func(childComplexity int) int
+		RequesterEmail func(childComplexity int) int
+		StartDate      func(childComplexity int) int
+		TaxIDNumber    func(childComplexity int) int
+		UpdatedAt      func(childComplexity int) int
 	}
 
 	Invoice struct {
-		Amount            func(childComplexity int) int
-		AndroidpayPayment func(childComplexity int) int
-		ApplepayPayment   func(childComplexity int) int
-		BuyerName         func(childComplexity int) int
-		BuyerUbn          func(childComplexity int) int
-		CarrierNum        func(childComplexity int) int
-		CarrierType       func(childComplexity int) int
-		Category          func(childComplexity int) int
-		CreatedAt         func(childComplexity int) int
-		Desc              func(childComplexity int) int
-		Email             func(childComplexity int) int
-		ID                func(childComplexity int) int
-		InvoiceNo         func(childComplexity int) int
-		LoveCode          func(childComplexity int) int
-		NewebpayPayment   func(childComplexity int) int
-		Status            func(childComplexity int) int
-		UpdatedAt         func(childComplexity int) int
+		Amount          func(childComplexity int) int
+		BuyerName       func(childComplexity int) int
+		BuyerUbn        func(childComplexity int) int
+		CarrierNum      func(childComplexity int) int
+		CarrierType     func(childComplexity int) int
+		Category        func(childComplexity int) int
+		CreatedAt       func(childComplexity int) int
+		Desc            func(childComplexity int) int
+		Email           func(childComplexity int) int
+		ID              func(childComplexity int) int
+		InvoiceNo       func(childComplexity int) int
+		LoveCode        func(childComplexity int) int
+		NewebpayPayment func(childComplexity int) int
+		Status          func(childComplexity int) int
+		UpdatedAt       func(childComplexity int) int
 	}
 
 	MarketingMembership struct {
@@ -113,6 +137,7 @@ type ComplexityRoot struct {
 		FirebaseID          func(childComplexity int) int
 		FirstName           func(childComplexity int) int
 		Gender              func(childComplexity int) int
+		Group               func(childComplexity int) int
 		ID                  func(childComplexity int) int
 		LastName            func(childComplexity int) int
 		MarketingMembership func(childComplexity int) int
@@ -213,48 +238,55 @@ type ComplexityRoot struct {
 	}
 
 	Subscription struct {
-		Amount                    func(childComplexity int) int
-		AndroidpayPayment         func(childComplexity int, where model.AndroidpayPaymentWhereInput, search *string, orderBy []*model.AndroidpayPaymentOrderByInput, first *int, skip int) int
-		AndroidpayPaymentCount    func(childComplexity int, where model.AndroidpayPaymentWhereInput) int
-		ApplepayPayment           func(childComplexity int, where model.ApplepayPaymentWhereInput, search *string, orderBy []*model.ApplepayPaymentOrderByInput, first *int, skip int) int
-		ApplepayPaymentCount      func(childComplexity int, where model.ApplepayPaymentWhereInput) int
-		BuyerName                 func(childComplexity int) int
-		BuyerUbn                  func(childComplexity int) int
-		CarrierNum                func(childComplexity int) int
-		CarrierType               func(childComplexity int) int
-		Category                  func(childComplexity int) int
-		ChangePlanDatetime        func(childComplexity int) int
-		Comment                   func(childComplexity int) int
-		CreatedAt                 func(childComplexity int) int
-		Currency                  func(childComplexity int) int
-		Desc                      func(childComplexity int) int
-		Email                     func(childComplexity int) int
-		Frequency                 func(childComplexity int) int
-		GooglePlayPurchaseToken   func(childComplexity int) int
-		ID                        func(childComplexity int) int
-		IsActive                  func(childComplexity int) int
-		IsCanceled                func(childComplexity int) int
-		LoveCode                  func(childComplexity int) int
-		Member                    func(childComplexity int) int
-		NewebpayPayment           func(childComplexity int, where model.NewebpayPaymentWhereInput, search *string, orderBy []*model.NewebpayPaymentOrderByInput, first *int, skip int) int
-		NewebpayPaymentCount      func(childComplexity int, where model.NewebpayPaymentWhereInput) int
-		NewebpayPaymentInfo       func(childComplexity int) int
-		NextFrequency             func(childComplexity int) int
-		Note                      func(childComplexity int) int
-		OneTimeEndDatetime        func(childComplexity int) int
-		OneTimeStartDatetime      func(childComplexity int) int
-		OrderNumber               func(childComplexity int) int
-		PaymentMethod             func(childComplexity int) int
-		PeriodCreateDatetime      func(childComplexity int) int
-		PeriodEndDatetime         func(childComplexity int) int
-		PeriodFailureTimes        func(childComplexity int) int
-		PeriodFirstDatetime       func(childComplexity int) int
-		PeriodLastSuccessDatetime func(childComplexity int) int
-		PeriodNextPayDatetime     func(childComplexity int) int
-		PostID                    func(childComplexity int) int
-		PromoteID                 func(childComplexity int) int
-		Status                    func(childComplexity int) int
-		UpdatedAt                 func(childComplexity int) int
+		AaplOriginalTransactionID           func(childComplexity int) int
+		Amount                              func(childComplexity int) int
+		AppStorePayment                     func(childComplexity int, where model.AppStorePaymentWhereInput, search *string, orderBy []*model.AppStorePaymentOrderByInput, first *int, skip int) int
+		AppStorePaymentCount                func(childComplexity int, where model.AppStorePaymentWhereInput) int
+		BuyerName                           func(childComplexity int) int
+		BuyerUbn                            func(childComplexity int) int
+		CancelReason                        func(childComplexity int) int
+		CarrierNum                          func(childComplexity int) int
+		CarrierType                         func(childComplexity int) int
+		Category                            func(childComplexity int) int
+		ChangePlanDatetime                  func(childComplexity int) int
+		Comment                             func(childComplexity int) int
+		CreatedAt                           func(childComplexity int) int
+		Currency                            func(childComplexity int) int
+		Desc                                func(childComplexity int) int
+		Email                               func(childComplexity int) int
+		Frequency                           func(childComplexity int) int
+		GooglePlayNotificationEventDatetime func(childComplexity int) int
+		GooglePlayPackageName               func(childComplexity int) int
+		GooglePlayPayment                   func(childComplexity int, where model.GooglePlayPaymentWhereInput, search *string, orderBy []*model.GooglePlayPaymentOrderByInput, first *int, skip int) int
+		GooglePlayPaymentCount              func(childComplexity int, where model.GooglePlayPaymentWhereInput) int
+		GooglePlayPurchaseToken             func(childComplexity int) int
+		GooglePlayStatus                    func(childComplexity int) int
+		ID                                  func(childComplexity int) int
+		IsActive                            func(childComplexity int) int
+		IsCanceled                          func(childComplexity int) int
+		LoveCode                            func(childComplexity int) int
+		Member                              func(childComplexity int) int
+		NewebpayPayment                     func(childComplexity int, where model.NewebpayPaymentWhereInput, search *string, orderBy []*model.NewebpayPaymentOrderByInput, first *int, skip int) int
+		NewebpayPaymentCount                func(childComplexity int, where model.NewebpayPaymentWhereInput) int
+		NewebpayPaymentInfo                 func(childComplexity int) int
+		NextFrequency                       func(childComplexity int) int
+		Note                                func(childComplexity int) int
+		OneTimeEndDatetime                  func(childComplexity int) int
+		OneTimeStartDatetime                func(childComplexity int) int
+		OrderNumber                         func(childComplexity int) int
+		PaymentMethod                       func(childComplexity int) int
+		PeriodCreateDatetime                func(childComplexity int) int
+		PeriodEndDatetime                   func(childComplexity int) int
+		PeriodFailureTimes                  func(childComplexity int) int
+		PeriodFirstDatetime                 func(childComplexity int) int
+		PeriodLastSuccessDatetime           func(childComplexity int) int
+		PeriodNextPayDatetime               func(childComplexity int) int
+		PostID                              func(childComplexity int) int
+		PrintFlag                           func(childComplexity int) int
+		PromoteID                           func(childComplexity int) int
+		RefundNote                          func(childComplexity int) int
+		Status                              func(childComplexity int) int
+		UpdatedAt                           func(childComplexity int) int
 	}
 
 	SubscriptionCreation struct {
@@ -424,75 +456,246 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.UpsertAppSubscription(childComplexity, args["info"].(model.SubscriptionAppUpsertInfo)), true
 
-	case "androidpayPayment.createdAt":
-		if e.complexity.AndroidpayPayment.CreatedAt == nil {
+	case "appStorePayment.amount":
+		if e.complexity.AppStorePayment.Amount == nil {
 			break
 		}
 
-		return e.complexity.AndroidpayPayment.CreatedAt(childComplexity), true
+		return e.complexity.AppStorePayment.Amount(childComplexity), true
 
-	case "androidpayPayment.id":
-		if e.complexity.AndroidpayPayment.ID == nil {
+	case "appStorePayment.createdAt":
+		if e.complexity.AppStorePayment.CreatedAt == nil {
 			break
 		}
 
-		return e.complexity.AndroidpayPayment.ID(childComplexity), true
+		return e.complexity.AppStorePayment.CreatedAt(childComplexity), true
 
-	case "androidpayPayment.invoice":
-		if e.complexity.AndroidpayPayment.Invoice == nil {
+	case "appStorePayment.expiryDate":
+		if e.complexity.AppStorePayment.ExpiryDate == nil {
 			break
 		}
 
-		return e.complexity.AndroidpayPayment.Invoice(childComplexity), true
+		return e.complexity.AppStorePayment.ExpiryDate(childComplexity), true
 
-	case "androidpayPayment.subscription":
-		if e.complexity.AndroidpayPayment.Subscription == nil {
+	case "appStorePayment.frequency":
+		if e.complexity.AppStorePayment.Frequency == nil {
 			break
 		}
 
-		return e.complexity.AndroidpayPayment.Subscription(childComplexity), true
+		return e.complexity.AppStorePayment.Frequency(childComplexity), true
 
-	case "androidpayPayment.updatedAt":
-		if e.complexity.AndroidpayPayment.UpdatedAt == nil {
+	case "appStorePayment.id":
+		if e.complexity.AppStorePayment.ID == nil {
 			break
 		}
 
-		return e.complexity.AndroidpayPayment.UpdatedAt(childComplexity), true
+		return e.complexity.AppStorePayment.ID(childComplexity), true
 
-	case "applepayPayment.createdAt":
-		if e.complexity.ApplepayPayment.CreatedAt == nil {
+	case "appStorePayment.originalPurchaseDate":
+		if e.complexity.AppStorePayment.OriginalPurchaseDate == nil {
 			break
 		}
 
-		return e.complexity.ApplepayPayment.CreatedAt(childComplexity), true
+		return e.complexity.AppStorePayment.OriginalPurchaseDate(childComplexity), true
 
-	case "applepayPayment.id":
-		if e.complexity.ApplepayPayment.ID == nil {
+	case "appStorePayment.originalTransactionId":
+		if e.complexity.AppStorePayment.OriginalTransactionID == nil {
 			break
 		}
 
-		return e.complexity.ApplepayPayment.ID(childComplexity), true
+		return e.complexity.AppStorePayment.OriginalTransactionID(childComplexity), true
 
-	case "applepayPayment.invoice":
-		if e.complexity.ApplepayPayment.Invoice == nil {
+	case "appStorePayment.productId":
+		if e.complexity.AppStorePayment.ProductID == nil {
 			break
 		}
 
-		return e.complexity.ApplepayPayment.Invoice(childComplexity), true
+		return e.complexity.AppStorePayment.ProductID(childComplexity), true
 
-	case "applepayPayment.subscription":
-		if e.complexity.ApplepayPayment.Subscription == nil {
+	case "appStorePayment.purchaseDate":
+		if e.complexity.AppStorePayment.PurchaseDate == nil {
 			break
 		}
 
-		return e.complexity.ApplepayPayment.Subscription(childComplexity), true
+		return e.complexity.AppStorePayment.PurchaseDate(childComplexity), true
 
-	case "applepayPayment.updatedAt":
-		if e.complexity.ApplepayPayment.UpdatedAt == nil {
+	case "appStorePayment.subscription":
+		if e.complexity.AppStorePayment.Subscription == nil {
 			break
 		}
 
-		return e.complexity.ApplepayPayment.UpdatedAt(childComplexity), true
+		return e.complexity.AppStorePayment.Subscription(childComplexity), true
+
+	case "appStorePayment.transactionId":
+		if e.complexity.AppStorePayment.TransactionID == nil {
+			break
+		}
+
+		return e.complexity.AppStorePayment.TransactionID(childComplexity), true
+
+	case "appStorePayment.updatedAt":
+		if e.complexity.AppStorePayment.UpdatedAt == nil {
+			break
+		}
+
+		return e.complexity.AppStorePayment.UpdatedAt(childComplexity), true
+
+	case "googlePlayPayment.amount":
+		if e.complexity.GooglePlayPayment.Amount == nil {
+			break
+		}
+
+		return e.complexity.GooglePlayPayment.Amount(childComplexity), true
+
+	case "googlePlayPayment.createdAt":
+		if e.complexity.GooglePlayPayment.CreatedAt == nil {
+			break
+		}
+
+		return e.complexity.GooglePlayPayment.CreatedAt(childComplexity), true
+
+	case "googlePlayPayment.currency":
+		if e.complexity.GooglePlayPayment.Currency == nil {
+			break
+		}
+
+		return e.complexity.GooglePlayPayment.Currency(childComplexity), true
+
+	case "googlePlayPayment.id":
+		if e.complexity.GooglePlayPayment.ID == nil {
+			break
+		}
+
+		return e.complexity.GooglePlayPayment.ID(childComplexity), true
+
+	case "googlePlayPayment.orderId":
+		if e.complexity.GooglePlayPayment.OrderID == nil {
+			break
+		}
+
+		return e.complexity.GooglePlayPayment.OrderID(childComplexity), true
+
+	case "googlePlayPayment.subscription":
+		if e.complexity.GooglePlayPayment.Subscription == nil {
+			break
+		}
+
+		return e.complexity.GooglePlayPayment.Subscription(childComplexity), true
+
+	case "googlePlayPayment.transactionDatetime":
+		if e.complexity.GooglePlayPayment.TransactionDatetime == nil {
+			break
+		}
+
+		return e.complexity.GooglePlayPayment.TransactionDatetime(childComplexity), true
+
+	case "googlePlayPayment.updatedAt":
+		if e.complexity.GooglePlayPayment.UpdatedAt == nil {
+			break
+		}
+
+		return e.complexity.GooglePlayPayment.UpdatedAt(childComplexity), true
+
+	case "group.approvedBy":
+		if e.complexity.Group.ApprovedBy == nil {
+			break
+		}
+
+		return e.complexity.Group.ApprovedBy(childComplexity), true
+
+	case "group.company":
+		if e.complexity.Group.Company == nil {
+			break
+		}
+
+		return e.complexity.Group.Company(childComplexity), true
+
+	case "group.createdAt":
+		if e.complexity.Group.CreatedAt == nil {
+			break
+		}
+
+		return e.complexity.Group.CreatedAt(childComplexity), true
+
+	case "group.endDate":
+		if e.complexity.Group.EndDate == nil {
+			break
+		}
+
+		return e.complexity.Group.EndDate(childComplexity), true
+
+	case "group.id":
+		if e.complexity.Group.ID == nil {
+			break
+		}
+
+		return e.complexity.Group.ID(childComplexity), true
+
+	case "group.invoice":
+		if e.complexity.Group.Invoice == nil {
+			break
+		}
+
+		return e.complexity.Group.Invoice(childComplexity), true
+
+	case "group.member":
+		if e.complexity.Group.Member == nil {
+			break
+		}
+
+		args, err := ec.field_group_member_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Group.Member(childComplexity, args["where"].(model.MemberWhereInput), args["search"].(*string), args["orderBy"].([]*model.MemberOrderByInput), args["first"].(*int), args["skip"].(int)), true
+
+	case "group.memberCount":
+		if e.complexity.Group.MemberCount == nil {
+			break
+		}
+
+		args, err := ec.field_group_memberCount_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Group.MemberCount(childComplexity, args["where"].(model.MemberWhereInput)), true
+
+	case "group.note":
+		if e.complexity.Group.Note == nil {
+			break
+		}
+
+		return e.complexity.Group.Note(childComplexity), true
+
+	case "group.requesterEmail":
+		if e.complexity.Group.RequesterEmail == nil {
+			break
+		}
+
+		return e.complexity.Group.RequesterEmail(childComplexity), true
+
+	case "group.startDate":
+		if e.complexity.Group.StartDate == nil {
+			break
+		}
+
+		return e.complexity.Group.StartDate(childComplexity), true
+
+	case "group.taxIdNumber":
+		if e.complexity.Group.TaxIDNumber == nil {
+			break
+		}
+
+		return e.complexity.Group.TaxIDNumber(childComplexity), true
+
+	case "group.updatedAt":
+		if e.complexity.Group.UpdatedAt == nil {
+			break
+		}
+
+		return e.complexity.Group.UpdatedAt(childComplexity), true
 
 	case "invoice.amount":
 		if e.complexity.Invoice.Amount == nil {
@@ -500,20 +703,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Invoice.Amount(childComplexity), true
-
-	case "invoice.androidpayPayment":
-		if e.complexity.Invoice.AndroidpayPayment == nil {
-			break
-		}
-
-		return e.complexity.Invoice.AndroidpayPayment(childComplexity), true
-
-	case "invoice.applepayPayment":
-		if e.complexity.Invoice.ApplepayPayment == nil {
-			break
-		}
-
-		return e.complexity.Invoice.ApplepayPayment(childComplexity), true
 
 	case "invoice.buyerName":
 		if e.complexity.Invoice.BuyerName == nil {
@@ -752,6 +941,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Member.Gender(childComplexity), true
+
+	case "member.group":
+		if e.complexity.Member.Group == nil {
+			break
+		}
+
+		return e.complexity.Member.Group(childComplexity), true
 
 	case "member.id":
 		if e.complexity.Member.ID == nil {
@@ -1337,6 +1533,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Promotion.UpdatedAt(childComplexity), true
 
+	case "subscription.aaplOriginalTransactionId":
+		if e.complexity.Subscription.AaplOriginalTransactionID == nil {
+			break
+		}
+
+		return e.complexity.Subscription.AaplOriginalTransactionID(childComplexity), true
+
 	case "subscription.amount":
 		if e.complexity.Subscription.Amount == nil {
 			break
@@ -1344,53 +1547,29 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Subscription.Amount(childComplexity), true
 
-	case "subscription.androidpayPayment":
-		if e.complexity.Subscription.AndroidpayPayment == nil {
+	case "subscription.appStorePayment":
+		if e.complexity.Subscription.AppStorePayment == nil {
 			break
 		}
 
-		args, err := ec.field_subscription_androidpayPayment_args(context.TODO(), rawArgs)
+		args, err := ec.field_subscription_appStorePayment_args(context.TODO(), rawArgs)
 		if err != nil {
 			return 0, false
 		}
 
-		return e.complexity.Subscription.AndroidpayPayment(childComplexity, args["where"].(model.AndroidpayPaymentWhereInput), args["search"].(*string), args["orderBy"].([]*model.AndroidpayPaymentOrderByInput), args["first"].(*int), args["skip"].(int)), true
+		return e.complexity.Subscription.AppStorePayment(childComplexity, args["where"].(model.AppStorePaymentWhereInput), args["search"].(*string), args["orderBy"].([]*model.AppStorePaymentOrderByInput), args["first"].(*int), args["skip"].(int)), true
 
-	case "subscription.androidpayPaymentCount":
-		if e.complexity.Subscription.AndroidpayPaymentCount == nil {
+	case "subscription.appStorePaymentCount":
+		if e.complexity.Subscription.AppStorePaymentCount == nil {
 			break
 		}
 
-		args, err := ec.field_subscription_androidpayPaymentCount_args(context.TODO(), rawArgs)
+		args, err := ec.field_subscription_appStorePaymentCount_args(context.TODO(), rawArgs)
 		if err != nil {
 			return 0, false
 		}
 
-		return e.complexity.Subscription.AndroidpayPaymentCount(childComplexity, args["where"].(model.AndroidpayPaymentWhereInput)), true
-
-	case "subscription.applepayPayment":
-		if e.complexity.Subscription.ApplepayPayment == nil {
-			break
-		}
-
-		args, err := ec.field_subscription_applepayPayment_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Subscription.ApplepayPayment(childComplexity, args["where"].(model.ApplepayPaymentWhereInput), args["search"].(*string), args["orderBy"].([]*model.ApplepayPaymentOrderByInput), args["first"].(*int), args["skip"].(int)), true
-
-	case "subscription.applepayPaymentCount":
-		if e.complexity.Subscription.ApplepayPaymentCount == nil {
-			break
-		}
-
-		args, err := ec.field_subscription_applepayPaymentCount_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Subscription.ApplepayPaymentCount(childComplexity, args["where"].(model.ApplepayPaymentWhereInput)), true
+		return e.complexity.Subscription.AppStorePaymentCount(childComplexity, args["where"].(model.AppStorePaymentWhereInput)), true
 
 	case "subscription.buyerName":
 		if e.complexity.Subscription.BuyerName == nil {
@@ -1405,6 +1584,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Subscription.BuyerUbn(childComplexity), true
+
+	case "subscription.cancelReason":
+		if e.complexity.Subscription.CancelReason == nil {
+			break
+		}
+
+		return e.complexity.Subscription.CancelReason(childComplexity), true
 
 	case "subscription.carrierNum":
 		if e.complexity.Subscription.CarrierNum == nil {
@@ -1476,12 +1662,57 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Subscription.Frequency(childComplexity), true
 
+	case "subscription.googlePlayNotificationEventDatetime":
+		if e.complexity.Subscription.GooglePlayNotificationEventDatetime == nil {
+			break
+		}
+
+		return e.complexity.Subscription.GooglePlayNotificationEventDatetime(childComplexity), true
+
+	case "subscription.googlePlayPackageName":
+		if e.complexity.Subscription.GooglePlayPackageName == nil {
+			break
+		}
+
+		return e.complexity.Subscription.GooglePlayPackageName(childComplexity), true
+
+	case "subscription.googlePlayPayment":
+		if e.complexity.Subscription.GooglePlayPayment == nil {
+			break
+		}
+
+		args, err := ec.field_subscription_googlePlayPayment_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Subscription.GooglePlayPayment(childComplexity, args["where"].(model.GooglePlayPaymentWhereInput), args["search"].(*string), args["orderBy"].([]*model.GooglePlayPaymentOrderByInput), args["first"].(*int), args["skip"].(int)), true
+
+	case "subscription.googlePlayPaymentCount":
+		if e.complexity.Subscription.GooglePlayPaymentCount == nil {
+			break
+		}
+
+		args, err := ec.field_subscription_googlePlayPaymentCount_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Subscription.GooglePlayPaymentCount(childComplexity, args["where"].(model.GooglePlayPaymentWhereInput)), true
+
 	case "subscription.googlePlayPurchaseToken":
 		if e.complexity.Subscription.GooglePlayPurchaseToken == nil {
 			break
 		}
 
 		return e.complexity.Subscription.GooglePlayPurchaseToken(childComplexity), true
+
+	case "subscription.googlePlayStatus":
+		if e.complexity.Subscription.GooglePlayStatus == nil {
+			break
+		}
+
+		return e.complexity.Subscription.GooglePlayStatus(childComplexity), true
 
 	case "subscription.id":
 		if e.complexity.Subscription.ID == nil {
@@ -1640,12 +1871,26 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Subscription.PostID(childComplexity), true
 
+	case "subscription.printFlag":
+		if e.complexity.Subscription.PrintFlag == nil {
+			break
+		}
+
+		return e.complexity.Subscription.PrintFlag(childComplexity), true
+
 	case "subscription.promoteId":
 		if e.complexity.Subscription.PromoteID == nil {
 			break
 		}
 
 		return e.complexity.Subscription.PromoteID(childComplexity), true
+
+	case "subscription.refundNote":
+		if e.complexity.Subscription.RefundNote == nil {
+			break
+		}
+
+		return e.complexity.Subscription.RefundNote(childComplexity), true
 
 	case "subscription.status":
 		if e.complexity.Subscription.Status == nil {
@@ -2142,8 +2387,6 @@ enum OrderDirection {
 type invoice {
   id: ID!
   newebpayPayment: newebpayPayment
-  applepayPayment: applepayPayment
-  androidpayPayment: androidpayPayment
   amount: Int
   email: String
   desc: String
@@ -2183,10 +2426,6 @@ input invoiceWhereInput {
   id_not_in: [ID!]
   newebpayPayment: newebpayPaymentWhereInput
   newebpayPayment_is_null: Boolean
-  applepayPayment: applepayPaymentWhereInput
-  applepayPayment_is_null: Boolean
-  androidpayPayment: androidpayPaymentWhereInput
-  androidpayPayment_is_null: Boolean
   amount: Int
   amount_not: Int
   amount_lt: Int
@@ -2398,8 +2637,6 @@ input invoiceOrderByInput {
 
 input invoiceUpdateInput {
   newebpayPayment: newebpayPaymentRelateToOneInput
-  applepayPayment: applepayPaymentRelateToOneInput
-  androidpayPayment: androidpayPaymentRelateToOneInput
   amount: Int
   email: String
   desc: String
@@ -2422,20 +2659,6 @@ input newebpayPaymentRelateToOneInput {
   disconnectAll: Boolean
 }
 
-input applepayPaymentRelateToOneInput {
-  create: applepayPaymentCreateInput
-  connect: applepayPaymentWhereUniqueInput
-  disconnect: applepayPaymentWhereUniqueInput
-  disconnectAll: Boolean
-}
-
-input androidpayPaymentRelateToOneInput {
-  create: androidpayPaymentCreateInput
-  connect: androidpayPaymentWhereUniqueInput
-  disconnect: androidpayPaymentWhereUniqueInput
-  disconnectAll: Boolean
-}
-
 input InvoicesUpdateInput {
   id: ID!
   data: invoiceUpdateInput
@@ -2443,8 +2666,6 @@ input InvoicesUpdateInput {
 
 input invoiceCreateInput {
   newebpayPayment: newebpayPaymentRelateToOneInput
-  applepayPayment: applepayPaymentRelateToOneInput
-  androidpayPayment: androidpayPaymentRelateToOneInput
   amount: Int
   email: String
   desc: String
@@ -2469,6 +2690,7 @@ type member {
   firebaseId: String
   email: String
   marketingMembership: marketingMembership
+  group: group
   type: memberTypeType
   state: memberStateType
   tos: Boolean
@@ -3281,8 +3503,9 @@ input newebpayPaymentWhereInput {
   id_not_in: [ID!]
   subscription: subscriptionWhereInput
   subscription_is_null: Boolean
-  invoice: invoiceWhereInput
-  invoice_is_null: Boolean
+  invoice_every: invoiceWhereInput
+  invoice_some: invoiceWhereInput
+  invoice_none: invoiceWhereInput
   amount: Int
   amount_not: Int
   amount_lt: Int
@@ -3638,7 +3861,7 @@ input newebpayPaymentOrderByInput {
 
 input newebpayPaymentUpdateInput {
   subscription: subscriptionRelateToOneInput
-  invoice: invoiceRelateToOneInput
+  invoice: invoiceRelateToManyInput
   amount: Int
   status: String
   paymentMethod: String
@@ -3660,10 +3883,10 @@ input newebpayPaymentUpdateInput {
   updatedAt: String
 }
 
-input invoiceRelateToOneInput {
-  create: invoiceCreateInput
-  connect: invoiceWhereUniqueInput
-  disconnect: invoiceWhereUniqueInput
+input invoiceRelateToManyInput {
+  create: [invoiceCreateInput]
+  connect: [invoiceWhereUniqueInput]
+  disconnect: [invoiceWhereUniqueInput]
   disconnectAll: Boolean
 }
 
@@ -3674,7 +3897,7 @@ input NewebpayPaymentsUpdateInput {
 
 input newebpayPaymentCreateInput {
   subscription: subscriptionRelateToOneInput
-  invoice: invoiceRelateToOneInput
+  invoice: invoiceRelateToManyInput
   amount: Int
   status: String
   paymentMethod: String
@@ -3700,17 +3923,24 @@ input NewebpayPaymentsCreateInput {
   data: newebpayPaymentCreateInput
 }
 
-type applepayPayment {
+type appStorePayment {
   id: ID!
   subscription: subscription
-  invoice: invoice
+  amount: Float
+  purchaseDate: String
+  originalPurchaseDate: String
+  expiryDate: String
+  frequency: merchandise
+  productId: String
+  originalTransactionId: String
+  transactionId: String
   createdAt: String
   updatedAt: String
 }
 
-input applepayPaymentWhereInput {
-  AND: [applepayPaymentWhereInput!]
-  OR: [applepayPaymentWhereInput!]
+input appStorePaymentWhereInput {
+  AND: [appStorePaymentWhereInput!]
+  OR: [appStorePaymentWhereInput!]
   id: ID
   id_not: ID
   id_lt: ID
@@ -3721,8 +3951,94 @@ input applepayPaymentWhereInput {
   id_not_in: [ID!]
   subscription: subscriptionWhereInput
   subscription_is_null: Boolean
-  invoice: invoiceWhereInput
-  invoice_is_null: Boolean
+  amount: Float
+  amount_not: Float
+  amount_lt: Float
+  amount_lte: Float
+  amount_gt: Float
+  amount_gte: Float
+  amount_in: [Float]
+  amount_not_in: [Float]
+  purchaseDate: String
+  purchaseDate_not: String
+  purchaseDate_lt: String
+  purchaseDate_lte: String
+  purchaseDate_gt: String
+  purchaseDate_gte: String
+  purchaseDate_in: [String]
+  purchaseDate_not_in: [String]
+  originalPurchaseDate: String
+  originalPurchaseDate_not: String
+  originalPurchaseDate_lt: String
+  originalPurchaseDate_lte: String
+  originalPurchaseDate_gt: String
+  originalPurchaseDate_gte: String
+  originalPurchaseDate_in: [String]
+  originalPurchaseDate_not_in: [String]
+  expiryDate: String
+  expiryDate_not: String
+  expiryDate_lt: String
+  expiryDate_lte: String
+  expiryDate_gt: String
+  expiryDate_gte: String
+  expiryDate_in: [String]
+  expiryDate_not_in: [String]
+  frequency: merchandiseWhereInput
+  frequency_is_null: Boolean
+  productId: String
+  productId_not: String
+  productId_contains: String
+  productId_not_contains: String
+  productId_starts_with: String
+  productId_not_starts_with: String
+  productId_ends_with: String
+  productId_not_ends_with: String
+  productId_i: String
+  productId_not_i: String
+  productId_contains_i: String
+  productId_not_contains_i: String
+  productId_starts_with_i: String
+  productId_not_starts_with_i: String
+  productId_ends_with_i: String
+  productId_not_ends_with_i: String
+  productId_in: [String]
+  productId_not_in: [String]
+  originalTransactionId: String
+  originalTransactionId_not: String
+  originalTransactionId_contains: String
+  originalTransactionId_not_contains: String
+  originalTransactionId_starts_with: String
+  originalTransactionId_not_starts_with: String
+  originalTransactionId_ends_with: String
+  originalTransactionId_not_ends_with: String
+  originalTransactionId_i: String
+  originalTransactionId_not_i: String
+  originalTransactionId_contains_i: String
+  originalTransactionId_not_contains_i: String
+  originalTransactionId_starts_with_i: String
+  originalTransactionId_not_starts_with_i: String
+  originalTransactionId_ends_with_i: String
+  originalTransactionId_not_ends_with_i: String
+  originalTransactionId_in: [String]
+  originalTransactionId_not_in: [String]
+  transactionId: String
+  transactionId_not: String
+  transactionId_contains: String
+  transactionId_not_contains: String
+  transactionId_starts_with: String
+  transactionId_not_starts_with: String
+  transactionId_ends_with: String
+  transactionId_not_ends_with: String
+  transactionId_i: String
+  transactionId_not_i: String
+  transactionId_contains_i: String
+  transactionId_not_contains_i: String
+  transactionId_starts_with_i: String
+  transactionId_not_starts_with_i: String
+  transactionId_ends_with_i: String
+  transactionId_not_ends_with_i: String
+  transactionId_in: [String]
+  transactionId_not_in: [String]
   createdAt: String
   createdAt_not: String
   createdAt_lt: String
@@ -3743,59 +4059,109 @@ input applepayPaymentWhereInput {
   updatedBy_is_null: Boolean
 }
 
-input applepayPaymentWhereUniqueInput {
+input appStorePaymentWhereUniqueInput {
   id: ID
+  transactionId: String
 }
 
-enum SortApplepayPaymentsBy {
+enum SortAppStorePaymentsBy {
   id_ASC
   id_DESC
+  amount_ASC
+  amount_DESC
+  purchaseDate_ASC
+  purchaseDate_DESC
+  originalPurchaseDate_ASC
+  originalPurchaseDate_DESC
+  expiryDate_ASC
+  expiryDate_DESC
+  productId_ASC
+  productId_DESC
+  originalTransactionId_ASC
+  originalTransactionId_DESC
+  transactionId_ASC
+  transactionId_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
   updatedAt_DESC
 }
 
-input applepayPaymentOrderByInput {
+input appStorePaymentOrderByInput {
   id: OrderDirection
+  amount: OrderDirection
+  purchaseDate: OrderDirection
+  originalPurchaseDate: OrderDirection
+  expiryDate: OrderDirection
+  productId: OrderDirection
+  originalTransactionId: OrderDirection
+  transactionId: OrderDirection
   createdAt: OrderDirection
   updatedAt: OrderDirection
 }
 
-input applepayPaymentUpdateInput {
+input appStorePaymentUpdateInput {
   subscription: subscriptionRelateToOneInput
-  invoice: invoiceRelateToOneInput
+  amount: Float
+  purchaseDate: String
+  originalPurchaseDate: String
+  expiryDate: String
+  frequency: merchandiseRelateToOneInput
+  productId: String
+  originalTransactionId: String
+  transactionId: String
   createdAt: String
   updatedAt: String
 }
 
-input ApplepayPaymentsUpdateInput {
+input merchandiseRelateToOneInput {
+  create: merchandiseCreateInput
+  connect: merchandiseWhereUniqueInput
+  disconnect: merchandiseWhereUniqueInput
+  disconnectAll: Boolean
+}
+
+input AppStorePaymentsUpdateInput {
   id: ID!
-  data: applepayPaymentUpdateInput
+  data: appStorePaymentUpdateInput
 }
 
-input applepayPaymentCreateInput {
+input appStorePaymentCreateInput {
   subscription: subscriptionRelateToOneInput
-  invoice: invoiceRelateToOneInput
+  amount: Float
+  purchaseDate: String
+  originalPurchaseDate: String
+  expiryDate: String
+  frequency: merchandiseRelateToOneInput
+  productId: String
+  originalTransactionId: String
+  transactionId: String
   createdAt: String
   updatedAt: String
 }
 
-input ApplepayPaymentsCreateInput {
-  data: applepayPaymentCreateInput
+input AppStorePaymentsCreateInput {
+  data: appStorePaymentCreateInput
 }
 
-type androidpayPayment {
+type googlePlayPayment {
   id: ID!
   subscription: subscription
-  invoice: invoice
+  orderId: String
+  transactionDatetime: String
+  amount: Int
+  currency: googlePlayPaymentCurrencyType
   createdAt: String
   updatedAt: String
 }
 
-input androidpayPaymentWhereInput {
-  AND: [androidpayPaymentWhereInput!]
-  OR: [androidpayPaymentWhereInput!]
+enum googlePlayPaymentCurrencyType {
+  TWD
+}
+
+input googlePlayPaymentWhereInput {
+  AND: [googlePlayPaymentWhereInput!]
+  OR: [googlePlayPaymentWhereInput!]
   id: ID
   id_not: ID
   id_lt: ID
@@ -3806,8 +4172,44 @@ input androidpayPaymentWhereInput {
   id_not_in: [ID!]
   subscription: subscriptionWhereInput
   subscription_is_null: Boolean
-  invoice: invoiceWhereInput
-  invoice_is_null: Boolean
+  orderId: String
+  orderId_not: String
+  orderId_contains: String
+  orderId_not_contains: String
+  orderId_starts_with: String
+  orderId_not_starts_with: String
+  orderId_ends_with: String
+  orderId_not_ends_with: String
+  orderId_i: String
+  orderId_not_i: String
+  orderId_contains_i: String
+  orderId_not_contains_i: String
+  orderId_starts_with_i: String
+  orderId_not_starts_with_i: String
+  orderId_ends_with_i: String
+  orderId_not_ends_with_i: String
+  orderId_in: [String]
+  orderId_not_in: [String]
+  transactionDatetime: String
+  transactionDatetime_not: String
+  transactionDatetime_lt: String
+  transactionDatetime_lte: String
+  transactionDatetime_gt: String
+  transactionDatetime_gte: String
+  transactionDatetime_in: [String]
+  transactionDatetime_not_in: [String]
+  amount: Int
+  amount_not: Int
+  amount_lt: Int
+  amount_lte: Int
+  amount_gt: Int
+  amount_gte: Int
+  amount_in: [Int]
+  amount_not_in: [Int]
+  currency: googlePlayPaymentCurrencyType
+  currency_not: googlePlayPaymentCurrencyType
+  currency_in: [googlePlayPaymentCurrencyType]
+  currency_not_in: [googlePlayPaymentCurrencyType]
   createdAt: String
   createdAt_not: String
   createdAt_lt: String
@@ -3828,46 +4230,65 @@ input androidpayPaymentWhereInput {
   updatedBy_is_null: Boolean
 }
 
-input androidpayPaymentWhereUniqueInput {
+input googlePlayPaymentWhereUniqueInput {
   id: ID
+  orderId: String
 }
 
-enum SortAndroidpayPaymentsBy {
+enum SortGooglePlayPaymentsBy {
   id_ASC
   id_DESC
+  orderId_ASC
+  orderId_DESC
+  transactionDatetime_ASC
+  transactionDatetime_DESC
+  amount_ASC
+  amount_DESC
+  currency_ASC
+  currency_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
   updatedAt_DESC
 }
 
-input androidpayPaymentOrderByInput {
+input googlePlayPaymentOrderByInput {
   id: OrderDirection
+  orderId: OrderDirection
+  transactionDatetime: OrderDirection
+  amount: OrderDirection
+  currency: OrderDirection
   createdAt: OrderDirection
   updatedAt: OrderDirection
 }
 
-input androidpayPaymentUpdateInput {
+input googlePlayPaymentUpdateInput {
   subscription: subscriptionRelateToOneInput
-  invoice: invoiceRelateToOneInput
+  orderId: String
+  transactionDatetime: String
+  amount: Int
+  currency: googlePlayPaymentCurrencyType
   createdAt: String
   updatedAt: String
 }
 
-input AndroidpayPaymentsUpdateInput {
+input GooglePlayPaymentsUpdateInput {
   id: ID!
-  data: androidpayPaymentUpdateInput
+  data: googlePlayPaymentUpdateInput
 }
 
-input androidpayPaymentCreateInput {
+input googlePlayPaymentCreateInput {
   subscription: subscriptionRelateToOneInput
-  invoice: invoiceRelateToOneInput
+  orderId: String
+  transactionDatetime: String
+  amount: Int
+  currency: googlePlayPaymentCurrencyType
   createdAt: String
   updatedAt: String
 }
 
-input AndroidpayPaymentsCreateInput {
-  data: androidpayPaymentCreateInput
+input GooglePlayPaymentsCreateInput {
+  data: googlePlayPaymentCreateInput
 }
 
 type promotion {
@@ -4044,6 +4465,7 @@ input PromotionsCreateInput {
 type subscription {
   id: ID!
   member: member
+  orderNumber: String
   paymentMethod: subscriptionPaymentMethodType
   newebpayPayment(
     where: newebpayPaymentWhereInput! = {}
@@ -4053,29 +4475,28 @@ type subscription {
     skip: Int! = 0
   ): [newebpayPayment!]
   newebpayPaymentCount(where: newebpayPaymentWhereInput! = {}): Int
-  applepayPayment(
-    where: applepayPaymentWhereInput! = {}
+  appStorePayment(
+    where: appStorePaymentWhereInput! = {}
     search: String
-    orderBy: [applepayPaymentOrderByInput!]! = []
+    orderBy: [appStorePaymentOrderByInput!]! = []
     first: Int
     skip: Int! = 0
-  ): [applepayPayment!]
-  applepayPaymentCount(where: applepayPaymentWhereInput! = {}): Int
-  androidpayPayment(
-    where: androidpayPaymentWhereInput! = {}
+  ): [appStorePayment!]
+  appStorePaymentCount(where: appStorePaymentWhereInput! = {}): Int
+  googlePlayPayment(
+    where: googlePlayPaymentWhereInput! = {}
     search: String
-    orderBy: [androidpayPaymentOrderByInput!]! = []
+    orderBy: [googlePlayPaymentOrderByInput!]! = []
     first: Int
     skip: Int! = 0
-  ): [androidpayPayment!]
-  androidpayPaymentCount(where: androidpayPaymentWhereInput! = {}): Int
+  ): [googlePlayPayment!]
+  googlePlayPaymentCount(where: googlePlayPaymentWhereInput! = {}): Int
   status: subscriptionStatusType
   amount: Float
   currency: subscriptionCurrencyType
   desc: String
   comment: String
   email: String
-  orderNumber: String
   isActive: Boolean
   isCanceled: Boolean
   frequency: subscriptionFrequencyType
@@ -4086,8 +4507,13 @@ type subscription {
   periodCreateDatetime: String
   periodFirstDatetime: String
   periodEndDatetime: String
-  googlePlayPurchaseToken: String
   changePlanDatetime: String
+  googlePlayStatus: subscriptionGooglePlayStatusType
+  googlePlayPurchaseToken: String
+  googlePlayNotificationEventDatetime: String
+  googlePlayPackageName: String
+  cancelReason: String
+  refundNote: String
   note: String
   promoteId: Int
   postId: String
@@ -4100,14 +4526,16 @@ type subscription {
   carrierNum: String
   buyerName: String
   buyerUBN: String
+  printFlag: String
+  aaplOriginalTransactionId: String
   createdAt: String
   updatedAt: String
 }
 
 enum subscriptionPaymentMethodType {
   newebpay
-  applepay
-  androidpay
+  app_store
+  google_play
 }
 
 enum subscriptionStatusType {
@@ -4135,8 +4563,16 @@ enum subscriptionNextFrequencyType {
   monthly
 }
 
-enum updateSubscriptionNextFrequencyType {
-  yearly
+enum subscriptionGooglePlayStatusType {
+  purchased
+  renewed
+  expired
+  on_hold
+  in_grace_period
+  canceled
+  restarted
+  revoked
+  recovered
 }
 
 enum subscriptionCategoryType {
@@ -4157,6 +4593,24 @@ input subscriptionWhereInput {
   id_not_in: [ID!]
   member: memberWhereInput
   member_is_null: Boolean
+  orderNumber: String
+  orderNumber_not: String
+  orderNumber_contains: String
+  orderNumber_not_contains: String
+  orderNumber_starts_with: String
+  orderNumber_not_starts_with: String
+  orderNumber_ends_with: String
+  orderNumber_not_ends_with: String
+  orderNumber_i: String
+  orderNumber_not_i: String
+  orderNumber_contains_i: String
+  orderNumber_not_contains_i: String
+  orderNumber_starts_with_i: String
+  orderNumber_not_starts_with_i: String
+  orderNumber_ends_with_i: String
+  orderNumber_not_ends_with_i: String
+  orderNumber_in: [String]
+  orderNumber_not_in: [String]
   paymentMethod: subscriptionPaymentMethodType
   paymentMethod_not: subscriptionPaymentMethodType
   paymentMethod_in: [subscriptionPaymentMethodType]
@@ -4164,12 +4618,12 @@ input subscriptionWhereInput {
   newebpayPayment_every: newebpayPaymentWhereInput
   newebpayPayment_some: newebpayPaymentWhereInput
   newebpayPayment_none: newebpayPaymentWhereInput
-  applepayPayment_every: applepayPaymentWhereInput
-  applepayPayment_some: applepayPaymentWhereInput
-  applepayPayment_none: applepayPaymentWhereInput
-  androidpayPayment_every: androidpayPaymentWhereInput
-  androidpayPayment_some: androidpayPaymentWhereInput
-  androidpayPayment_none: androidpayPaymentWhereInput
+  appStorePayment_every: appStorePaymentWhereInput
+  appStorePayment_some: appStorePaymentWhereInput
+  appStorePayment_none: appStorePaymentWhereInput
+  googlePlayPayment_every: googlePlayPaymentWhereInput
+  googlePlayPayment_some: googlePlayPaymentWhereInput
+  googlePlayPayment_none: googlePlayPaymentWhereInput
   status: subscriptionStatusType
   status_not: subscriptionStatusType
   status_in: [subscriptionStatusType]
@@ -4240,24 +4694,6 @@ input subscriptionWhereInput {
   email_not_ends_with_i: String
   email_in: [String]
   email_not_in: [String]
-  orderNumber: String
-  orderNumber_not: String
-  orderNumber_contains: String
-  orderNumber_not_contains: String
-  orderNumber_starts_with: String
-  orderNumber_not_starts_with: String
-  orderNumber_ends_with: String
-  orderNumber_not_ends_with: String
-  orderNumber_i: String
-  orderNumber_not_i: String
-  orderNumber_contains_i: String
-  orderNumber_not_contains_i: String
-  orderNumber_starts_with_i: String
-  orderNumber_not_starts_with_i: String
-  orderNumber_ends_with_i: String
-  orderNumber_not_ends_with_i: String
-  orderNumber_in: [String]
-  orderNumber_not_in: [String]
   isActive: Boolean
   isActive_not: Boolean
   isCanceled: Boolean
@@ -4326,6 +4762,90 @@ input subscriptionWhereInput {
   changePlanDatetime_gte: String
   changePlanDatetime_in: [String]
   changePlanDatetime_not_in: [String]
+  googlePlayStatus: subscriptionGooglePlayStatusType
+  googlePlayStatus_not: subscriptionGooglePlayStatusType
+  googlePlayStatus_in: [subscriptionGooglePlayStatusType]
+  googlePlayStatus_not_in: [subscriptionGooglePlayStatusType]
+  googlePlayPurchaseToken: String
+  googlePlayPurchaseToken_not: String
+  googlePlayPurchaseToken_contains: String
+  googlePlayPurchaseToken_not_contains: String
+  googlePlayPurchaseToken_starts_with: String
+  googlePlayPurchaseToken_not_starts_with: String
+  googlePlayPurchaseToken_ends_with: String
+  googlePlayPurchaseToken_not_ends_with: String
+  googlePlayPurchaseToken_i: String
+  googlePlayPurchaseToken_not_i: String
+  googlePlayPurchaseToken_contains_i: String
+  googlePlayPurchaseToken_not_contains_i: String
+  googlePlayPurchaseToken_starts_with_i: String
+  googlePlayPurchaseToken_not_starts_with_i: String
+  googlePlayPurchaseToken_ends_with_i: String
+  googlePlayPurchaseToken_not_ends_with_i: String
+  googlePlayPurchaseToken_in: [String]
+  googlePlayPurchaseToken_not_in: [String]
+  googlePlayNotificationEventDatetime: String
+  googlePlayNotificationEventDatetime_not: String
+  googlePlayNotificationEventDatetime_lt: String
+  googlePlayNotificationEventDatetime_lte: String
+  googlePlayNotificationEventDatetime_gt: String
+  googlePlayNotificationEventDatetime_gte: String
+  googlePlayNotificationEventDatetime_in: [String]
+  googlePlayNotificationEventDatetime_not_in: [String]
+  googlePlayPackageName: String
+  googlePlayPackageName_not: String
+  googlePlayPackageName_contains: String
+  googlePlayPackageName_not_contains: String
+  googlePlayPackageName_starts_with: String
+  googlePlayPackageName_not_starts_with: String
+  googlePlayPackageName_ends_with: String
+  googlePlayPackageName_not_ends_with: String
+  googlePlayPackageName_i: String
+  googlePlayPackageName_not_i: String
+  googlePlayPackageName_contains_i: String
+  googlePlayPackageName_not_contains_i: String
+  googlePlayPackageName_starts_with_i: String
+  googlePlayPackageName_not_starts_with_i: String
+  googlePlayPackageName_ends_with_i: String
+  googlePlayPackageName_not_ends_with_i: String
+  googlePlayPackageName_in: [String]
+  googlePlayPackageName_not_in: [String]
+  cancelReason: String
+  cancelReason_not: String
+  cancelReason_contains: String
+  cancelReason_not_contains: String
+  cancelReason_starts_with: String
+  cancelReason_not_starts_with: String
+  cancelReason_ends_with: String
+  cancelReason_not_ends_with: String
+  cancelReason_i: String
+  cancelReason_not_i: String
+  cancelReason_contains_i: String
+  cancelReason_not_contains_i: String
+  cancelReason_starts_with_i: String
+  cancelReason_not_starts_with_i: String
+  cancelReason_ends_with_i: String
+  cancelReason_not_ends_with_i: String
+  cancelReason_in: [String]
+  cancelReason_not_in: [String]
+  refundNote: String
+  refundNote_not: String
+  refundNote_contains: String
+  refundNote_not_contains: String
+  refundNote_starts_with: String
+  refundNote_not_starts_with: String
+  refundNote_ends_with: String
+  refundNote_not_ends_with: String
+  refundNote_i: String
+  refundNote_not_i: String
+  refundNote_contains_i: String
+  refundNote_not_contains_i: String
+  refundNote_starts_with_i: String
+  refundNote_not_starts_with_i: String
+  refundNote_ends_with_i: String
+  refundNote_not_ends_with_i: String
+  refundNote_in: [String]
+  refundNote_not_in: [String]
   note: String
   note_not: String
   note_contains: String
@@ -4458,6 +4978,24 @@ input subscriptionWhereInput {
   buyerUBN_not_ends_with_i: String
   buyerUBN_in: [String]
   buyerUBN_not_in: [String]
+  aaplOriginalTransactionId: String
+  aaplOriginalTransactionId_not: String
+  aaplOriginalTransactionId_contains: String
+  aaplOriginalTransactionId_not_contains: String
+  aaplOriginalTransactionId_starts_with: String
+  aaplOriginalTransactionId_not_starts_with: String
+  aaplOriginalTransactionId_ends_with: String
+  aaplOriginalTransactionId_not_ends_with: String
+  aaplOriginalTransactionId_i: String
+  aaplOriginalTransactionId_not_i: String
+  aaplOriginalTransactionId_contains_i: String
+  aaplOriginalTransactionId_not_contains_i: String
+  aaplOriginalTransactionId_starts_with_i: String
+  aaplOriginalTransactionId_not_starts_with_i: String
+  aaplOriginalTransactionId_ends_with_i: String
+  aaplOriginalTransactionId_not_ends_with_i: String
+  aaplOriginalTransactionId_in: [String]
+  aaplOriginalTransactionId_not_in: [String]
   createdAt: String
   createdAt_not: String
   createdAt_lt: String
@@ -4481,11 +5019,15 @@ input subscriptionWhereInput {
 input subscriptionWhereUniqueInput {
   id: ID
   orderNumber: String
+  googlePlayPurchaseToken: String
+  aaplOriginalTransactionId: String
 }
 
 enum SortSubscriptionsBy {
   id_ASC
   id_DESC
+  orderNumber_ASC
+  orderNumber_DESC
   paymentMethod_ASC
   paymentMethod_DESC
   status_ASC
@@ -4500,8 +5042,6 @@ enum SortSubscriptionsBy {
   comment_DESC
   email_ASC
   email_DESC
-  orderNumber_ASC
-  orderNumber_DESC
   isActive_ASC
   isActive_DESC
   isCanceled_ASC
@@ -4524,6 +5064,18 @@ enum SortSubscriptionsBy {
   periodEndDatetime_DESC
   changePlanDatetime_ASC
   changePlanDatetime_DESC
+  googlePlayStatus_ASC
+  googlePlayStatus_DESC
+  googlePlayPurchaseToken_ASC
+  googlePlayPurchaseToken_DESC
+  googlePlayNotificationEventDatetime_ASC
+  googlePlayNotificationEventDatetime_DESC
+  googlePlayPackageName_ASC
+  googlePlayPackageName_DESC
+  cancelReason_ASC
+  cancelReason_DESC
+  refundNote_ASC
+  refundNote_DESC
   note_ASC
   note_DESC
   promoteId_ASC
@@ -4546,6 +5098,8 @@ enum SortSubscriptionsBy {
   buyerName_DESC
   buyerUBN_ASC
   buyerUBN_DESC
+  aaplOriginalTransactionId_ASC
+  aaplOriginalTransactionId_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -4554,6 +5108,7 @@ enum SortSubscriptionsBy {
 
 input subscriptionOrderByInput {
   id: OrderDirection
+  orderNumber: OrderDirection
   paymentMethod: OrderDirection
   status: OrderDirection
   amount: OrderDirection
@@ -4561,7 +5116,6 @@ input subscriptionOrderByInput {
   desc: OrderDirection
   comment: OrderDirection
   email: OrderDirection
-  orderNumber: OrderDirection
   isActive: OrderDirection
   isCanceled: OrderDirection
   frequency: OrderDirection
@@ -4573,6 +5127,12 @@ input subscriptionOrderByInput {
   periodFirstDatetime: OrderDirection
   periodEndDatetime: OrderDirection
   changePlanDatetime: OrderDirection
+  googlePlayStatus: OrderDirection
+  googlePlayPurchaseToken: OrderDirection
+  googlePlayNotificationEventDatetime: OrderDirection
+  googlePlayPackageName: OrderDirection
+  cancelReason: OrderDirection
+  refundNote: OrderDirection
   note: OrderDirection
   promoteId: OrderDirection
   postId: OrderDirection
@@ -4584,6 +5144,7 @@ input subscriptionOrderByInput {
   carrierNum: OrderDirection
   buyerName: OrderDirection
   buyerUBN: OrderDirection
+  aaplOriginalTransactionId: OrderDirection
   createdAt: OrderDirection
   updatedAt: OrderDirection
 }
@@ -4592,15 +5153,14 @@ input subscriptionPrivateUpdateInput {
   member: memberRelateToOneInput
   paymentMethod: subscriptionPaymentMethodType
   newebpayPayment: newebpayPaymentRelateToManyInput
-  applepayPayment: applepayPaymentRelateToManyInput
-  androidpayPayment: androidpayPaymentRelateToManyInput
+  appStorePayment: appStorePaymentRelateToManyInput
+  googlePlayPayment: googlePlayPaymentRelateToManyInput
   status: subscriptionStatusType
   amount: Float
   currency: subscriptionCurrencyType
   desc: String
   comment: String
   email: String
-  orderNumber: String
   isActive: Boolean
   isCanceled: Boolean
   frequency: subscriptionFrequencyType
@@ -4612,6 +5172,12 @@ input subscriptionPrivateUpdateInput {
   periodFirstDatetime: String
   periodEndDatetime: String
   changePlanDatetime: String
+  googlePlayStatus: subscriptionGooglePlayStatusType
+  googlePlayPurchaseToken: String
+  googlePlayNotificationEventDatetime: String
+  googlePlayPackageName: String
+  cancelReason: String
+  refundNote: String
   note: String
   promoteId: Int
   postId: String
@@ -4624,6 +5190,7 @@ input subscriptionPrivateUpdateInput {
   carrierNum: String
   buyerName: String
   buyerUBN: String
+  aaplOriginalTransactionId: String
   createdAt: String
   updatedAt: String
 }
@@ -4635,17 +5202,17 @@ input newebpayPaymentRelateToManyInput {
   disconnectAll: Boolean
 }
 
-input applepayPaymentRelateToManyInput {
-  create: [applepayPaymentCreateInput]
-  connect: [applepayPaymentWhereUniqueInput]
-  disconnect: [applepayPaymentWhereUniqueInput]
+input appStorePaymentRelateToManyInput {
+  create: [appStorePaymentCreateInput]
+  connect: [appStorePaymentWhereUniqueInput]
+  disconnect: [appStorePaymentWhereUniqueInput]
   disconnectAll: Boolean
 }
 
-input androidpayPaymentRelateToManyInput {
-  create: [androidpayPaymentCreateInput]
-  connect: [androidpayPaymentWhereUniqueInput]
-  disconnect: [androidpayPaymentWhereUniqueInput]
+input googlePlayPaymentRelateToManyInput {
+  create: [googlePlayPaymentCreateInput]
+  connect: [googlePlayPaymentWhereUniqueInput]
+  disconnect: [googlePlayPaymentWhereUniqueInput]
   disconnectAll: Boolean
 }
 
@@ -4663,17 +5230,17 @@ input SubscriptionsUpdateInput {
 
 input subscriptionCreateInput {
   member: memberRelateToOneInput
+  orderNumber: String
   paymentMethod: subscriptionPaymentMethodType
   newebpayPayment: newebpayPaymentRelateToManyInput
-  applepayPayment: applepayPaymentRelateToManyInput
-  androidpayPayment: androidpayPaymentRelateToManyInput
+  appStorePayment: appStorePaymentRelateToManyInput
+  googlePlayPayment: googlePlayPaymentRelateToManyInput
   status: subscriptionStatusType
   amount: Float
   currency: subscriptionCurrencyType
   desc: String
   comment: String
   email: String
-  orderNumber: String
   isActive: Boolean
   isCanceled: Boolean
   frequency: subscriptionFrequencyType
@@ -4685,6 +5252,12 @@ input subscriptionCreateInput {
   periodFirstDatetime: String
   periodEndDatetime: String
   changePlanDatetime: String
+  googlePlayStatus: subscriptionGooglePlayStatusType
+  googlePlayPurchaseToken: String
+  googlePlayNotificationEventDatetime: String
+  googlePlayPackageName: String
+  cancelReason: String
+  refundNote: String
   note: String
   promoteId: Int
   postId: String
@@ -4697,6 +5270,7 @@ input subscriptionCreateInput {
   carrierNum: String
   buyerName: String
   buyerUBN: String
+  aaplOriginalTransactionId: String
   createdAt: String
   updatedAt: String
 }
@@ -5158,19 +5732,225 @@ input SubscriptionHistoriesCreateInput {
   data: subscriptionHistoryCreateInput
 }
 
-"""
-For Custom Mutation
-"""
-enum createSubscriptionStatusType {
-  paying
+type group {
+  id: ID!
+  company: String
+  taxIdNumber: String
+  member(
+    where: memberWhereInput! = {}
+    search: String
+    orderBy: [memberOrderByInput!]! = []
+    first: Int
+    skip: Int! = 0
+  ): [member!]
+  memberCount(where: memberWhereInput! = {}): Int
+  startDate: String
+  endDate: String
+  requesterEmail: String
+  approvedBy: String
+  note: String
+  invoice: String
+  createdAt: String
+  updatedAt: String
 }
 
-enum updateSubscriptionStatusType {
-  cancelled
+input groupWhereInput {
+  AND: [groupWhereInput!]
+  OR: [groupWhereInput!]
+  id: ID
+  id_not: ID
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  company: String
+  company_not: String
+  company_contains: String
+  company_not_contains: String
+  company_starts_with: String
+  company_not_starts_with: String
+  company_ends_with: String
+  company_not_ends_with: String
+  company_i: String
+  company_not_i: String
+  company_contains_i: String
+  company_not_contains_i: String
+  company_starts_with_i: String
+  company_not_starts_with_i: String
+  company_ends_with_i: String
+  company_not_ends_with_i: String
+  company_in: [String]
+  company_not_in: [String]
+  taxIdNumber: String
+  taxIdNumber_not: String
+  taxIdNumber_contains: String
+  taxIdNumber_not_contains: String
+  taxIdNumber_starts_with: String
+  taxIdNumber_not_starts_with: String
+  taxIdNumber_ends_with: String
+  taxIdNumber_not_ends_with: String
+  taxIdNumber_i: String
+  taxIdNumber_not_i: String
+  taxIdNumber_contains_i: String
+  taxIdNumber_not_contains_i: String
+  taxIdNumber_starts_with_i: String
+  taxIdNumber_not_starts_with_i: String
+  taxIdNumber_ends_with_i: String
+  taxIdNumber_not_ends_with_i: String
+  taxIdNumber_in: [String]
+  taxIdNumber_not_in: [String]
+  member_every: memberWhereInput
+  member_some: memberWhereInput
+  member_none: memberWhereInput
+  startDate: String
+  startDate_not: String
+  startDate_lt: String
+  startDate_lte: String
+  startDate_gt: String
+  startDate_gte: String
+  startDate_in: [String]
+  startDate_not_in: [String]
+  endDate: String
+  endDate_not: String
+  endDate_lt: String
+  endDate_lte: String
+  endDate_gt: String
+  endDate_gte: String
+  endDate_in: [String]
+  endDate_not_in: [String]
+  requesterEmail: String
+  requesterEmail_not: String
+  requesterEmail_contains: String
+  requesterEmail_not_contains: String
+  requesterEmail_starts_with: String
+  requesterEmail_not_starts_with: String
+  requesterEmail_ends_with: String
+  requesterEmail_not_ends_with: String
+  requesterEmail_i: String
+  requesterEmail_not_i: String
+  requesterEmail_contains_i: String
+  requesterEmail_not_contains_i: String
+  requesterEmail_starts_with_i: String
+  requesterEmail_not_starts_with_i: String
+  requesterEmail_ends_with_i: String
+  requesterEmail_not_ends_with_i: String
+  requesterEmail_in: [String]
+  requesterEmail_not_in: [String]
+  approvedBy: String
+  approvedBy_not: String
+  approvedBy_contains: String
+  approvedBy_not_contains: String
+  approvedBy_starts_with: String
+  approvedBy_not_starts_with: String
+  approvedBy_ends_with: String
+  approvedBy_not_ends_with: String
+  approvedBy_i: String
+  approvedBy_not_i: String
+  approvedBy_contains_i: String
+  approvedBy_not_contains_i: String
+  approvedBy_starts_with_i: String
+  approvedBy_not_starts_with_i: String
+  approvedBy_ends_with_i: String
+  approvedBy_not_ends_with_i: String
+  approvedBy_in: [String]
+  approvedBy_not_in: [String]
+  note: String
+  note_not: String
+  note_contains: String
+  note_not_contains: String
+  note_starts_with: String
+  note_not_starts_with: String
+  note_ends_with: String
+  note_not_ends_with: String
+  note_i: String
+  note_not_i: String
+  note_contains_i: String
+  note_not_contains_i: String
+  note_starts_with_i: String
+  note_not_starts_with_i: String
+  note_ends_with_i: String
+  note_not_ends_with_i: String
+  note_in: [String]
+  note_not_in: [String]
+  invoice: String
+  invoice_not: String
+  invoice_contains: String
+  invoice_not_contains: String
+  invoice_starts_with: String
+  invoice_not_starts_with: String
+  invoice_ends_with: String
+  invoice_not_ends_with: String
+  invoice_i: String
+  invoice_not_i: String
+  invoice_contains_i: String
+  invoice_not_contains_i: String
+  invoice_starts_with_i: String
+  invoice_not_starts_with_i: String
+  invoice_ends_with_i: String
+  invoice_not_ends_with_i: String
+  invoice_in: [String]
+  invoice_not_in: [String]
+  createdAt: String
+  createdAt_not: String
+  createdAt_lt: String
+  createdAt_lte: String
+  createdAt_gt: String
+  createdAt_gte: String
+  createdAt_in: [String]
+  createdAt_not_in: [String]
+  updatedAt: String
+  updatedAt_not: String
+  updatedAt_lt: String
+  updatedAt_lte: String
+  updatedAt_gt: String
+  updatedAt_gte: String
+  updatedAt_in: [String]
+  updatedAt_not_in: [String]
 }
 
-enum updateMemberStateType {
-  inactive
+input groupWhereUniqueInput {
+  id: ID
+}
+
+enum SortGroupsBy {
+  id_ASC
+  id_DESC
+  company_ASC
+  company_DESC
+  taxIdNumber_ASC
+  taxIdNumber_DESC
+  startDate_ASC
+  startDate_DESC
+  endDate_ASC
+  endDate_DESC
+  requesterEmail_ASC
+  requesterEmail_DESC
+  approvedBy_ASC
+  approvedBy_DESC
+  note_ASC
+  note_DESC
+  invoice_ASC
+  invoice_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+input groupOrderByInput {
+  id: OrderDirection
+  company: OrderDirection
+  taxIdNumber: OrderDirection
+  startDate: OrderDirection
+  endDate: OrderDirection
+  requesterEmail: OrderDirection
+  approvedBy: OrderDirection
+  note: OrderDirection
+  invoice: OrderDirection
+  createdAt: OrderDirection
+  updatedAt: OrderDirection
 }
 
 enum upsertSubscriptionAppSourceType {
@@ -5180,7 +5960,6 @@ enum upsertSubscriptionAppSourceType {
 
 input memberUpdateInput {
   email: String
-  state: updateMemberStateType
   tos: Boolean
   firstName: String
   lastName: String
@@ -5222,9 +6001,12 @@ input MembersCreateInput {
   data: memberCreateInput
 }
 
+enum createSubscriptionStatusType {
+  paying
+}
+
 input subscriptionRecurringCreateInput {
   paymentMethod: subscriptionPaymentMethodType!
-  applepayPayment: applepayPaymentRelateToManyInput
   status: createSubscriptionStatusType!
   email: String!
   """
@@ -5247,7 +6029,6 @@ input subscriptionRecurringCreateInfo {
 
 input subscriptionOneTimeCreateInput {
   paymentMethod: subscriptionPaymentMethodType!
-  applepayPayment: applepayPaymentRelateToManyInput
   status: createSubscriptionStatusType!
   email: String!
   note: String
@@ -5273,6 +6054,10 @@ input subscriptionAppUpsertInfo {
   source: upsertSubscriptionAppSourceType!
   verificationData: String!
   packageName: String!
+}
+
+enum updateSubscriptionNextFrequencyType {
+  none
 }
 
 input subscriptionUpdateInput {
@@ -5554,6 +6339,72 @@ func (ec *executionContext) field___Type_fields_args(ctx context.Context, rawArg
 	return args, nil
 }
 
+func (ec *executionContext) field_group_memberCount_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.MemberWhereInput
+	if tmp, ok := rawArgs["where"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("where"))
+		arg0, err = ec.unmarshalNmemberWhereInput2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberWhereInput(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["where"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_group_member_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.MemberWhereInput
+	if tmp, ok := rawArgs["where"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("where"))
+		arg0, err = ec.unmarshalNmemberWhereInput2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberWhereInput(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["where"] = arg0
+	var arg1 *string
+	if tmp, ok := rawArgs["search"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("search"))
+		arg1, err = ec.unmarshalOString2ᚖstring(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["search"] = arg1
+	var arg2 []*model.MemberOrderByInput
+	if tmp, ok := rawArgs["orderBy"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderBy"))
+		arg2, err = ec.unmarshalNmemberOrderByInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberOrderByInputᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["orderBy"] = arg2
+	var arg3 *int
+	if tmp, ok := rawArgs["first"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("first"))
+		arg3, err = ec.unmarshalOInt2ᚖint(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["first"] = arg3
+	var arg4 int
+	if tmp, ok := rawArgs["skip"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("skip"))
+		arg4, err = ec.unmarshalNInt2int(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["skip"] = arg4
+	return args, nil
+}
+
 func (ec *executionContext) field_member_subscriptionCount_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
@@ -5620,13 +6471,13 @@ func (ec *executionContext) field_member_subscription_args(ctx context.Context, 
 	return args, nil
 }
 
-func (ec *executionContext) field_subscription_androidpayPaymentCount_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_subscription_appStorePaymentCount_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 model.AndroidpayPaymentWhereInput
+	var arg0 model.AppStorePaymentWhereInput
 	if tmp, ok := rawArgs["where"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("where"))
-		arg0, err = ec.unmarshalNandroidpayPaymentWhereInput2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentWhereInput(ctx, tmp)
+		arg0, err = ec.unmarshalNappStorePaymentWhereInput2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAppStorePaymentWhereInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -5635,13 +6486,13 @@ func (ec *executionContext) field_subscription_androidpayPaymentCount_args(ctx c
 	return args, nil
 }
 
-func (ec *executionContext) field_subscription_androidpayPayment_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_subscription_appStorePayment_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 model.AndroidpayPaymentWhereInput
+	var arg0 model.AppStorePaymentWhereInput
 	if tmp, ok := rawArgs["where"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("where"))
-		arg0, err = ec.unmarshalNandroidpayPaymentWhereInput2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentWhereInput(ctx, tmp)
+		arg0, err = ec.unmarshalNappStorePaymentWhereInput2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAppStorePaymentWhereInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -5656,10 +6507,10 @@ func (ec *executionContext) field_subscription_androidpayPayment_args(ctx contex
 		}
 	}
 	args["search"] = arg1
-	var arg2 []*model.AndroidpayPaymentOrderByInput
+	var arg2 []*model.AppStorePaymentOrderByInput
 	if tmp, ok := rawArgs["orderBy"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderBy"))
-		arg2, err = ec.unmarshalNandroidpayPaymentOrderByInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentOrderByInputᚄ(ctx, tmp)
+		arg2, err = ec.unmarshalNappStorePaymentOrderByInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAppStorePaymentOrderByInputᚄ(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -5686,13 +6537,13 @@ func (ec *executionContext) field_subscription_androidpayPayment_args(ctx contex
 	return args, nil
 }
 
-func (ec *executionContext) field_subscription_applepayPaymentCount_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_subscription_googlePlayPaymentCount_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 model.ApplepayPaymentWhereInput
+	var arg0 model.GooglePlayPaymentWhereInput
 	if tmp, ok := rawArgs["where"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("where"))
-		arg0, err = ec.unmarshalNapplepayPaymentWhereInput2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentWhereInput(ctx, tmp)
+		arg0, err = ec.unmarshalNgooglePlayPaymentWhereInput2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentWhereInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -5701,13 +6552,13 @@ func (ec *executionContext) field_subscription_applepayPaymentCount_args(ctx con
 	return args, nil
 }
 
-func (ec *executionContext) field_subscription_applepayPayment_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_subscription_googlePlayPayment_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 model.ApplepayPaymentWhereInput
+	var arg0 model.GooglePlayPaymentWhereInput
 	if tmp, ok := rawArgs["where"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("where"))
-		arg0, err = ec.unmarshalNapplepayPaymentWhereInput2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentWhereInput(ctx, tmp)
+		arg0, err = ec.unmarshalNgooglePlayPaymentWhereInput2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentWhereInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -5722,10 +6573,10 @@ func (ec *executionContext) field_subscription_applepayPayment_args(ctx context.
 		}
 	}
 	args["search"] = arg1
-	var arg2 []*model.ApplepayPaymentOrderByInput
+	var arg2 []*model.GooglePlayPaymentOrderByInput
 	if tmp, ok := rawArgs["orderBy"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderBy"))
-		arg2, err = ec.unmarshalNapplepayPaymentOrderByInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentOrderByInputᚄ(ctx, tmp)
+		arg2, err = ec.unmarshalNgooglePlayPaymentOrderByInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentOrderByInputᚄ(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -7249,7 +8100,7 @@ func (ec *executionContext) ___Type_ofType(ctx context.Context, field graphql.Co
 	return ec.marshalO__Type2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐType(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _androidpayPayment_id(ctx context.Context, field graphql.CollectedField, obj *model.AndroidpayPayment) (ret graphql.Marshaler) {
+func (ec *executionContext) _appStorePayment_id(ctx context.Context, field graphql.CollectedField, obj *model.AppStorePayment) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -7257,7 +8108,7 @@ func (ec *executionContext) _androidpayPayment_id(ctx context.Context, field gra
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:     "androidpayPayment",
+		Object:     "appStorePayment",
 		Field:      field,
 		Args:       nil,
 		IsMethod:   false,
@@ -7284,7 +8135,7 @@ func (ec *executionContext) _androidpayPayment_id(ctx context.Context, field gra
 	return ec.marshalNID2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _androidpayPayment_subscription(ctx context.Context, field graphql.CollectedField, obj *model.AndroidpayPayment) (ret graphql.Marshaler) {
+func (ec *executionContext) _appStorePayment_subscription(ctx context.Context, field graphql.CollectedField, obj *model.AppStorePayment) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -7292,7 +8143,7 @@ func (ec *executionContext) _androidpayPayment_subscription(ctx context.Context,
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:     "androidpayPayment",
+		Object:     "appStorePayment",
 		Field:      field,
 		Args:       nil,
 		IsMethod:   false,
@@ -7316,7 +8167,7 @@ func (ec *executionContext) _androidpayPayment_subscription(ctx context.Context,
 	return ec.marshalOsubscription2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscription(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _androidpayPayment_invoice(ctx context.Context, field graphql.CollectedField, obj *model.AndroidpayPayment) (ret graphql.Marshaler) {
+func (ec *executionContext) _appStorePayment_amount(ctx context.Context, field graphql.CollectedField, obj *model.AppStorePayment) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -7324,7 +8175,7 @@ func (ec *executionContext) _androidpayPayment_invoice(ctx context.Context, fiel
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:     "androidpayPayment",
+		Object:     "appStorePayment",
 		Field:      field,
 		Args:       nil,
 		IsMethod:   false,
@@ -7334,7 +8185,7 @@ func (ec *executionContext) _androidpayPayment_invoice(ctx context.Context, fiel
 	ctx = graphql.WithFieldContext(ctx, fc)
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Invoice, nil
+		return obj.Amount, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -7343,12 +8194,12 @@ func (ec *executionContext) _androidpayPayment_invoice(ctx context.Context, fiel
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.(*model.Invoice)
+	res := resTmp.(*float64)
 	fc.Result = res
-	return ec.marshalOinvoice2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐInvoice(ctx, field.Selections, res)
+	return ec.marshalOFloat2ᚖfloat64(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _androidpayPayment_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.AndroidpayPayment) (ret graphql.Marshaler) {
+func (ec *executionContext) _appStorePayment_purchaseDate(ctx context.Context, field graphql.CollectedField, obj *model.AppStorePayment) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -7356,7 +8207,231 @@ func (ec *executionContext) _androidpayPayment_createdAt(ctx context.Context, fi
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:     "androidpayPayment",
+		Object:     "appStorePayment",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.PurchaseDate, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _appStorePayment_originalPurchaseDate(ctx context.Context, field graphql.CollectedField, obj *model.AppStorePayment) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "appStorePayment",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OriginalPurchaseDate, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _appStorePayment_expiryDate(ctx context.Context, field graphql.CollectedField, obj *model.AppStorePayment) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "appStorePayment",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ExpiryDate, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _appStorePayment_frequency(ctx context.Context, field graphql.CollectedField, obj *model.AppStorePayment) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "appStorePayment",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Frequency, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.Merchandise)
+	fc.Result = res
+	return ec.marshalOmerchandise2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMerchandise(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _appStorePayment_productId(ctx context.Context, field graphql.CollectedField, obj *model.AppStorePayment) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "appStorePayment",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ProductID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _appStorePayment_originalTransactionId(ctx context.Context, field graphql.CollectedField, obj *model.AppStorePayment) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "appStorePayment",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OriginalTransactionID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _appStorePayment_transactionId(ctx context.Context, field graphql.CollectedField, obj *model.AppStorePayment) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "appStorePayment",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TransactionID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _appStorePayment_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.AppStorePayment) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "appStorePayment",
 		Field:      field,
 		Args:       nil,
 		IsMethod:   false,
@@ -7380,7 +8455,7 @@ func (ec *executionContext) _androidpayPayment_createdAt(ctx context.Context, fi
 	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _androidpayPayment_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.AndroidpayPayment) (ret graphql.Marshaler) {
+func (ec *executionContext) _appStorePayment_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.AppStorePayment) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -7388,7 +8463,7 @@ func (ec *executionContext) _androidpayPayment_updatedAt(ctx context.Context, fi
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:     "androidpayPayment",
+		Object:     "appStorePayment",
 		Field:      field,
 		Args:       nil,
 		IsMethod:   false,
@@ -7412,7 +8487,7 @@ func (ec *executionContext) _androidpayPayment_updatedAt(ctx context.Context, fi
 	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _applepayPayment_id(ctx context.Context, field graphql.CollectedField, obj *model.ApplepayPayment) (ret graphql.Marshaler) {
+func (ec *executionContext) _googlePlayPayment_id(ctx context.Context, field graphql.CollectedField, obj *model.GooglePlayPayment) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -7420,7 +8495,7 @@ func (ec *executionContext) _applepayPayment_id(ctx context.Context, field graph
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:     "applepayPayment",
+		Object:     "googlePlayPayment",
 		Field:      field,
 		Args:       nil,
 		IsMethod:   false,
@@ -7447,7 +8522,7 @@ func (ec *executionContext) _applepayPayment_id(ctx context.Context, field graph
 	return ec.marshalNID2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _applepayPayment_subscription(ctx context.Context, field graphql.CollectedField, obj *model.ApplepayPayment) (ret graphql.Marshaler) {
+func (ec *executionContext) _googlePlayPayment_subscription(ctx context.Context, field graphql.CollectedField, obj *model.GooglePlayPayment) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -7455,7 +8530,7 @@ func (ec *executionContext) _applepayPayment_subscription(ctx context.Context, f
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:     "applepayPayment",
+		Object:     "googlePlayPayment",
 		Field:      field,
 		Args:       nil,
 		IsMethod:   false,
@@ -7479,7 +8554,7 @@ func (ec *executionContext) _applepayPayment_subscription(ctx context.Context, f
 	return ec.marshalOsubscription2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscription(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _applepayPayment_invoice(ctx context.Context, field graphql.CollectedField, obj *model.ApplepayPayment) (ret graphql.Marshaler) {
+func (ec *executionContext) _googlePlayPayment_orderId(ctx context.Context, field graphql.CollectedField, obj *model.GooglePlayPayment) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -7487,7 +8562,7 @@ func (ec *executionContext) _applepayPayment_invoice(ctx context.Context, field 
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:     "applepayPayment",
+		Object:     "googlePlayPayment",
 		Field:      field,
 		Args:       nil,
 		IsMethod:   false,
@@ -7497,7 +8572,7 @@ func (ec *executionContext) _applepayPayment_invoice(ctx context.Context, field 
 	ctx = graphql.WithFieldContext(ctx, fc)
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Invoice, nil
+		return obj.OrderID, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -7506,12 +8581,12 @@ func (ec *executionContext) _applepayPayment_invoice(ctx context.Context, field 
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.(*model.Invoice)
+	res := resTmp.(*string)
 	fc.Result = res
-	return ec.marshalOinvoice2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐInvoice(ctx, field.Selections, res)
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _applepayPayment_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.ApplepayPayment) (ret graphql.Marshaler) {
+func (ec *executionContext) _googlePlayPayment_transactionDatetime(ctx context.Context, field graphql.CollectedField, obj *model.GooglePlayPayment) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -7519,7 +8594,103 @@ func (ec *executionContext) _applepayPayment_createdAt(ctx context.Context, fiel
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:     "applepayPayment",
+		Object:     "googlePlayPayment",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TransactionDatetime, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _googlePlayPayment_amount(ctx context.Context, field graphql.CollectedField, obj *model.GooglePlayPayment) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "googlePlayPayment",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Amount, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*int)
+	fc.Result = res
+	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _googlePlayPayment_currency(ctx context.Context, field graphql.CollectedField, obj *model.GooglePlayPayment) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "googlePlayPayment",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Currency, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.GooglePlayPaymentCurrencyType)
+	fc.Result = res
+	return ec.marshalOgooglePlayPaymentCurrencyType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentCurrencyType(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _googlePlayPayment_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.GooglePlayPayment) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "googlePlayPayment",
 		Field:      field,
 		Args:       nil,
 		IsMethod:   false,
@@ -7543,7 +8714,7 @@ func (ec *executionContext) _applepayPayment_createdAt(ctx context.Context, fiel
 	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _applepayPayment_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.ApplepayPayment) (ret graphql.Marshaler) {
+func (ec *executionContext) _googlePlayPayment_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.GooglePlayPayment) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -7551,7 +8722,440 @@ func (ec *executionContext) _applepayPayment_updatedAt(ctx context.Context, fiel
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:     "applepayPayment",
+		Object:     "googlePlayPayment",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _group_id(ctx context.Context, field graphql.CollectedField, obj *model.Group) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "group",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _group_company(ctx context.Context, field graphql.CollectedField, obj *model.Group) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "group",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Company, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _group_taxIdNumber(ctx context.Context, field graphql.CollectedField, obj *model.Group) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "group",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TaxIDNumber, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _group_member(ctx context.Context, field graphql.CollectedField, obj *model.Group) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "group",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_group_member_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Member, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Member)
+	fc.Result = res
+	return ec.marshalOmember2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _group_memberCount(ctx context.Context, field graphql.CollectedField, obj *model.Group) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "group",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_group_memberCount_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.MemberCount, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*int)
+	fc.Result = res
+	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _group_startDate(ctx context.Context, field graphql.CollectedField, obj *model.Group) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "group",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.StartDate, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _group_endDate(ctx context.Context, field graphql.CollectedField, obj *model.Group) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "group",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.EndDate, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _group_requesterEmail(ctx context.Context, field graphql.CollectedField, obj *model.Group) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "group",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.RequesterEmail, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _group_approvedBy(ctx context.Context, field graphql.CollectedField, obj *model.Group) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "group",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ApprovedBy, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _group_note(ctx context.Context, field graphql.CollectedField, obj *model.Group) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "group",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Note, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _group_invoice(ctx context.Context, field graphql.CollectedField, obj *model.Group) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "group",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Invoice, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _group_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.Group) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "group",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _group_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.Group) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "group",
 		Field:      field,
 		Args:       nil,
 		IsMethod:   false,
@@ -7640,70 +9244,6 @@ func (ec *executionContext) _invoice_newebpayPayment(ctx context.Context, field 
 	res := resTmp.(*model.NewebpayPayment)
 	fc.Result = res
 	return ec.marshalOnewebpayPayment2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐNewebpayPayment(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _invoice_applepayPayment(ctx context.Context, field graphql.CollectedField, obj *model.Invoice) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "invoice",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ApplepayPayment, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*model.ApplepayPayment)
-	fc.Result = res
-	return ec.marshalOapplepayPayment2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPayment(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _invoice_androidpayPayment(ctx context.Context, field graphql.CollectedField, obj *model.Invoice) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "invoice",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.AndroidpayPayment, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*model.AndroidpayPayment)
-	fc.Result = res
-	return ec.marshalOandroidpayPayment2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPayment(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _invoice_amount(ctx context.Context, field graphql.CollectedField, obj *model.Invoice) (ret graphql.Marshaler) {
@@ -8542,6 +10082,38 @@ func (ec *executionContext) _member_marketingMembership(ctx context.Context, fie
 	res := resTmp.(*model.MarketingMembership)
 	fc.Result = res
 	return ec.marshalOmarketingMembership2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMarketingMembership(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _member_group(ctx context.Context, field graphql.CollectedField, obj *model.Member) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "member",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Group, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.Group)
+	fc.Result = res
+	return ec.marshalOgroup2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGroup(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _member_type(ctx context.Context, field graphql.CollectedField, obj *model.Member) (ret graphql.Marshaler) {
@@ -11488,6 +13060,38 @@ func (ec *executionContext) _subscription_member(ctx context.Context, field grap
 	return ec.marshalOmember2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMember(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _subscription_orderNumber(ctx context.Context, field graphql.CollectedField, obj *model.Subscription) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscription",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OrderNumber, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _subscription_paymentMethod(ctx context.Context, field graphql.CollectedField, obj *model.Subscription) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -11598,7 +13202,7 @@ func (ec *executionContext) _subscription_newebpayPaymentCount(ctx context.Conte
 	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _subscription_applepayPayment(ctx context.Context, field graphql.CollectedField, obj *model.Subscription) (ret graphql.Marshaler) {
+func (ec *executionContext) _subscription_appStorePayment(ctx context.Context, field graphql.CollectedField, obj *model.Subscription) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -11615,7 +13219,7 @@ func (ec *executionContext) _subscription_applepayPayment(ctx context.Context, f
 
 	ctx = graphql.WithFieldContext(ctx, fc)
 	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_subscription_applepayPayment_args(ctx, rawArgs)
+	args, err := ec.field_subscription_appStorePayment_args(ctx, rawArgs)
 	if err != nil {
 		ec.Error(ctx, err)
 		return graphql.Null
@@ -11623,7 +13227,7 @@ func (ec *executionContext) _subscription_applepayPayment(ctx context.Context, f
 	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.ApplepayPayment, nil
+		return obj.AppStorePayment, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -11632,12 +13236,12 @@ func (ec *executionContext) _subscription_applepayPayment(ctx context.Context, f
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.([]*model.ApplepayPayment)
+	res := resTmp.([]*model.AppStorePayment)
 	fc.Result = res
-	return ec.marshalOapplepayPayment2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentᚄ(ctx, field.Selections, res)
+	return ec.marshalOappStorePayment2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAppStorePaymentᚄ(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _subscription_applepayPaymentCount(ctx context.Context, field graphql.CollectedField, obj *model.Subscription) (ret graphql.Marshaler) {
+func (ec *executionContext) _subscription_appStorePaymentCount(ctx context.Context, field graphql.CollectedField, obj *model.Subscription) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -11654,7 +13258,7 @@ func (ec *executionContext) _subscription_applepayPaymentCount(ctx context.Conte
 
 	ctx = graphql.WithFieldContext(ctx, fc)
 	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_subscription_applepayPaymentCount_args(ctx, rawArgs)
+	args, err := ec.field_subscription_appStorePaymentCount_args(ctx, rawArgs)
 	if err != nil {
 		ec.Error(ctx, err)
 		return graphql.Null
@@ -11662,7 +13266,7 @@ func (ec *executionContext) _subscription_applepayPaymentCount(ctx context.Conte
 	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.ApplepayPaymentCount, nil
+		return obj.AppStorePaymentCount, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -11676,7 +13280,7 @@ func (ec *executionContext) _subscription_applepayPaymentCount(ctx context.Conte
 	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _subscription_androidpayPayment(ctx context.Context, field graphql.CollectedField, obj *model.Subscription) (ret graphql.Marshaler) {
+func (ec *executionContext) _subscription_googlePlayPayment(ctx context.Context, field graphql.CollectedField, obj *model.Subscription) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -11693,7 +13297,7 @@ func (ec *executionContext) _subscription_androidpayPayment(ctx context.Context,
 
 	ctx = graphql.WithFieldContext(ctx, fc)
 	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_subscription_androidpayPayment_args(ctx, rawArgs)
+	args, err := ec.field_subscription_googlePlayPayment_args(ctx, rawArgs)
 	if err != nil {
 		ec.Error(ctx, err)
 		return graphql.Null
@@ -11701,7 +13305,7 @@ func (ec *executionContext) _subscription_androidpayPayment(ctx context.Context,
 	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.AndroidpayPayment, nil
+		return obj.GooglePlayPayment, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -11710,12 +13314,12 @@ func (ec *executionContext) _subscription_androidpayPayment(ctx context.Context,
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.([]*model.AndroidpayPayment)
+	res := resTmp.([]*model.GooglePlayPayment)
 	fc.Result = res
-	return ec.marshalOandroidpayPayment2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentᚄ(ctx, field.Selections, res)
+	return ec.marshalOgooglePlayPayment2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentᚄ(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _subscription_androidpayPaymentCount(ctx context.Context, field graphql.CollectedField, obj *model.Subscription) (ret graphql.Marshaler) {
+func (ec *executionContext) _subscription_googlePlayPaymentCount(ctx context.Context, field graphql.CollectedField, obj *model.Subscription) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -11732,7 +13336,7 @@ func (ec *executionContext) _subscription_androidpayPaymentCount(ctx context.Con
 
 	ctx = graphql.WithFieldContext(ctx, fc)
 	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_subscription_androidpayPaymentCount_args(ctx, rawArgs)
+	args, err := ec.field_subscription_googlePlayPaymentCount_args(ctx, rawArgs)
 	if err != nil {
 		ec.Error(ctx, err)
 		return graphql.Null
@@ -11740,7 +13344,7 @@ func (ec *executionContext) _subscription_androidpayPaymentCount(ctx context.Con
 	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.AndroidpayPaymentCount, nil
+		return obj.GooglePlayPaymentCount, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -11933,38 +13537,6 @@ func (ec *executionContext) _subscription_email(ctx context.Context, field graph
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Email, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _subscription_orderNumber(ctx context.Context, field graphql.CollectedField, obj *model.Subscription) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "subscription",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.OrderNumber, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -12298,6 +13870,70 @@ func (ec *executionContext) _subscription_periodEndDatetime(ctx context.Context,
 	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _subscription_changePlanDatetime(ctx context.Context, field graphql.CollectedField, obj *model.Subscription) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscription",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ChangePlanDatetime, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscription_googlePlayStatus(ctx context.Context, field graphql.CollectedField, obj *model.Subscription) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscription",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.GooglePlayStatus, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.SubscriptionGooglePlayStatusType)
+	fc.Result = res
+	return ec.marshalOsubscriptionGooglePlayStatusType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionGooglePlayStatusType(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _subscription_googlePlayPurchaseToken(ctx context.Context, field graphql.CollectedField, obj *model.Subscription) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -12330,7 +13966,7 @@ func (ec *executionContext) _subscription_googlePlayPurchaseToken(ctx context.Co
 	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _subscription_changePlanDatetime(ctx context.Context, field graphql.CollectedField, obj *model.Subscription) (ret graphql.Marshaler) {
+func (ec *executionContext) _subscription_googlePlayNotificationEventDatetime(ctx context.Context, field graphql.CollectedField, obj *model.Subscription) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -12348,7 +13984,103 @@ func (ec *executionContext) _subscription_changePlanDatetime(ctx context.Context
 	ctx = graphql.WithFieldContext(ctx, fc)
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.ChangePlanDatetime, nil
+		return obj.GooglePlayNotificationEventDatetime, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscription_googlePlayPackageName(ctx context.Context, field graphql.CollectedField, obj *model.Subscription) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscription",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.GooglePlayPackageName, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscription_cancelReason(ctx context.Context, field graphql.CollectedField, obj *model.Subscription) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscription",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CancelReason, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscription_refundNote(ctx context.Context, field graphql.CollectedField, obj *model.Subscription) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscription",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.RefundNote, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -12733,6 +14465,70 @@ func (ec *executionContext) _subscription_buyerUBN(ctx context.Context, field gr
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.BuyerUbn, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscription_printFlag(ctx context.Context, field graphql.CollectedField, obj *model.Subscription) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscription",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.PrintFlag, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _subscription_aaplOriginalTransactionId(ctx context.Context, field graphql.CollectedField, obj *model.Subscription) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "subscription",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.AaplOriginalTransactionID, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -14682,8 +16478,8 @@ func (ec *executionContext) _subscriptionUpsert_success(ctx context.Context, fie
 
 // region    **************************** input.gotpl *****************************
 
-func (ec *executionContext) unmarshalInputAndroidpayPaymentsCreateInput(ctx context.Context, obj interface{}) (model.AndroidpayPaymentsCreateInput, error) {
-	var it model.AndroidpayPaymentsCreateInput
+func (ec *executionContext) unmarshalInputAppStorePaymentsCreateInput(ctx context.Context, obj interface{}) (model.AppStorePaymentsCreateInput, error) {
+	var it model.AppStorePaymentsCreateInput
 	asMap := map[string]interface{}{}
 	for k, v := range obj.(map[string]interface{}) {
 		asMap[k] = v
@@ -14695,7 +16491,7 @@ func (ec *executionContext) unmarshalInputAndroidpayPaymentsCreateInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("data"))
-			it.Data, err = ec.unmarshalOandroidpayPaymentCreateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentCreateInput(ctx, v)
+			it.Data, err = ec.unmarshalOappStorePaymentCreateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAppStorePaymentCreateInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -14705,8 +16501,8 @@ func (ec *executionContext) unmarshalInputAndroidpayPaymentsCreateInput(ctx cont
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputAndroidpayPaymentsUpdateInput(ctx context.Context, obj interface{}) (model.AndroidpayPaymentsUpdateInput, error) {
-	var it model.AndroidpayPaymentsUpdateInput
+func (ec *executionContext) unmarshalInputAppStorePaymentsUpdateInput(ctx context.Context, obj interface{}) (model.AppStorePaymentsUpdateInput, error) {
+	var it model.AppStorePaymentsUpdateInput
 	asMap := map[string]interface{}{}
 	for k, v := range obj.(map[string]interface{}) {
 		asMap[k] = v
@@ -14726,7 +16522,7 @@ func (ec *executionContext) unmarshalInputAndroidpayPaymentsUpdateInput(ctx cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("data"))
-			it.Data, err = ec.unmarshalOandroidpayPaymentUpdateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentUpdateInput(ctx, v)
+			it.Data, err = ec.unmarshalOappStorePaymentUpdateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAppStorePaymentUpdateInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -14736,8 +16532,8 @@ func (ec *executionContext) unmarshalInputAndroidpayPaymentsUpdateInput(ctx cont
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputApplepayPaymentsCreateInput(ctx context.Context, obj interface{}) (model.ApplepayPaymentsCreateInput, error) {
-	var it model.ApplepayPaymentsCreateInput
+func (ec *executionContext) unmarshalInputGooglePlayPaymentsCreateInput(ctx context.Context, obj interface{}) (model.GooglePlayPaymentsCreateInput, error) {
+	var it model.GooglePlayPaymentsCreateInput
 	asMap := map[string]interface{}{}
 	for k, v := range obj.(map[string]interface{}) {
 		asMap[k] = v
@@ -14749,7 +16545,7 @@ func (ec *executionContext) unmarshalInputApplepayPaymentsCreateInput(ctx contex
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("data"))
-			it.Data, err = ec.unmarshalOapplepayPaymentCreateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentCreateInput(ctx, v)
+			it.Data, err = ec.unmarshalOgooglePlayPaymentCreateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentCreateInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -14759,8 +16555,8 @@ func (ec *executionContext) unmarshalInputApplepayPaymentsCreateInput(ctx contex
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputApplepayPaymentsUpdateInput(ctx context.Context, obj interface{}) (model.ApplepayPaymentsUpdateInput, error) {
-	var it model.ApplepayPaymentsUpdateInput
+func (ec *executionContext) unmarshalInputGooglePlayPaymentsUpdateInput(ctx context.Context, obj interface{}) (model.GooglePlayPaymentsUpdateInput, error) {
+	var it model.GooglePlayPaymentsUpdateInput
 	asMap := map[string]interface{}{}
 	for k, v := range obj.(map[string]interface{}) {
 		asMap[k] = v
@@ -14780,7 +16576,7 @@ func (ec *executionContext) unmarshalInputApplepayPaymentsUpdateInput(ctx contex
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("data"))
-			it.Data, err = ec.unmarshalOapplepayPaymentUpdateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentUpdateInput(ctx, v)
+			it.Data, err = ec.unmarshalOgooglePlayPaymentUpdateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentUpdateInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -15330,8 +17126,8 @@ func (ec *executionContext) unmarshalInputSubscriptionsUpdateInput(ctx context.C
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputandroidpayPaymentCreateInput(ctx context.Context, obj interface{}) (model.AndroidpayPaymentCreateInput, error) {
-	var it model.AndroidpayPaymentCreateInput
+func (ec *executionContext) unmarshalInputappStorePaymentCreateInput(ctx context.Context, obj interface{}) (model.AppStorePaymentCreateInput, error) {
+	var it model.AppStorePaymentCreateInput
 	asMap := map[string]interface{}{}
 	for k, v := range obj.(map[string]interface{}) {
 		asMap[k] = v
@@ -15347,11 +17143,67 @@ func (ec *executionContext) unmarshalInputandroidpayPaymentCreateInput(ctx conte
 			if err != nil {
 				return it, err
 			}
-		case "invoice":
+		case "amount":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("invoice"))
-			it.Invoice, err = ec.unmarshalOinvoiceRelateToOneInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐInvoiceRelateToOneInput(ctx, v)
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("amount"))
+			it.Amount, err = ec.unmarshalOFloat2ᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "purchaseDate":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("purchaseDate"))
+			it.PurchaseDate, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "originalPurchaseDate":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("originalPurchaseDate"))
+			it.OriginalPurchaseDate, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "expiryDate":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("expiryDate"))
+			it.ExpiryDate, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "frequency":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("frequency"))
+			it.Frequency, err = ec.unmarshalOmerchandiseRelateToOneInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMerchandiseRelateToOneInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "productId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("productId"))
+			it.ProductID, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "originalTransactionId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("originalTransactionId"))
+			it.OriginalTransactionID, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "transactionId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("transactionId"))
+			it.TransactionID, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -15377,8 +17229,8 @@ func (ec *executionContext) unmarshalInputandroidpayPaymentCreateInput(ctx conte
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputandroidpayPaymentOrderByInput(ctx context.Context, obj interface{}) (model.AndroidpayPaymentOrderByInput, error) {
-	var it model.AndroidpayPaymentOrderByInput
+func (ec *executionContext) unmarshalInputappStorePaymentOrderByInput(ctx context.Context, obj interface{}) (model.AppStorePaymentOrderByInput, error) {
+	var it model.AppStorePaymentOrderByInput
 	asMap := map[string]interface{}{}
 	for k, v := range obj.(map[string]interface{}) {
 		asMap[k] = v
@@ -15391,6 +17243,62 @@ func (ec *executionContext) unmarshalInputandroidpayPaymentOrderByInput(ctx cont
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 			it.ID, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "amount":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("amount"))
+			it.Amount, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "purchaseDate":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("purchaseDate"))
+			it.PurchaseDate, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "originalPurchaseDate":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("originalPurchaseDate"))
+			it.OriginalPurchaseDate, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "expiryDate":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("expiryDate"))
+			it.ExpiryDate, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "productId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("productId"))
+			it.ProductID, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "originalTransactionId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("originalTransactionId"))
+			it.OriginalTransactionID, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "transactionId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("transactionId"))
+			it.TransactionID, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -15416,8 +17324,8 @@ func (ec *executionContext) unmarshalInputandroidpayPaymentOrderByInput(ctx cont
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputandroidpayPaymentRelateToManyInput(ctx context.Context, obj interface{}) (model.AndroidpayPaymentRelateToManyInput, error) {
-	var it model.AndroidpayPaymentRelateToManyInput
+func (ec *executionContext) unmarshalInputappStorePaymentRelateToManyInput(ctx context.Context, obj interface{}) (model.AppStorePaymentRelateToManyInput, error) {
+	var it model.AppStorePaymentRelateToManyInput
 	asMap := map[string]interface{}{}
 	for k, v := range obj.(map[string]interface{}) {
 		asMap[k] = v
@@ -15429,7 +17337,7 @@ func (ec *executionContext) unmarshalInputandroidpayPaymentRelateToManyInput(ctx
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("create"))
-			it.Create, err = ec.unmarshalOandroidpayPaymentCreateInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentCreateInput(ctx, v)
+			it.Create, err = ec.unmarshalOappStorePaymentCreateInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAppStorePaymentCreateInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -15437,7 +17345,7 @@ func (ec *executionContext) unmarshalInputandroidpayPaymentRelateToManyInput(ctx
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("connect"))
-			it.Connect, err = ec.unmarshalOandroidpayPaymentWhereUniqueInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentWhereUniqueInput(ctx, v)
+			it.Connect, err = ec.unmarshalOappStorePaymentWhereUniqueInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAppStorePaymentWhereUniqueInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -15445,7 +17353,7 @@ func (ec *executionContext) unmarshalInputandroidpayPaymentRelateToManyInput(ctx
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("disconnect"))
-			it.Disconnect, err = ec.unmarshalOandroidpayPaymentWhereUniqueInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentWhereUniqueInput(ctx, v)
+			it.Disconnect, err = ec.unmarshalOappStorePaymentWhereUniqueInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAppStorePaymentWhereUniqueInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -15463,55 +17371,8 @@ func (ec *executionContext) unmarshalInputandroidpayPaymentRelateToManyInput(ctx
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputandroidpayPaymentRelateToOneInput(ctx context.Context, obj interface{}) (model.AndroidpayPaymentRelateToOneInput, error) {
-	var it model.AndroidpayPaymentRelateToOneInput
-	asMap := map[string]interface{}{}
-	for k, v := range obj.(map[string]interface{}) {
-		asMap[k] = v
-	}
-
-	for k, v := range asMap {
-		switch k {
-		case "create":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("create"))
-			it.Create, err = ec.unmarshalOandroidpayPaymentCreateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentCreateInput(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "connect":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("connect"))
-			it.Connect, err = ec.unmarshalOandroidpayPaymentWhereUniqueInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentWhereUniqueInput(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "disconnect":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("disconnect"))
-			it.Disconnect, err = ec.unmarshalOandroidpayPaymentWhereUniqueInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentWhereUniqueInput(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "disconnectAll":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("disconnectAll"))
-			it.DisconnectAll, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputandroidpayPaymentUpdateInput(ctx context.Context, obj interface{}) (model.AndroidpayPaymentUpdateInput, error) {
-	var it model.AndroidpayPaymentUpdateInput
+func (ec *executionContext) unmarshalInputappStorePaymentUpdateInput(ctx context.Context, obj interface{}) (model.AppStorePaymentUpdateInput, error) {
+	var it model.AppStorePaymentUpdateInput
 	asMap := map[string]interface{}{}
 	for k, v := range obj.(map[string]interface{}) {
 		asMap[k] = v
@@ -15527,11 +17388,67 @@ func (ec *executionContext) unmarshalInputandroidpayPaymentUpdateInput(ctx conte
 			if err != nil {
 				return it, err
 			}
-		case "invoice":
+		case "amount":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("invoice"))
-			it.Invoice, err = ec.unmarshalOinvoiceRelateToOneInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐInvoiceRelateToOneInput(ctx, v)
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("amount"))
+			it.Amount, err = ec.unmarshalOFloat2ᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "purchaseDate":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("purchaseDate"))
+			it.PurchaseDate, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "originalPurchaseDate":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("originalPurchaseDate"))
+			it.OriginalPurchaseDate, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "expiryDate":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("expiryDate"))
+			it.ExpiryDate, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "frequency":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("frequency"))
+			it.Frequency, err = ec.unmarshalOmerchandiseRelateToOneInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMerchandiseRelateToOneInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "productId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("productId"))
+			it.ProductID, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "originalTransactionId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("originalTransactionId"))
+			it.OriginalTransactionID, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "transactionId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("transactionId"))
+			it.TransactionID, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -15557,8 +17474,8 @@ func (ec *executionContext) unmarshalInputandroidpayPaymentUpdateInput(ctx conte
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputandroidpayPaymentWhereInput(ctx context.Context, obj interface{}) (model.AndroidpayPaymentWhereInput, error) {
-	var it model.AndroidpayPaymentWhereInput
+func (ec *executionContext) unmarshalInputappStorePaymentWhereInput(ctx context.Context, obj interface{}) (model.AppStorePaymentWhereInput, error) {
+	var it model.AppStorePaymentWhereInput
 	asMap := map[string]interface{}{}
 	for k, v := range obj.(map[string]interface{}) {
 		asMap[k] = v
@@ -15570,7 +17487,7 @@ func (ec *executionContext) unmarshalInputandroidpayPaymentWhereInput(ctx contex
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("AND"))
-			it.And, err = ec.unmarshalOandroidpayPaymentWhereInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentWhereInputᚄ(ctx, v)
+			it.And, err = ec.unmarshalOappStorePaymentWhereInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAppStorePaymentWhereInputᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -15578,7 +17495,7 @@ func (ec *executionContext) unmarshalInputandroidpayPaymentWhereInput(ctx contex
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("OR"))
-			it.Or, err = ec.unmarshalOandroidpayPaymentWhereInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentWhereInputᚄ(ctx, v)
+			it.Or, err = ec.unmarshalOappStorePaymentWhereInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAppStorePaymentWhereInputᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -15662,19 +17579,707 @@ func (ec *executionContext) unmarshalInputandroidpayPaymentWhereInput(ctx contex
 			if err != nil {
 				return it, err
 			}
-		case "invoice":
+		case "amount":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("invoice"))
-			it.Invoice, err = ec.unmarshalOinvoiceWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐInvoiceWhereInput(ctx, v)
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("amount"))
+			it.Amount, err = ec.unmarshalOFloat2ᚖfloat64(ctx, v)
 			if err != nil {
 				return it, err
 			}
-		case "invoice_is_null":
+		case "amount_not":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("invoice_is_null"))
-			it.InvoiceIsNull, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("amount_not"))
+			it.AmountNot, err = ec.unmarshalOFloat2ᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "amount_lt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("amount_lt"))
+			it.AmountLt, err = ec.unmarshalOFloat2ᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "amount_lte":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("amount_lte"))
+			it.AmountLte, err = ec.unmarshalOFloat2ᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "amount_gt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("amount_gt"))
+			it.AmountGt, err = ec.unmarshalOFloat2ᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "amount_gte":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("amount_gte"))
+			it.AmountGte, err = ec.unmarshalOFloat2ᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "amount_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("amount_in"))
+			it.AmountIn, err = ec.unmarshalOFloat2ᚕᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "amount_not_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("amount_not_in"))
+			it.AmountNotIn, err = ec.unmarshalOFloat2ᚕᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "purchaseDate":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("purchaseDate"))
+			it.PurchaseDate, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "purchaseDate_not":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("purchaseDate_not"))
+			it.PurchaseDateNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "purchaseDate_lt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("purchaseDate_lt"))
+			it.PurchaseDateLt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "purchaseDate_lte":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("purchaseDate_lte"))
+			it.PurchaseDateLte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "purchaseDate_gt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("purchaseDate_gt"))
+			it.PurchaseDateGt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "purchaseDate_gte":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("purchaseDate_gte"))
+			it.PurchaseDateGte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "purchaseDate_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("purchaseDate_in"))
+			it.PurchaseDateIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "purchaseDate_not_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("purchaseDate_not_in"))
+			it.PurchaseDateNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "originalPurchaseDate":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("originalPurchaseDate"))
+			it.OriginalPurchaseDate, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "originalPurchaseDate_not":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("originalPurchaseDate_not"))
+			it.OriginalPurchaseDateNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "originalPurchaseDate_lt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("originalPurchaseDate_lt"))
+			it.OriginalPurchaseDateLt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "originalPurchaseDate_lte":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("originalPurchaseDate_lte"))
+			it.OriginalPurchaseDateLte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "originalPurchaseDate_gt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("originalPurchaseDate_gt"))
+			it.OriginalPurchaseDateGt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "originalPurchaseDate_gte":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("originalPurchaseDate_gte"))
+			it.OriginalPurchaseDateGte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "originalPurchaseDate_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("originalPurchaseDate_in"))
+			it.OriginalPurchaseDateIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "originalPurchaseDate_not_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("originalPurchaseDate_not_in"))
+			it.OriginalPurchaseDateNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "expiryDate":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("expiryDate"))
+			it.ExpiryDate, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "expiryDate_not":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("expiryDate_not"))
+			it.ExpiryDateNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "expiryDate_lt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("expiryDate_lt"))
+			it.ExpiryDateLt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "expiryDate_lte":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("expiryDate_lte"))
+			it.ExpiryDateLte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "expiryDate_gt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("expiryDate_gt"))
+			it.ExpiryDateGt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "expiryDate_gte":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("expiryDate_gte"))
+			it.ExpiryDateGte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "expiryDate_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("expiryDate_in"))
+			it.ExpiryDateIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "expiryDate_not_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("expiryDate_not_in"))
+			it.ExpiryDateNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "frequency":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("frequency"))
+			it.Frequency, err = ec.unmarshalOmerchandiseWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMerchandiseWhereInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "frequency_is_null":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("frequency_is_null"))
+			it.FrequencyIsNull, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "productId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("productId"))
+			it.ProductID, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "productId_not":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("productId_not"))
+			it.ProductIDNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "productId_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("productId_contains"))
+			it.ProductIDContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "productId_not_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("productId_not_contains"))
+			it.ProductIDNotContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "productId_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("productId_starts_with"))
+			it.ProductIDStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "productId_not_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("productId_not_starts_with"))
+			it.ProductIDNotStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "productId_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("productId_ends_with"))
+			it.ProductIDEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "productId_not_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("productId_not_ends_with"))
+			it.ProductIDNotEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "productId_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("productId_i"))
+			it.ProductIDI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "productId_not_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("productId_not_i"))
+			it.ProductIDNotI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "productId_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("productId_contains_i"))
+			it.ProductIDContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "productId_not_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("productId_not_contains_i"))
+			it.ProductIDNotContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "productId_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("productId_starts_with_i"))
+			it.ProductIDStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "productId_not_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("productId_not_starts_with_i"))
+			it.ProductIDNotStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "productId_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("productId_ends_with_i"))
+			it.ProductIDEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "productId_not_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("productId_not_ends_with_i"))
+			it.ProductIDNotEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "productId_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("productId_in"))
+			it.ProductIDIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "productId_not_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("productId_not_in"))
+			it.ProductIDNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "originalTransactionId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("originalTransactionId"))
+			it.OriginalTransactionID, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "originalTransactionId_not":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("originalTransactionId_not"))
+			it.OriginalTransactionIDNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "originalTransactionId_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("originalTransactionId_contains"))
+			it.OriginalTransactionIDContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "originalTransactionId_not_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("originalTransactionId_not_contains"))
+			it.OriginalTransactionIDNotContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "originalTransactionId_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("originalTransactionId_starts_with"))
+			it.OriginalTransactionIDStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "originalTransactionId_not_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("originalTransactionId_not_starts_with"))
+			it.OriginalTransactionIDNotStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "originalTransactionId_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("originalTransactionId_ends_with"))
+			it.OriginalTransactionIDEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "originalTransactionId_not_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("originalTransactionId_not_ends_with"))
+			it.OriginalTransactionIDNotEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "originalTransactionId_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("originalTransactionId_i"))
+			it.OriginalTransactionIDI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "originalTransactionId_not_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("originalTransactionId_not_i"))
+			it.OriginalTransactionIDNotI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "originalTransactionId_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("originalTransactionId_contains_i"))
+			it.OriginalTransactionIDContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "originalTransactionId_not_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("originalTransactionId_not_contains_i"))
+			it.OriginalTransactionIDNotContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "originalTransactionId_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("originalTransactionId_starts_with_i"))
+			it.OriginalTransactionIDStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "originalTransactionId_not_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("originalTransactionId_not_starts_with_i"))
+			it.OriginalTransactionIDNotStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "originalTransactionId_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("originalTransactionId_ends_with_i"))
+			it.OriginalTransactionIDEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "originalTransactionId_not_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("originalTransactionId_not_ends_with_i"))
+			it.OriginalTransactionIDNotEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "originalTransactionId_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("originalTransactionId_in"))
+			it.OriginalTransactionIDIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "originalTransactionId_not_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("originalTransactionId_not_in"))
+			it.OriginalTransactionIDNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "transactionId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("transactionId"))
+			it.TransactionID, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "transactionId_not":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("transactionId_not"))
+			it.TransactionIDNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "transactionId_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("transactionId_contains"))
+			it.TransactionIDContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "transactionId_not_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("transactionId_not_contains"))
+			it.TransactionIDNotContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "transactionId_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("transactionId_starts_with"))
+			it.TransactionIDStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "transactionId_not_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("transactionId_not_starts_with"))
+			it.TransactionIDNotStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "transactionId_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("transactionId_ends_with"))
+			it.TransactionIDEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "transactionId_not_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("transactionId_not_ends_with"))
+			it.TransactionIDNotEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "transactionId_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("transactionId_i"))
+			it.TransactionIDI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "transactionId_not_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("transactionId_not_i"))
+			it.TransactionIDNotI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "transactionId_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("transactionId_contains_i"))
+			it.TransactionIDContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "transactionId_not_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("transactionId_not_contains_i"))
+			it.TransactionIDNotContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "transactionId_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("transactionId_starts_with_i"))
+			it.TransactionIDStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "transactionId_not_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("transactionId_not_starts_with_i"))
+			it.TransactionIDNotStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "transactionId_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("transactionId_ends_with_i"))
+			it.TransactionIDEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "transactionId_not_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("transactionId_not_ends_with_i"))
+			it.TransactionIDNotEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "transactionId_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("transactionId_in"))
+			it.TransactionIDIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "transactionId_not_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("transactionId_not_in"))
+			it.TransactionIDNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -15828,8 +18433,8 @@ func (ec *executionContext) unmarshalInputandroidpayPaymentWhereInput(ctx contex
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputandroidpayPaymentWhereUniqueInput(ctx context.Context, obj interface{}) (model.AndroidpayPaymentWhereUniqueInput, error) {
-	var it model.AndroidpayPaymentWhereUniqueInput
+func (ec *executionContext) unmarshalInputappStorePaymentWhereUniqueInput(ctx context.Context, obj interface{}) (model.AppStorePaymentWhereUniqueInput, error) {
+	var it model.AppStorePaymentWhereUniqueInput
 	asMap := map[string]interface{}{}
 	for k, v := range obj.(map[string]interface{}) {
 		asMap[k] = v
@@ -15845,14 +18450,22 @@ func (ec *executionContext) unmarshalInputandroidpayPaymentWhereUniqueInput(ctx 
 			if err != nil {
 				return it, err
 			}
+		case "transactionId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("transactionId"))
+			it.TransactionID, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		}
 	}
 
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputapplepayPaymentCreateInput(ctx context.Context, obj interface{}) (model.ApplepayPaymentCreateInput, error) {
-	var it model.ApplepayPaymentCreateInput
+func (ec *executionContext) unmarshalInputgooglePlayPaymentCreateInput(ctx context.Context, obj interface{}) (model.GooglePlayPaymentCreateInput, error) {
+	var it model.GooglePlayPaymentCreateInput
 	asMap := map[string]interface{}{}
 	for k, v := range obj.(map[string]interface{}) {
 		asMap[k] = v
@@ -15868,11 +18481,35 @@ func (ec *executionContext) unmarshalInputapplepayPaymentCreateInput(ctx context
 			if err != nil {
 				return it, err
 			}
-		case "invoice":
+		case "orderId":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("invoice"))
-			it.Invoice, err = ec.unmarshalOinvoiceRelateToOneInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐInvoiceRelateToOneInput(ctx, v)
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderId"))
+			it.OrderID, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "transactionDatetime":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("transactionDatetime"))
+			it.TransactionDatetime, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "amount":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("amount"))
+			it.Amount, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "currency":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("currency"))
+			it.Currency, err = ec.unmarshalOgooglePlayPaymentCurrencyType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentCurrencyType(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -15898,8 +18535,8 @@ func (ec *executionContext) unmarshalInputapplepayPaymentCreateInput(ctx context
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputapplepayPaymentOrderByInput(ctx context.Context, obj interface{}) (model.ApplepayPaymentOrderByInput, error) {
-	var it model.ApplepayPaymentOrderByInput
+func (ec *executionContext) unmarshalInputgooglePlayPaymentOrderByInput(ctx context.Context, obj interface{}) (model.GooglePlayPaymentOrderByInput, error) {
+	var it model.GooglePlayPaymentOrderByInput
 	asMap := map[string]interface{}{}
 	for k, v := range obj.(map[string]interface{}) {
 		asMap[k] = v
@@ -15912,6 +18549,38 @@ func (ec *executionContext) unmarshalInputapplepayPaymentOrderByInput(ctx contex
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 			it.ID, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "orderId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderId"))
+			it.OrderID, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "transactionDatetime":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("transactionDatetime"))
+			it.TransactionDatetime, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "amount":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("amount"))
+			it.Amount, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "currency":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("currency"))
+			it.Currency, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -15937,8 +18606,8 @@ func (ec *executionContext) unmarshalInputapplepayPaymentOrderByInput(ctx contex
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputapplepayPaymentRelateToManyInput(ctx context.Context, obj interface{}) (model.ApplepayPaymentRelateToManyInput, error) {
-	var it model.ApplepayPaymentRelateToManyInput
+func (ec *executionContext) unmarshalInputgooglePlayPaymentRelateToManyInput(ctx context.Context, obj interface{}) (model.GooglePlayPaymentRelateToManyInput, error) {
+	var it model.GooglePlayPaymentRelateToManyInput
 	asMap := map[string]interface{}{}
 	for k, v := range obj.(map[string]interface{}) {
 		asMap[k] = v
@@ -15950,7 +18619,7 @@ func (ec *executionContext) unmarshalInputapplepayPaymentRelateToManyInput(ctx c
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("create"))
-			it.Create, err = ec.unmarshalOapplepayPaymentCreateInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentCreateInput(ctx, v)
+			it.Create, err = ec.unmarshalOgooglePlayPaymentCreateInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentCreateInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -15958,7 +18627,7 @@ func (ec *executionContext) unmarshalInputapplepayPaymentRelateToManyInput(ctx c
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("connect"))
-			it.Connect, err = ec.unmarshalOapplepayPaymentWhereUniqueInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentWhereUniqueInput(ctx, v)
+			it.Connect, err = ec.unmarshalOgooglePlayPaymentWhereUniqueInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentWhereUniqueInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -15966,7 +18635,7 @@ func (ec *executionContext) unmarshalInputapplepayPaymentRelateToManyInput(ctx c
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("disconnect"))
-			it.Disconnect, err = ec.unmarshalOapplepayPaymentWhereUniqueInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentWhereUniqueInput(ctx, v)
+			it.Disconnect, err = ec.unmarshalOgooglePlayPaymentWhereUniqueInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentWhereUniqueInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -15984,55 +18653,8 @@ func (ec *executionContext) unmarshalInputapplepayPaymentRelateToManyInput(ctx c
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputapplepayPaymentRelateToOneInput(ctx context.Context, obj interface{}) (model.ApplepayPaymentRelateToOneInput, error) {
-	var it model.ApplepayPaymentRelateToOneInput
-	asMap := map[string]interface{}{}
-	for k, v := range obj.(map[string]interface{}) {
-		asMap[k] = v
-	}
-
-	for k, v := range asMap {
-		switch k {
-		case "create":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("create"))
-			it.Create, err = ec.unmarshalOapplepayPaymentCreateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentCreateInput(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "connect":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("connect"))
-			it.Connect, err = ec.unmarshalOapplepayPaymentWhereUniqueInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentWhereUniqueInput(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "disconnect":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("disconnect"))
-			it.Disconnect, err = ec.unmarshalOapplepayPaymentWhereUniqueInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentWhereUniqueInput(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "disconnectAll":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("disconnectAll"))
-			it.DisconnectAll, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputapplepayPaymentUpdateInput(ctx context.Context, obj interface{}) (model.ApplepayPaymentUpdateInput, error) {
-	var it model.ApplepayPaymentUpdateInput
+func (ec *executionContext) unmarshalInputgooglePlayPaymentUpdateInput(ctx context.Context, obj interface{}) (model.GooglePlayPaymentUpdateInput, error) {
+	var it model.GooglePlayPaymentUpdateInput
 	asMap := map[string]interface{}{}
 	for k, v := range obj.(map[string]interface{}) {
 		asMap[k] = v
@@ -16048,11 +18670,35 @@ func (ec *executionContext) unmarshalInputapplepayPaymentUpdateInput(ctx context
 			if err != nil {
 				return it, err
 			}
-		case "invoice":
+		case "orderId":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("invoice"))
-			it.Invoice, err = ec.unmarshalOinvoiceRelateToOneInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐInvoiceRelateToOneInput(ctx, v)
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderId"))
+			it.OrderID, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "transactionDatetime":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("transactionDatetime"))
+			it.TransactionDatetime, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "amount":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("amount"))
+			it.Amount, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "currency":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("currency"))
+			it.Currency, err = ec.unmarshalOgooglePlayPaymentCurrencyType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentCurrencyType(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -16078,8 +18724,8 @@ func (ec *executionContext) unmarshalInputapplepayPaymentUpdateInput(ctx context
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputapplepayPaymentWhereInput(ctx context.Context, obj interface{}) (model.ApplepayPaymentWhereInput, error) {
-	var it model.ApplepayPaymentWhereInput
+func (ec *executionContext) unmarshalInputgooglePlayPaymentWhereInput(ctx context.Context, obj interface{}) (model.GooglePlayPaymentWhereInput, error) {
+	var it model.GooglePlayPaymentWhereInput
 	asMap := map[string]interface{}{}
 	for k, v := range obj.(map[string]interface{}) {
 		asMap[k] = v
@@ -16091,7 +18737,7 @@ func (ec *executionContext) unmarshalInputapplepayPaymentWhereInput(ctx context.
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("AND"))
-			it.And, err = ec.unmarshalOapplepayPaymentWhereInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentWhereInputᚄ(ctx, v)
+			it.And, err = ec.unmarshalOgooglePlayPaymentWhereInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentWhereInputᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -16099,7 +18745,7 @@ func (ec *executionContext) unmarshalInputapplepayPaymentWhereInput(ctx context.
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("OR"))
-			it.Or, err = ec.unmarshalOapplepayPaymentWhereInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentWhereInputᚄ(ctx, v)
+			it.Or, err = ec.unmarshalOgooglePlayPaymentWhereInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentWhereInputᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -16183,19 +18829,307 @@ func (ec *executionContext) unmarshalInputapplepayPaymentWhereInput(ctx context.
 			if err != nil {
 				return it, err
 			}
-		case "invoice":
+		case "orderId":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("invoice"))
-			it.Invoice, err = ec.unmarshalOinvoiceWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐInvoiceWhereInput(ctx, v)
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderId"))
+			it.OrderID, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
-		case "invoice_is_null":
+		case "orderId_not":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("invoice_is_null"))
-			it.InvoiceIsNull, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderId_not"))
+			it.OrderIDNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "orderId_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderId_contains"))
+			it.OrderIDContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "orderId_not_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderId_not_contains"))
+			it.OrderIDNotContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "orderId_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderId_starts_with"))
+			it.OrderIDStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "orderId_not_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderId_not_starts_with"))
+			it.OrderIDNotStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "orderId_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderId_ends_with"))
+			it.OrderIDEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "orderId_not_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderId_not_ends_with"))
+			it.OrderIDNotEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "orderId_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderId_i"))
+			it.OrderIDI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "orderId_not_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderId_not_i"))
+			it.OrderIDNotI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "orderId_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderId_contains_i"))
+			it.OrderIDContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "orderId_not_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderId_not_contains_i"))
+			it.OrderIDNotContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "orderId_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderId_starts_with_i"))
+			it.OrderIDStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "orderId_not_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderId_not_starts_with_i"))
+			it.OrderIDNotStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "orderId_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderId_ends_with_i"))
+			it.OrderIDEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "orderId_not_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderId_not_ends_with_i"))
+			it.OrderIDNotEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "orderId_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderId_in"))
+			it.OrderIDIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "orderId_not_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderId_not_in"))
+			it.OrderIDNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "transactionDatetime":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("transactionDatetime"))
+			it.TransactionDatetime, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "transactionDatetime_not":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("transactionDatetime_not"))
+			it.TransactionDatetimeNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "transactionDatetime_lt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("transactionDatetime_lt"))
+			it.TransactionDatetimeLt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "transactionDatetime_lte":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("transactionDatetime_lte"))
+			it.TransactionDatetimeLte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "transactionDatetime_gt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("transactionDatetime_gt"))
+			it.TransactionDatetimeGt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "transactionDatetime_gte":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("transactionDatetime_gte"))
+			it.TransactionDatetimeGte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "transactionDatetime_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("transactionDatetime_in"))
+			it.TransactionDatetimeIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "transactionDatetime_not_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("transactionDatetime_not_in"))
+			it.TransactionDatetimeNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "amount":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("amount"))
+			it.Amount, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "amount_not":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("amount_not"))
+			it.AmountNot, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "amount_lt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("amount_lt"))
+			it.AmountLt, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "amount_lte":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("amount_lte"))
+			it.AmountLte, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "amount_gt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("amount_gt"))
+			it.AmountGt, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "amount_gte":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("amount_gte"))
+			it.AmountGte, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "amount_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("amount_in"))
+			it.AmountIn, err = ec.unmarshalOInt2ᚕᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "amount_not_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("amount_not_in"))
+			it.AmountNotIn, err = ec.unmarshalOInt2ᚕᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "currency":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("currency"))
+			it.Currency, err = ec.unmarshalOgooglePlayPaymentCurrencyType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentCurrencyType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "currency_not":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("currency_not"))
+			it.CurrencyNot, err = ec.unmarshalOgooglePlayPaymentCurrencyType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentCurrencyType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "currency_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("currency_in"))
+			it.CurrencyIn, err = ec.unmarshalOgooglePlayPaymentCurrencyType2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentCurrencyType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "currency_not_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("currency_not_in"))
+			it.CurrencyNotIn, err = ec.unmarshalOgooglePlayPaymentCurrencyType2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentCurrencyType(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -16349,8 +19283,1381 @@ func (ec *executionContext) unmarshalInputapplepayPaymentWhereInput(ctx context.
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputapplepayPaymentWhereUniqueInput(ctx context.Context, obj interface{}) (model.ApplepayPaymentWhereUniqueInput, error) {
-	var it model.ApplepayPaymentWhereUniqueInput
+func (ec *executionContext) unmarshalInputgooglePlayPaymentWhereUniqueInput(ctx context.Context, obj interface{}) (model.GooglePlayPaymentWhereUniqueInput, error) {
+	var it model.GooglePlayPaymentWhereUniqueInput
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	for k, v := range asMap {
+		switch k {
+		case "id":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+			it.ID, err = ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "orderId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderId"))
+			it.OrderID, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputgroupOrderByInput(ctx context.Context, obj interface{}) (model.GroupOrderByInput, error) {
+	var it model.GroupOrderByInput
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	for k, v := range asMap {
+		switch k {
+		case "id":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+			it.ID, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "company":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company"))
+			it.Company, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "taxIdNumber":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("taxIdNumber"))
+			it.TaxIDNumber, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "startDate":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("startDate"))
+			it.StartDate, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "endDate":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("endDate"))
+			it.EndDate, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "requesterEmail":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("requesterEmail"))
+			it.RequesterEmail, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "approvedBy":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("approvedBy"))
+			it.ApprovedBy, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "note":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("note"))
+			it.Note, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "invoice":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("invoice"))
+			it.Invoice, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "createdAt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdAt"))
+			it.CreatedAt, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "updatedAt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedAt"))
+			it.UpdatedAt, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputgroupWhereInput(ctx context.Context, obj interface{}) (model.GroupWhereInput, error) {
+	var it model.GroupWhereInput
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	for k, v := range asMap {
+		switch k {
+		case "AND":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("AND"))
+			it.And, err = ec.unmarshalOgroupWhereInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGroupWhereInputᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "OR":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("OR"))
+			it.Or, err = ec.unmarshalOgroupWhereInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGroupWhereInputᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "id":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+			it.ID, err = ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "id_not":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id_not"))
+			it.IDNot, err = ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "id_lt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id_lt"))
+			it.IDLt, err = ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "id_lte":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id_lte"))
+			it.IDLte, err = ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "id_gt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id_gt"))
+			it.IDGt, err = ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "id_gte":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id_gte"))
+			it.IDGte, err = ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "id_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id_in"))
+			it.IDIn, err = ec.unmarshalOID2ᚕstringᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "id_not_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id_not_in"))
+			it.IDNotIn, err = ec.unmarshalOID2ᚕstringᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "company":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company"))
+			it.Company, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "company_not":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company_not"))
+			it.CompanyNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "company_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company_contains"))
+			it.CompanyContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "company_not_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company_not_contains"))
+			it.CompanyNotContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "company_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company_starts_with"))
+			it.CompanyStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "company_not_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company_not_starts_with"))
+			it.CompanyNotStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "company_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company_ends_with"))
+			it.CompanyEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "company_not_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company_not_ends_with"))
+			it.CompanyNotEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "company_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company_i"))
+			it.CompanyI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "company_not_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company_not_i"))
+			it.CompanyNotI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "company_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company_contains_i"))
+			it.CompanyContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "company_not_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company_not_contains_i"))
+			it.CompanyNotContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "company_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company_starts_with_i"))
+			it.CompanyStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "company_not_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company_not_starts_with_i"))
+			it.CompanyNotStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "company_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company_ends_with_i"))
+			it.CompanyEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "company_not_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company_not_ends_with_i"))
+			it.CompanyNotEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "company_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company_in"))
+			it.CompanyIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "company_not_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company_not_in"))
+			it.CompanyNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "taxIdNumber":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("taxIdNumber"))
+			it.TaxIDNumber, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "taxIdNumber_not":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("taxIdNumber_not"))
+			it.TaxIDNumberNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "taxIdNumber_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("taxIdNumber_contains"))
+			it.TaxIDNumberContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "taxIdNumber_not_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("taxIdNumber_not_contains"))
+			it.TaxIDNumberNotContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "taxIdNumber_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("taxIdNumber_starts_with"))
+			it.TaxIDNumberStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "taxIdNumber_not_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("taxIdNumber_not_starts_with"))
+			it.TaxIDNumberNotStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "taxIdNumber_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("taxIdNumber_ends_with"))
+			it.TaxIDNumberEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "taxIdNumber_not_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("taxIdNumber_not_ends_with"))
+			it.TaxIDNumberNotEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "taxIdNumber_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("taxIdNumber_i"))
+			it.TaxIDNumberI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "taxIdNumber_not_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("taxIdNumber_not_i"))
+			it.TaxIDNumberNotI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "taxIdNumber_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("taxIdNumber_contains_i"))
+			it.TaxIDNumberContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "taxIdNumber_not_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("taxIdNumber_not_contains_i"))
+			it.TaxIDNumberNotContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "taxIdNumber_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("taxIdNumber_starts_with_i"))
+			it.TaxIDNumberStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "taxIdNumber_not_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("taxIdNumber_not_starts_with_i"))
+			it.TaxIDNumberNotStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "taxIdNumber_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("taxIdNumber_ends_with_i"))
+			it.TaxIDNumberEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "taxIdNumber_not_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("taxIdNumber_not_ends_with_i"))
+			it.TaxIDNumberNotEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "taxIdNumber_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("taxIdNumber_in"))
+			it.TaxIDNumberIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "taxIdNumber_not_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("taxIdNumber_not_in"))
+			it.TaxIDNumberNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "member_every":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("member_every"))
+			it.MemberEvery, err = ec.unmarshalOmemberWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberWhereInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "member_some":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("member_some"))
+			it.MemberSome, err = ec.unmarshalOmemberWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberWhereInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "member_none":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("member_none"))
+			it.MemberNone, err = ec.unmarshalOmemberWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberWhereInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "startDate":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("startDate"))
+			it.StartDate, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "startDate_not":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("startDate_not"))
+			it.StartDateNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "startDate_lt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("startDate_lt"))
+			it.StartDateLt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "startDate_lte":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("startDate_lte"))
+			it.StartDateLte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "startDate_gt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("startDate_gt"))
+			it.StartDateGt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "startDate_gte":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("startDate_gte"))
+			it.StartDateGte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "startDate_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("startDate_in"))
+			it.StartDateIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "startDate_not_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("startDate_not_in"))
+			it.StartDateNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "endDate":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("endDate"))
+			it.EndDate, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "endDate_not":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("endDate_not"))
+			it.EndDateNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "endDate_lt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("endDate_lt"))
+			it.EndDateLt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "endDate_lte":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("endDate_lte"))
+			it.EndDateLte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "endDate_gt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("endDate_gt"))
+			it.EndDateGt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "endDate_gte":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("endDate_gte"))
+			it.EndDateGte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "endDate_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("endDate_in"))
+			it.EndDateIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "endDate_not_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("endDate_not_in"))
+			it.EndDateNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "requesterEmail":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("requesterEmail"))
+			it.RequesterEmail, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "requesterEmail_not":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("requesterEmail_not"))
+			it.RequesterEmailNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "requesterEmail_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("requesterEmail_contains"))
+			it.RequesterEmailContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "requesterEmail_not_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("requesterEmail_not_contains"))
+			it.RequesterEmailNotContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "requesterEmail_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("requesterEmail_starts_with"))
+			it.RequesterEmailStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "requesterEmail_not_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("requesterEmail_not_starts_with"))
+			it.RequesterEmailNotStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "requesterEmail_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("requesterEmail_ends_with"))
+			it.RequesterEmailEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "requesterEmail_not_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("requesterEmail_not_ends_with"))
+			it.RequesterEmailNotEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "requesterEmail_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("requesterEmail_i"))
+			it.RequesterEmailI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "requesterEmail_not_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("requesterEmail_not_i"))
+			it.RequesterEmailNotI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "requesterEmail_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("requesterEmail_contains_i"))
+			it.RequesterEmailContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "requesterEmail_not_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("requesterEmail_not_contains_i"))
+			it.RequesterEmailNotContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "requesterEmail_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("requesterEmail_starts_with_i"))
+			it.RequesterEmailStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "requesterEmail_not_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("requesterEmail_not_starts_with_i"))
+			it.RequesterEmailNotStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "requesterEmail_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("requesterEmail_ends_with_i"))
+			it.RequesterEmailEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "requesterEmail_not_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("requesterEmail_not_ends_with_i"))
+			it.RequesterEmailNotEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "requesterEmail_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("requesterEmail_in"))
+			it.RequesterEmailIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "requesterEmail_not_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("requesterEmail_not_in"))
+			it.RequesterEmailNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "approvedBy":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("approvedBy"))
+			it.ApprovedBy, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "approvedBy_not":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("approvedBy_not"))
+			it.ApprovedByNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "approvedBy_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("approvedBy_contains"))
+			it.ApprovedByContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "approvedBy_not_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("approvedBy_not_contains"))
+			it.ApprovedByNotContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "approvedBy_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("approvedBy_starts_with"))
+			it.ApprovedByStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "approvedBy_not_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("approvedBy_not_starts_with"))
+			it.ApprovedByNotStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "approvedBy_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("approvedBy_ends_with"))
+			it.ApprovedByEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "approvedBy_not_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("approvedBy_not_ends_with"))
+			it.ApprovedByNotEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "approvedBy_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("approvedBy_i"))
+			it.ApprovedByI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "approvedBy_not_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("approvedBy_not_i"))
+			it.ApprovedByNotI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "approvedBy_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("approvedBy_contains_i"))
+			it.ApprovedByContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "approvedBy_not_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("approvedBy_not_contains_i"))
+			it.ApprovedByNotContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "approvedBy_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("approvedBy_starts_with_i"))
+			it.ApprovedByStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "approvedBy_not_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("approvedBy_not_starts_with_i"))
+			it.ApprovedByNotStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "approvedBy_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("approvedBy_ends_with_i"))
+			it.ApprovedByEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "approvedBy_not_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("approvedBy_not_ends_with_i"))
+			it.ApprovedByNotEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "approvedBy_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("approvedBy_in"))
+			it.ApprovedByIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "approvedBy_not_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("approvedBy_not_in"))
+			it.ApprovedByNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "note":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("note"))
+			it.Note, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "note_not":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("note_not"))
+			it.NoteNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "note_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("note_contains"))
+			it.NoteContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "note_not_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("note_not_contains"))
+			it.NoteNotContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "note_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("note_starts_with"))
+			it.NoteStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "note_not_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("note_not_starts_with"))
+			it.NoteNotStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "note_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("note_ends_with"))
+			it.NoteEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "note_not_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("note_not_ends_with"))
+			it.NoteNotEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "note_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("note_i"))
+			it.NoteI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "note_not_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("note_not_i"))
+			it.NoteNotI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "note_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("note_contains_i"))
+			it.NoteContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "note_not_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("note_not_contains_i"))
+			it.NoteNotContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "note_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("note_starts_with_i"))
+			it.NoteStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "note_not_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("note_not_starts_with_i"))
+			it.NoteNotStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "note_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("note_ends_with_i"))
+			it.NoteEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "note_not_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("note_not_ends_with_i"))
+			it.NoteNotEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "note_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("note_in"))
+			it.NoteIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "note_not_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("note_not_in"))
+			it.NoteNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "invoice":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("invoice"))
+			it.Invoice, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "invoice_not":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("invoice_not"))
+			it.InvoiceNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "invoice_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("invoice_contains"))
+			it.InvoiceContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "invoice_not_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("invoice_not_contains"))
+			it.InvoiceNotContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "invoice_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("invoice_starts_with"))
+			it.InvoiceStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "invoice_not_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("invoice_not_starts_with"))
+			it.InvoiceNotStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "invoice_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("invoice_ends_with"))
+			it.InvoiceEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "invoice_not_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("invoice_not_ends_with"))
+			it.InvoiceNotEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "invoice_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("invoice_i"))
+			it.InvoiceI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "invoice_not_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("invoice_not_i"))
+			it.InvoiceNotI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "invoice_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("invoice_contains_i"))
+			it.InvoiceContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "invoice_not_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("invoice_not_contains_i"))
+			it.InvoiceNotContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "invoice_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("invoice_starts_with_i"))
+			it.InvoiceStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "invoice_not_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("invoice_not_starts_with_i"))
+			it.InvoiceNotStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "invoice_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("invoice_ends_with_i"))
+			it.InvoiceEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "invoice_not_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("invoice_not_ends_with_i"))
+			it.InvoiceNotEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "invoice_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("invoice_in"))
+			it.InvoiceIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "invoice_not_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("invoice_not_in"))
+			it.InvoiceNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "createdAt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdAt"))
+			it.CreatedAt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "createdAt_not":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdAt_not"))
+			it.CreatedAtNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "createdAt_lt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdAt_lt"))
+			it.CreatedAtLt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "createdAt_lte":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdAt_lte"))
+			it.CreatedAtLte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "createdAt_gt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdAt_gt"))
+			it.CreatedAtGt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "createdAt_gte":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdAt_gte"))
+			it.CreatedAtGte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "createdAt_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdAt_in"))
+			it.CreatedAtIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "createdAt_not_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdAt_not_in"))
+			it.CreatedAtNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "updatedAt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedAt"))
+			it.UpdatedAt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "updatedAt_not":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedAt_not"))
+			it.UpdatedAtNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "updatedAt_lt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedAt_lt"))
+			it.UpdatedAtLt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "updatedAt_lte":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedAt_lte"))
+			it.UpdatedAtLte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "updatedAt_gt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedAt_gt"))
+			it.UpdatedAtGt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "updatedAt_gte":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedAt_gte"))
+			it.UpdatedAtGte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "updatedAt_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedAt_in"))
+			it.UpdatedAtIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "updatedAt_not_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedAt_not_in"))
+			it.UpdatedAtNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputgroupWhereUniqueInput(ctx context.Context, obj interface{}) (model.GroupWhereUniqueInput, error) {
+	var it model.GroupWhereUniqueInput
 	asMap := map[string]interface{}{}
 	for k, v := range obj.(map[string]interface{}) {
 		asMap[k] = v
@@ -16386,22 +20693,6 @@ func (ec *executionContext) unmarshalInputinvoiceCreateInput(ctx context.Context
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("newebpayPayment"))
 			it.NewebpayPayment, err = ec.unmarshalOnewebpayPaymentRelateToOneInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐNewebpayPaymentRelateToOneInput(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "applepayPayment":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("applepayPayment"))
-			it.ApplepayPayment, err = ec.unmarshalOapplepayPaymentRelateToOneInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentRelateToOneInput(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "androidpayPayment":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("androidpayPayment"))
-			it.AndroidpayPayment, err = ec.unmarshalOandroidpayPaymentRelateToOneInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentRelateToOneInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -16642,8 +20933,8 @@ func (ec *executionContext) unmarshalInputinvoiceOrderByInput(ctx context.Contex
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputinvoiceRelateToOneInput(ctx context.Context, obj interface{}) (model.InvoiceRelateToOneInput, error) {
-	var it model.InvoiceRelateToOneInput
+func (ec *executionContext) unmarshalInputinvoiceRelateToManyInput(ctx context.Context, obj interface{}) (model.InvoiceRelateToManyInput, error) {
+	var it model.InvoiceRelateToManyInput
 	asMap := map[string]interface{}{}
 	for k, v := range obj.(map[string]interface{}) {
 		asMap[k] = v
@@ -16655,7 +20946,7 @@ func (ec *executionContext) unmarshalInputinvoiceRelateToOneInput(ctx context.Co
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("create"))
-			it.Create, err = ec.unmarshalOinvoiceCreateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐInvoiceCreateInput(ctx, v)
+			it.Create, err = ec.unmarshalOinvoiceCreateInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐInvoiceCreateInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -16663,7 +20954,7 @@ func (ec *executionContext) unmarshalInputinvoiceRelateToOneInput(ctx context.Co
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("connect"))
-			it.Connect, err = ec.unmarshalOinvoiceWhereUniqueInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐInvoiceWhereUniqueInput(ctx, v)
+			it.Connect, err = ec.unmarshalOinvoiceWhereUniqueInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐInvoiceWhereUniqueInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -16671,7 +20962,7 @@ func (ec *executionContext) unmarshalInputinvoiceRelateToOneInput(ctx context.Co
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("disconnect"))
-			it.Disconnect, err = ec.unmarshalOinvoiceWhereUniqueInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐInvoiceWhereUniqueInput(ctx, v)
+			it.Disconnect, err = ec.unmarshalOinvoiceWhereUniqueInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐInvoiceWhereUniqueInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -16703,22 +20994,6 @@ func (ec *executionContext) unmarshalInputinvoiceUpdateInput(ctx context.Context
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("newebpayPayment"))
 			it.NewebpayPayment, err = ec.unmarshalOnewebpayPaymentRelateToOneInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐNewebpayPaymentRelateToOneInput(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "applepayPayment":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("applepayPayment"))
-			it.ApplepayPayment, err = ec.unmarshalOapplepayPaymentRelateToOneInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentRelateToOneInput(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "androidpayPayment":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("androidpayPayment"))
-			it.AndroidpayPayment, err = ec.unmarshalOandroidpayPaymentRelateToOneInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentRelateToOneInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -16934,38 +21209,6 @@ func (ec *executionContext) unmarshalInputinvoiceWhereInput(ctx context.Context,
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("newebpayPayment_is_null"))
 			it.NewebpayPaymentIsNull, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "applepayPayment":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("applepayPayment"))
-			it.ApplepayPayment, err = ec.unmarshalOapplepayPaymentWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentWhereInput(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "applepayPayment_is_null":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("applepayPayment_is_null"))
-			it.ApplepayPaymentIsNull, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "androidpayPayment":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("androidpayPayment"))
-			it.AndroidpayPayment, err = ec.unmarshalOandroidpayPaymentWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentWhereInput(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "androidpayPayment_is_null":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("androidpayPayment_is_null"))
-			it.AndroidpayPaymentIsNull, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -20088,6 +24331,53 @@ func (ec *executionContext) unmarshalInputmerchandiseOrderByInput(ctx context.Co
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputmerchandiseRelateToOneInput(ctx context.Context, obj interface{}) (model.MerchandiseRelateToOneInput, error) {
+	var it model.MerchandiseRelateToOneInput
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	for k, v := range asMap {
+		switch k {
+		case "create":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("create"))
+			it.Create, err = ec.unmarshalOmerchandiseCreateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMerchandiseCreateInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "connect":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("connect"))
+			it.Connect, err = ec.unmarshalOmerchandiseWhereUniqueInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMerchandiseWhereUniqueInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "disconnect":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("disconnect"))
+			it.Disconnect, err = ec.unmarshalOmerchandiseWhereUniqueInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMerchandiseWhereUniqueInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "disconnectAll":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("disconnectAll"))
+			it.DisconnectAll, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputmerchandiseUpdateInput(ctx context.Context, obj interface{}) (model.MerchandiseUpdateInput, error) {
 	var it model.MerchandiseUpdateInput
 	asMap := map[string]interface{}{}
@@ -21178,7 +25468,7 @@ func (ec *executionContext) unmarshalInputnewebpayPaymentCreateInput(ctx context
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("invoice"))
-			it.Invoice, err = ec.unmarshalOinvoiceRelateToOneInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐInvoiceRelateToOneInput(ctx, v)
+			it.Invoice, err = ec.unmarshalOinvoiceRelateToManyInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐInvoiceRelateToManyInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -22496,7 +26786,7 @@ func (ec *executionContext) unmarshalInputnewebpayPaymentUpdateInput(ctx context
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("invoice"))
-			it.Invoice, err = ec.unmarshalOinvoiceRelateToOneInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐInvoiceRelateToOneInput(ctx, v)
+			it.Invoice, err = ec.unmarshalOinvoiceRelateToManyInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐInvoiceRelateToManyInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -22763,19 +27053,27 @@ func (ec *executionContext) unmarshalInputnewebpayPaymentWhereInput(ctx context.
 			if err != nil {
 				return it, err
 			}
-		case "invoice":
+		case "invoice_every":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("invoice"))
-			it.Invoice, err = ec.unmarshalOinvoiceWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐInvoiceWhereInput(ctx, v)
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("invoice_every"))
+			it.InvoiceEvery, err = ec.unmarshalOinvoiceWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐInvoiceWhereInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
-		case "invoice_is_null":
+		case "invoice_some":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("invoice_is_null"))
-			it.InvoiceIsNull, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("invoice_some"))
+			it.InvoiceSome, err = ec.unmarshalOinvoiceWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐInvoiceWhereInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "invoice_none":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("invoice_none"))
+			it.InvoiceNone, err = ec.unmarshalOinvoiceWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐInvoiceWhereInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -26035,6 +30333,14 @@ func (ec *executionContext) unmarshalInputsubscriptionCreateInput(ctx context.Co
 			if err != nil {
 				return it, err
 			}
+		case "orderNumber":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber"))
+			it.OrderNumber, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "paymentMethod":
 			var err error
 
@@ -26051,19 +30357,19 @@ func (ec *executionContext) unmarshalInputsubscriptionCreateInput(ctx context.Co
 			if err != nil {
 				return it, err
 			}
-		case "applepayPayment":
+		case "appStorePayment":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("applepayPayment"))
-			it.ApplepayPayment, err = ec.unmarshalOapplepayPaymentRelateToManyInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentRelateToManyInput(ctx, v)
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("appStorePayment"))
+			it.AppStorePayment, err = ec.unmarshalOappStorePaymentRelateToManyInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAppStorePaymentRelateToManyInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
-		case "androidpayPayment":
+		case "googlePlayPayment":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("androidpayPayment"))
-			it.AndroidpayPayment, err = ec.unmarshalOandroidpayPaymentRelateToManyInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentRelateToManyInput(ctx, v)
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPayment"))
+			it.GooglePlayPayment, err = ec.unmarshalOgooglePlayPaymentRelateToManyInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentRelateToManyInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -26112,14 +30418,6 @@ func (ec *executionContext) unmarshalInputsubscriptionCreateInput(ctx context.Co
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("email"))
 			it.Email, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "orderNumber":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber"))
-			it.OrderNumber, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -26208,6 +30506,54 @@ func (ec *executionContext) unmarshalInputsubscriptionCreateInput(ctx context.Co
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("changePlanDatetime"))
 			it.ChangePlanDatetime, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayStatus":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayStatus"))
+			it.GooglePlayStatus, err = ec.unmarshalOsubscriptionGooglePlayStatusType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionGooglePlayStatusType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPurchaseToken":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPurchaseToken"))
+			it.GooglePlayPurchaseToken, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayNotificationEventDatetime":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayNotificationEventDatetime"))
+			it.GooglePlayNotificationEventDatetime, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPackageName":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPackageName"))
+			it.GooglePlayPackageName, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "cancelReason":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cancelReason"))
+			it.CancelReason, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "refundNote":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("refundNote"))
+			it.RefundNote, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -26304,6 +30650,14 @@ func (ec *executionContext) unmarshalInputsubscriptionCreateInput(ctx context.Co
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("buyerUBN"))
 			it.BuyerUbn, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "aaplOriginalTransactionId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("aaplOriginalTransactionId"))
+			it.AaplOriginalTransactionID, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29068,6 +33422,14 @@ func (ec *executionContext) unmarshalInputsubscriptionOrderByInput(ctx context.C
 			if err != nil {
 				return it, err
 			}
+		case "orderNumber":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber"))
+			it.OrderNumber, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "paymentMethod":
 			var err error
 
@@ -29121,14 +33483,6 @@ func (ec *executionContext) unmarshalInputsubscriptionOrderByInput(ctx context.C
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("email"))
 			it.Email, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "orderNumber":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber"))
-			it.OrderNumber, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29220,6 +33574,54 @@ func (ec *executionContext) unmarshalInputsubscriptionOrderByInput(ctx context.C
 			if err != nil {
 				return it, err
 			}
+		case "googlePlayStatus":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayStatus"))
+			it.GooglePlayStatus, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPurchaseToken":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPurchaseToken"))
+			it.GooglePlayPurchaseToken, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayNotificationEventDatetime":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayNotificationEventDatetime"))
+			it.GooglePlayNotificationEventDatetime, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPackageName":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPackageName"))
+			it.GooglePlayPackageName, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "cancelReason":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cancelReason"))
+			it.CancelReason, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "refundNote":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("refundNote"))
+			it.RefundNote, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "note":
 			var err error
 
@@ -29308,6 +33710,14 @@ func (ec *executionContext) unmarshalInputsubscriptionOrderByInput(ctx context.C
 			if err != nil {
 				return it, err
 			}
+		case "aaplOriginalTransactionId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("aaplOriginalTransactionId"))
+			it.AaplOriginalTransactionID, err = ec.unmarshalOOrderDirection2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐOrderDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "createdAt":
 			var err error
 
@@ -29363,19 +33773,19 @@ func (ec *executionContext) unmarshalInputsubscriptionPrivateUpdateInput(ctx con
 			if err != nil {
 				return it, err
 			}
-		case "applepayPayment":
+		case "appStorePayment":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("applepayPayment"))
-			it.ApplepayPayment, err = ec.unmarshalOapplepayPaymentRelateToManyInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentRelateToManyInput(ctx, v)
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("appStorePayment"))
+			it.AppStorePayment, err = ec.unmarshalOappStorePaymentRelateToManyInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAppStorePaymentRelateToManyInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
-		case "androidpayPayment":
+		case "googlePlayPayment":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("androidpayPayment"))
-			it.AndroidpayPayment, err = ec.unmarshalOandroidpayPaymentRelateToManyInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentRelateToManyInput(ctx, v)
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPayment"))
+			it.GooglePlayPayment, err = ec.unmarshalOgooglePlayPaymentRelateToManyInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentRelateToManyInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29424,14 +33834,6 @@ func (ec *executionContext) unmarshalInputsubscriptionPrivateUpdateInput(ctx con
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("email"))
 			it.Email, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "orderNumber":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber"))
-			it.OrderNumber, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29520,6 +33922,54 @@ func (ec *executionContext) unmarshalInputsubscriptionPrivateUpdateInput(ctx con
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("changePlanDatetime"))
 			it.ChangePlanDatetime, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayStatus":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayStatus"))
+			it.GooglePlayStatus, err = ec.unmarshalOsubscriptionGooglePlayStatusType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionGooglePlayStatusType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPurchaseToken":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPurchaseToken"))
+			it.GooglePlayPurchaseToken, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayNotificationEventDatetime":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayNotificationEventDatetime"))
+			it.GooglePlayNotificationEventDatetime, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPackageName":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPackageName"))
+			it.GooglePlayPackageName, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "cancelReason":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cancelReason"))
+			it.CancelReason, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "refundNote":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("refundNote"))
+			it.RefundNote, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29616,6 +34066,14 @@ func (ec *executionContext) unmarshalInputsubscriptionPrivateUpdateInput(ctx con
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("buyerUBN"))
 			it.BuyerUbn, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "aaplOriginalTransactionId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("aaplOriginalTransactionId"))
+			it.AaplOriginalTransactionID, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -29863,6 +34321,150 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			if err != nil {
 				return it, err
 			}
+		case "orderNumber":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber"))
+			it.OrderNumber, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "orderNumber_not":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber_not"))
+			it.OrderNumberNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "orderNumber_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber_contains"))
+			it.OrderNumberContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "orderNumber_not_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber_not_contains"))
+			it.OrderNumberNotContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "orderNumber_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber_starts_with"))
+			it.OrderNumberStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "orderNumber_not_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber_not_starts_with"))
+			it.OrderNumberNotStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "orderNumber_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber_ends_with"))
+			it.OrderNumberEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "orderNumber_not_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber_not_ends_with"))
+			it.OrderNumberNotEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "orderNumber_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber_i"))
+			it.OrderNumberI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "orderNumber_not_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber_not_i"))
+			it.OrderNumberNotI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "orderNumber_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber_contains_i"))
+			it.OrderNumberContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "orderNumber_not_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber_not_contains_i"))
+			it.OrderNumberNotContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "orderNumber_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber_starts_with_i"))
+			it.OrderNumberStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "orderNumber_not_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber_not_starts_with_i"))
+			it.OrderNumberNotStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "orderNumber_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber_ends_with_i"))
+			it.OrderNumberEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "orderNumber_not_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber_not_ends_with_i"))
+			it.OrderNumberNotEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "orderNumber_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber_in"))
+			it.OrderNumberIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "orderNumber_not_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber_not_in"))
+			it.OrderNumberNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "paymentMethod":
 			var err error
 
@@ -29919,51 +34521,51 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			if err != nil {
 				return it, err
 			}
-		case "applepayPayment_every":
+		case "appStorePayment_every":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("applepayPayment_every"))
-			it.ApplepayPaymentEvery, err = ec.unmarshalOapplepayPaymentWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentWhereInput(ctx, v)
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("appStorePayment_every"))
+			it.AppStorePaymentEvery, err = ec.unmarshalOappStorePaymentWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAppStorePaymentWhereInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
-		case "applepayPayment_some":
+		case "appStorePayment_some":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("applepayPayment_some"))
-			it.ApplepayPaymentSome, err = ec.unmarshalOapplepayPaymentWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentWhereInput(ctx, v)
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("appStorePayment_some"))
+			it.AppStorePaymentSome, err = ec.unmarshalOappStorePaymentWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAppStorePaymentWhereInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
-		case "applepayPayment_none":
+		case "appStorePayment_none":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("applepayPayment_none"))
-			it.ApplepayPaymentNone, err = ec.unmarshalOapplepayPaymentWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentWhereInput(ctx, v)
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("appStorePayment_none"))
+			it.AppStorePaymentNone, err = ec.unmarshalOappStorePaymentWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAppStorePaymentWhereInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
-		case "androidpayPayment_every":
+		case "googlePlayPayment_every":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("androidpayPayment_every"))
-			it.AndroidpayPaymentEvery, err = ec.unmarshalOandroidpayPaymentWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentWhereInput(ctx, v)
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPayment_every"))
+			it.GooglePlayPaymentEvery, err = ec.unmarshalOgooglePlayPaymentWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentWhereInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
-		case "androidpayPayment_some":
+		case "googlePlayPayment_some":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("androidpayPayment_some"))
-			it.AndroidpayPaymentSome, err = ec.unmarshalOandroidpayPaymentWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentWhereInput(ctx, v)
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPayment_some"))
+			it.GooglePlayPaymentSome, err = ec.unmarshalOgooglePlayPaymentWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentWhereInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
-		case "androidpayPayment_none":
+		case "googlePlayPayment_none":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("androidpayPayment_none"))
-			it.AndroidpayPaymentNone, err = ec.unmarshalOandroidpayPaymentWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentWhereInput(ctx, v)
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPayment_none"))
+			it.GooglePlayPaymentNone, err = ec.unmarshalOgooglePlayPaymentWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentWhereInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -30527,150 +35129,6 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			if err != nil {
 				return it, err
 			}
-		case "orderNumber":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber"))
-			it.OrderNumber, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "orderNumber_not":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber_not"))
-			it.OrderNumberNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "orderNumber_contains":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber_contains"))
-			it.OrderNumberContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "orderNumber_not_contains":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber_not_contains"))
-			it.OrderNumberNotContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "orderNumber_starts_with":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber_starts_with"))
-			it.OrderNumberStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "orderNumber_not_starts_with":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber_not_starts_with"))
-			it.OrderNumberNotStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "orderNumber_ends_with":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber_ends_with"))
-			it.OrderNumberEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "orderNumber_not_ends_with":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber_not_ends_with"))
-			it.OrderNumberNotEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "orderNumber_i":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber_i"))
-			it.OrderNumberI, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "orderNumber_not_i":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber_not_i"))
-			it.OrderNumberNotI, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "orderNumber_contains_i":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber_contains_i"))
-			it.OrderNumberContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "orderNumber_not_contains_i":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber_not_contains_i"))
-			it.OrderNumberNotContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "orderNumber_starts_with_i":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber_starts_with_i"))
-			it.OrderNumberStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "orderNumber_not_starts_with_i":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber_not_starts_with_i"))
-			it.OrderNumberNotStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "orderNumber_ends_with_i":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber_ends_with_i"))
-			it.OrderNumberEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "orderNumber_not_ends_with_i":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber_not_ends_with_i"))
-			it.OrderNumberNotEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "orderNumber_in":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber_in"))
-			it.OrderNumberIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "orderNumber_not_in":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber_not_in"))
-			it.OrderNumberNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "isActive":
 			var err error
 
@@ -31212,6 +35670,678 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("changePlanDatetime_not_in"))
 			it.ChangePlanDatetimeNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayStatus":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayStatus"))
+			it.GooglePlayStatus, err = ec.unmarshalOsubscriptionGooglePlayStatusType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionGooglePlayStatusType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayStatus_not":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayStatus_not"))
+			it.GooglePlayStatusNot, err = ec.unmarshalOsubscriptionGooglePlayStatusType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionGooglePlayStatusType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayStatus_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayStatus_in"))
+			it.GooglePlayStatusIn, err = ec.unmarshalOsubscriptionGooglePlayStatusType2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionGooglePlayStatusType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayStatus_not_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayStatus_not_in"))
+			it.GooglePlayStatusNotIn, err = ec.unmarshalOsubscriptionGooglePlayStatusType2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionGooglePlayStatusType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPurchaseToken":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPurchaseToken"))
+			it.GooglePlayPurchaseToken, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPurchaseToken_not":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPurchaseToken_not"))
+			it.GooglePlayPurchaseTokenNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPurchaseToken_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPurchaseToken_contains"))
+			it.GooglePlayPurchaseTokenContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPurchaseToken_not_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPurchaseToken_not_contains"))
+			it.GooglePlayPurchaseTokenNotContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPurchaseToken_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPurchaseToken_starts_with"))
+			it.GooglePlayPurchaseTokenStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPurchaseToken_not_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPurchaseToken_not_starts_with"))
+			it.GooglePlayPurchaseTokenNotStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPurchaseToken_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPurchaseToken_ends_with"))
+			it.GooglePlayPurchaseTokenEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPurchaseToken_not_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPurchaseToken_not_ends_with"))
+			it.GooglePlayPurchaseTokenNotEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPurchaseToken_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPurchaseToken_i"))
+			it.GooglePlayPurchaseTokenI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPurchaseToken_not_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPurchaseToken_not_i"))
+			it.GooglePlayPurchaseTokenNotI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPurchaseToken_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPurchaseToken_contains_i"))
+			it.GooglePlayPurchaseTokenContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPurchaseToken_not_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPurchaseToken_not_contains_i"))
+			it.GooglePlayPurchaseTokenNotContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPurchaseToken_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPurchaseToken_starts_with_i"))
+			it.GooglePlayPurchaseTokenStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPurchaseToken_not_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPurchaseToken_not_starts_with_i"))
+			it.GooglePlayPurchaseTokenNotStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPurchaseToken_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPurchaseToken_ends_with_i"))
+			it.GooglePlayPurchaseTokenEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPurchaseToken_not_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPurchaseToken_not_ends_with_i"))
+			it.GooglePlayPurchaseTokenNotEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPurchaseToken_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPurchaseToken_in"))
+			it.GooglePlayPurchaseTokenIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPurchaseToken_not_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPurchaseToken_not_in"))
+			it.GooglePlayPurchaseTokenNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayNotificationEventDatetime":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayNotificationEventDatetime"))
+			it.GooglePlayNotificationEventDatetime, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayNotificationEventDatetime_not":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayNotificationEventDatetime_not"))
+			it.GooglePlayNotificationEventDatetimeNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayNotificationEventDatetime_lt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayNotificationEventDatetime_lt"))
+			it.GooglePlayNotificationEventDatetimeLt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayNotificationEventDatetime_lte":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayNotificationEventDatetime_lte"))
+			it.GooglePlayNotificationEventDatetimeLte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayNotificationEventDatetime_gt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayNotificationEventDatetime_gt"))
+			it.GooglePlayNotificationEventDatetimeGt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayNotificationEventDatetime_gte":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayNotificationEventDatetime_gte"))
+			it.GooglePlayNotificationEventDatetimeGte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayNotificationEventDatetime_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayNotificationEventDatetime_in"))
+			it.GooglePlayNotificationEventDatetimeIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayNotificationEventDatetime_not_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayNotificationEventDatetime_not_in"))
+			it.GooglePlayNotificationEventDatetimeNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPackageName":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPackageName"))
+			it.GooglePlayPackageName, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPackageName_not":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPackageName_not"))
+			it.GooglePlayPackageNameNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPackageName_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPackageName_contains"))
+			it.GooglePlayPackageNameContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPackageName_not_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPackageName_not_contains"))
+			it.GooglePlayPackageNameNotContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPackageName_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPackageName_starts_with"))
+			it.GooglePlayPackageNameStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPackageName_not_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPackageName_not_starts_with"))
+			it.GooglePlayPackageNameNotStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPackageName_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPackageName_ends_with"))
+			it.GooglePlayPackageNameEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPackageName_not_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPackageName_not_ends_with"))
+			it.GooglePlayPackageNameNotEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPackageName_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPackageName_i"))
+			it.GooglePlayPackageNameI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPackageName_not_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPackageName_not_i"))
+			it.GooglePlayPackageNameNotI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPackageName_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPackageName_contains_i"))
+			it.GooglePlayPackageNameContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPackageName_not_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPackageName_not_contains_i"))
+			it.GooglePlayPackageNameNotContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPackageName_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPackageName_starts_with_i"))
+			it.GooglePlayPackageNameStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPackageName_not_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPackageName_not_starts_with_i"))
+			it.GooglePlayPackageNameNotStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPackageName_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPackageName_ends_with_i"))
+			it.GooglePlayPackageNameEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPackageName_not_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPackageName_not_ends_with_i"))
+			it.GooglePlayPackageNameNotEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPackageName_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPackageName_in"))
+			it.GooglePlayPackageNameIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPackageName_not_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPackageName_not_in"))
+			it.GooglePlayPackageNameNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "cancelReason":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cancelReason"))
+			it.CancelReason, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "cancelReason_not":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cancelReason_not"))
+			it.CancelReasonNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "cancelReason_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cancelReason_contains"))
+			it.CancelReasonContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "cancelReason_not_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cancelReason_not_contains"))
+			it.CancelReasonNotContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "cancelReason_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cancelReason_starts_with"))
+			it.CancelReasonStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "cancelReason_not_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cancelReason_not_starts_with"))
+			it.CancelReasonNotStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "cancelReason_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cancelReason_ends_with"))
+			it.CancelReasonEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "cancelReason_not_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cancelReason_not_ends_with"))
+			it.CancelReasonNotEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "cancelReason_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cancelReason_i"))
+			it.CancelReasonI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "cancelReason_not_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cancelReason_not_i"))
+			it.CancelReasonNotI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "cancelReason_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cancelReason_contains_i"))
+			it.CancelReasonContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "cancelReason_not_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cancelReason_not_contains_i"))
+			it.CancelReasonNotContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "cancelReason_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cancelReason_starts_with_i"))
+			it.CancelReasonStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "cancelReason_not_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cancelReason_not_starts_with_i"))
+			it.CancelReasonNotStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "cancelReason_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cancelReason_ends_with_i"))
+			it.CancelReasonEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "cancelReason_not_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cancelReason_not_ends_with_i"))
+			it.CancelReasonNotEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "cancelReason_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cancelReason_in"))
+			it.CancelReasonIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "cancelReason_not_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cancelReason_not_in"))
+			it.CancelReasonNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "refundNote":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("refundNote"))
+			it.RefundNote, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "refundNote_not":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("refundNote_not"))
+			it.RefundNoteNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "refundNote_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("refundNote_contains"))
+			it.RefundNoteContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "refundNote_not_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("refundNote_not_contains"))
+			it.RefundNoteNotContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "refundNote_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("refundNote_starts_with"))
+			it.RefundNoteStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "refundNote_not_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("refundNote_not_starts_with"))
+			it.RefundNoteNotStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "refundNote_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("refundNote_ends_with"))
+			it.RefundNoteEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "refundNote_not_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("refundNote_not_ends_with"))
+			it.RefundNoteNotEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "refundNote_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("refundNote_i"))
+			it.RefundNoteI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "refundNote_not_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("refundNote_not_i"))
+			it.RefundNoteNotI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "refundNote_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("refundNote_contains_i"))
+			it.RefundNoteContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "refundNote_not_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("refundNote_not_contains_i"))
+			it.RefundNoteNotContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "refundNote_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("refundNote_starts_with_i"))
+			it.RefundNoteStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "refundNote_not_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("refundNote_not_starts_with_i"))
+			it.RefundNoteNotStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "refundNote_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("refundNote_ends_with_i"))
+			it.RefundNoteEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "refundNote_not_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("refundNote_not_ends_with_i"))
+			it.RefundNoteNotEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "refundNote_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("refundNote_in"))
+			it.RefundNoteIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "refundNote_not_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("refundNote_not_in"))
+			it.RefundNoteNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -32271,6 +37401,150 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereInput(ctx context.Con
 			if err != nil {
 				return it, err
 			}
+		case "aaplOriginalTransactionId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("aaplOriginalTransactionId"))
+			it.AaplOriginalTransactionID, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "aaplOriginalTransactionId_not":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("aaplOriginalTransactionId_not"))
+			it.AaplOriginalTransactionIDNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "aaplOriginalTransactionId_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("aaplOriginalTransactionId_contains"))
+			it.AaplOriginalTransactionIDContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "aaplOriginalTransactionId_not_contains":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("aaplOriginalTransactionId_not_contains"))
+			it.AaplOriginalTransactionIDNotContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "aaplOriginalTransactionId_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("aaplOriginalTransactionId_starts_with"))
+			it.AaplOriginalTransactionIDStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "aaplOriginalTransactionId_not_starts_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("aaplOriginalTransactionId_not_starts_with"))
+			it.AaplOriginalTransactionIDNotStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "aaplOriginalTransactionId_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("aaplOriginalTransactionId_ends_with"))
+			it.AaplOriginalTransactionIDEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "aaplOriginalTransactionId_not_ends_with":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("aaplOriginalTransactionId_not_ends_with"))
+			it.AaplOriginalTransactionIDNotEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "aaplOriginalTransactionId_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("aaplOriginalTransactionId_i"))
+			it.AaplOriginalTransactionIDI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "aaplOriginalTransactionId_not_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("aaplOriginalTransactionId_not_i"))
+			it.AaplOriginalTransactionIDNotI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "aaplOriginalTransactionId_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("aaplOriginalTransactionId_contains_i"))
+			it.AaplOriginalTransactionIDContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "aaplOriginalTransactionId_not_contains_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("aaplOriginalTransactionId_not_contains_i"))
+			it.AaplOriginalTransactionIDNotContainsI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "aaplOriginalTransactionId_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("aaplOriginalTransactionId_starts_with_i"))
+			it.AaplOriginalTransactionIDStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "aaplOriginalTransactionId_not_starts_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("aaplOriginalTransactionId_not_starts_with_i"))
+			it.AaplOriginalTransactionIDNotStartsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "aaplOriginalTransactionId_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("aaplOriginalTransactionId_ends_with_i"))
+			it.AaplOriginalTransactionIDEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "aaplOriginalTransactionId_not_ends_with_i":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("aaplOriginalTransactionId_not_ends_with_i"))
+			it.AaplOriginalTransactionIDNotEndsWithI, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "aaplOriginalTransactionId_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("aaplOriginalTransactionId_in"))
+			it.AaplOriginalTransactionIDIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "aaplOriginalTransactionId_not_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("aaplOriginalTransactionId_not_in"))
+			it.AaplOriginalTransactionIDNotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "createdAt":
 			var err error
 
@@ -32443,6 +37717,22 @@ func (ec *executionContext) unmarshalInputsubscriptionWhereUniqueInput(ctx conte
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("orderNumber"))
 			it.OrderNumber, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googlePlayPurchaseToken":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googlePlayPurchaseToken"))
+			it.GooglePlayPurchaseToken, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "aaplOriginalTransactionId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("aaplOriginalTransactionId"))
+			it.AaplOriginalTransactionID, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -32774,30 +38064,44 @@ func (ec *executionContext) ___Type(ctx context.Context, sel ast.SelectionSet, o
 	return out
 }
 
-var androidpayPaymentImplementors = []string{"androidpayPayment"}
+var appStorePaymentImplementors = []string{"appStorePayment"}
 
-func (ec *executionContext) _androidpayPayment(ctx context.Context, sel ast.SelectionSet, obj *model.AndroidpayPayment) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, androidpayPaymentImplementors)
+func (ec *executionContext) _appStorePayment(ctx context.Context, sel ast.SelectionSet, obj *model.AppStorePayment) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, appStorePaymentImplementors)
 
 	out := graphql.NewFieldSet(fields)
 	var invalids uint32
 	for i, field := range fields {
 		switch field.Name {
 		case "__typename":
-			out.Values[i] = graphql.MarshalString("androidpayPayment")
+			out.Values[i] = graphql.MarshalString("appStorePayment")
 		case "id":
-			out.Values[i] = ec._androidpayPayment_id(ctx, field, obj)
+			out.Values[i] = ec._appStorePayment_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
 		case "subscription":
-			out.Values[i] = ec._androidpayPayment_subscription(ctx, field, obj)
-		case "invoice":
-			out.Values[i] = ec._androidpayPayment_invoice(ctx, field, obj)
+			out.Values[i] = ec._appStorePayment_subscription(ctx, field, obj)
+		case "amount":
+			out.Values[i] = ec._appStorePayment_amount(ctx, field, obj)
+		case "purchaseDate":
+			out.Values[i] = ec._appStorePayment_purchaseDate(ctx, field, obj)
+		case "originalPurchaseDate":
+			out.Values[i] = ec._appStorePayment_originalPurchaseDate(ctx, field, obj)
+		case "expiryDate":
+			out.Values[i] = ec._appStorePayment_expiryDate(ctx, field, obj)
+		case "frequency":
+			out.Values[i] = ec._appStorePayment_frequency(ctx, field, obj)
+		case "productId":
+			out.Values[i] = ec._appStorePayment_productId(ctx, field, obj)
+		case "originalTransactionId":
+			out.Values[i] = ec._appStorePayment_originalTransactionId(ctx, field, obj)
+		case "transactionId":
+			out.Values[i] = ec._appStorePayment_transactionId(ctx, field, obj)
 		case "createdAt":
-			out.Values[i] = ec._androidpayPayment_createdAt(ctx, field, obj)
+			out.Values[i] = ec._appStorePayment_createdAt(ctx, field, obj)
 		case "updatedAt":
-			out.Values[i] = ec._androidpayPayment_updatedAt(ctx, field, obj)
+			out.Values[i] = ec._appStorePayment_updatedAt(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -32809,30 +38113,87 @@ func (ec *executionContext) _androidpayPayment(ctx context.Context, sel ast.Sele
 	return out
 }
 
-var applepayPaymentImplementors = []string{"applepayPayment"}
+var googlePlayPaymentImplementors = []string{"googlePlayPayment"}
 
-func (ec *executionContext) _applepayPayment(ctx context.Context, sel ast.SelectionSet, obj *model.ApplepayPayment) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, applepayPaymentImplementors)
+func (ec *executionContext) _googlePlayPayment(ctx context.Context, sel ast.SelectionSet, obj *model.GooglePlayPayment) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, googlePlayPaymentImplementors)
 
 	out := graphql.NewFieldSet(fields)
 	var invalids uint32
 	for i, field := range fields {
 		switch field.Name {
 		case "__typename":
-			out.Values[i] = graphql.MarshalString("applepayPayment")
+			out.Values[i] = graphql.MarshalString("googlePlayPayment")
 		case "id":
-			out.Values[i] = ec._applepayPayment_id(ctx, field, obj)
+			out.Values[i] = ec._googlePlayPayment_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
 		case "subscription":
-			out.Values[i] = ec._applepayPayment_subscription(ctx, field, obj)
-		case "invoice":
-			out.Values[i] = ec._applepayPayment_invoice(ctx, field, obj)
+			out.Values[i] = ec._googlePlayPayment_subscription(ctx, field, obj)
+		case "orderId":
+			out.Values[i] = ec._googlePlayPayment_orderId(ctx, field, obj)
+		case "transactionDatetime":
+			out.Values[i] = ec._googlePlayPayment_transactionDatetime(ctx, field, obj)
+		case "amount":
+			out.Values[i] = ec._googlePlayPayment_amount(ctx, field, obj)
+		case "currency":
+			out.Values[i] = ec._googlePlayPayment_currency(ctx, field, obj)
 		case "createdAt":
-			out.Values[i] = ec._applepayPayment_createdAt(ctx, field, obj)
+			out.Values[i] = ec._googlePlayPayment_createdAt(ctx, field, obj)
 		case "updatedAt":
-			out.Values[i] = ec._applepayPayment_updatedAt(ctx, field, obj)
+			out.Values[i] = ec._googlePlayPayment_updatedAt(ctx, field, obj)
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var groupImplementors = []string{"group"}
+
+func (ec *executionContext) _group(ctx context.Context, sel ast.SelectionSet, obj *model.Group) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, groupImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("group")
+		case "id":
+			out.Values[i] = ec._group_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "company":
+			out.Values[i] = ec._group_company(ctx, field, obj)
+		case "taxIdNumber":
+			out.Values[i] = ec._group_taxIdNumber(ctx, field, obj)
+		case "member":
+			out.Values[i] = ec._group_member(ctx, field, obj)
+		case "memberCount":
+			out.Values[i] = ec._group_memberCount(ctx, field, obj)
+		case "startDate":
+			out.Values[i] = ec._group_startDate(ctx, field, obj)
+		case "endDate":
+			out.Values[i] = ec._group_endDate(ctx, field, obj)
+		case "requesterEmail":
+			out.Values[i] = ec._group_requesterEmail(ctx, field, obj)
+		case "approvedBy":
+			out.Values[i] = ec._group_approvedBy(ctx, field, obj)
+		case "note":
+			out.Values[i] = ec._group_note(ctx, field, obj)
+		case "invoice":
+			out.Values[i] = ec._group_invoice(ctx, field, obj)
+		case "createdAt":
+			out.Values[i] = ec._group_createdAt(ctx, field, obj)
+		case "updatedAt":
+			out.Values[i] = ec._group_updatedAt(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -32862,10 +38223,6 @@ func (ec *executionContext) _invoice(ctx context.Context, sel ast.SelectionSet, 
 			}
 		case "newebpayPayment":
 			out.Values[i] = ec._invoice_newebpayPayment(ctx, field, obj)
-		case "applepayPayment":
-			out.Values[i] = ec._invoice_applepayPayment(ctx, field, obj)
-		case "androidpayPayment":
-			out.Values[i] = ec._invoice_androidpayPayment(ctx, field, obj)
 		case "amount":
 			out.Values[i] = ec._invoice_amount(ctx, field, obj)
 		case "email":
@@ -32968,6 +38325,8 @@ func (ec *executionContext) _member(ctx context.Context, sel ast.SelectionSet, o
 			out.Values[i] = ec._member_email(ctx, field, obj)
 		case "marketingMembership":
 			out.Values[i] = ec._member_marketingMembership(ctx, field, obj)
+		case "group":
+			out.Values[i] = ec._member_group(ctx, field, obj)
 		case "type":
 			out.Values[i] = ec._member_type(ctx, field, obj)
 		case "state":
@@ -33300,20 +38659,22 @@ func (ec *executionContext) _subscription(ctx context.Context, sel ast.Selection
 			}
 		case "member":
 			out.Values[i] = ec._subscription_member(ctx, field, obj)
+		case "orderNumber":
+			out.Values[i] = ec._subscription_orderNumber(ctx, field, obj)
 		case "paymentMethod":
 			out.Values[i] = ec._subscription_paymentMethod(ctx, field, obj)
 		case "newebpayPayment":
 			out.Values[i] = ec._subscription_newebpayPayment(ctx, field, obj)
 		case "newebpayPaymentCount":
 			out.Values[i] = ec._subscription_newebpayPaymentCount(ctx, field, obj)
-		case "applepayPayment":
-			out.Values[i] = ec._subscription_applepayPayment(ctx, field, obj)
-		case "applepayPaymentCount":
-			out.Values[i] = ec._subscription_applepayPaymentCount(ctx, field, obj)
-		case "androidpayPayment":
-			out.Values[i] = ec._subscription_androidpayPayment(ctx, field, obj)
-		case "androidpayPaymentCount":
-			out.Values[i] = ec._subscription_androidpayPaymentCount(ctx, field, obj)
+		case "appStorePayment":
+			out.Values[i] = ec._subscription_appStorePayment(ctx, field, obj)
+		case "appStorePaymentCount":
+			out.Values[i] = ec._subscription_appStorePaymentCount(ctx, field, obj)
+		case "googlePlayPayment":
+			out.Values[i] = ec._subscription_googlePlayPayment(ctx, field, obj)
+		case "googlePlayPaymentCount":
+			out.Values[i] = ec._subscription_googlePlayPaymentCount(ctx, field, obj)
 		case "status":
 			out.Values[i] = ec._subscription_status(ctx, field, obj)
 		case "amount":
@@ -33326,8 +38687,6 @@ func (ec *executionContext) _subscription(ctx context.Context, sel ast.Selection
 			out.Values[i] = ec._subscription_comment(ctx, field, obj)
 		case "email":
 			out.Values[i] = ec._subscription_email(ctx, field, obj)
-		case "orderNumber":
-			out.Values[i] = ec._subscription_orderNumber(ctx, field, obj)
 		case "isActive":
 			out.Values[i] = ec._subscription_isActive(ctx, field, obj)
 		case "isCanceled":
@@ -33348,10 +38707,20 @@ func (ec *executionContext) _subscription(ctx context.Context, sel ast.Selection
 			out.Values[i] = ec._subscription_periodFirstDatetime(ctx, field, obj)
 		case "periodEndDatetime":
 			out.Values[i] = ec._subscription_periodEndDatetime(ctx, field, obj)
-		case "googlePlayPurchaseToken":
-			out.Values[i] = ec._subscription_googlePlayPurchaseToken(ctx, field, obj)
 		case "changePlanDatetime":
 			out.Values[i] = ec._subscription_changePlanDatetime(ctx, field, obj)
+		case "googlePlayStatus":
+			out.Values[i] = ec._subscription_googlePlayStatus(ctx, field, obj)
+		case "googlePlayPurchaseToken":
+			out.Values[i] = ec._subscription_googlePlayPurchaseToken(ctx, field, obj)
+		case "googlePlayNotificationEventDatetime":
+			out.Values[i] = ec._subscription_googlePlayNotificationEventDatetime(ctx, field, obj)
+		case "googlePlayPackageName":
+			out.Values[i] = ec._subscription_googlePlayPackageName(ctx, field, obj)
+		case "cancelReason":
+			out.Values[i] = ec._subscription_cancelReason(ctx, field, obj)
+		case "refundNote":
+			out.Values[i] = ec._subscription_refundNote(ctx, field, obj)
 		case "note":
 			out.Values[i] = ec._subscription_note(ctx, field, obj)
 		case "promoteId":
@@ -33376,6 +38745,10 @@ func (ec *executionContext) _subscription(ctx context.Context, sel ast.Selection
 			out.Values[i] = ec._subscription_buyerName(ctx, field, obj)
 		case "buyerUBN":
 			out.Values[i] = ec._subscription_buyerUBN(ctx, field, obj)
+		case "printFlag":
+			out.Values[i] = ec._subscription_printFlag(ctx, field, obj)
+		case "aaplOriginalTransactionId":
+			out.Values[i] = ec._subscription_aaplOriginalTransactionId(ctx, field, obj)
 		case "createdAt":
 			out.Values[i] = ec._subscription_createdAt(ctx, field, obj)
 		case "updatedAt":
@@ -33928,17 +39301,17 @@ func (ec *executionContext) marshalN__TypeKind2string(ctx context.Context, sel a
 	return res
 }
 
-func (ec *executionContext) marshalNandroidpayPayment2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPayment(ctx context.Context, sel ast.SelectionSet, v *model.AndroidpayPayment) graphql.Marshaler {
+func (ec *executionContext) marshalNappStorePayment2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAppStorePayment(ctx context.Context, sel ast.SelectionSet, v *model.AppStorePayment) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
 		}
 		return graphql.Null
 	}
-	return ec._androidpayPayment(ctx, sel, v)
+	return ec._appStorePayment(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNandroidpayPaymentOrderByInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentOrderByInputᚄ(ctx context.Context, v interface{}) ([]*model.AndroidpayPaymentOrderByInput, error) {
+func (ec *executionContext) unmarshalNappStorePaymentOrderByInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAppStorePaymentOrderByInputᚄ(ctx context.Context, v interface{}) ([]*model.AppStorePaymentOrderByInput, error) {
 	var vSlice []interface{}
 	if v != nil {
 		if tmp1, ok := v.([]interface{}); ok {
@@ -33948,10 +39321,10 @@ func (ec *executionContext) unmarshalNandroidpayPaymentOrderByInput2ᚕᚖgithub
 		}
 	}
 	var err error
-	res := make([]*model.AndroidpayPaymentOrderByInput, len(vSlice))
+	res := make([]*model.AppStorePaymentOrderByInput, len(vSlice))
 	for i := range vSlice {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
-		res[i], err = ec.unmarshalNandroidpayPaymentOrderByInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentOrderByInput(ctx, vSlice[i])
+		res[i], err = ec.unmarshalNappStorePaymentOrderByInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAppStorePaymentOrderByInput(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
 		}
@@ -33959,64 +39332,18 @@ func (ec *executionContext) unmarshalNandroidpayPaymentOrderByInput2ᚕᚖgithub
 	return res, nil
 }
 
-func (ec *executionContext) unmarshalNandroidpayPaymentOrderByInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentOrderByInput(ctx context.Context, v interface{}) (*model.AndroidpayPaymentOrderByInput, error) {
-	res, err := ec.unmarshalInputandroidpayPaymentOrderByInput(ctx, v)
+func (ec *executionContext) unmarshalNappStorePaymentOrderByInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAppStorePaymentOrderByInput(ctx context.Context, v interface{}) (*model.AppStorePaymentOrderByInput, error) {
+	res, err := ec.unmarshalInputappStorePaymentOrderByInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNandroidpayPaymentWhereInput2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentWhereInput(ctx context.Context, v interface{}) (model.AndroidpayPaymentWhereInput, error) {
-	res, err := ec.unmarshalInputandroidpayPaymentWhereInput(ctx, v)
+func (ec *executionContext) unmarshalNappStorePaymentWhereInput2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAppStorePaymentWhereInput(ctx context.Context, v interface{}) (model.AppStorePaymentWhereInput, error) {
+	res, err := ec.unmarshalInputappStorePaymentWhereInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNandroidpayPaymentWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentWhereInput(ctx context.Context, v interface{}) (*model.AndroidpayPaymentWhereInput, error) {
-	res, err := ec.unmarshalInputandroidpayPaymentWhereInput(ctx, v)
-	return &res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) marshalNapplepayPayment2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPayment(ctx context.Context, sel ast.SelectionSet, v *model.ApplepayPayment) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._applepayPayment(ctx, sel, v)
-}
-
-func (ec *executionContext) unmarshalNapplepayPaymentOrderByInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentOrderByInputᚄ(ctx context.Context, v interface{}) ([]*model.ApplepayPaymentOrderByInput, error) {
-	var vSlice []interface{}
-	if v != nil {
-		if tmp1, ok := v.([]interface{}); ok {
-			vSlice = tmp1
-		} else {
-			vSlice = []interface{}{v}
-		}
-	}
-	var err error
-	res := make([]*model.ApplepayPaymentOrderByInput, len(vSlice))
-	for i := range vSlice {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
-		res[i], err = ec.unmarshalNapplepayPaymentOrderByInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentOrderByInput(ctx, vSlice[i])
-		if err != nil {
-			return nil, err
-		}
-	}
-	return res, nil
-}
-
-func (ec *executionContext) unmarshalNapplepayPaymentOrderByInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentOrderByInput(ctx context.Context, v interface{}) (*model.ApplepayPaymentOrderByInput, error) {
-	res, err := ec.unmarshalInputapplepayPaymentOrderByInput(ctx, v)
-	return &res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) unmarshalNapplepayPaymentWhereInput2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentWhereInput(ctx context.Context, v interface{}) (model.ApplepayPaymentWhereInput, error) {
-	res, err := ec.unmarshalInputapplepayPaymentWhereInput(ctx, v)
-	return res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) unmarshalNapplepayPaymentWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentWhereInput(ctx context.Context, v interface{}) (*model.ApplepayPaymentWhereInput, error) {
-	res, err := ec.unmarshalInputapplepayPaymentWhereInput(ctx, v)
+func (ec *executionContext) unmarshalNappStorePaymentWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAppStorePaymentWhereInput(ctx context.Context, v interface{}) (*model.AppStorePaymentWhereInput, error) {
+	res, err := ec.unmarshalInputappStorePaymentWhereInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
@@ -34030,6 +39357,57 @@ func (ec *executionContext) marshalNcreateSubscriptionStatusType2githubᚗcomᚋ
 	return v
 }
 
+func (ec *executionContext) marshalNgooglePlayPayment2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPayment(ctx context.Context, sel ast.SelectionSet, v *model.GooglePlayPayment) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._googlePlayPayment(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNgooglePlayPaymentOrderByInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentOrderByInputᚄ(ctx context.Context, v interface{}) ([]*model.GooglePlayPaymentOrderByInput, error) {
+	var vSlice []interface{}
+	if v != nil {
+		if tmp1, ok := v.([]interface{}); ok {
+			vSlice = tmp1
+		} else {
+			vSlice = []interface{}{v}
+		}
+	}
+	var err error
+	res := make([]*model.GooglePlayPaymentOrderByInput, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNgooglePlayPaymentOrderByInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentOrderByInput(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) unmarshalNgooglePlayPaymentOrderByInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentOrderByInput(ctx context.Context, v interface{}) (*model.GooglePlayPaymentOrderByInput, error) {
+	res, err := ec.unmarshalInputgooglePlayPaymentOrderByInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNgooglePlayPaymentWhereInput2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentWhereInput(ctx context.Context, v interface{}) (model.GooglePlayPaymentWhereInput, error) {
+	res, err := ec.unmarshalInputgooglePlayPaymentWhereInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNgooglePlayPaymentWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentWhereInput(ctx context.Context, v interface{}) (*model.GooglePlayPaymentWhereInput, error) {
+	res, err := ec.unmarshalInputgooglePlayPaymentWhereInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNgroupWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGroupWhereInput(ctx context.Context, v interface{}) (*model.GroupWhereInput, error) {
+	res, err := ec.unmarshalInputgroupWhereInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) unmarshalNinvoiceWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐInvoiceWhereInput(ctx context.Context, v interface{}) (*model.InvoiceWhereInput, error) {
 	res, err := ec.unmarshalInputinvoiceWhereInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
@@ -34040,8 +39418,44 @@ func (ec *executionContext) unmarshalNmarketingMembershipWhereInput2ᚖgithubᚗ
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) marshalNmember2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMember(ctx context.Context, sel ast.SelectionSet, v *model.Member) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._member(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalNmemberCreateInput2map(ctx context.Context, v interface{}) (map[string]interface{}, error) {
 	return v.(map[string]interface{}), nil
+}
+
+func (ec *executionContext) unmarshalNmemberOrderByInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberOrderByInputᚄ(ctx context.Context, v interface{}) ([]*model.MemberOrderByInput, error) {
+	var vSlice []interface{}
+	if v != nil {
+		if tmp1, ok := v.([]interface{}); ok {
+			vSlice = tmp1
+		} else {
+			vSlice = []interface{}{v}
+		}
+	}
+	var err error
+	res := make([]*model.MemberOrderByInput, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNmemberOrderByInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberOrderByInput(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) unmarshalNmemberOrderByInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberOrderByInput(ctx context.Context, v interface{}) (*model.MemberOrderByInput, error) {
+	res, err := ec.unmarshalInputmemberOrderByInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalNmemberTypeType2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberTypeType(ctx context.Context, v interface{}) (model.MemberTypeType, error) {
@@ -34056,6 +39470,11 @@ func (ec *executionContext) marshalNmemberTypeType2githubᚗcomᚋmirrorᚑmedia
 
 func (ec *executionContext) unmarshalNmemberUpdateInput2map(ctx context.Context, v interface{}) (map[string]interface{}, error) {
 	return v.(map[string]interface{}), nil
+}
+
+func (ec *executionContext) unmarshalNmemberWhereInput2githubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberWhereInput(ctx context.Context, v interface{}) (model.MemberWhereInput, error) {
+	res, err := ec.unmarshalInputmemberWhereInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalNmerchandiseWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMerchandiseWhereInput(ctx context.Context, v interface{}) (*model.MerchandiseWhereInput, error) {
@@ -34708,7 +40127,7 @@ func (ec *executionContext) marshalO__Type2ᚖgithubᚗcomᚋ99designsᚋgqlgen�
 	return ec.___Type(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalOandroidpayPayment2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.AndroidpayPayment) graphql.Marshaler {
+func (ec *executionContext) marshalOappStorePayment2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAppStorePaymentᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.AppStorePayment) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
@@ -34735,7 +40154,7 @@ func (ec *executionContext) marshalOandroidpayPayment2ᚕᚖgithubᚗcomᚋmirro
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNandroidpayPayment2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPayment(ctx, sel, v[i])
+			ret[i] = ec.marshalNappStorePayment2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAppStorePayment(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -34755,14 +40174,7 @@ func (ec *executionContext) marshalOandroidpayPayment2ᚕᚖgithubᚗcomᚋmirro
 	return ret
 }
 
-func (ec *executionContext) marshalOandroidpayPayment2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPayment(ctx context.Context, sel ast.SelectionSet, v *model.AndroidpayPayment) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	return ec._androidpayPayment(ctx, sel, v)
-}
-
-func (ec *executionContext) unmarshalOandroidpayPaymentCreateInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentCreateInput(ctx context.Context, v interface{}) ([]*model.AndroidpayPaymentCreateInput, error) {
+func (ec *executionContext) unmarshalOappStorePaymentCreateInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAppStorePaymentCreateInput(ctx context.Context, v interface{}) ([]*model.AppStorePaymentCreateInput, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -34775,10 +40187,10 @@ func (ec *executionContext) unmarshalOandroidpayPaymentCreateInput2ᚕᚖgithub�
 		}
 	}
 	var err error
-	res := make([]*model.AndroidpayPaymentCreateInput, len(vSlice))
+	res := make([]*model.AppStorePaymentCreateInput, len(vSlice))
 	for i := range vSlice {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
-		res[i], err = ec.unmarshalOandroidpayPaymentCreateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentCreateInput(ctx, vSlice[i])
+		res[i], err = ec.unmarshalOappStorePaymentCreateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAppStorePaymentCreateInput(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
 		}
@@ -34786,39 +40198,31 @@ func (ec *executionContext) unmarshalOandroidpayPaymentCreateInput2ᚕᚖgithub�
 	return res, nil
 }
 
-func (ec *executionContext) unmarshalOandroidpayPaymentCreateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentCreateInput(ctx context.Context, v interface{}) (*model.AndroidpayPaymentCreateInput, error) {
+func (ec *executionContext) unmarshalOappStorePaymentCreateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAppStorePaymentCreateInput(ctx context.Context, v interface{}) (*model.AppStorePaymentCreateInput, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalInputandroidpayPaymentCreateInput(ctx, v)
+	res, err := ec.unmarshalInputappStorePaymentCreateInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalOandroidpayPaymentRelateToManyInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentRelateToManyInput(ctx context.Context, v interface{}) (*model.AndroidpayPaymentRelateToManyInput, error) {
+func (ec *executionContext) unmarshalOappStorePaymentRelateToManyInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAppStorePaymentRelateToManyInput(ctx context.Context, v interface{}) (*model.AppStorePaymentRelateToManyInput, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalInputandroidpayPaymentRelateToManyInput(ctx, v)
+	res, err := ec.unmarshalInputappStorePaymentRelateToManyInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalOandroidpayPaymentRelateToOneInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentRelateToOneInput(ctx context.Context, v interface{}) (*model.AndroidpayPaymentRelateToOneInput, error) {
+func (ec *executionContext) unmarshalOappStorePaymentUpdateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAppStorePaymentUpdateInput(ctx context.Context, v interface{}) (*model.AppStorePaymentUpdateInput, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalInputandroidpayPaymentRelateToOneInput(ctx, v)
+	res, err := ec.unmarshalInputappStorePaymentUpdateInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalOandroidpayPaymentUpdateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentUpdateInput(ctx context.Context, v interface{}) (*model.AndroidpayPaymentUpdateInput, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalInputandroidpayPaymentUpdateInput(ctx, v)
-	return &res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) unmarshalOandroidpayPaymentWhereInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentWhereInputᚄ(ctx context.Context, v interface{}) ([]*model.AndroidpayPaymentWhereInput, error) {
+func (ec *executionContext) unmarshalOappStorePaymentWhereInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAppStorePaymentWhereInputᚄ(ctx context.Context, v interface{}) ([]*model.AppStorePaymentWhereInput, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -34831,10 +40235,10 @@ func (ec *executionContext) unmarshalOandroidpayPaymentWhereInput2ᚕᚖgithub�
 		}
 	}
 	var err error
-	res := make([]*model.AndroidpayPaymentWhereInput, len(vSlice))
+	res := make([]*model.AppStorePaymentWhereInput, len(vSlice))
 	for i := range vSlice {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
-		res[i], err = ec.unmarshalNandroidpayPaymentWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentWhereInput(ctx, vSlice[i])
+		res[i], err = ec.unmarshalNappStorePaymentWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAppStorePaymentWhereInput(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
 		}
@@ -34842,15 +40246,15 @@ func (ec *executionContext) unmarshalOandroidpayPaymentWhereInput2ᚕᚖgithub�
 	return res, nil
 }
 
-func (ec *executionContext) unmarshalOandroidpayPaymentWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentWhereInput(ctx context.Context, v interface{}) (*model.AndroidpayPaymentWhereInput, error) {
+func (ec *executionContext) unmarshalOappStorePaymentWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAppStorePaymentWhereInput(ctx context.Context, v interface{}) (*model.AppStorePaymentWhereInput, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalInputandroidpayPaymentWhereInput(ctx, v)
+	res, err := ec.unmarshalInputappStorePaymentWhereInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalOandroidpayPaymentWhereUniqueInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentWhereUniqueInput(ctx context.Context, v interface{}) ([]*model.AndroidpayPaymentWhereUniqueInput, error) {
+func (ec *executionContext) unmarshalOappStorePaymentWhereUniqueInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAppStorePaymentWhereUniqueInput(ctx context.Context, v interface{}) ([]*model.AppStorePaymentWhereUniqueInput, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -34863,10 +40267,10 @@ func (ec *executionContext) unmarshalOandroidpayPaymentWhereUniqueInput2ᚕᚖgi
 		}
 	}
 	var err error
-	res := make([]*model.AndroidpayPaymentWhereUniqueInput, len(vSlice))
+	res := make([]*model.AppStorePaymentWhereUniqueInput, len(vSlice))
 	for i := range vSlice {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
-		res[i], err = ec.unmarshalOandroidpayPaymentWhereUniqueInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentWhereUniqueInput(ctx, vSlice[i])
+		res[i], err = ec.unmarshalOappStorePaymentWhereUniqueInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAppStorePaymentWhereUniqueInput(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
 		}
@@ -34874,15 +40278,15 @@ func (ec *executionContext) unmarshalOandroidpayPaymentWhereUniqueInput2ᚕᚖgi
 	return res, nil
 }
 
-func (ec *executionContext) unmarshalOandroidpayPaymentWhereUniqueInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAndroidpayPaymentWhereUniqueInput(ctx context.Context, v interface{}) (*model.AndroidpayPaymentWhereUniqueInput, error) {
+func (ec *executionContext) unmarshalOappStorePaymentWhereUniqueInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐAppStorePaymentWhereUniqueInput(ctx context.Context, v interface{}) (*model.AppStorePaymentWhereUniqueInput, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalInputandroidpayPaymentWhereUniqueInput(ctx, v)
+	res, err := ec.unmarshalInputappStorePaymentWhereUniqueInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalOapplepayPayment2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.ApplepayPayment) graphql.Marshaler {
+func (ec *executionContext) marshalOgooglePlayPayment2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.GooglePlayPayment) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
@@ -34909,7 +40313,7 @@ func (ec *executionContext) marshalOapplepayPayment2ᚕᚖgithubᚗcomᚋmirror�
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNapplepayPayment2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPayment(ctx, sel, v[i])
+			ret[i] = ec.marshalNgooglePlayPayment2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPayment(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -34929,14 +40333,136 @@ func (ec *executionContext) marshalOapplepayPayment2ᚕᚖgithubᚗcomᚋmirror�
 	return ret
 }
 
-func (ec *executionContext) marshalOapplepayPayment2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPayment(ctx context.Context, sel ast.SelectionSet, v *model.ApplepayPayment) graphql.Marshaler {
+func (ec *executionContext) unmarshalOgooglePlayPaymentCreateInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentCreateInput(ctx context.Context, v interface{}) ([]*model.GooglePlayPaymentCreateInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var vSlice []interface{}
+	if v != nil {
+		if tmp1, ok := v.([]interface{}); ok {
+			vSlice = tmp1
+		} else {
+			vSlice = []interface{}{v}
+		}
+	}
+	var err error
+	res := make([]*model.GooglePlayPaymentCreateInput, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalOgooglePlayPaymentCreateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentCreateInput(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) unmarshalOgooglePlayPaymentCreateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentCreateInput(ctx context.Context, v interface{}) (*model.GooglePlayPaymentCreateInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputgooglePlayPaymentCreateInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalOgooglePlayPaymentCurrencyType2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentCurrencyType(ctx context.Context, v interface{}) ([]*model.GooglePlayPaymentCurrencyType, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var vSlice []interface{}
+	if v != nil {
+		if tmp1, ok := v.([]interface{}); ok {
+			vSlice = tmp1
+		} else {
+			vSlice = []interface{}{v}
+		}
+	}
+	var err error
+	res := make([]*model.GooglePlayPaymentCurrencyType, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalOgooglePlayPaymentCurrencyType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentCurrencyType(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) marshalOgooglePlayPaymentCurrencyType2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentCurrencyType(ctx context.Context, sel ast.SelectionSet, v []*model.GooglePlayPaymentCurrencyType) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
-	return ec._applepayPayment(ctx, sel, v)
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalOgooglePlayPaymentCurrencyType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentCurrencyType(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	return ret
 }
 
-func (ec *executionContext) unmarshalOapplepayPaymentCreateInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentCreateInput(ctx context.Context, v interface{}) ([]*model.ApplepayPaymentCreateInput, error) {
+func (ec *executionContext) unmarshalOgooglePlayPaymentCurrencyType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentCurrencyType(ctx context.Context, v interface{}) (*model.GooglePlayPaymentCurrencyType, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var res = new(model.GooglePlayPaymentCurrencyType)
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalOgooglePlayPaymentCurrencyType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentCurrencyType(ctx context.Context, sel ast.SelectionSet, v *model.GooglePlayPaymentCurrencyType) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return v
+}
+
+func (ec *executionContext) unmarshalOgooglePlayPaymentRelateToManyInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentRelateToManyInput(ctx context.Context, v interface{}) (*model.GooglePlayPaymentRelateToManyInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputgooglePlayPaymentRelateToManyInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalOgooglePlayPaymentUpdateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentUpdateInput(ctx context.Context, v interface{}) (*model.GooglePlayPaymentUpdateInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputgooglePlayPaymentUpdateInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalOgooglePlayPaymentWhereInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentWhereInputᚄ(ctx context.Context, v interface{}) ([]*model.GooglePlayPaymentWhereInput, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -34949,10 +40475,10 @@ func (ec *executionContext) unmarshalOapplepayPaymentCreateInput2ᚕᚖgithubᚗ
 		}
 	}
 	var err error
-	res := make([]*model.ApplepayPaymentCreateInput, len(vSlice))
+	res := make([]*model.GooglePlayPaymentWhereInput, len(vSlice))
 	for i := range vSlice {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
-		res[i], err = ec.unmarshalOapplepayPaymentCreateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentCreateInput(ctx, vSlice[i])
+		res[i], err = ec.unmarshalNgooglePlayPaymentWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentWhereInput(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
 		}
@@ -34960,39 +40486,15 @@ func (ec *executionContext) unmarshalOapplepayPaymentCreateInput2ᚕᚖgithubᚗ
 	return res, nil
 }
 
-func (ec *executionContext) unmarshalOapplepayPaymentCreateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentCreateInput(ctx context.Context, v interface{}) (*model.ApplepayPaymentCreateInput, error) {
+func (ec *executionContext) unmarshalOgooglePlayPaymentWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentWhereInput(ctx context.Context, v interface{}) (*model.GooglePlayPaymentWhereInput, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalInputapplepayPaymentCreateInput(ctx, v)
+	res, err := ec.unmarshalInputgooglePlayPaymentWhereInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalOapplepayPaymentRelateToManyInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentRelateToManyInput(ctx context.Context, v interface{}) (*model.ApplepayPaymentRelateToManyInput, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalInputapplepayPaymentRelateToManyInput(ctx, v)
-	return &res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) unmarshalOapplepayPaymentRelateToOneInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentRelateToOneInput(ctx context.Context, v interface{}) (*model.ApplepayPaymentRelateToOneInput, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalInputapplepayPaymentRelateToOneInput(ctx, v)
-	return &res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) unmarshalOapplepayPaymentUpdateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentUpdateInput(ctx context.Context, v interface{}) (*model.ApplepayPaymentUpdateInput, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalInputapplepayPaymentUpdateInput(ctx, v)
-	return &res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) unmarshalOapplepayPaymentWhereInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentWhereInputᚄ(ctx context.Context, v interface{}) ([]*model.ApplepayPaymentWhereInput, error) {
+func (ec *executionContext) unmarshalOgooglePlayPaymentWhereUniqueInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentWhereUniqueInput(ctx context.Context, v interface{}) ([]*model.GooglePlayPaymentWhereUniqueInput, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -35005,10 +40507,10 @@ func (ec *executionContext) unmarshalOapplepayPaymentWhereInput2ᚕᚖgithubᚗc
 		}
 	}
 	var err error
-	res := make([]*model.ApplepayPaymentWhereInput, len(vSlice))
+	res := make([]*model.GooglePlayPaymentWhereUniqueInput, len(vSlice))
 	for i := range vSlice {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
-		res[i], err = ec.unmarshalNapplepayPaymentWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentWhereInput(ctx, vSlice[i])
+		res[i], err = ec.unmarshalOgooglePlayPaymentWhereUniqueInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentWhereUniqueInput(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
 		}
@@ -35016,15 +40518,22 @@ func (ec *executionContext) unmarshalOapplepayPaymentWhereInput2ᚕᚖgithubᚗc
 	return res, nil
 }
 
-func (ec *executionContext) unmarshalOapplepayPaymentWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentWhereInput(ctx context.Context, v interface{}) (*model.ApplepayPaymentWhereInput, error) {
+func (ec *executionContext) unmarshalOgooglePlayPaymentWhereUniqueInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGooglePlayPaymentWhereUniqueInput(ctx context.Context, v interface{}) (*model.GooglePlayPaymentWhereUniqueInput, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalInputapplepayPaymentWhereInput(ctx, v)
+	res, err := ec.unmarshalInputgooglePlayPaymentWhereUniqueInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalOapplepayPaymentWhereUniqueInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentWhereUniqueInput(ctx context.Context, v interface{}) ([]*model.ApplepayPaymentWhereUniqueInput, error) {
+func (ec *executionContext) marshalOgroup2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGroup(ctx context.Context, sel ast.SelectionSet, v *model.Group) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._group(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalOgroupWhereInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGroupWhereInputᚄ(ctx context.Context, v interface{}) ([]*model.GroupWhereInput, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -35037,23 +40546,15 @@ func (ec *executionContext) unmarshalOapplepayPaymentWhereUniqueInput2ᚕᚖgith
 		}
 	}
 	var err error
-	res := make([]*model.ApplepayPaymentWhereUniqueInput, len(vSlice))
+	res := make([]*model.GroupWhereInput, len(vSlice))
 	for i := range vSlice {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
-		res[i], err = ec.unmarshalOapplepayPaymentWhereUniqueInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentWhereUniqueInput(ctx, vSlice[i])
+		res[i], err = ec.unmarshalNgroupWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐGroupWhereInput(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
 		}
 	}
 	return res, nil
-}
-
-func (ec *executionContext) unmarshalOapplepayPaymentWhereUniqueInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐApplepayPaymentWhereUniqueInput(ctx context.Context, v interface{}) (*model.ApplepayPaymentWhereUniqueInput, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalInputapplepayPaymentWhereUniqueInput(ctx, v)
-	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalOinvoice2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐInvoice(ctx context.Context, sel ast.SelectionSet, v *model.Invoice) graphql.Marshaler {
@@ -35144,6 +40645,30 @@ func (ec *executionContext) marshalOinvoiceCategoryType2ᚖgithubᚗcomᚋmirror
 	return v
 }
 
+func (ec *executionContext) unmarshalOinvoiceCreateInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐInvoiceCreateInput(ctx context.Context, v interface{}) ([]*model.InvoiceCreateInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var vSlice []interface{}
+	if v != nil {
+		if tmp1, ok := v.([]interface{}); ok {
+			vSlice = tmp1
+		} else {
+			vSlice = []interface{}{v}
+		}
+	}
+	var err error
+	res := make([]*model.InvoiceCreateInput, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalOinvoiceCreateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐInvoiceCreateInput(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
 func (ec *executionContext) unmarshalOinvoiceCreateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐInvoiceCreateInput(ctx context.Context, v interface{}) (*model.InvoiceCreateInput, error) {
 	if v == nil {
 		return nil, nil
@@ -35152,11 +40677,11 @@ func (ec *executionContext) unmarshalOinvoiceCreateInput2ᚖgithubᚗcomᚋmirro
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalOinvoiceRelateToOneInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐInvoiceRelateToOneInput(ctx context.Context, v interface{}) (*model.InvoiceRelateToOneInput, error) {
+func (ec *executionContext) unmarshalOinvoiceRelateToManyInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐInvoiceRelateToManyInput(ctx context.Context, v interface{}) (*model.InvoiceRelateToManyInput, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalInputinvoiceRelateToOneInput(ctx, v)
+	res, err := ec.unmarshalInputinvoiceRelateToManyInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
@@ -35279,6 +40804,30 @@ func (ec *executionContext) unmarshalOinvoiceWhereInput2ᚖgithubᚗcomᚋmirror
 	}
 	res, err := ec.unmarshalInputinvoiceWhereInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalOinvoiceWhereUniqueInput2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐInvoiceWhereUniqueInput(ctx context.Context, v interface{}) ([]*model.InvoiceWhereUniqueInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var vSlice []interface{}
+	if v != nil {
+		if tmp1, ok := v.([]interface{}); ok {
+			vSlice = tmp1
+		} else {
+			vSlice = []interface{}{v}
+		}
+	}
+	var err error
+	res := make([]*model.InvoiceWhereUniqueInput, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalOinvoiceWhereUniqueInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐInvoiceWhereUniqueInput(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
 }
 
 func (ec *executionContext) unmarshalOinvoiceWhereUniqueInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐInvoiceWhereUniqueInput(ctx context.Context, v interface{}) (*model.InvoiceWhereUniqueInput, error) {
@@ -35433,6 +40982,53 @@ func (ec *executionContext) unmarshalOmarketingMembershipWhereUniqueInput2ᚖgit
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) marshalOmember2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMemberᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Member) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNmember2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMember(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
 func (ec *executionContext) marshalOmember2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMember(ctx context.Context, sel ast.SelectionSet, v *model.Member) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
@@ -35533,6 +41129,13 @@ func (ec *executionContext) unmarshalOmemberWhereUniqueInput2ᚖgithubᚗcomᚋm
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) marshalOmerchandise2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMerchandise(ctx context.Context, sel ast.SelectionSet, v *model.Merchandise) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._merchandise(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalOmerchandiseCreateInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMerchandiseCreateInput(ctx context.Context, v interface{}) (*model.MerchandiseCreateInput, error) {
 	if v == nil {
 		return nil, nil
@@ -35620,6 +41223,14 @@ func (ec *executionContext) marshalOmerchandiseCurrencyType2ᚖgithubᚗcomᚋmi
 		return graphql.Null
 	}
 	return v
+}
+
+func (ec *executionContext) unmarshalOmerchandiseRelateToOneInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMerchandiseRelateToOneInput(ctx context.Context, v interface{}) (*model.MerchandiseRelateToOneInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputmerchandiseRelateToOneInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalOmerchandiseStateType2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMerchandiseStateType(ctx context.Context, v interface{}) ([]*model.MerchandiseStateType, error) {
@@ -35733,6 +41344,22 @@ func (ec *executionContext) unmarshalOmerchandiseWhereInput2ᚕᚖgithubᚗcom�
 		}
 	}
 	return res, nil
+}
+
+func (ec *executionContext) unmarshalOmerchandiseWhereInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMerchandiseWhereInput(ctx context.Context, v interface{}) (*model.MerchandiseWhereInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputmerchandiseWhereInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalOmerchandiseWhereUniqueInput2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐMerchandiseWhereUniqueInput(ctx context.Context, v interface{}) (*model.MerchandiseWhereUniqueInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputmerchandiseWhereUniqueInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalOnewebpayPayment2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐNewebpayPaymentᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.NewebpayPayment) graphql.Marshaler {
@@ -36599,6 +42226,87 @@ func (ec *executionContext) marshalOsubscriptionFrequencyType2ᚖgithubᚗcomᚋ
 	return v
 }
 
+func (ec *executionContext) unmarshalOsubscriptionGooglePlayStatusType2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionGooglePlayStatusType(ctx context.Context, v interface{}) ([]*model.SubscriptionGooglePlayStatusType, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var vSlice []interface{}
+	if v != nil {
+		if tmp1, ok := v.([]interface{}); ok {
+			vSlice = tmp1
+		} else {
+			vSlice = []interface{}{v}
+		}
+	}
+	var err error
+	res := make([]*model.SubscriptionGooglePlayStatusType, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalOsubscriptionGooglePlayStatusType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionGooglePlayStatusType(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) marshalOsubscriptionGooglePlayStatusType2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionGooglePlayStatusType(ctx context.Context, sel ast.SelectionSet, v []*model.SubscriptionGooglePlayStatusType) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalOsubscriptionGooglePlayStatusType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionGooglePlayStatusType(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	return ret
+}
+
+func (ec *executionContext) unmarshalOsubscriptionGooglePlayStatusType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionGooglePlayStatusType(ctx context.Context, v interface{}) (*model.SubscriptionGooglePlayStatusType, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var res = new(model.SubscriptionGooglePlayStatusType)
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalOsubscriptionGooglePlayStatusType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionGooglePlayStatusType(ctx context.Context, sel ast.SelectionSet, v *model.SubscriptionGooglePlayStatusType) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return v
+}
+
 func (ec *executionContext) unmarshalOsubscriptionHistoryActionType2ᚕᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐSubscriptionHistoryActionType(ctx context.Context, v interface{}) ([]*model.SubscriptionHistoryActionType, error) {
 	if v == nil {
 		return nil, nil
@@ -37305,22 +43013,6 @@ func (ec *executionContext) unmarshalOsubscriptionWhereUniqueInput2ᚖgithubᚗc
 	}
 	res, err := ec.unmarshalInputsubscriptionWhereUniqueInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) unmarshalOupdateMemberStateType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐUpdateMemberStateType(ctx context.Context, v interface{}) (*model.UpdateMemberStateType, error) {
-	if v == nil {
-		return nil, nil
-	}
-	var res = new(model.UpdateMemberStateType)
-	err := res.UnmarshalGQL(v)
-	return res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) marshalOupdateMemberStateType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐUpdateMemberStateType(ctx context.Context, sel ast.SelectionSet, v *model.UpdateMemberStateType) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	return v
 }
 
 func (ec *executionContext) unmarshalOupdateSubscriptionNextFrequencyType2ᚖgithubᚗcomᚋmirrorᚑmediaᚋapigatewayᚋgraphᚋmemberᚋmodelᚐUpdateSubscriptionNextFrequencyType(ctx context.Context, v interface{}) (*model.UpdateSubscriptionNextFrequencyType, error) {

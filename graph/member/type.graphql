@@ -9,8 +9,6 @@ enum OrderDirection {
 type invoice {
   id: ID!
   newebpayPayment: newebpayPayment
-  applepayPayment: applepayPayment
-  androidpayPayment: androidpayPayment
   amount: Int
   email: String
   desc: String
@@ -50,10 +48,6 @@ input invoiceWhereInput {
   id_not_in: [ID!]
   newebpayPayment: newebpayPaymentWhereInput
   newebpayPayment_is_null: Boolean
-  applepayPayment: applepayPaymentWhereInput
-  applepayPayment_is_null: Boolean
-  androidpayPayment: androidpayPaymentWhereInput
-  androidpayPayment_is_null: Boolean
   amount: Int
   amount_not: Int
   amount_lt: Int
@@ -265,8 +259,6 @@ input invoiceOrderByInput {
 
 input invoiceUpdateInput {
   newebpayPayment: newebpayPaymentRelateToOneInput
-  applepayPayment: applepayPaymentRelateToOneInput
-  androidpayPayment: androidpayPaymentRelateToOneInput
   amount: Int
   email: String
   desc: String
@@ -289,20 +281,6 @@ input newebpayPaymentRelateToOneInput {
   disconnectAll: Boolean
 }
 
-input applepayPaymentRelateToOneInput {
-  create: applepayPaymentCreateInput
-  connect: applepayPaymentWhereUniqueInput
-  disconnect: applepayPaymentWhereUniqueInput
-  disconnectAll: Boolean
-}
-
-input androidpayPaymentRelateToOneInput {
-  create: androidpayPaymentCreateInput
-  connect: androidpayPaymentWhereUniqueInput
-  disconnect: androidpayPaymentWhereUniqueInput
-  disconnectAll: Boolean
-}
-
 input InvoicesUpdateInput {
   id: ID!
   data: invoiceUpdateInput
@@ -310,8 +288,6 @@ input InvoicesUpdateInput {
 
 input invoiceCreateInput {
   newebpayPayment: newebpayPaymentRelateToOneInput
-  applepayPayment: applepayPaymentRelateToOneInput
-  androidpayPayment: androidpayPaymentRelateToOneInput
   amount: Int
   email: String
   desc: String
@@ -336,6 +312,7 @@ type member {
   firebaseId: String
   email: String
   marketingMembership: marketingMembership
+  group: group
   type: memberTypeType
   state: memberStateType
   tos: Boolean
@@ -1148,8 +1125,9 @@ input newebpayPaymentWhereInput {
   id_not_in: [ID!]
   subscription: subscriptionWhereInput
   subscription_is_null: Boolean
-  invoice: invoiceWhereInput
-  invoice_is_null: Boolean
+  invoice_every: invoiceWhereInput
+  invoice_some: invoiceWhereInput
+  invoice_none: invoiceWhereInput
   amount: Int
   amount_not: Int
   amount_lt: Int
@@ -1505,7 +1483,7 @@ input newebpayPaymentOrderByInput {
 
 input newebpayPaymentUpdateInput {
   subscription: subscriptionRelateToOneInput
-  invoice: invoiceRelateToOneInput
+  invoice: invoiceRelateToManyInput
   amount: Int
   status: String
   paymentMethod: String
@@ -1527,10 +1505,10 @@ input newebpayPaymentUpdateInput {
   updatedAt: String
 }
 
-input invoiceRelateToOneInput {
-  create: invoiceCreateInput
-  connect: invoiceWhereUniqueInput
-  disconnect: invoiceWhereUniqueInput
+input invoiceRelateToManyInput {
+  create: [invoiceCreateInput]
+  connect: [invoiceWhereUniqueInput]
+  disconnect: [invoiceWhereUniqueInput]
   disconnectAll: Boolean
 }
 
@@ -1541,7 +1519,7 @@ input NewebpayPaymentsUpdateInput {
 
 input newebpayPaymentCreateInput {
   subscription: subscriptionRelateToOneInput
-  invoice: invoiceRelateToOneInput
+  invoice: invoiceRelateToManyInput
   amount: Int
   status: String
   paymentMethod: String
@@ -1567,17 +1545,24 @@ input NewebpayPaymentsCreateInput {
   data: newebpayPaymentCreateInput
 }
 
-type applepayPayment {
+type appStorePayment {
   id: ID!
   subscription: subscription
-  invoice: invoice
+  amount: Float
+  purchaseDate: String
+  originalPurchaseDate: String
+  expiryDate: String
+  frequency: merchandise
+  productId: String
+  originalTransactionId: String
+  transactionId: String
   createdAt: String
   updatedAt: String
 }
 
-input applepayPaymentWhereInput {
-  AND: [applepayPaymentWhereInput!]
-  OR: [applepayPaymentWhereInput!]
+input appStorePaymentWhereInput {
+  AND: [appStorePaymentWhereInput!]
+  OR: [appStorePaymentWhereInput!]
   id: ID
   id_not: ID
   id_lt: ID
@@ -1588,8 +1573,94 @@ input applepayPaymentWhereInput {
   id_not_in: [ID!]
   subscription: subscriptionWhereInput
   subscription_is_null: Boolean
-  invoice: invoiceWhereInput
-  invoice_is_null: Boolean
+  amount: Float
+  amount_not: Float
+  amount_lt: Float
+  amount_lte: Float
+  amount_gt: Float
+  amount_gte: Float
+  amount_in: [Float]
+  amount_not_in: [Float]
+  purchaseDate: String
+  purchaseDate_not: String
+  purchaseDate_lt: String
+  purchaseDate_lte: String
+  purchaseDate_gt: String
+  purchaseDate_gte: String
+  purchaseDate_in: [String]
+  purchaseDate_not_in: [String]
+  originalPurchaseDate: String
+  originalPurchaseDate_not: String
+  originalPurchaseDate_lt: String
+  originalPurchaseDate_lte: String
+  originalPurchaseDate_gt: String
+  originalPurchaseDate_gte: String
+  originalPurchaseDate_in: [String]
+  originalPurchaseDate_not_in: [String]
+  expiryDate: String
+  expiryDate_not: String
+  expiryDate_lt: String
+  expiryDate_lte: String
+  expiryDate_gt: String
+  expiryDate_gte: String
+  expiryDate_in: [String]
+  expiryDate_not_in: [String]
+  frequency: merchandiseWhereInput
+  frequency_is_null: Boolean
+  productId: String
+  productId_not: String
+  productId_contains: String
+  productId_not_contains: String
+  productId_starts_with: String
+  productId_not_starts_with: String
+  productId_ends_with: String
+  productId_not_ends_with: String
+  productId_i: String
+  productId_not_i: String
+  productId_contains_i: String
+  productId_not_contains_i: String
+  productId_starts_with_i: String
+  productId_not_starts_with_i: String
+  productId_ends_with_i: String
+  productId_not_ends_with_i: String
+  productId_in: [String]
+  productId_not_in: [String]
+  originalTransactionId: String
+  originalTransactionId_not: String
+  originalTransactionId_contains: String
+  originalTransactionId_not_contains: String
+  originalTransactionId_starts_with: String
+  originalTransactionId_not_starts_with: String
+  originalTransactionId_ends_with: String
+  originalTransactionId_not_ends_with: String
+  originalTransactionId_i: String
+  originalTransactionId_not_i: String
+  originalTransactionId_contains_i: String
+  originalTransactionId_not_contains_i: String
+  originalTransactionId_starts_with_i: String
+  originalTransactionId_not_starts_with_i: String
+  originalTransactionId_ends_with_i: String
+  originalTransactionId_not_ends_with_i: String
+  originalTransactionId_in: [String]
+  originalTransactionId_not_in: [String]
+  transactionId: String
+  transactionId_not: String
+  transactionId_contains: String
+  transactionId_not_contains: String
+  transactionId_starts_with: String
+  transactionId_not_starts_with: String
+  transactionId_ends_with: String
+  transactionId_not_ends_with: String
+  transactionId_i: String
+  transactionId_not_i: String
+  transactionId_contains_i: String
+  transactionId_not_contains_i: String
+  transactionId_starts_with_i: String
+  transactionId_not_starts_with_i: String
+  transactionId_ends_with_i: String
+  transactionId_not_ends_with_i: String
+  transactionId_in: [String]
+  transactionId_not_in: [String]
   createdAt: String
   createdAt_not: String
   createdAt_lt: String
@@ -1610,59 +1681,109 @@ input applepayPaymentWhereInput {
   updatedBy_is_null: Boolean
 }
 
-input applepayPaymentWhereUniqueInput {
+input appStorePaymentWhereUniqueInput {
   id: ID
+  transactionId: String
 }
 
-enum SortApplepayPaymentsBy {
+enum SortAppStorePaymentsBy {
   id_ASC
   id_DESC
+  amount_ASC
+  amount_DESC
+  purchaseDate_ASC
+  purchaseDate_DESC
+  originalPurchaseDate_ASC
+  originalPurchaseDate_DESC
+  expiryDate_ASC
+  expiryDate_DESC
+  productId_ASC
+  productId_DESC
+  originalTransactionId_ASC
+  originalTransactionId_DESC
+  transactionId_ASC
+  transactionId_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
   updatedAt_DESC
 }
 
-input applepayPaymentOrderByInput {
+input appStorePaymentOrderByInput {
   id: OrderDirection
+  amount: OrderDirection
+  purchaseDate: OrderDirection
+  originalPurchaseDate: OrderDirection
+  expiryDate: OrderDirection
+  productId: OrderDirection
+  originalTransactionId: OrderDirection
+  transactionId: OrderDirection
   createdAt: OrderDirection
   updatedAt: OrderDirection
 }
 
-input applepayPaymentUpdateInput {
+input appStorePaymentUpdateInput {
   subscription: subscriptionRelateToOneInput
-  invoice: invoiceRelateToOneInput
+  amount: Float
+  purchaseDate: String
+  originalPurchaseDate: String
+  expiryDate: String
+  frequency: merchandiseRelateToOneInput
+  productId: String
+  originalTransactionId: String
+  transactionId: String
   createdAt: String
   updatedAt: String
 }
 
-input ApplepayPaymentsUpdateInput {
+input merchandiseRelateToOneInput {
+  create: merchandiseCreateInput
+  connect: merchandiseWhereUniqueInput
+  disconnect: merchandiseWhereUniqueInput
+  disconnectAll: Boolean
+}
+
+input AppStorePaymentsUpdateInput {
   id: ID!
-  data: applepayPaymentUpdateInput
+  data: appStorePaymentUpdateInput
 }
 
-input applepayPaymentCreateInput {
+input appStorePaymentCreateInput {
   subscription: subscriptionRelateToOneInput
-  invoice: invoiceRelateToOneInput
+  amount: Float
+  purchaseDate: String
+  originalPurchaseDate: String
+  expiryDate: String
+  frequency: merchandiseRelateToOneInput
+  productId: String
+  originalTransactionId: String
+  transactionId: String
   createdAt: String
   updatedAt: String
 }
 
-input ApplepayPaymentsCreateInput {
-  data: applepayPaymentCreateInput
+input AppStorePaymentsCreateInput {
+  data: appStorePaymentCreateInput
 }
 
-type androidpayPayment {
+type googlePlayPayment {
   id: ID!
   subscription: subscription
-  invoice: invoice
+  orderId: String
+  transactionDatetime: String
+  amount: Int
+  currency: googlePlayPaymentCurrencyType
   createdAt: String
   updatedAt: String
 }
 
-input androidpayPaymentWhereInput {
-  AND: [androidpayPaymentWhereInput!]
-  OR: [androidpayPaymentWhereInput!]
+enum googlePlayPaymentCurrencyType {
+  TWD
+}
+
+input googlePlayPaymentWhereInput {
+  AND: [googlePlayPaymentWhereInput!]
+  OR: [googlePlayPaymentWhereInput!]
   id: ID
   id_not: ID
   id_lt: ID
@@ -1673,8 +1794,44 @@ input androidpayPaymentWhereInput {
   id_not_in: [ID!]
   subscription: subscriptionWhereInput
   subscription_is_null: Boolean
-  invoice: invoiceWhereInput
-  invoice_is_null: Boolean
+  orderId: String
+  orderId_not: String
+  orderId_contains: String
+  orderId_not_contains: String
+  orderId_starts_with: String
+  orderId_not_starts_with: String
+  orderId_ends_with: String
+  orderId_not_ends_with: String
+  orderId_i: String
+  orderId_not_i: String
+  orderId_contains_i: String
+  orderId_not_contains_i: String
+  orderId_starts_with_i: String
+  orderId_not_starts_with_i: String
+  orderId_ends_with_i: String
+  orderId_not_ends_with_i: String
+  orderId_in: [String]
+  orderId_not_in: [String]
+  transactionDatetime: String
+  transactionDatetime_not: String
+  transactionDatetime_lt: String
+  transactionDatetime_lte: String
+  transactionDatetime_gt: String
+  transactionDatetime_gte: String
+  transactionDatetime_in: [String]
+  transactionDatetime_not_in: [String]
+  amount: Int
+  amount_not: Int
+  amount_lt: Int
+  amount_lte: Int
+  amount_gt: Int
+  amount_gte: Int
+  amount_in: [Int]
+  amount_not_in: [Int]
+  currency: googlePlayPaymentCurrencyType
+  currency_not: googlePlayPaymentCurrencyType
+  currency_in: [googlePlayPaymentCurrencyType]
+  currency_not_in: [googlePlayPaymentCurrencyType]
   createdAt: String
   createdAt_not: String
   createdAt_lt: String
@@ -1695,46 +1852,65 @@ input androidpayPaymentWhereInput {
   updatedBy_is_null: Boolean
 }
 
-input androidpayPaymentWhereUniqueInput {
+input googlePlayPaymentWhereUniqueInput {
   id: ID
+  orderId: String
 }
 
-enum SortAndroidpayPaymentsBy {
+enum SortGooglePlayPaymentsBy {
   id_ASC
   id_DESC
+  orderId_ASC
+  orderId_DESC
+  transactionDatetime_ASC
+  transactionDatetime_DESC
+  amount_ASC
+  amount_DESC
+  currency_ASC
+  currency_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
   updatedAt_DESC
 }
 
-input androidpayPaymentOrderByInput {
+input googlePlayPaymentOrderByInput {
   id: OrderDirection
+  orderId: OrderDirection
+  transactionDatetime: OrderDirection
+  amount: OrderDirection
+  currency: OrderDirection
   createdAt: OrderDirection
   updatedAt: OrderDirection
 }
 
-input androidpayPaymentUpdateInput {
+input googlePlayPaymentUpdateInput {
   subscription: subscriptionRelateToOneInput
-  invoice: invoiceRelateToOneInput
+  orderId: String
+  transactionDatetime: String
+  amount: Int
+  currency: googlePlayPaymentCurrencyType
   createdAt: String
   updatedAt: String
 }
 
-input AndroidpayPaymentsUpdateInput {
+input GooglePlayPaymentsUpdateInput {
   id: ID!
-  data: androidpayPaymentUpdateInput
+  data: googlePlayPaymentUpdateInput
 }
 
-input androidpayPaymentCreateInput {
+input googlePlayPaymentCreateInput {
   subscription: subscriptionRelateToOneInput
-  invoice: invoiceRelateToOneInput
+  orderId: String
+  transactionDatetime: String
+  amount: Int
+  currency: googlePlayPaymentCurrencyType
   createdAt: String
   updatedAt: String
 }
 
-input AndroidpayPaymentsCreateInput {
-  data: androidpayPaymentCreateInput
+input GooglePlayPaymentsCreateInput {
+  data: googlePlayPaymentCreateInput
 }
 
 type promotion {
@@ -1911,6 +2087,7 @@ input PromotionsCreateInput {
 type subscription {
   id: ID!
   member: member
+  orderNumber: String
   paymentMethod: subscriptionPaymentMethodType
   newebpayPayment(
     where: newebpayPaymentWhereInput! = {}
@@ -1920,29 +2097,28 @@ type subscription {
     skip: Int! = 0
   ): [newebpayPayment!]
   newebpayPaymentCount(where: newebpayPaymentWhereInput! = {}): Int
-  applepayPayment(
-    where: applepayPaymentWhereInput! = {}
+  appStorePayment(
+    where: appStorePaymentWhereInput! = {}
     search: String
-    orderBy: [applepayPaymentOrderByInput!]! = []
+    orderBy: [appStorePaymentOrderByInput!]! = []
     first: Int
     skip: Int! = 0
-  ): [applepayPayment!]
-  applepayPaymentCount(where: applepayPaymentWhereInput! = {}): Int
-  androidpayPayment(
-    where: androidpayPaymentWhereInput! = {}
+  ): [appStorePayment!]
+  appStorePaymentCount(where: appStorePaymentWhereInput! = {}): Int
+  googlePlayPayment(
+    where: googlePlayPaymentWhereInput! = {}
     search: String
-    orderBy: [androidpayPaymentOrderByInput!]! = []
+    orderBy: [googlePlayPaymentOrderByInput!]! = []
     first: Int
     skip: Int! = 0
-  ): [androidpayPayment!]
-  androidpayPaymentCount(where: androidpayPaymentWhereInput! = {}): Int
+  ): [googlePlayPayment!]
+  googlePlayPaymentCount(where: googlePlayPaymentWhereInput! = {}): Int
   status: subscriptionStatusType
   amount: Float
   currency: subscriptionCurrencyType
   desc: String
   comment: String
   email: String
-  orderNumber: String
   isActive: Boolean
   isCanceled: Boolean
   frequency: subscriptionFrequencyType
@@ -1953,8 +2129,13 @@ type subscription {
   periodCreateDatetime: String
   periodFirstDatetime: String
   periodEndDatetime: String
-  googlePlayPurchaseToken: String
   changePlanDatetime: String
+  googlePlayStatus: subscriptionGooglePlayStatusType
+  googlePlayPurchaseToken: String
+  googlePlayNotificationEventDatetime: String
+  googlePlayPackageName: String
+  cancelReason: String
+  refundNote: String
   note: String
   promoteId: Int
   postId: String
@@ -1967,14 +2148,16 @@ type subscription {
   carrierNum: String
   buyerName: String
   buyerUBN: String
+  printFlag: String
+  aaplOriginalTransactionId: String
   createdAt: String
   updatedAt: String
 }
 
 enum subscriptionPaymentMethodType {
   newebpay
-  applepay
-  androidpay
+  app_store
+  google_play
 }
 
 enum subscriptionStatusType {
@@ -2002,8 +2185,16 @@ enum subscriptionNextFrequencyType {
   monthly
 }
 
-enum updateSubscriptionNextFrequencyType {
-  yearly
+enum subscriptionGooglePlayStatusType {
+  purchased
+  renewed
+  expired
+  on_hold
+  in_grace_period
+  canceled
+  restarted
+  revoked
+  recovered
 }
 
 enum subscriptionCategoryType {
@@ -2024,6 +2215,24 @@ input subscriptionWhereInput {
   id_not_in: [ID!]
   member: memberWhereInput
   member_is_null: Boolean
+  orderNumber: String
+  orderNumber_not: String
+  orderNumber_contains: String
+  orderNumber_not_contains: String
+  orderNumber_starts_with: String
+  orderNumber_not_starts_with: String
+  orderNumber_ends_with: String
+  orderNumber_not_ends_with: String
+  orderNumber_i: String
+  orderNumber_not_i: String
+  orderNumber_contains_i: String
+  orderNumber_not_contains_i: String
+  orderNumber_starts_with_i: String
+  orderNumber_not_starts_with_i: String
+  orderNumber_ends_with_i: String
+  orderNumber_not_ends_with_i: String
+  orderNumber_in: [String]
+  orderNumber_not_in: [String]
   paymentMethod: subscriptionPaymentMethodType
   paymentMethod_not: subscriptionPaymentMethodType
   paymentMethod_in: [subscriptionPaymentMethodType]
@@ -2031,12 +2240,12 @@ input subscriptionWhereInput {
   newebpayPayment_every: newebpayPaymentWhereInput
   newebpayPayment_some: newebpayPaymentWhereInput
   newebpayPayment_none: newebpayPaymentWhereInput
-  applepayPayment_every: applepayPaymentWhereInput
-  applepayPayment_some: applepayPaymentWhereInput
-  applepayPayment_none: applepayPaymentWhereInput
-  androidpayPayment_every: androidpayPaymentWhereInput
-  androidpayPayment_some: androidpayPaymentWhereInput
-  androidpayPayment_none: androidpayPaymentWhereInput
+  appStorePayment_every: appStorePaymentWhereInput
+  appStorePayment_some: appStorePaymentWhereInput
+  appStorePayment_none: appStorePaymentWhereInput
+  googlePlayPayment_every: googlePlayPaymentWhereInput
+  googlePlayPayment_some: googlePlayPaymentWhereInput
+  googlePlayPayment_none: googlePlayPaymentWhereInput
   status: subscriptionStatusType
   status_not: subscriptionStatusType
   status_in: [subscriptionStatusType]
@@ -2107,24 +2316,6 @@ input subscriptionWhereInput {
   email_not_ends_with_i: String
   email_in: [String]
   email_not_in: [String]
-  orderNumber: String
-  orderNumber_not: String
-  orderNumber_contains: String
-  orderNumber_not_contains: String
-  orderNumber_starts_with: String
-  orderNumber_not_starts_with: String
-  orderNumber_ends_with: String
-  orderNumber_not_ends_with: String
-  orderNumber_i: String
-  orderNumber_not_i: String
-  orderNumber_contains_i: String
-  orderNumber_not_contains_i: String
-  orderNumber_starts_with_i: String
-  orderNumber_not_starts_with_i: String
-  orderNumber_ends_with_i: String
-  orderNumber_not_ends_with_i: String
-  orderNumber_in: [String]
-  orderNumber_not_in: [String]
   isActive: Boolean
   isActive_not: Boolean
   isCanceled: Boolean
@@ -2193,6 +2384,90 @@ input subscriptionWhereInput {
   changePlanDatetime_gte: String
   changePlanDatetime_in: [String]
   changePlanDatetime_not_in: [String]
+  googlePlayStatus: subscriptionGooglePlayStatusType
+  googlePlayStatus_not: subscriptionGooglePlayStatusType
+  googlePlayStatus_in: [subscriptionGooglePlayStatusType]
+  googlePlayStatus_not_in: [subscriptionGooglePlayStatusType]
+  googlePlayPurchaseToken: String
+  googlePlayPurchaseToken_not: String
+  googlePlayPurchaseToken_contains: String
+  googlePlayPurchaseToken_not_contains: String
+  googlePlayPurchaseToken_starts_with: String
+  googlePlayPurchaseToken_not_starts_with: String
+  googlePlayPurchaseToken_ends_with: String
+  googlePlayPurchaseToken_not_ends_with: String
+  googlePlayPurchaseToken_i: String
+  googlePlayPurchaseToken_not_i: String
+  googlePlayPurchaseToken_contains_i: String
+  googlePlayPurchaseToken_not_contains_i: String
+  googlePlayPurchaseToken_starts_with_i: String
+  googlePlayPurchaseToken_not_starts_with_i: String
+  googlePlayPurchaseToken_ends_with_i: String
+  googlePlayPurchaseToken_not_ends_with_i: String
+  googlePlayPurchaseToken_in: [String]
+  googlePlayPurchaseToken_not_in: [String]
+  googlePlayNotificationEventDatetime: String
+  googlePlayNotificationEventDatetime_not: String
+  googlePlayNotificationEventDatetime_lt: String
+  googlePlayNotificationEventDatetime_lte: String
+  googlePlayNotificationEventDatetime_gt: String
+  googlePlayNotificationEventDatetime_gte: String
+  googlePlayNotificationEventDatetime_in: [String]
+  googlePlayNotificationEventDatetime_not_in: [String]
+  googlePlayPackageName: String
+  googlePlayPackageName_not: String
+  googlePlayPackageName_contains: String
+  googlePlayPackageName_not_contains: String
+  googlePlayPackageName_starts_with: String
+  googlePlayPackageName_not_starts_with: String
+  googlePlayPackageName_ends_with: String
+  googlePlayPackageName_not_ends_with: String
+  googlePlayPackageName_i: String
+  googlePlayPackageName_not_i: String
+  googlePlayPackageName_contains_i: String
+  googlePlayPackageName_not_contains_i: String
+  googlePlayPackageName_starts_with_i: String
+  googlePlayPackageName_not_starts_with_i: String
+  googlePlayPackageName_ends_with_i: String
+  googlePlayPackageName_not_ends_with_i: String
+  googlePlayPackageName_in: [String]
+  googlePlayPackageName_not_in: [String]
+  cancelReason: String
+  cancelReason_not: String
+  cancelReason_contains: String
+  cancelReason_not_contains: String
+  cancelReason_starts_with: String
+  cancelReason_not_starts_with: String
+  cancelReason_ends_with: String
+  cancelReason_not_ends_with: String
+  cancelReason_i: String
+  cancelReason_not_i: String
+  cancelReason_contains_i: String
+  cancelReason_not_contains_i: String
+  cancelReason_starts_with_i: String
+  cancelReason_not_starts_with_i: String
+  cancelReason_ends_with_i: String
+  cancelReason_not_ends_with_i: String
+  cancelReason_in: [String]
+  cancelReason_not_in: [String]
+  refundNote: String
+  refundNote_not: String
+  refundNote_contains: String
+  refundNote_not_contains: String
+  refundNote_starts_with: String
+  refundNote_not_starts_with: String
+  refundNote_ends_with: String
+  refundNote_not_ends_with: String
+  refundNote_i: String
+  refundNote_not_i: String
+  refundNote_contains_i: String
+  refundNote_not_contains_i: String
+  refundNote_starts_with_i: String
+  refundNote_not_starts_with_i: String
+  refundNote_ends_with_i: String
+  refundNote_not_ends_with_i: String
+  refundNote_in: [String]
+  refundNote_not_in: [String]
   note: String
   note_not: String
   note_contains: String
@@ -2325,6 +2600,24 @@ input subscriptionWhereInput {
   buyerUBN_not_ends_with_i: String
   buyerUBN_in: [String]
   buyerUBN_not_in: [String]
+  aaplOriginalTransactionId: String
+  aaplOriginalTransactionId_not: String
+  aaplOriginalTransactionId_contains: String
+  aaplOriginalTransactionId_not_contains: String
+  aaplOriginalTransactionId_starts_with: String
+  aaplOriginalTransactionId_not_starts_with: String
+  aaplOriginalTransactionId_ends_with: String
+  aaplOriginalTransactionId_not_ends_with: String
+  aaplOriginalTransactionId_i: String
+  aaplOriginalTransactionId_not_i: String
+  aaplOriginalTransactionId_contains_i: String
+  aaplOriginalTransactionId_not_contains_i: String
+  aaplOriginalTransactionId_starts_with_i: String
+  aaplOriginalTransactionId_not_starts_with_i: String
+  aaplOriginalTransactionId_ends_with_i: String
+  aaplOriginalTransactionId_not_ends_with_i: String
+  aaplOriginalTransactionId_in: [String]
+  aaplOriginalTransactionId_not_in: [String]
   createdAt: String
   createdAt_not: String
   createdAt_lt: String
@@ -2348,11 +2641,15 @@ input subscriptionWhereInput {
 input subscriptionWhereUniqueInput {
   id: ID
   orderNumber: String
+  googlePlayPurchaseToken: String
+  aaplOriginalTransactionId: String
 }
 
 enum SortSubscriptionsBy {
   id_ASC
   id_DESC
+  orderNumber_ASC
+  orderNumber_DESC
   paymentMethod_ASC
   paymentMethod_DESC
   status_ASC
@@ -2367,8 +2664,6 @@ enum SortSubscriptionsBy {
   comment_DESC
   email_ASC
   email_DESC
-  orderNumber_ASC
-  orderNumber_DESC
   isActive_ASC
   isActive_DESC
   isCanceled_ASC
@@ -2391,6 +2686,18 @@ enum SortSubscriptionsBy {
   periodEndDatetime_DESC
   changePlanDatetime_ASC
   changePlanDatetime_DESC
+  googlePlayStatus_ASC
+  googlePlayStatus_DESC
+  googlePlayPurchaseToken_ASC
+  googlePlayPurchaseToken_DESC
+  googlePlayNotificationEventDatetime_ASC
+  googlePlayNotificationEventDatetime_DESC
+  googlePlayPackageName_ASC
+  googlePlayPackageName_DESC
+  cancelReason_ASC
+  cancelReason_DESC
+  refundNote_ASC
+  refundNote_DESC
   note_ASC
   note_DESC
   promoteId_ASC
@@ -2413,6 +2720,8 @@ enum SortSubscriptionsBy {
   buyerName_DESC
   buyerUBN_ASC
   buyerUBN_DESC
+  aaplOriginalTransactionId_ASC
+  aaplOriginalTransactionId_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -2421,6 +2730,7 @@ enum SortSubscriptionsBy {
 
 input subscriptionOrderByInput {
   id: OrderDirection
+  orderNumber: OrderDirection
   paymentMethod: OrderDirection
   status: OrderDirection
   amount: OrderDirection
@@ -2428,7 +2738,6 @@ input subscriptionOrderByInput {
   desc: OrderDirection
   comment: OrderDirection
   email: OrderDirection
-  orderNumber: OrderDirection
   isActive: OrderDirection
   isCanceled: OrderDirection
   frequency: OrderDirection
@@ -2440,6 +2749,12 @@ input subscriptionOrderByInput {
   periodFirstDatetime: OrderDirection
   periodEndDatetime: OrderDirection
   changePlanDatetime: OrderDirection
+  googlePlayStatus: OrderDirection
+  googlePlayPurchaseToken: OrderDirection
+  googlePlayNotificationEventDatetime: OrderDirection
+  googlePlayPackageName: OrderDirection
+  cancelReason: OrderDirection
+  refundNote: OrderDirection
   note: OrderDirection
   promoteId: OrderDirection
   postId: OrderDirection
@@ -2451,6 +2766,7 @@ input subscriptionOrderByInput {
   carrierNum: OrderDirection
   buyerName: OrderDirection
   buyerUBN: OrderDirection
+  aaplOriginalTransactionId: OrderDirection
   createdAt: OrderDirection
   updatedAt: OrderDirection
 }
@@ -2459,15 +2775,14 @@ input subscriptionPrivateUpdateInput {
   member: memberRelateToOneInput
   paymentMethod: subscriptionPaymentMethodType
   newebpayPayment: newebpayPaymentRelateToManyInput
-  applepayPayment: applepayPaymentRelateToManyInput
-  androidpayPayment: androidpayPaymentRelateToManyInput
+  appStorePayment: appStorePaymentRelateToManyInput
+  googlePlayPayment: googlePlayPaymentRelateToManyInput
   status: subscriptionStatusType
   amount: Float
   currency: subscriptionCurrencyType
   desc: String
   comment: String
   email: String
-  orderNumber: String
   isActive: Boolean
   isCanceled: Boolean
   frequency: subscriptionFrequencyType
@@ -2479,6 +2794,12 @@ input subscriptionPrivateUpdateInput {
   periodFirstDatetime: String
   periodEndDatetime: String
   changePlanDatetime: String
+  googlePlayStatus: subscriptionGooglePlayStatusType
+  googlePlayPurchaseToken: String
+  googlePlayNotificationEventDatetime: String
+  googlePlayPackageName: String
+  cancelReason: String
+  refundNote: String
   note: String
   promoteId: Int
   postId: String
@@ -2491,6 +2812,7 @@ input subscriptionPrivateUpdateInput {
   carrierNum: String
   buyerName: String
   buyerUBN: String
+  aaplOriginalTransactionId: String
   createdAt: String
   updatedAt: String
 }
@@ -2502,17 +2824,17 @@ input newebpayPaymentRelateToManyInput {
   disconnectAll: Boolean
 }
 
-input applepayPaymentRelateToManyInput {
-  create: [applepayPaymentCreateInput]
-  connect: [applepayPaymentWhereUniqueInput]
-  disconnect: [applepayPaymentWhereUniqueInput]
+input appStorePaymentRelateToManyInput {
+  create: [appStorePaymentCreateInput]
+  connect: [appStorePaymentWhereUniqueInput]
+  disconnect: [appStorePaymentWhereUniqueInput]
   disconnectAll: Boolean
 }
 
-input androidpayPaymentRelateToManyInput {
-  create: [androidpayPaymentCreateInput]
-  connect: [androidpayPaymentWhereUniqueInput]
-  disconnect: [androidpayPaymentWhereUniqueInput]
+input googlePlayPaymentRelateToManyInput {
+  create: [googlePlayPaymentCreateInput]
+  connect: [googlePlayPaymentWhereUniqueInput]
+  disconnect: [googlePlayPaymentWhereUniqueInput]
   disconnectAll: Boolean
 }
 
@@ -2530,17 +2852,17 @@ input SubscriptionsUpdateInput {
 
 input subscriptionCreateInput {
   member: memberRelateToOneInput
+  orderNumber: String
   paymentMethod: subscriptionPaymentMethodType
   newebpayPayment: newebpayPaymentRelateToManyInput
-  applepayPayment: applepayPaymentRelateToManyInput
-  androidpayPayment: androidpayPaymentRelateToManyInput
+  appStorePayment: appStorePaymentRelateToManyInput
+  googlePlayPayment: googlePlayPaymentRelateToManyInput
   status: subscriptionStatusType
   amount: Float
   currency: subscriptionCurrencyType
   desc: String
   comment: String
   email: String
-  orderNumber: String
   isActive: Boolean
   isCanceled: Boolean
   frequency: subscriptionFrequencyType
@@ -2552,6 +2874,12 @@ input subscriptionCreateInput {
   periodFirstDatetime: String
   periodEndDatetime: String
   changePlanDatetime: String
+  googlePlayStatus: subscriptionGooglePlayStatusType
+  googlePlayPurchaseToken: String
+  googlePlayNotificationEventDatetime: String
+  googlePlayPackageName: String
+  cancelReason: String
+  refundNote: String
   note: String
   promoteId: Int
   postId: String
@@ -2564,6 +2892,7 @@ input subscriptionCreateInput {
   carrierNum: String
   buyerName: String
   buyerUBN: String
+  aaplOriginalTransactionId: String
   createdAt: String
   updatedAt: String
 }
@@ -3025,19 +3354,225 @@ input SubscriptionHistoriesCreateInput {
   data: subscriptionHistoryCreateInput
 }
 
-"""
-For Custom Mutation
-"""
-enum createSubscriptionStatusType {
-  paying
+type group {
+  id: ID!
+  company: String
+  taxIdNumber: String
+  member(
+    where: memberWhereInput! = {}
+    search: String
+    orderBy: [memberOrderByInput!]! = []
+    first: Int
+    skip: Int! = 0
+  ): [member!]
+  memberCount(where: memberWhereInput! = {}): Int
+  startDate: String
+  endDate: String
+  requesterEmail: String
+  approvedBy: String
+  note: String
+  invoice: String
+  createdAt: String
+  updatedAt: String
 }
 
-enum updateSubscriptionStatusType {
-  cancelled
+input groupWhereInput {
+  AND: [groupWhereInput!]
+  OR: [groupWhereInput!]
+  id: ID
+  id_not: ID
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  company: String
+  company_not: String
+  company_contains: String
+  company_not_contains: String
+  company_starts_with: String
+  company_not_starts_with: String
+  company_ends_with: String
+  company_not_ends_with: String
+  company_i: String
+  company_not_i: String
+  company_contains_i: String
+  company_not_contains_i: String
+  company_starts_with_i: String
+  company_not_starts_with_i: String
+  company_ends_with_i: String
+  company_not_ends_with_i: String
+  company_in: [String]
+  company_not_in: [String]
+  taxIdNumber: String
+  taxIdNumber_not: String
+  taxIdNumber_contains: String
+  taxIdNumber_not_contains: String
+  taxIdNumber_starts_with: String
+  taxIdNumber_not_starts_with: String
+  taxIdNumber_ends_with: String
+  taxIdNumber_not_ends_with: String
+  taxIdNumber_i: String
+  taxIdNumber_not_i: String
+  taxIdNumber_contains_i: String
+  taxIdNumber_not_contains_i: String
+  taxIdNumber_starts_with_i: String
+  taxIdNumber_not_starts_with_i: String
+  taxIdNumber_ends_with_i: String
+  taxIdNumber_not_ends_with_i: String
+  taxIdNumber_in: [String]
+  taxIdNumber_not_in: [String]
+  member_every: memberWhereInput
+  member_some: memberWhereInput
+  member_none: memberWhereInput
+  startDate: String
+  startDate_not: String
+  startDate_lt: String
+  startDate_lte: String
+  startDate_gt: String
+  startDate_gte: String
+  startDate_in: [String]
+  startDate_not_in: [String]
+  endDate: String
+  endDate_not: String
+  endDate_lt: String
+  endDate_lte: String
+  endDate_gt: String
+  endDate_gte: String
+  endDate_in: [String]
+  endDate_not_in: [String]
+  requesterEmail: String
+  requesterEmail_not: String
+  requesterEmail_contains: String
+  requesterEmail_not_contains: String
+  requesterEmail_starts_with: String
+  requesterEmail_not_starts_with: String
+  requesterEmail_ends_with: String
+  requesterEmail_not_ends_with: String
+  requesterEmail_i: String
+  requesterEmail_not_i: String
+  requesterEmail_contains_i: String
+  requesterEmail_not_contains_i: String
+  requesterEmail_starts_with_i: String
+  requesterEmail_not_starts_with_i: String
+  requesterEmail_ends_with_i: String
+  requesterEmail_not_ends_with_i: String
+  requesterEmail_in: [String]
+  requesterEmail_not_in: [String]
+  approvedBy: String
+  approvedBy_not: String
+  approvedBy_contains: String
+  approvedBy_not_contains: String
+  approvedBy_starts_with: String
+  approvedBy_not_starts_with: String
+  approvedBy_ends_with: String
+  approvedBy_not_ends_with: String
+  approvedBy_i: String
+  approvedBy_not_i: String
+  approvedBy_contains_i: String
+  approvedBy_not_contains_i: String
+  approvedBy_starts_with_i: String
+  approvedBy_not_starts_with_i: String
+  approvedBy_ends_with_i: String
+  approvedBy_not_ends_with_i: String
+  approvedBy_in: [String]
+  approvedBy_not_in: [String]
+  note: String
+  note_not: String
+  note_contains: String
+  note_not_contains: String
+  note_starts_with: String
+  note_not_starts_with: String
+  note_ends_with: String
+  note_not_ends_with: String
+  note_i: String
+  note_not_i: String
+  note_contains_i: String
+  note_not_contains_i: String
+  note_starts_with_i: String
+  note_not_starts_with_i: String
+  note_ends_with_i: String
+  note_not_ends_with_i: String
+  note_in: [String]
+  note_not_in: [String]
+  invoice: String
+  invoice_not: String
+  invoice_contains: String
+  invoice_not_contains: String
+  invoice_starts_with: String
+  invoice_not_starts_with: String
+  invoice_ends_with: String
+  invoice_not_ends_with: String
+  invoice_i: String
+  invoice_not_i: String
+  invoice_contains_i: String
+  invoice_not_contains_i: String
+  invoice_starts_with_i: String
+  invoice_not_starts_with_i: String
+  invoice_ends_with_i: String
+  invoice_not_ends_with_i: String
+  invoice_in: [String]
+  invoice_not_in: [String]
+  createdAt: String
+  createdAt_not: String
+  createdAt_lt: String
+  createdAt_lte: String
+  createdAt_gt: String
+  createdAt_gte: String
+  createdAt_in: [String]
+  createdAt_not_in: [String]
+  updatedAt: String
+  updatedAt_not: String
+  updatedAt_lt: String
+  updatedAt_lte: String
+  updatedAt_gt: String
+  updatedAt_gte: String
+  updatedAt_in: [String]
+  updatedAt_not_in: [String]
 }
 
-enum updateMemberStateType {
-  inactive
+input groupWhereUniqueInput {
+  id: ID
+}
+
+enum SortGroupsBy {
+  id_ASC
+  id_DESC
+  company_ASC
+  company_DESC
+  taxIdNumber_ASC
+  taxIdNumber_DESC
+  startDate_ASC
+  startDate_DESC
+  endDate_ASC
+  endDate_DESC
+  requesterEmail_ASC
+  requesterEmail_DESC
+  approvedBy_ASC
+  approvedBy_DESC
+  note_ASC
+  note_DESC
+  invoice_ASC
+  invoice_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+input groupOrderByInput {
+  id: OrderDirection
+  company: OrderDirection
+  taxIdNumber: OrderDirection
+  startDate: OrderDirection
+  endDate: OrderDirection
+  requesterEmail: OrderDirection
+  approvedBy: OrderDirection
+  note: OrderDirection
+  invoice: OrderDirection
+  createdAt: OrderDirection
+  updatedAt: OrderDirection
 }
 
 enum upsertSubscriptionAppSourceType {
@@ -3047,7 +3582,6 @@ enum upsertSubscriptionAppSourceType {
 
 input memberUpdateInput {
   email: String
-  state: updateMemberStateType
   tos: Boolean
   firstName: String
   lastName: String
@@ -3089,9 +3623,12 @@ input MembersCreateInput {
   data: memberCreateInput
 }
 
+enum createSubscriptionStatusType {
+  paying
+}
+
 input subscriptionRecurringCreateInput {
   paymentMethod: subscriptionPaymentMethodType!
-  applepayPayment: applepayPaymentRelateToManyInput
   status: createSubscriptionStatusType!
   email: String!
   """
@@ -3114,7 +3651,6 @@ input subscriptionRecurringCreateInfo {
 
 input subscriptionOneTimeCreateInput {
   paymentMethod: subscriptionPaymentMethodType!
-  applepayPayment: applepayPaymentRelateToManyInput
   status: createSubscriptionStatusType!
   email: String!
   note: String
@@ -3140,6 +3676,10 @@ input subscriptionAppUpsertInfo {
   source: upsertSubscriptionAppSourceType!
   verificationData: String!
   packageName: String!
+}
+
+enum updateSubscriptionNextFrequencyType {
+  none
 }
 
 input subscriptionUpdateInput {
