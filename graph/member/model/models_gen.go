@@ -8,22 +8,22 @@ import (
 	"strconv"
 )
 
-type AndroidpayPaymentsCreateInput struct {
-	Data *AndroidpayPaymentCreateInput `json:"data"`
+type AppStorePaymentsCreateInput struct {
+	Data *AppStorePaymentCreateInput `json:"data"`
 }
 
-type AndroidpayPaymentsUpdateInput struct {
-	ID   string                        `json:"id"`
-	Data *AndroidpayPaymentUpdateInput `json:"data"`
-}
-
-type ApplepayPaymentsCreateInput struct {
-	Data *ApplepayPaymentCreateInput `json:"data"`
-}
-
-type ApplepayPaymentsUpdateInput struct {
+type AppStorePaymentsUpdateInput struct {
 	ID   string                      `json:"id"`
-	Data *ApplepayPaymentUpdateInput `json:"data"`
+	Data *AppStorePaymentUpdateInput `json:"data"`
+}
+
+type GooglePlayPaymentsCreateInput struct {
+	Data *GooglePlayPaymentCreateInput `json:"data"`
+}
+
+type GooglePlayPaymentsUpdateInput struct {
+	ID   string                        `json:"id"`
+	Data *GooglePlayPaymentUpdateInput `json:"data"`
 }
 
 type InvoicesCreateInput struct {
@@ -116,205 +116,542 @@ type SubscriptionsUpdateInput struct {
 	Data map[string]interface{} `json:"data"`
 }
 
-type AndroidpayPayment struct {
-	ID           string        `json:"id"`
-	Subscription *Subscription `json:"subscription"`
-	Invoice      *Invoice      `json:"invoice"`
-	CreatedAt    *string       `json:"createdAt"`
-	UpdatedAt    *string       `json:"updatedAt"`
+type AppStorePayment struct {
+	ID                    string        `json:"id"`
+	Subscription          *Subscription `json:"subscription"`
+	Amount                *float64      `json:"amount"`
+	PurchaseDate          *string       `json:"purchaseDate"`
+	OriginalPurchaseDate  *string       `json:"originalPurchaseDate"`
+	ExpiryDate            *string       `json:"expiryDate"`
+	Frequency             *Merchandise  `json:"frequency"`
+	ProductID             *string       `json:"productId"`
+	OriginalTransactionID *string       `json:"originalTransactionId"`
+	TransactionID         *string       `json:"transactionId"`
+	CreatedAt             *string       `json:"createdAt"`
+	UpdatedAt             *string       `json:"updatedAt"`
 }
 
-type AndroidpayPaymentCreateInput struct {
-	Subscription *SubscriptionRelateToOneInput `json:"subscription"`
-	Invoice      *InvoiceRelateToOneInput      `json:"invoice"`
-	CreatedAt    *string                       `json:"createdAt"`
-	UpdatedAt    *string                       `json:"updatedAt"`
+type AppStorePaymentCreateInput struct {
+	Subscription          *SubscriptionRelateToOneInput `json:"subscription"`
+	Amount                *float64                      `json:"amount"`
+	PurchaseDate          *string                       `json:"purchaseDate"`
+	OriginalPurchaseDate  *string                       `json:"originalPurchaseDate"`
+	ExpiryDate            *string                       `json:"expiryDate"`
+	Frequency             *MerchandiseRelateToOneInput  `json:"frequency"`
+	ProductID             *string                       `json:"productId"`
+	OriginalTransactionID *string                       `json:"originalTransactionId"`
+	TransactionID         *string                       `json:"transactionId"`
+	CreatedAt             *string                       `json:"createdAt"`
+	UpdatedAt             *string                       `json:"updatedAt"`
 }
 
-type AndroidpayPaymentOrderByInput struct {
-	ID        *OrderDirection `json:"id"`
-	CreatedAt *OrderDirection `json:"createdAt"`
-	UpdatedAt *OrderDirection `json:"updatedAt"`
+type AppStorePaymentOrderByInput struct {
+	ID                    *OrderDirection `json:"id"`
+	Amount                *OrderDirection `json:"amount"`
+	PurchaseDate          *OrderDirection `json:"purchaseDate"`
+	OriginalPurchaseDate  *OrderDirection `json:"originalPurchaseDate"`
+	ExpiryDate            *OrderDirection `json:"expiryDate"`
+	ProductID             *OrderDirection `json:"productId"`
+	OriginalTransactionID *OrderDirection `json:"originalTransactionId"`
+	TransactionID         *OrderDirection `json:"transactionId"`
+	CreatedAt             *OrderDirection `json:"createdAt"`
+	UpdatedAt             *OrderDirection `json:"updatedAt"`
 }
 
-type AndroidpayPaymentRelateToManyInput struct {
-	Create        []*AndroidpayPaymentCreateInput      `json:"create"`
-	Connect       []*AndroidpayPaymentWhereUniqueInput `json:"connect"`
-	Disconnect    []*AndroidpayPaymentWhereUniqueInput `json:"disconnect"`
+type AppStorePaymentRelateToManyInput struct {
+	Create        []*AppStorePaymentCreateInput      `json:"create"`
+	Connect       []*AppStorePaymentWhereUniqueInput `json:"connect"`
+	Disconnect    []*AppStorePaymentWhereUniqueInput `json:"disconnect"`
+	DisconnectAll *bool                              `json:"disconnectAll"`
+}
+
+type AppStorePaymentUpdateInput struct {
+	Subscription          *SubscriptionRelateToOneInput `json:"subscription"`
+	Amount                *float64                      `json:"amount"`
+	PurchaseDate          *string                       `json:"purchaseDate"`
+	OriginalPurchaseDate  *string                       `json:"originalPurchaseDate"`
+	ExpiryDate            *string                       `json:"expiryDate"`
+	Frequency             *MerchandiseRelateToOneInput  `json:"frequency"`
+	ProductID             *string                       `json:"productId"`
+	OriginalTransactionID *string                       `json:"originalTransactionId"`
+	TransactionID         *string                       `json:"transactionId"`
+	CreatedAt             *string                       `json:"createdAt"`
+	UpdatedAt             *string                       `json:"updatedAt"`
+}
+
+type AppStorePaymentWhereInput struct {
+	And                                 []*AppStorePaymentWhereInput `json:"AND"`
+	Or                                  []*AppStorePaymentWhereInput `json:"OR"`
+	ID                                  *string                      `json:"id"`
+	IDNot                               *string                      `json:"id_not"`
+	IDLt                                *string                      `json:"id_lt"`
+	IDLte                               *string                      `json:"id_lte"`
+	IDGt                                *string                      `json:"id_gt"`
+	IDGte                               *string                      `json:"id_gte"`
+	IDIn                                []string                     `json:"id_in"`
+	IDNotIn                             []string                     `json:"id_not_in"`
+	Subscription                        *SubscriptionWhereInput      `json:"subscription"`
+	SubscriptionIsNull                  *bool                        `json:"subscription_is_null"`
+	Amount                              *float64                     `json:"amount"`
+	AmountNot                           *float64                     `json:"amount_not"`
+	AmountLt                            *float64                     `json:"amount_lt"`
+	AmountLte                           *float64                     `json:"amount_lte"`
+	AmountGt                            *float64                     `json:"amount_gt"`
+	AmountGte                           *float64                     `json:"amount_gte"`
+	AmountIn                            []*float64                   `json:"amount_in"`
+	AmountNotIn                         []*float64                   `json:"amount_not_in"`
+	PurchaseDate                        *string                      `json:"purchaseDate"`
+	PurchaseDateNot                     *string                      `json:"purchaseDate_not"`
+	PurchaseDateLt                      *string                      `json:"purchaseDate_lt"`
+	PurchaseDateLte                     *string                      `json:"purchaseDate_lte"`
+	PurchaseDateGt                      *string                      `json:"purchaseDate_gt"`
+	PurchaseDateGte                     *string                      `json:"purchaseDate_gte"`
+	PurchaseDateIn                      []*string                    `json:"purchaseDate_in"`
+	PurchaseDateNotIn                   []*string                    `json:"purchaseDate_not_in"`
+	OriginalPurchaseDate                *string                      `json:"originalPurchaseDate"`
+	OriginalPurchaseDateNot             *string                      `json:"originalPurchaseDate_not"`
+	OriginalPurchaseDateLt              *string                      `json:"originalPurchaseDate_lt"`
+	OriginalPurchaseDateLte             *string                      `json:"originalPurchaseDate_lte"`
+	OriginalPurchaseDateGt              *string                      `json:"originalPurchaseDate_gt"`
+	OriginalPurchaseDateGte             *string                      `json:"originalPurchaseDate_gte"`
+	OriginalPurchaseDateIn              []*string                    `json:"originalPurchaseDate_in"`
+	OriginalPurchaseDateNotIn           []*string                    `json:"originalPurchaseDate_not_in"`
+	ExpiryDate                          *string                      `json:"expiryDate"`
+	ExpiryDateNot                       *string                      `json:"expiryDate_not"`
+	ExpiryDateLt                        *string                      `json:"expiryDate_lt"`
+	ExpiryDateLte                       *string                      `json:"expiryDate_lte"`
+	ExpiryDateGt                        *string                      `json:"expiryDate_gt"`
+	ExpiryDateGte                       *string                      `json:"expiryDate_gte"`
+	ExpiryDateIn                        []*string                    `json:"expiryDate_in"`
+	ExpiryDateNotIn                     []*string                    `json:"expiryDate_not_in"`
+	Frequency                           *MerchandiseWhereInput       `json:"frequency"`
+	FrequencyIsNull                     *bool                        `json:"frequency_is_null"`
+	ProductID                           *string                      `json:"productId"`
+	ProductIDNot                        *string                      `json:"productId_not"`
+	ProductIDContains                   *string                      `json:"productId_contains"`
+	ProductIDNotContains                *string                      `json:"productId_not_contains"`
+	ProductIDStartsWith                 *string                      `json:"productId_starts_with"`
+	ProductIDNotStartsWith              *string                      `json:"productId_not_starts_with"`
+	ProductIDEndsWith                   *string                      `json:"productId_ends_with"`
+	ProductIDNotEndsWith                *string                      `json:"productId_not_ends_with"`
+	ProductIDI                          *string                      `json:"productId_i"`
+	ProductIDNotI                       *string                      `json:"productId_not_i"`
+	ProductIDContainsI                  *string                      `json:"productId_contains_i"`
+	ProductIDNotContainsI               *string                      `json:"productId_not_contains_i"`
+	ProductIDStartsWithI                *string                      `json:"productId_starts_with_i"`
+	ProductIDNotStartsWithI             *string                      `json:"productId_not_starts_with_i"`
+	ProductIDEndsWithI                  *string                      `json:"productId_ends_with_i"`
+	ProductIDNotEndsWithI               *string                      `json:"productId_not_ends_with_i"`
+	ProductIDIn                         []*string                    `json:"productId_in"`
+	ProductIDNotIn                      []*string                    `json:"productId_not_in"`
+	OriginalTransactionID               *string                      `json:"originalTransactionId"`
+	OriginalTransactionIDNot            *string                      `json:"originalTransactionId_not"`
+	OriginalTransactionIDContains       *string                      `json:"originalTransactionId_contains"`
+	OriginalTransactionIDNotContains    *string                      `json:"originalTransactionId_not_contains"`
+	OriginalTransactionIDStartsWith     *string                      `json:"originalTransactionId_starts_with"`
+	OriginalTransactionIDNotStartsWith  *string                      `json:"originalTransactionId_not_starts_with"`
+	OriginalTransactionIDEndsWith       *string                      `json:"originalTransactionId_ends_with"`
+	OriginalTransactionIDNotEndsWith    *string                      `json:"originalTransactionId_not_ends_with"`
+	OriginalTransactionIDI              *string                      `json:"originalTransactionId_i"`
+	OriginalTransactionIDNotI           *string                      `json:"originalTransactionId_not_i"`
+	OriginalTransactionIDContainsI      *string                      `json:"originalTransactionId_contains_i"`
+	OriginalTransactionIDNotContainsI   *string                      `json:"originalTransactionId_not_contains_i"`
+	OriginalTransactionIDStartsWithI    *string                      `json:"originalTransactionId_starts_with_i"`
+	OriginalTransactionIDNotStartsWithI *string                      `json:"originalTransactionId_not_starts_with_i"`
+	OriginalTransactionIDEndsWithI      *string                      `json:"originalTransactionId_ends_with_i"`
+	OriginalTransactionIDNotEndsWithI   *string                      `json:"originalTransactionId_not_ends_with_i"`
+	OriginalTransactionIDIn             []*string                    `json:"originalTransactionId_in"`
+	OriginalTransactionIDNotIn          []*string                    `json:"originalTransactionId_not_in"`
+	TransactionID                       *string                      `json:"transactionId"`
+	TransactionIDNot                    *string                      `json:"transactionId_not"`
+	TransactionIDContains               *string                      `json:"transactionId_contains"`
+	TransactionIDNotContains            *string                      `json:"transactionId_not_contains"`
+	TransactionIDStartsWith             *string                      `json:"transactionId_starts_with"`
+	TransactionIDNotStartsWith          *string                      `json:"transactionId_not_starts_with"`
+	TransactionIDEndsWith               *string                      `json:"transactionId_ends_with"`
+	TransactionIDNotEndsWith            *string                      `json:"transactionId_not_ends_with"`
+	TransactionIDI                      *string                      `json:"transactionId_i"`
+	TransactionIDNotI                   *string                      `json:"transactionId_not_i"`
+	TransactionIDContainsI              *string                      `json:"transactionId_contains_i"`
+	TransactionIDNotContainsI           *string                      `json:"transactionId_not_contains_i"`
+	TransactionIDStartsWithI            *string                      `json:"transactionId_starts_with_i"`
+	TransactionIDNotStartsWithI         *string                      `json:"transactionId_not_starts_with_i"`
+	TransactionIDEndsWithI              *string                      `json:"transactionId_ends_with_i"`
+	TransactionIDNotEndsWithI           *string                      `json:"transactionId_not_ends_with_i"`
+	TransactionIDIn                     []*string                    `json:"transactionId_in"`
+	TransactionIDNotIn                  []*string                    `json:"transactionId_not_in"`
+	CreatedAt                           *string                      `json:"createdAt"`
+	CreatedAtNot                        *string                      `json:"createdAt_not"`
+	CreatedAtLt                         *string                      `json:"createdAt_lt"`
+	CreatedAtLte                        *string                      `json:"createdAt_lte"`
+	CreatedAtGt                         *string                      `json:"createdAt_gt"`
+	CreatedAtGte                        *string                      `json:"createdAt_gte"`
+	CreatedAtIn                         []*string                    `json:"createdAt_in"`
+	CreatedAtNotIn                      []*string                    `json:"createdAt_not_in"`
+	UpdatedAt                           *string                      `json:"updatedAt"`
+	UpdatedAtNot                        *string                      `json:"updatedAt_not"`
+	UpdatedAtLt                         *string                      `json:"updatedAt_lt"`
+	UpdatedAtLte                        *string                      `json:"updatedAt_lte"`
+	UpdatedAtGt                         *string                      `json:"updatedAt_gt"`
+	UpdatedAtGte                        *string                      `json:"updatedAt_gte"`
+	UpdatedAtIn                         []*string                    `json:"updatedAt_in"`
+	UpdatedAtNotIn                      []*string                    `json:"updatedAt_not_in"`
+	CreatedByIsNull                     *bool                        `json:"createdBy_is_null"`
+	UpdatedByIsNull                     *bool                        `json:"updatedBy_is_null"`
+}
+
+type AppStorePaymentWhereUniqueInput struct {
+	ID            *string `json:"id"`
+	TransactionID *string `json:"transactionId"`
+}
+
+type GooglePlayPayment struct {
+	ID                  string                         `json:"id"`
+	Subscription        *Subscription                  `json:"subscription"`
+	OrderID             *string                        `json:"orderId"`
+	TransactionDatetime *string                        `json:"transactionDatetime"`
+	Amount              *int                           `json:"amount"`
+	Currency            *GooglePlayPaymentCurrencyType `json:"currency"`
+	CreatedAt           *string                        `json:"createdAt"`
+	UpdatedAt           *string                        `json:"updatedAt"`
+}
+
+type GooglePlayPaymentCreateInput struct {
+	Subscription        *SubscriptionRelateToOneInput  `json:"subscription"`
+	OrderID             *string                        `json:"orderId"`
+	TransactionDatetime *string                        `json:"transactionDatetime"`
+	Amount              *int                           `json:"amount"`
+	Currency            *GooglePlayPaymentCurrencyType `json:"currency"`
+	CreatedAt           *string                        `json:"createdAt"`
+	UpdatedAt           *string                        `json:"updatedAt"`
+}
+
+type GooglePlayPaymentOrderByInput struct {
+	ID                  *OrderDirection `json:"id"`
+	OrderID             *OrderDirection `json:"orderId"`
+	TransactionDatetime *OrderDirection `json:"transactionDatetime"`
+	Amount              *OrderDirection `json:"amount"`
+	Currency            *OrderDirection `json:"currency"`
+	CreatedAt           *OrderDirection `json:"createdAt"`
+	UpdatedAt           *OrderDirection `json:"updatedAt"`
+}
+
+type GooglePlayPaymentRelateToManyInput struct {
+	Create        []*GooglePlayPaymentCreateInput      `json:"create"`
+	Connect       []*GooglePlayPaymentWhereUniqueInput `json:"connect"`
+	Disconnect    []*GooglePlayPaymentWhereUniqueInput `json:"disconnect"`
 	DisconnectAll *bool                                `json:"disconnectAll"`
 }
 
-type AndroidpayPaymentRelateToOneInput struct {
-	Create        *AndroidpayPaymentCreateInput      `json:"create"`
-	Connect       *AndroidpayPaymentWhereUniqueInput `json:"connect"`
-	Disconnect    *AndroidpayPaymentWhereUniqueInput `json:"disconnect"`
-	DisconnectAll *bool                              `json:"disconnectAll"`
+type GooglePlayPaymentUpdateInput struct {
+	Subscription        *SubscriptionRelateToOneInput  `json:"subscription"`
+	OrderID             *string                        `json:"orderId"`
+	TransactionDatetime *string                        `json:"transactionDatetime"`
+	Amount              *int                           `json:"amount"`
+	Currency            *GooglePlayPaymentCurrencyType `json:"currency"`
+	CreatedAt           *string                        `json:"createdAt"`
+	UpdatedAt           *string                        `json:"updatedAt"`
 }
 
-type AndroidpayPaymentUpdateInput struct {
-	Subscription *SubscriptionRelateToOneInput `json:"subscription"`
-	Invoice      *InvoiceRelateToOneInput      `json:"invoice"`
-	CreatedAt    *string                       `json:"createdAt"`
-	UpdatedAt    *string                       `json:"updatedAt"`
+type GooglePlayPaymentWhereInput struct {
+	And                      []*GooglePlayPaymentWhereInput   `json:"AND"`
+	Or                       []*GooglePlayPaymentWhereInput   `json:"OR"`
+	ID                       *string                          `json:"id"`
+	IDNot                    *string                          `json:"id_not"`
+	IDLt                     *string                          `json:"id_lt"`
+	IDLte                    *string                          `json:"id_lte"`
+	IDGt                     *string                          `json:"id_gt"`
+	IDGte                    *string                          `json:"id_gte"`
+	IDIn                     []string                         `json:"id_in"`
+	IDNotIn                  []string                         `json:"id_not_in"`
+	Subscription             *SubscriptionWhereInput          `json:"subscription"`
+	SubscriptionIsNull       *bool                            `json:"subscription_is_null"`
+	OrderID                  *string                          `json:"orderId"`
+	OrderIDNot               *string                          `json:"orderId_not"`
+	OrderIDContains          *string                          `json:"orderId_contains"`
+	OrderIDNotContains       *string                          `json:"orderId_not_contains"`
+	OrderIDStartsWith        *string                          `json:"orderId_starts_with"`
+	OrderIDNotStartsWith     *string                          `json:"orderId_not_starts_with"`
+	OrderIDEndsWith          *string                          `json:"orderId_ends_with"`
+	OrderIDNotEndsWith       *string                          `json:"orderId_not_ends_with"`
+	OrderIDI                 *string                          `json:"orderId_i"`
+	OrderIDNotI              *string                          `json:"orderId_not_i"`
+	OrderIDContainsI         *string                          `json:"orderId_contains_i"`
+	OrderIDNotContainsI      *string                          `json:"orderId_not_contains_i"`
+	OrderIDStartsWithI       *string                          `json:"orderId_starts_with_i"`
+	OrderIDNotStartsWithI    *string                          `json:"orderId_not_starts_with_i"`
+	OrderIDEndsWithI         *string                          `json:"orderId_ends_with_i"`
+	OrderIDNotEndsWithI      *string                          `json:"orderId_not_ends_with_i"`
+	OrderIDIn                []*string                        `json:"orderId_in"`
+	OrderIDNotIn             []*string                        `json:"orderId_not_in"`
+	TransactionDatetime      *string                          `json:"transactionDatetime"`
+	TransactionDatetimeNot   *string                          `json:"transactionDatetime_not"`
+	TransactionDatetimeLt    *string                          `json:"transactionDatetime_lt"`
+	TransactionDatetimeLte   *string                          `json:"transactionDatetime_lte"`
+	TransactionDatetimeGt    *string                          `json:"transactionDatetime_gt"`
+	TransactionDatetimeGte   *string                          `json:"transactionDatetime_gte"`
+	TransactionDatetimeIn    []*string                        `json:"transactionDatetime_in"`
+	TransactionDatetimeNotIn []*string                        `json:"transactionDatetime_not_in"`
+	Amount                   *int                             `json:"amount"`
+	AmountNot                *int                             `json:"amount_not"`
+	AmountLt                 *int                             `json:"amount_lt"`
+	AmountLte                *int                             `json:"amount_lte"`
+	AmountGt                 *int                             `json:"amount_gt"`
+	AmountGte                *int                             `json:"amount_gte"`
+	AmountIn                 []*int                           `json:"amount_in"`
+	AmountNotIn              []*int                           `json:"amount_not_in"`
+	Currency                 *GooglePlayPaymentCurrencyType   `json:"currency"`
+	CurrencyNot              *GooglePlayPaymentCurrencyType   `json:"currency_not"`
+	CurrencyIn               []*GooglePlayPaymentCurrencyType `json:"currency_in"`
+	CurrencyNotIn            []*GooglePlayPaymentCurrencyType `json:"currency_not_in"`
+	CreatedAt                *string                          `json:"createdAt"`
+	CreatedAtNot             *string                          `json:"createdAt_not"`
+	CreatedAtLt              *string                          `json:"createdAt_lt"`
+	CreatedAtLte             *string                          `json:"createdAt_lte"`
+	CreatedAtGt              *string                          `json:"createdAt_gt"`
+	CreatedAtGte             *string                          `json:"createdAt_gte"`
+	CreatedAtIn              []*string                        `json:"createdAt_in"`
+	CreatedAtNotIn           []*string                        `json:"createdAt_not_in"`
+	UpdatedAt                *string                          `json:"updatedAt"`
+	UpdatedAtNot             *string                          `json:"updatedAt_not"`
+	UpdatedAtLt              *string                          `json:"updatedAt_lt"`
+	UpdatedAtLte             *string                          `json:"updatedAt_lte"`
+	UpdatedAtGt              *string                          `json:"updatedAt_gt"`
+	UpdatedAtGte             *string                          `json:"updatedAt_gte"`
+	UpdatedAtIn              []*string                        `json:"updatedAt_in"`
+	UpdatedAtNotIn           []*string                        `json:"updatedAt_not_in"`
+	CreatedByIsNull          *bool                            `json:"createdBy_is_null"`
+	UpdatedByIsNull          *bool                            `json:"updatedBy_is_null"`
 }
 
-type AndroidpayPaymentWhereInput struct {
-	And                []*AndroidpayPaymentWhereInput `json:"AND"`
-	Or                 []*AndroidpayPaymentWhereInput `json:"OR"`
-	ID                 *string                        `json:"id"`
-	IDNot              *string                        `json:"id_not"`
-	IDLt               *string                        `json:"id_lt"`
-	IDLte              *string                        `json:"id_lte"`
-	IDGt               *string                        `json:"id_gt"`
-	IDGte              *string                        `json:"id_gte"`
-	IDIn               []string                       `json:"id_in"`
-	IDNotIn            []string                       `json:"id_not_in"`
-	Subscription       *SubscriptionWhereInput        `json:"subscription"`
-	SubscriptionIsNull *bool                          `json:"subscription_is_null"`
-	Invoice            *InvoiceWhereInput             `json:"invoice"`
-	InvoiceIsNull      *bool                          `json:"invoice_is_null"`
-	CreatedAt          *string                        `json:"createdAt"`
-	CreatedAtNot       *string                        `json:"createdAt_not"`
-	CreatedAtLt        *string                        `json:"createdAt_lt"`
-	CreatedAtLte       *string                        `json:"createdAt_lte"`
-	CreatedAtGt        *string                        `json:"createdAt_gt"`
-	CreatedAtGte       *string                        `json:"createdAt_gte"`
-	CreatedAtIn        []*string                      `json:"createdAt_in"`
-	CreatedAtNotIn     []*string                      `json:"createdAt_not_in"`
-	UpdatedAt          *string                        `json:"updatedAt"`
-	UpdatedAtNot       *string                        `json:"updatedAt_not"`
-	UpdatedAtLt        *string                        `json:"updatedAt_lt"`
-	UpdatedAtLte       *string                        `json:"updatedAt_lte"`
-	UpdatedAtGt        *string                        `json:"updatedAt_gt"`
-	UpdatedAtGte       *string                        `json:"updatedAt_gte"`
-	UpdatedAtIn        []*string                      `json:"updatedAt_in"`
-	UpdatedAtNotIn     []*string                      `json:"updatedAt_not_in"`
-	CreatedByIsNull    *bool                          `json:"createdBy_is_null"`
-	UpdatedByIsNull    *bool                          `json:"updatedBy_is_null"`
+type GooglePlayPaymentWhereUniqueInput struct {
+	ID      *string `json:"id"`
+	OrderID *string `json:"orderId"`
 }
 
-type AndroidpayPaymentWhereUniqueInput struct {
-	ID *string `json:"id"`
+type Group struct {
+	ID             string    `json:"id"`
+	Company        *string   `json:"company"`
+	TaxIDNumber    *string   `json:"taxIdNumber"`
+	Member         []*Member `json:"member"`
+	MemberCount    *int      `json:"memberCount"`
+	StartDate      *string   `json:"startDate"`
+	EndDate        *string   `json:"endDate"`
+	RequesterEmail *string   `json:"requesterEmail"`
+	ApprovedBy     *string   `json:"approvedBy"`
+	Note           *string   `json:"note"`
+	Invoice        *string   `json:"invoice"`
+	CreatedAt      *string   `json:"createdAt"`
+	UpdatedAt      *string   `json:"updatedAt"`
 }
 
-type ApplepayPayment struct {
-	ID           string        `json:"id"`
-	Subscription *Subscription `json:"subscription"`
-	Invoice      *Invoice      `json:"invoice"`
-	CreatedAt    *string       `json:"createdAt"`
-	UpdatedAt    *string       `json:"updatedAt"`
+type GroupOrderByInput struct {
+	ID             *OrderDirection `json:"id"`
+	Company        *OrderDirection `json:"company"`
+	TaxIDNumber    *OrderDirection `json:"taxIdNumber"`
+	StartDate      *OrderDirection `json:"startDate"`
+	EndDate        *OrderDirection `json:"endDate"`
+	RequesterEmail *OrderDirection `json:"requesterEmail"`
+	ApprovedBy     *OrderDirection `json:"approvedBy"`
+	Note           *OrderDirection `json:"note"`
+	Invoice        *OrderDirection `json:"invoice"`
+	CreatedAt      *OrderDirection `json:"createdAt"`
+	UpdatedAt      *OrderDirection `json:"updatedAt"`
 }
 
-type ApplepayPaymentCreateInput struct {
-	Subscription *SubscriptionRelateToOneInput `json:"subscription"`
-	Invoice      *InvoiceRelateToOneInput      `json:"invoice"`
-	CreatedAt    *string                       `json:"createdAt"`
-	UpdatedAt    *string                       `json:"updatedAt"`
+type GroupWhereInput struct {
+	And                          []*GroupWhereInput `json:"AND"`
+	Or                           []*GroupWhereInput `json:"OR"`
+	ID                           *string            `json:"id"`
+	IDNot                        *string            `json:"id_not"`
+	IDLt                         *string            `json:"id_lt"`
+	IDLte                        *string            `json:"id_lte"`
+	IDGt                         *string            `json:"id_gt"`
+	IDGte                        *string            `json:"id_gte"`
+	IDIn                         []string           `json:"id_in"`
+	IDNotIn                      []string           `json:"id_not_in"`
+	Company                      *string            `json:"company"`
+	CompanyNot                   *string            `json:"company_not"`
+	CompanyContains              *string            `json:"company_contains"`
+	CompanyNotContains           *string            `json:"company_not_contains"`
+	CompanyStartsWith            *string            `json:"company_starts_with"`
+	CompanyNotStartsWith         *string            `json:"company_not_starts_with"`
+	CompanyEndsWith              *string            `json:"company_ends_with"`
+	CompanyNotEndsWith           *string            `json:"company_not_ends_with"`
+	CompanyI                     *string            `json:"company_i"`
+	CompanyNotI                  *string            `json:"company_not_i"`
+	CompanyContainsI             *string            `json:"company_contains_i"`
+	CompanyNotContainsI          *string            `json:"company_not_contains_i"`
+	CompanyStartsWithI           *string            `json:"company_starts_with_i"`
+	CompanyNotStartsWithI        *string            `json:"company_not_starts_with_i"`
+	CompanyEndsWithI             *string            `json:"company_ends_with_i"`
+	CompanyNotEndsWithI          *string            `json:"company_not_ends_with_i"`
+	CompanyIn                    []*string          `json:"company_in"`
+	CompanyNotIn                 []*string          `json:"company_not_in"`
+	TaxIDNumber                  *string            `json:"taxIdNumber"`
+	TaxIDNumberNot               *string            `json:"taxIdNumber_not"`
+	TaxIDNumberContains          *string            `json:"taxIdNumber_contains"`
+	TaxIDNumberNotContains       *string            `json:"taxIdNumber_not_contains"`
+	TaxIDNumberStartsWith        *string            `json:"taxIdNumber_starts_with"`
+	TaxIDNumberNotStartsWith     *string            `json:"taxIdNumber_not_starts_with"`
+	TaxIDNumberEndsWith          *string            `json:"taxIdNumber_ends_with"`
+	TaxIDNumberNotEndsWith       *string            `json:"taxIdNumber_not_ends_with"`
+	TaxIDNumberI                 *string            `json:"taxIdNumber_i"`
+	TaxIDNumberNotI              *string            `json:"taxIdNumber_not_i"`
+	TaxIDNumberContainsI         *string            `json:"taxIdNumber_contains_i"`
+	TaxIDNumberNotContainsI      *string            `json:"taxIdNumber_not_contains_i"`
+	TaxIDNumberStartsWithI       *string            `json:"taxIdNumber_starts_with_i"`
+	TaxIDNumberNotStartsWithI    *string            `json:"taxIdNumber_not_starts_with_i"`
+	TaxIDNumberEndsWithI         *string            `json:"taxIdNumber_ends_with_i"`
+	TaxIDNumberNotEndsWithI      *string            `json:"taxIdNumber_not_ends_with_i"`
+	TaxIDNumberIn                []*string          `json:"taxIdNumber_in"`
+	TaxIDNumberNotIn             []*string          `json:"taxIdNumber_not_in"`
+	MemberEvery                  *MemberWhereInput  `json:"member_every"`
+	MemberSome                   *MemberWhereInput  `json:"member_some"`
+	MemberNone                   *MemberWhereInput  `json:"member_none"`
+	StartDate                    *string            `json:"startDate"`
+	StartDateNot                 *string            `json:"startDate_not"`
+	StartDateLt                  *string            `json:"startDate_lt"`
+	StartDateLte                 *string            `json:"startDate_lte"`
+	StartDateGt                  *string            `json:"startDate_gt"`
+	StartDateGte                 *string            `json:"startDate_gte"`
+	StartDateIn                  []*string          `json:"startDate_in"`
+	StartDateNotIn               []*string          `json:"startDate_not_in"`
+	EndDate                      *string            `json:"endDate"`
+	EndDateNot                   *string            `json:"endDate_not"`
+	EndDateLt                    *string            `json:"endDate_lt"`
+	EndDateLte                   *string            `json:"endDate_lte"`
+	EndDateGt                    *string            `json:"endDate_gt"`
+	EndDateGte                   *string            `json:"endDate_gte"`
+	EndDateIn                    []*string          `json:"endDate_in"`
+	EndDateNotIn                 []*string          `json:"endDate_not_in"`
+	RequesterEmail               *string            `json:"requesterEmail"`
+	RequesterEmailNot            *string            `json:"requesterEmail_not"`
+	RequesterEmailContains       *string            `json:"requesterEmail_contains"`
+	RequesterEmailNotContains    *string            `json:"requesterEmail_not_contains"`
+	RequesterEmailStartsWith     *string            `json:"requesterEmail_starts_with"`
+	RequesterEmailNotStartsWith  *string            `json:"requesterEmail_not_starts_with"`
+	RequesterEmailEndsWith       *string            `json:"requesterEmail_ends_with"`
+	RequesterEmailNotEndsWith    *string            `json:"requesterEmail_not_ends_with"`
+	RequesterEmailI              *string            `json:"requesterEmail_i"`
+	RequesterEmailNotI           *string            `json:"requesterEmail_not_i"`
+	RequesterEmailContainsI      *string            `json:"requesterEmail_contains_i"`
+	RequesterEmailNotContainsI   *string            `json:"requesterEmail_not_contains_i"`
+	RequesterEmailStartsWithI    *string            `json:"requesterEmail_starts_with_i"`
+	RequesterEmailNotStartsWithI *string            `json:"requesterEmail_not_starts_with_i"`
+	RequesterEmailEndsWithI      *string            `json:"requesterEmail_ends_with_i"`
+	RequesterEmailNotEndsWithI   *string            `json:"requesterEmail_not_ends_with_i"`
+	RequesterEmailIn             []*string          `json:"requesterEmail_in"`
+	RequesterEmailNotIn          []*string          `json:"requesterEmail_not_in"`
+	ApprovedBy                   *string            `json:"approvedBy"`
+	ApprovedByNot                *string            `json:"approvedBy_not"`
+	ApprovedByContains           *string            `json:"approvedBy_contains"`
+	ApprovedByNotContains        *string            `json:"approvedBy_not_contains"`
+	ApprovedByStartsWith         *string            `json:"approvedBy_starts_with"`
+	ApprovedByNotStartsWith      *string            `json:"approvedBy_not_starts_with"`
+	ApprovedByEndsWith           *string            `json:"approvedBy_ends_with"`
+	ApprovedByNotEndsWith        *string            `json:"approvedBy_not_ends_with"`
+	ApprovedByI                  *string            `json:"approvedBy_i"`
+	ApprovedByNotI               *string            `json:"approvedBy_not_i"`
+	ApprovedByContainsI          *string            `json:"approvedBy_contains_i"`
+	ApprovedByNotContainsI       *string            `json:"approvedBy_not_contains_i"`
+	ApprovedByStartsWithI        *string            `json:"approvedBy_starts_with_i"`
+	ApprovedByNotStartsWithI     *string            `json:"approvedBy_not_starts_with_i"`
+	ApprovedByEndsWithI          *string            `json:"approvedBy_ends_with_i"`
+	ApprovedByNotEndsWithI       *string            `json:"approvedBy_not_ends_with_i"`
+	ApprovedByIn                 []*string          `json:"approvedBy_in"`
+	ApprovedByNotIn              []*string          `json:"approvedBy_not_in"`
+	Note                         *string            `json:"note"`
+	NoteNot                      *string            `json:"note_not"`
+	NoteContains                 *string            `json:"note_contains"`
+	NoteNotContains              *string            `json:"note_not_contains"`
+	NoteStartsWith               *string            `json:"note_starts_with"`
+	NoteNotStartsWith            *string            `json:"note_not_starts_with"`
+	NoteEndsWith                 *string            `json:"note_ends_with"`
+	NoteNotEndsWith              *string            `json:"note_not_ends_with"`
+	NoteI                        *string            `json:"note_i"`
+	NoteNotI                     *string            `json:"note_not_i"`
+	NoteContainsI                *string            `json:"note_contains_i"`
+	NoteNotContainsI             *string            `json:"note_not_contains_i"`
+	NoteStartsWithI              *string            `json:"note_starts_with_i"`
+	NoteNotStartsWithI           *string            `json:"note_not_starts_with_i"`
+	NoteEndsWithI                *string            `json:"note_ends_with_i"`
+	NoteNotEndsWithI             *string            `json:"note_not_ends_with_i"`
+	NoteIn                       []*string          `json:"note_in"`
+	NoteNotIn                    []*string          `json:"note_not_in"`
+	Invoice                      *string            `json:"invoice"`
+	InvoiceNot                   *string            `json:"invoice_not"`
+	InvoiceContains              *string            `json:"invoice_contains"`
+	InvoiceNotContains           *string            `json:"invoice_not_contains"`
+	InvoiceStartsWith            *string            `json:"invoice_starts_with"`
+	InvoiceNotStartsWith         *string            `json:"invoice_not_starts_with"`
+	InvoiceEndsWith              *string            `json:"invoice_ends_with"`
+	InvoiceNotEndsWith           *string            `json:"invoice_not_ends_with"`
+	InvoiceI                     *string            `json:"invoice_i"`
+	InvoiceNotI                  *string            `json:"invoice_not_i"`
+	InvoiceContainsI             *string            `json:"invoice_contains_i"`
+	InvoiceNotContainsI          *string            `json:"invoice_not_contains_i"`
+	InvoiceStartsWithI           *string            `json:"invoice_starts_with_i"`
+	InvoiceNotStartsWithI        *string            `json:"invoice_not_starts_with_i"`
+	InvoiceEndsWithI             *string            `json:"invoice_ends_with_i"`
+	InvoiceNotEndsWithI          *string            `json:"invoice_not_ends_with_i"`
+	InvoiceIn                    []*string          `json:"invoice_in"`
+	InvoiceNotIn                 []*string          `json:"invoice_not_in"`
+	CreatedAt                    *string            `json:"createdAt"`
+	CreatedAtNot                 *string            `json:"createdAt_not"`
+	CreatedAtLt                  *string            `json:"createdAt_lt"`
+	CreatedAtLte                 *string            `json:"createdAt_lte"`
+	CreatedAtGt                  *string            `json:"createdAt_gt"`
+	CreatedAtGte                 *string            `json:"createdAt_gte"`
+	CreatedAtIn                  []*string          `json:"createdAt_in"`
+	CreatedAtNotIn               []*string          `json:"createdAt_not_in"`
+	UpdatedAt                    *string            `json:"updatedAt"`
+	UpdatedAtNot                 *string            `json:"updatedAt_not"`
+	UpdatedAtLt                  *string            `json:"updatedAt_lt"`
+	UpdatedAtLte                 *string            `json:"updatedAt_lte"`
+	UpdatedAtGt                  *string            `json:"updatedAt_gt"`
+	UpdatedAtGte                 *string            `json:"updatedAt_gte"`
+	UpdatedAtIn                  []*string          `json:"updatedAt_in"`
+	UpdatedAtNotIn               []*string          `json:"updatedAt_not_in"`
 }
 
-type ApplepayPaymentOrderByInput struct {
-	ID        *OrderDirection `json:"id"`
-	CreatedAt *OrderDirection `json:"createdAt"`
-	UpdatedAt *OrderDirection `json:"updatedAt"`
-}
-
-type ApplepayPaymentRelateToManyInput struct {
-	Create        []*ApplepayPaymentCreateInput      `json:"create"`
-	Connect       []*ApplepayPaymentWhereUniqueInput `json:"connect"`
-	Disconnect    []*ApplepayPaymentWhereUniqueInput `json:"disconnect"`
-	DisconnectAll *bool                              `json:"disconnectAll"`
-}
-
-type ApplepayPaymentRelateToOneInput struct {
-	Create        *ApplepayPaymentCreateInput      `json:"create"`
-	Connect       *ApplepayPaymentWhereUniqueInput `json:"connect"`
-	Disconnect    *ApplepayPaymentWhereUniqueInput `json:"disconnect"`
-	DisconnectAll *bool                            `json:"disconnectAll"`
-}
-
-type ApplepayPaymentUpdateInput struct {
-	Subscription *SubscriptionRelateToOneInput `json:"subscription"`
-	Invoice      *InvoiceRelateToOneInput      `json:"invoice"`
-	CreatedAt    *string                       `json:"createdAt"`
-	UpdatedAt    *string                       `json:"updatedAt"`
-}
-
-type ApplepayPaymentWhereInput struct {
-	And                []*ApplepayPaymentWhereInput `json:"AND"`
-	Or                 []*ApplepayPaymentWhereInput `json:"OR"`
-	ID                 *string                      `json:"id"`
-	IDNot              *string                      `json:"id_not"`
-	IDLt               *string                      `json:"id_lt"`
-	IDLte              *string                      `json:"id_lte"`
-	IDGt               *string                      `json:"id_gt"`
-	IDGte              *string                      `json:"id_gte"`
-	IDIn               []string                     `json:"id_in"`
-	IDNotIn            []string                     `json:"id_not_in"`
-	Subscription       *SubscriptionWhereInput      `json:"subscription"`
-	SubscriptionIsNull *bool                        `json:"subscription_is_null"`
-	Invoice            *InvoiceWhereInput           `json:"invoice"`
-	InvoiceIsNull      *bool                        `json:"invoice_is_null"`
-	CreatedAt          *string                      `json:"createdAt"`
-	CreatedAtNot       *string                      `json:"createdAt_not"`
-	CreatedAtLt        *string                      `json:"createdAt_lt"`
-	CreatedAtLte       *string                      `json:"createdAt_lte"`
-	CreatedAtGt        *string                      `json:"createdAt_gt"`
-	CreatedAtGte       *string                      `json:"createdAt_gte"`
-	CreatedAtIn        []*string                    `json:"createdAt_in"`
-	CreatedAtNotIn     []*string                    `json:"createdAt_not_in"`
-	UpdatedAt          *string                      `json:"updatedAt"`
-	UpdatedAtNot       *string                      `json:"updatedAt_not"`
-	UpdatedAtLt        *string                      `json:"updatedAt_lt"`
-	UpdatedAtLte       *string                      `json:"updatedAt_lte"`
-	UpdatedAtGt        *string                      `json:"updatedAt_gt"`
-	UpdatedAtGte       *string                      `json:"updatedAt_gte"`
-	UpdatedAtIn        []*string                    `json:"updatedAt_in"`
-	UpdatedAtNotIn     []*string                    `json:"updatedAt_not_in"`
-	CreatedByIsNull    *bool                        `json:"createdBy_is_null"`
-	UpdatedByIsNull    *bool                        `json:"updatedBy_is_null"`
-}
-
-type ApplepayPaymentWhereUniqueInput struct {
+type GroupWhereUniqueInput struct {
 	ID *string `json:"id"`
 }
 
 type Invoice struct {
-	ID                string               `json:"id"`
-	NewebpayPayment   *NewebpayPayment     `json:"newebpayPayment"`
-	ApplepayPayment   *ApplepayPayment     `json:"applepayPayment"`
-	AndroidpayPayment *AndroidpayPayment   `json:"androidpayPayment"`
-	Amount            *int                 `json:"amount"`
-	Email             *string              `json:"email"`
-	Desc              *string              `json:"desc"`
-	InvoiceNo         *string              `json:"invoiceNo"`
-	Category          *InvoiceCategoryType `json:"category"`
-	LoveCode          *int                 `json:"loveCode"`
-	CarrierType       *string              `json:"carrierType"`
-	CarrierNum        *string              `json:"carrierNum"`
-	BuyerName         *string              `json:"buyerName"`
-	BuyerUbn          *string              `json:"buyerUBN"`
-	Status            *InvoiceStatusType   `json:"status"`
-	CreatedAt         *string              `json:"createdAt"`
-	UpdatedAt         *string              `json:"updatedAt"`
+	ID              string               `json:"id"`
+	NewebpayPayment *NewebpayPayment     `json:"newebpayPayment"`
+	Amount          *int                 `json:"amount"`
+	Email           *string              `json:"email"`
+	Desc            *string              `json:"desc"`
+	InvoiceNo       *string              `json:"invoiceNo"`
+	Category        *InvoiceCategoryType `json:"category"`
+	LoveCode        *int                 `json:"loveCode"`
+	CarrierType     *string              `json:"carrierType"`
+	CarrierNum      *string              `json:"carrierNum"`
+	BuyerName       *string              `json:"buyerName"`
+	BuyerUbn        *string              `json:"buyerUBN"`
+	Status          *InvoiceStatusType   `json:"status"`
+	CreatedAt       *string              `json:"createdAt"`
+	UpdatedAt       *string              `json:"updatedAt"`
 }
 
 type InvoiceCreateInput struct {
-	NewebpayPayment   *NewebpayPaymentRelateToOneInput   `json:"newebpayPayment"`
-	ApplepayPayment   *ApplepayPaymentRelateToOneInput   `json:"applepayPayment"`
-	AndroidpayPayment *AndroidpayPaymentRelateToOneInput `json:"androidpayPayment"`
-	Amount            *int                               `json:"amount"`
-	Email             *string                            `json:"email"`
-	Desc              *string                            `json:"desc"`
-	InvoiceNo         *string                            `json:"invoiceNo"`
-	Category          *InvoiceCategoryType               `json:"category"`
-	LoveCode          *int                               `json:"loveCode"`
-	CarrierType       *string                            `json:"carrierType"`
-	CarrierNum        *string                            `json:"carrierNum"`
-	BuyerName         *string                            `json:"buyerName"`
-	BuyerUbn          *string                            `json:"buyerUBN"`
-	Status            *InvoiceStatusType                 `json:"status"`
-	CreatedAt         *string                            `json:"createdAt"`
-	UpdatedAt         *string                            `json:"updatedAt"`
+	NewebpayPayment *NewebpayPaymentRelateToOneInput `json:"newebpayPayment"`
+	Amount          *int                             `json:"amount"`
+	Email           *string                          `json:"email"`
+	Desc            *string                          `json:"desc"`
+	InvoiceNo       *string                          `json:"invoiceNo"`
+	Category        *InvoiceCategoryType             `json:"category"`
+	LoveCode        *int                             `json:"loveCode"`
+	CarrierType     *string                          `json:"carrierType"`
+	CarrierNum      *string                          `json:"carrierNum"`
+	BuyerName       *string                          `json:"buyerName"`
+	BuyerUbn        *string                          `json:"buyerUBN"`
+	Status          *InvoiceStatusType               `json:"status"`
+	CreatedAt       *string                          `json:"createdAt"`
+	UpdatedAt       *string                          `json:"updatedAt"`
 }
 
 type InvoiceOrderByInput struct {
@@ -334,203 +671,197 @@ type InvoiceOrderByInput struct {
 	UpdatedAt   *OrderDirection `json:"updatedAt"`
 }
 
-type InvoiceRelateToOneInput struct {
-	Create        *InvoiceCreateInput      `json:"create"`
-	Connect       *InvoiceWhereUniqueInput `json:"connect"`
-	Disconnect    *InvoiceWhereUniqueInput `json:"disconnect"`
-	DisconnectAll *bool                    `json:"disconnectAll"`
+type InvoiceRelateToManyInput struct {
+	Create        []*InvoiceCreateInput      `json:"create"`
+	Connect       []*InvoiceWhereUniqueInput `json:"connect"`
+	Disconnect    []*InvoiceWhereUniqueInput `json:"disconnect"`
+	DisconnectAll *bool                      `json:"disconnectAll"`
 }
 
 type InvoiceUpdateInput struct {
-	NewebpayPayment   *NewebpayPaymentRelateToOneInput   `json:"newebpayPayment"`
-	ApplepayPayment   *ApplepayPaymentRelateToOneInput   `json:"applepayPayment"`
-	AndroidpayPayment *AndroidpayPaymentRelateToOneInput `json:"androidpayPayment"`
-	Amount            *int                               `json:"amount"`
-	Email             *string                            `json:"email"`
-	Desc              *string                            `json:"desc"`
-	InvoiceNo         *string                            `json:"invoiceNo"`
-	Category          *InvoiceCategoryType               `json:"category"`
-	LoveCode          *int                               `json:"loveCode"`
-	CarrierType       *string                            `json:"carrierType"`
-	CarrierNum        *string                            `json:"carrierNum"`
-	BuyerName         *string                            `json:"buyerName"`
-	BuyerUbn          *string                            `json:"buyerUBN"`
-	Status            *InvoiceStatusType                 `json:"status"`
-	CreatedAt         *string                            `json:"createdAt"`
-	UpdatedAt         *string                            `json:"updatedAt"`
+	NewebpayPayment *NewebpayPaymentRelateToOneInput `json:"newebpayPayment"`
+	Amount          *int                             `json:"amount"`
+	Email           *string                          `json:"email"`
+	Desc            *string                          `json:"desc"`
+	InvoiceNo       *string                          `json:"invoiceNo"`
+	Category        *InvoiceCategoryType             `json:"category"`
+	LoveCode        *int                             `json:"loveCode"`
+	CarrierType     *string                          `json:"carrierType"`
+	CarrierNum      *string                          `json:"carrierNum"`
+	BuyerName       *string                          `json:"buyerName"`
+	BuyerUbn        *string                          `json:"buyerUBN"`
+	Status          *InvoiceStatusType               `json:"status"`
+	CreatedAt       *string                          `json:"createdAt"`
+	UpdatedAt       *string                          `json:"updatedAt"`
 }
 
 type InvoiceWhereInput struct {
-	And                      []*InvoiceWhereInput         `json:"AND"`
-	Or                       []*InvoiceWhereInput         `json:"OR"`
-	ID                       *string                      `json:"id"`
-	IDNot                    *string                      `json:"id_not"`
-	IDLt                     *string                      `json:"id_lt"`
-	IDLte                    *string                      `json:"id_lte"`
-	IDGt                     *string                      `json:"id_gt"`
-	IDGte                    *string                      `json:"id_gte"`
-	IDIn                     []string                     `json:"id_in"`
-	IDNotIn                  []string                     `json:"id_not_in"`
-	NewebpayPayment          *NewebpayPaymentWhereInput   `json:"newebpayPayment"`
-	NewebpayPaymentIsNull    *bool                        `json:"newebpayPayment_is_null"`
-	ApplepayPayment          *ApplepayPaymentWhereInput   `json:"applepayPayment"`
-	ApplepayPaymentIsNull    *bool                        `json:"applepayPayment_is_null"`
-	AndroidpayPayment        *AndroidpayPaymentWhereInput `json:"androidpayPayment"`
-	AndroidpayPaymentIsNull  *bool                        `json:"androidpayPayment_is_null"`
-	Amount                   *int                         `json:"amount"`
-	AmountNot                *int                         `json:"amount_not"`
-	AmountLt                 *int                         `json:"amount_lt"`
-	AmountLte                *int                         `json:"amount_lte"`
-	AmountGt                 *int                         `json:"amount_gt"`
-	AmountGte                *int                         `json:"amount_gte"`
-	AmountIn                 []*int                       `json:"amount_in"`
-	AmountNotIn              []*int                       `json:"amount_not_in"`
-	Email                    *string                      `json:"email"`
-	EmailNot                 *string                      `json:"email_not"`
-	EmailContains            *string                      `json:"email_contains"`
-	EmailNotContains         *string                      `json:"email_not_contains"`
-	EmailStartsWith          *string                      `json:"email_starts_with"`
-	EmailNotStartsWith       *string                      `json:"email_not_starts_with"`
-	EmailEndsWith            *string                      `json:"email_ends_with"`
-	EmailNotEndsWith         *string                      `json:"email_not_ends_with"`
-	EmailI                   *string                      `json:"email_i"`
-	EmailNotI                *string                      `json:"email_not_i"`
-	EmailContainsI           *string                      `json:"email_contains_i"`
-	EmailNotContainsI        *string                      `json:"email_not_contains_i"`
-	EmailStartsWithI         *string                      `json:"email_starts_with_i"`
-	EmailNotStartsWithI      *string                      `json:"email_not_starts_with_i"`
-	EmailEndsWithI           *string                      `json:"email_ends_with_i"`
-	EmailNotEndsWithI        *string                      `json:"email_not_ends_with_i"`
-	EmailIn                  []*string                    `json:"email_in"`
-	EmailNotIn               []*string                    `json:"email_not_in"`
-	Desc                     *string                      `json:"desc"`
-	DescNot                  *string                      `json:"desc_not"`
-	DescContains             *string                      `json:"desc_contains"`
-	DescNotContains          *string                      `json:"desc_not_contains"`
-	DescStartsWith           *string                      `json:"desc_starts_with"`
-	DescNotStartsWith        *string                      `json:"desc_not_starts_with"`
-	DescEndsWith             *string                      `json:"desc_ends_with"`
-	DescNotEndsWith          *string                      `json:"desc_not_ends_with"`
-	DescI                    *string                      `json:"desc_i"`
-	DescNotI                 *string                      `json:"desc_not_i"`
-	DescContainsI            *string                      `json:"desc_contains_i"`
-	DescNotContainsI         *string                      `json:"desc_not_contains_i"`
-	DescStartsWithI          *string                      `json:"desc_starts_with_i"`
-	DescNotStartsWithI       *string                      `json:"desc_not_starts_with_i"`
-	DescEndsWithI            *string                      `json:"desc_ends_with_i"`
-	DescNotEndsWithI         *string                      `json:"desc_not_ends_with_i"`
-	DescIn                   []*string                    `json:"desc_in"`
-	DescNotIn                []*string                    `json:"desc_not_in"`
-	InvoiceNo                *string                      `json:"invoiceNo"`
-	InvoiceNoNot             *string                      `json:"invoiceNo_not"`
-	InvoiceNoContains        *string                      `json:"invoiceNo_contains"`
-	InvoiceNoNotContains     *string                      `json:"invoiceNo_not_contains"`
-	InvoiceNoStartsWith      *string                      `json:"invoiceNo_starts_with"`
-	InvoiceNoNotStartsWith   *string                      `json:"invoiceNo_not_starts_with"`
-	InvoiceNoEndsWith        *string                      `json:"invoiceNo_ends_with"`
-	InvoiceNoNotEndsWith     *string                      `json:"invoiceNo_not_ends_with"`
-	InvoiceNoI               *string                      `json:"invoiceNo_i"`
-	InvoiceNoNotI            *string                      `json:"invoiceNo_not_i"`
-	InvoiceNoContainsI       *string                      `json:"invoiceNo_contains_i"`
-	InvoiceNoNotContainsI    *string                      `json:"invoiceNo_not_contains_i"`
-	InvoiceNoStartsWithI     *string                      `json:"invoiceNo_starts_with_i"`
-	InvoiceNoNotStartsWithI  *string                      `json:"invoiceNo_not_starts_with_i"`
-	InvoiceNoEndsWithI       *string                      `json:"invoiceNo_ends_with_i"`
-	InvoiceNoNotEndsWithI    *string                      `json:"invoiceNo_not_ends_with_i"`
-	InvoiceNoIn              []*string                    `json:"invoiceNo_in"`
-	InvoiceNoNotIn           []*string                    `json:"invoiceNo_not_in"`
-	Category                 *InvoiceCategoryType         `json:"category"`
-	CategoryNot              *InvoiceCategoryType         `json:"category_not"`
-	CategoryIn               []*InvoiceCategoryType       `json:"category_in"`
-	CategoryNotIn            []*InvoiceCategoryType       `json:"category_not_in"`
-	LoveCode                 *int                         `json:"loveCode"`
-	LoveCodeNot              *int                         `json:"loveCode_not"`
-	LoveCodeLt               *int                         `json:"loveCode_lt"`
-	LoveCodeLte              *int                         `json:"loveCode_lte"`
-	LoveCodeGt               *int                         `json:"loveCode_gt"`
-	LoveCodeGte              *int                         `json:"loveCode_gte"`
-	LoveCodeIn               []*int                       `json:"loveCode_in"`
-	LoveCodeNotIn            []*int                       `json:"loveCode_not_in"`
-	CarrierType              *string                      `json:"carrierType"`
-	CarrierTypeNot           *string                      `json:"carrierType_not"`
-	CarrierTypeIn            []*string                    `json:"carrierType_in"`
-	CarrierTypeNotIn         []*string                    `json:"carrierType_not_in"`
-	CarrierNum               *string                      `json:"carrierNum"`
-	CarrierNumNot            *string                      `json:"carrierNum_not"`
-	CarrierNumContains       *string                      `json:"carrierNum_contains"`
-	CarrierNumNotContains    *string                      `json:"carrierNum_not_contains"`
-	CarrierNumStartsWith     *string                      `json:"carrierNum_starts_with"`
-	CarrierNumNotStartsWith  *string                      `json:"carrierNum_not_starts_with"`
-	CarrierNumEndsWith       *string                      `json:"carrierNum_ends_with"`
-	CarrierNumNotEndsWith    *string                      `json:"carrierNum_not_ends_with"`
-	CarrierNumI              *string                      `json:"carrierNum_i"`
-	CarrierNumNotI           *string                      `json:"carrierNum_not_i"`
-	CarrierNumContainsI      *string                      `json:"carrierNum_contains_i"`
-	CarrierNumNotContainsI   *string                      `json:"carrierNum_not_contains_i"`
-	CarrierNumStartsWithI    *string                      `json:"carrierNum_starts_with_i"`
-	CarrierNumNotStartsWithI *string                      `json:"carrierNum_not_starts_with_i"`
-	CarrierNumEndsWithI      *string                      `json:"carrierNum_ends_with_i"`
-	CarrierNumNotEndsWithI   *string                      `json:"carrierNum_not_ends_with_i"`
-	CarrierNumIn             []*string                    `json:"carrierNum_in"`
-	CarrierNumNotIn          []*string                    `json:"carrierNum_not_in"`
-	BuyerName                *string                      `json:"buyerName"`
-	BuyerNameNot             *string                      `json:"buyerName_not"`
-	BuyerNameContains        *string                      `json:"buyerName_contains"`
-	BuyerNameNotContains     *string                      `json:"buyerName_not_contains"`
-	BuyerNameStartsWith      *string                      `json:"buyerName_starts_with"`
-	BuyerNameNotStartsWith   *string                      `json:"buyerName_not_starts_with"`
-	BuyerNameEndsWith        *string                      `json:"buyerName_ends_with"`
-	BuyerNameNotEndsWith     *string                      `json:"buyerName_not_ends_with"`
-	BuyerNameI               *string                      `json:"buyerName_i"`
-	BuyerNameNotI            *string                      `json:"buyerName_not_i"`
-	BuyerNameContainsI       *string                      `json:"buyerName_contains_i"`
-	BuyerNameNotContainsI    *string                      `json:"buyerName_not_contains_i"`
-	BuyerNameStartsWithI     *string                      `json:"buyerName_starts_with_i"`
-	BuyerNameNotStartsWithI  *string                      `json:"buyerName_not_starts_with_i"`
-	BuyerNameEndsWithI       *string                      `json:"buyerName_ends_with_i"`
-	BuyerNameNotEndsWithI    *string                      `json:"buyerName_not_ends_with_i"`
-	BuyerNameIn              []*string                    `json:"buyerName_in"`
-	BuyerNameNotIn           []*string                    `json:"buyerName_not_in"`
-	BuyerUbn                 *string                      `json:"buyerUBN"`
-	BuyerUbnNot              *string                      `json:"buyerUBN_not"`
-	BuyerUbnContains         *string                      `json:"buyerUBN_contains"`
-	BuyerUbnNotContains      *string                      `json:"buyerUBN_not_contains"`
-	BuyerUbnStartsWith       *string                      `json:"buyerUBN_starts_with"`
-	BuyerUbnNotStartsWith    *string                      `json:"buyerUBN_not_starts_with"`
-	BuyerUbnEndsWith         *string                      `json:"buyerUBN_ends_with"`
-	BuyerUbnNotEndsWith      *string                      `json:"buyerUBN_not_ends_with"`
-	BuyerUbnI                *string                      `json:"buyerUBN_i"`
-	BuyerUbnNotI             *string                      `json:"buyerUBN_not_i"`
-	BuyerUbnContainsI        *string                      `json:"buyerUBN_contains_i"`
-	BuyerUbnNotContainsI     *string                      `json:"buyerUBN_not_contains_i"`
-	BuyerUbnStartsWithI      *string                      `json:"buyerUBN_starts_with_i"`
-	BuyerUbnNotStartsWithI   *string                      `json:"buyerUBN_not_starts_with_i"`
-	BuyerUbnEndsWithI        *string                      `json:"buyerUBN_ends_with_i"`
-	BuyerUbnNotEndsWithI     *string                      `json:"buyerUBN_not_ends_with_i"`
-	BuyerUbnIn               []*string                    `json:"buyerUBN_in"`
-	BuyerUbnNotIn            []*string                    `json:"buyerUBN_not_in"`
-	Status                   *InvoiceStatusType           `json:"status"`
-	StatusNot                *InvoiceStatusType           `json:"status_not"`
-	StatusIn                 []*InvoiceStatusType         `json:"status_in"`
-	StatusNotIn              []*InvoiceStatusType         `json:"status_not_in"`
-	CreatedAt                *string                      `json:"createdAt"`
-	CreatedAtNot             *string                      `json:"createdAt_not"`
-	CreatedAtLt              *string                      `json:"createdAt_lt"`
-	CreatedAtLte             *string                      `json:"createdAt_lte"`
-	CreatedAtGt              *string                      `json:"createdAt_gt"`
-	CreatedAtGte             *string                      `json:"createdAt_gte"`
-	CreatedAtIn              []*string                    `json:"createdAt_in"`
-	CreatedAtNotIn           []*string                    `json:"createdAt_not_in"`
-	UpdatedAt                *string                      `json:"updatedAt"`
-	UpdatedAtNot             *string                      `json:"updatedAt_not"`
-	UpdatedAtLt              *string                      `json:"updatedAt_lt"`
-	UpdatedAtLte             *string                      `json:"updatedAt_lte"`
-	UpdatedAtGt              *string                      `json:"updatedAt_gt"`
-	UpdatedAtGte             *string                      `json:"updatedAt_gte"`
-	UpdatedAtIn              []*string                    `json:"updatedAt_in"`
-	UpdatedAtNotIn           []*string                    `json:"updatedAt_not_in"`
-	CreatedByIsNull          *bool                        `json:"createdBy_is_null"`
-	UpdatedByIsNull          *bool                        `json:"updatedBy_is_null"`
+	And                      []*InvoiceWhereInput       `json:"AND"`
+	Or                       []*InvoiceWhereInput       `json:"OR"`
+	ID                       *string                    `json:"id"`
+	IDNot                    *string                    `json:"id_not"`
+	IDLt                     *string                    `json:"id_lt"`
+	IDLte                    *string                    `json:"id_lte"`
+	IDGt                     *string                    `json:"id_gt"`
+	IDGte                    *string                    `json:"id_gte"`
+	IDIn                     []string                   `json:"id_in"`
+	IDNotIn                  []string                   `json:"id_not_in"`
+	NewebpayPayment          *NewebpayPaymentWhereInput `json:"newebpayPayment"`
+	NewebpayPaymentIsNull    *bool                      `json:"newebpayPayment_is_null"`
+	Amount                   *int                       `json:"amount"`
+	AmountNot                *int                       `json:"amount_not"`
+	AmountLt                 *int                       `json:"amount_lt"`
+	AmountLte                *int                       `json:"amount_lte"`
+	AmountGt                 *int                       `json:"amount_gt"`
+	AmountGte                *int                       `json:"amount_gte"`
+	AmountIn                 []*int                     `json:"amount_in"`
+	AmountNotIn              []*int                     `json:"amount_not_in"`
+	Email                    *string                    `json:"email"`
+	EmailNot                 *string                    `json:"email_not"`
+	EmailContains            *string                    `json:"email_contains"`
+	EmailNotContains         *string                    `json:"email_not_contains"`
+	EmailStartsWith          *string                    `json:"email_starts_with"`
+	EmailNotStartsWith       *string                    `json:"email_not_starts_with"`
+	EmailEndsWith            *string                    `json:"email_ends_with"`
+	EmailNotEndsWith         *string                    `json:"email_not_ends_with"`
+	EmailI                   *string                    `json:"email_i"`
+	EmailNotI                *string                    `json:"email_not_i"`
+	EmailContainsI           *string                    `json:"email_contains_i"`
+	EmailNotContainsI        *string                    `json:"email_not_contains_i"`
+	EmailStartsWithI         *string                    `json:"email_starts_with_i"`
+	EmailNotStartsWithI      *string                    `json:"email_not_starts_with_i"`
+	EmailEndsWithI           *string                    `json:"email_ends_with_i"`
+	EmailNotEndsWithI        *string                    `json:"email_not_ends_with_i"`
+	EmailIn                  []*string                  `json:"email_in"`
+	EmailNotIn               []*string                  `json:"email_not_in"`
+	Desc                     *string                    `json:"desc"`
+	DescNot                  *string                    `json:"desc_not"`
+	DescContains             *string                    `json:"desc_contains"`
+	DescNotContains          *string                    `json:"desc_not_contains"`
+	DescStartsWith           *string                    `json:"desc_starts_with"`
+	DescNotStartsWith        *string                    `json:"desc_not_starts_with"`
+	DescEndsWith             *string                    `json:"desc_ends_with"`
+	DescNotEndsWith          *string                    `json:"desc_not_ends_with"`
+	DescI                    *string                    `json:"desc_i"`
+	DescNotI                 *string                    `json:"desc_not_i"`
+	DescContainsI            *string                    `json:"desc_contains_i"`
+	DescNotContainsI         *string                    `json:"desc_not_contains_i"`
+	DescStartsWithI          *string                    `json:"desc_starts_with_i"`
+	DescNotStartsWithI       *string                    `json:"desc_not_starts_with_i"`
+	DescEndsWithI            *string                    `json:"desc_ends_with_i"`
+	DescNotEndsWithI         *string                    `json:"desc_not_ends_with_i"`
+	DescIn                   []*string                  `json:"desc_in"`
+	DescNotIn                []*string                  `json:"desc_not_in"`
+	InvoiceNo                *string                    `json:"invoiceNo"`
+	InvoiceNoNot             *string                    `json:"invoiceNo_not"`
+	InvoiceNoContains        *string                    `json:"invoiceNo_contains"`
+	InvoiceNoNotContains     *string                    `json:"invoiceNo_not_contains"`
+	InvoiceNoStartsWith      *string                    `json:"invoiceNo_starts_with"`
+	InvoiceNoNotStartsWith   *string                    `json:"invoiceNo_not_starts_with"`
+	InvoiceNoEndsWith        *string                    `json:"invoiceNo_ends_with"`
+	InvoiceNoNotEndsWith     *string                    `json:"invoiceNo_not_ends_with"`
+	InvoiceNoI               *string                    `json:"invoiceNo_i"`
+	InvoiceNoNotI            *string                    `json:"invoiceNo_not_i"`
+	InvoiceNoContainsI       *string                    `json:"invoiceNo_contains_i"`
+	InvoiceNoNotContainsI    *string                    `json:"invoiceNo_not_contains_i"`
+	InvoiceNoStartsWithI     *string                    `json:"invoiceNo_starts_with_i"`
+	InvoiceNoNotStartsWithI  *string                    `json:"invoiceNo_not_starts_with_i"`
+	InvoiceNoEndsWithI       *string                    `json:"invoiceNo_ends_with_i"`
+	InvoiceNoNotEndsWithI    *string                    `json:"invoiceNo_not_ends_with_i"`
+	InvoiceNoIn              []*string                  `json:"invoiceNo_in"`
+	InvoiceNoNotIn           []*string                  `json:"invoiceNo_not_in"`
+	Category                 *InvoiceCategoryType       `json:"category"`
+	CategoryNot              *InvoiceCategoryType       `json:"category_not"`
+	CategoryIn               []*InvoiceCategoryType     `json:"category_in"`
+	CategoryNotIn            []*InvoiceCategoryType     `json:"category_not_in"`
+	LoveCode                 *int                       `json:"loveCode"`
+	LoveCodeNot              *int                       `json:"loveCode_not"`
+	LoveCodeLt               *int                       `json:"loveCode_lt"`
+	LoveCodeLte              *int                       `json:"loveCode_lte"`
+	LoveCodeGt               *int                       `json:"loveCode_gt"`
+	LoveCodeGte              *int                       `json:"loveCode_gte"`
+	LoveCodeIn               []*int                     `json:"loveCode_in"`
+	LoveCodeNotIn            []*int                     `json:"loveCode_not_in"`
+	CarrierType              *string                    `json:"carrierType"`
+	CarrierTypeNot           *string                    `json:"carrierType_not"`
+	CarrierTypeIn            []*string                  `json:"carrierType_in"`
+	CarrierTypeNotIn         []*string                  `json:"carrierType_not_in"`
+	CarrierNum               *string                    `json:"carrierNum"`
+	CarrierNumNot            *string                    `json:"carrierNum_not"`
+	CarrierNumContains       *string                    `json:"carrierNum_contains"`
+	CarrierNumNotContains    *string                    `json:"carrierNum_not_contains"`
+	CarrierNumStartsWith     *string                    `json:"carrierNum_starts_with"`
+	CarrierNumNotStartsWith  *string                    `json:"carrierNum_not_starts_with"`
+	CarrierNumEndsWith       *string                    `json:"carrierNum_ends_with"`
+	CarrierNumNotEndsWith    *string                    `json:"carrierNum_not_ends_with"`
+	CarrierNumI              *string                    `json:"carrierNum_i"`
+	CarrierNumNotI           *string                    `json:"carrierNum_not_i"`
+	CarrierNumContainsI      *string                    `json:"carrierNum_contains_i"`
+	CarrierNumNotContainsI   *string                    `json:"carrierNum_not_contains_i"`
+	CarrierNumStartsWithI    *string                    `json:"carrierNum_starts_with_i"`
+	CarrierNumNotStartsWithI *string                    `json:"carrierNum_not_starts_with_i"`
+	CarrierNumEndsWithI      *string                    `json:"carrierNum_ends_with_i"`
+	CarrierNumNotEndsWithI   *string                    `json:"carrierNum_not_ends_with_i"`
+	CarrierNumIn             []*string                  `json:"carrierNum_in"`
+	CarrierNumNotIn          []*string                  `json:"carrierNum_not_in"`
+	BuyerName                *string                    `json:"buyerName"`
+	BuyerNameNot             *string                    `json:"buyerName_not"`
+	BuyerNameContains        *string                    `json:"buyerName_contains"`
+	BuyerNameNotContains     *string                    `json:"buyerName_not_contains"`
+	BuyerNameStartsWith      *string                    `json:"buyerName_starts_with"`
+	BuyerNameNotStartsWith   *string                    `json:"buyerName_not_starts_with"`
+	BuyerNameEndsWith        *string                    `json:"buyerName_ends_with"`
+	BuyerNameNotEndsWith     *string                    `json:"buyerName_not_ends_with"`
+	BuyerNameI               *string                    `json:"buyerName_i"`
+	BuyerNameNotI            *string                    `json:"buyerName_not_i"`
+	BuyerNameContainsI       *string                    `json:"buyerName_contains_i"`
+	BuyerNameNotContainsI    *string                    `json:"buyerName_not_contains_i"`
+	BuyerNameStartsWithI     *string                    `json:"buyerName_starts_with_i"`
+	BuyerNameNotStartsWithI  *string                    `json:"buyerName_not_starts_with_i"`
+	BuyerNameEndsWithI       *string                    `json:"buyerName_ends_with_i"`
+	BuyerNameNotEndsWithI    *string                    `json:"buyerName_not_ends_with_i"`
+	BuyerNameIn              []*string                  `json:"buyerName_in"`
+	BuyerNameNotIn           []*string                  `json:"buyerName_not_in"`
+	BuyerUbn                 *string                    `json:"buyerUBN"`
+	BuyerUbnNot              *string                    `json:"buyerUBN_not"`
+	BuyerUbnContains         *string                    `json:"buyerUBN_contains"`
+	BuyerUbnNotContains      *string                    `json:"buyerUBN_not_contains"`
+	BuyerUbnStartsWith       *string                    `json:"buyerUBN_starts_with"`
+	BuyerUbnNotStartsWith    *string                    `json:"buyerUBN_not_starts_with"`
+	BuyerUbnEndsWith         *string                    `json:"buyerUBN_ends_with"`
+	BuyerUbnNotEndsWith      *string                    `json:"buyerUBN_not_ends_with"`
+	BuyerUbnI                *string                    `json:"buyerUBN_i"`
+	BuyerUbnNotI             *string                    `json:"buyerUBN_not_i"`
+	BuyerUbnContainsI        *string                    `json:"buyerUBN_contains_i"`
+	BuyerUbnNotContainsI     *string                    `json:"buyerUBN_not_contains_i"`
+	BuyerUbnStartsWithI      *string                    `json:"buyerUBN_starts_with_i"`
+	BuyerUbnNotStartsWithI   *string                    `json:"buyerUBN_not_starts_with_i"`
+	BuyerUbnEndsWithI        *string                    `json:"buyerUBN_ends_with_i"`
+	BuyerUbnNotEndsWithI     *string                    `json:"buyerUBN_not_ends_with_i"`
+	BuyerUbnIn               []*string                  `json:"buyerUBN_in"`
+	BuyerUbnNotIn            []*string                  `json:"buyerUBN_not_in"`
+	Status                   *InvoiceStatusType         `json:"status"`
+	StatusNot                *InvoiceStatusType         `json:"status_not"`
+	StatusIn                 []*InvoiceStatusType       `json:"status_in"`
+	StatusNotIn              []*InvoiceStatusType       `json:"status_not_in"`
+	CreatedAt                *string                    `json:"createdAt"`
+	CreatedAtNot             *string                    `json:"createdAt_not"`
+	CreatedAtLt              *string                    `json:"createdAt_lt"`
+	CreatedAtLte             *string                    `json:"createdAt_lte"`
+	CreatedAtGt              *string                    `json:"createdAt_gt"`
+	CreatedAtGte             *string                    `json:"createdAt_gte"`
+	CreatedAtIn              []*string                  `json:"createdAt_in"`
+	CreatedAtNotIn           []*string                  `json:"createdAt_not_in"`
+	UpdatedAt                *string                    `json:"updatedAt"`
+	UpdatedAtNot             *string                    `json:"updatedAt_not"`
+	UpdatedAtLt              *string                    `json:"updatedAt_lt"`
+	UpdatedAtLte             *string                    `json:"updatedAt_lte"`
+	UpdatedAtGt              *string                    `json:"updatedAt_gt"`
+	UpdatedAtGte             *string                    `json:"updatedAt_gte"`
+	UpdatedAtIn              []*string                  `json:"updatedAt_in"`
+	UpdatedAtNotIn           []*string                  `json:"updatedAt_not_in"`
+	CreatedByIsNull          *bool                      `json:"createdBy_is_null"`
+	UpdatedByIsNull          *bool                      `json:"updatedBy_is_null"`
 }
 
 type InvoiceWhereUniqueInput struct {
@@ -688,6 +1019,7 @@ type Member struct {
 	FirebaseID          *string              `json:"firebaseId"`
 	Email               *string              `json:"email"`
 	MarketingMembership *MarketingMembership `json:"marketingMembership"`
+	Group               *Group               `json:"group"`
 	Type                *MemberTypeType      `json:"type"`
 	State               *MemberStateType     `json:"state"`
 	Tos                 *bool                `json:"tos"`
@@ -817,285 +1149,7 @@ type MemberRelateToOneInput struct {
 }
 
 type MemberWhereInput struct {
-	And                        []*MemberWhereInput            `json:"AND"`
-	Or                         []*MemberWhereInput            `json:"OR"`
-	ID                         *string                        `json:"id"`
-	IDNot                      *string                        `json:"id_not"`
-	IDLt                       *string                        `json:"id_lt"`
-	IDLte                      *string                        `json:"id_lte"`
-	IDGt                       *string                        `json:"id_gt"`
-	IDGte                      *string                        `json:"id_gte"`
-	IDIn                       []string                       `json:"id_in"`
-	IDNotIn                    []string                       `json:"id_not_in"`
-	FirebaseID                 *string                        `json:"firebaseId"`
-	FirebaseIDNot              *string                        `json:"firebaseId_not"`
-	FirebaseIDContains         *string                        `json:"firebaseId_contains"`
-	FirebaseIDNotContains      *string                        `json:"firebaseId_not_contains"`
-	FirebaseIDStartsWith       *string                        `json:"firebaseId_starts_with"`
-	FirebaseIDNotStartsWith    *string                        `json:"firebaseId_not_starts_with"`
-	FirebaseIDEndsWith         *string                        `json:"firebaseId_ends_with"`
-	FirebaseIDNotEndsWith      *string                        `json:"firebaseId_not_ends_with"`
-	FirebaseIDI                *string                        `json:"firebaseId_i"`
-	FirebaseIDNotI             *string                        `json:"firebaseId_not_i"`
-	FirebaseIDContainsI        *string                        `json:"firebaseId_contains_i"`
-	FirebaseIDNotContainsI     *string                        `json:"firebaseId_not_contains_i"`
-	FirebaseIDStartsWithI      *string                        `json:"firebaseId_starts_with_i"`
-	FirebaseIDNotStartsWithI   *string                        `json:"firebaseId_not_starts_with_i"`
-	FirebaseIDEndsWithI        *string                        `json:"firebaseId_ends_with_i"`
-	FirebaseIDNotEndsWithI     *string                        `json:"firebaseId_not_ends_with_i"`
-	FirebaseIDIn               []*string                      `json:"firebaseId_in"`
-	FirebaseIDNotIn            []*string                      `json:"firebaseId_not_in"`
-	Email                      *string                        `json:"email"`
-	EmailNot                   *string                        `json:"email_not"`
-	EmailContains              *string                        `json:"email_contains"`
-	EmailNotContains           *string                        `json:"email_not_contains"`
-	EmailStartsWith            *string                        `json:"email_starts_with"`
-	EmailNotStartsWith         *string                        `json:"email_not_starts_with"`
-	EmailEndsWith              *string                        `json:"email_ends_with"`
-	EmailNotEndsWith           *string                        `json:"email_not_ends_with"`
-	EmailI                     *string                        `json:"email_i"`
-	EmailNotI                  *string                        `json:"email_not_i"`
-	EmailContainsI             *string                        `json:"email_contains_i"`
-	EmailNotContainsI          *string                        `json:"email_not_contains_i"`
-	EmailStartsWithI           *string                        `json:"email_starts_with_i"`
-	EmailNotStartsWithI        *string                        `json:"email_not_starts_with_i"`
-	EmailEndsWithI             *string                        `json:"email_ends_with_i"`
-	EmailNotEndsWithI          *string                        `json:"email_not_ends_with_i"`
-	EmailIn                    []*string                      `json:"email_in"`
-	EmailNotIn                 []*string                      `json:"email_not_in"`
-	MarketingMembership        *MarketingMembershipWhereInput `json:"marketingMembership"`
-	MarketingMembershipIsNull  *bool                          `json:"marketingMembership_is_null"`
-	Type                       *MemberTypeType                `json:"type"`
-	TypeNot                    *MemberTypeType                `json:"type_not"`
-	TypeIn                     []*MemberTypeType              `json:"type_in"`
-	TypeNotIn                  []*MemberTypeType              `json:"type_not_in"`
-	State                      *MemberStateType               `json:"state"`
-	StateNot                   *MemberStateType               `json:"state_not"`
-	StateIn                    []*MemberStateType             `json:"state_in"`
-	StateNotIn                 []*MemberStateType             `json:"state_not_in"`
-	Tos                        *bool                          `json:"tos"`
-	TosNot                     *bool                          `json:"tos_not"`
-	DateJoined                 *string                        `json:"dateJoined"`
-	DateJoinedNot              *string                        `json:"dateJoined_not"`
-	DateJoinedLt               *string                        `json:"dateJoined_lt"`
-	DateJoinedLte              *string                        `json:"dateJoined_lte"`
-	DateJoinedGt               *string                        `json:"dateJoined_gt"`
-	DateJoinedGte              *string                        `json:"dateJoined_gte"`
-	DateJoinedIn               []*string                      `json:"dateJoined_in"`
-	DateJoinedNotIn            []*string                      `json:"dateJoined_not_in"`
-	FirstName                  *string                        `json:"firstName"`
-	FirstNameNot               *string                        `json:"firstName_not"`
-	FirstNameContains          *string                        `json:"firstName_contains"`
-	FirstNameNotContains       *string                        `json:"firstName_not_contains"`
-	FirstNameStartsWith        *string                        `json:"firstName_starts_with"`
-	FirstNameNotStartsWith     *string                        `json:"firstName_not_starts_with"`
-	FirstNameEndsWith          *string                        `json:"firstName_ends_with"`
-	FirstNameNotEndsWith       *string                        `json:"firstName_not_ends_with"`
-	FirstNameI                 *string                        `json:"firstName_i"`
-	FirstNameNotI              *string                        `json:"firstName_not_i"`
-	FirstNameContainsI         *string                        `json:"firstName_contains_i"`
-	FirstNameNotContainsI      *string                        `json:"firstName_not_contains_i"`
-	FirstNameStartsWithI       *string                        `json:"firstName_starts_with_i"`
-	FirstNameNotStartsWithI    *string                        `json:"firstName_not_starts_with_i"`
-	FirstNameEndsWithI         *string                        `json:"firstName_ends_with_i"`
-	FirstNameNotEndsWithI      *string                        `json:"firstName_not_ends_with_i"`
-	FirstNameIn                []*string                      `json:"firstName_in"`
-	FirstNameNotIn             []*string                      `json:"firstName_not_in"`
-	LastName                   *string                        `json:"lastName"`
-	LastNameNot                *string                        `json:"lastName_not"`
-	LastNameContains           *string                        `json:"lastName_contains"`
-	LastNameNotContains        *string                        `json:"lastName_not_contains"`
-	LastNameStartsWith         *string                        `json:"lastName_starts_with"`
-	LastNameNotStartsWith      *string                        `json:"lastName_not_starts_with"`
-	LastNameEndsWith           *string                        `json:"lastName_ends_with"`
-	LastNameNotEndsWith        *string                        `json:"lastName_not_ends_with"`
-	LastNameI                  *string                        `json:"lastName_i"`
-	LastNameNotI               *string                        `json:"lastName_not_i"`
-	LastNameContainsI          *string                        `json:"lastName_contains_i"`
-	LastNameNotContainsI       *string                        `json:"lastName_not_contains_i"`
-	LastNameStartsWithI        *string                        `json:"lastName_starts_with_i"`
-	LastNameNotStartsWithI     *string                        `json:"lastName_not_starts_with_i"`
-	LastNameEndsWithI          *string                        `json:"lastName_ends_with_i"`
-	LastNameNotEndsWithI       *string                        `json:"lastName_not_ends_with_i"`
-	LastNameIn                 []*string                      `json:"lastName_in"`
-	LastNameNotIn              []*string                      `json:"lastName_not_in"`
-	Name                       *string                        `json:"name"`
-	NameNot                    *string                        `json:"name_not"`
-	NameContains               *string                        `json:"name_contains"`
-	NameNotContains            *string                        `json:"name_not_contains"`
-	NameStartsWith             *string                        `json:"name_starts_with"`
-	NameNotStartsWith          *string                        `json:"name_not_starts_with"`
-	NameEndsWith               *string                        `json:"name_ends_with"`
-	NameNotEndsWith            *string                        `json:"name_not_ends_with"`
-	NameI                      *string                        `json:"name_i"`
-	NameNotI                   *string                        `json:"name_not_i"`
-	NameContainsI              *string                        `json:"name_contains_i"`
-	NameNotContainsI           *string                        `json:"name_not_contains_i"`
-	NameStartsWithI            *string                        `json:"name_starts_with_i"`
-	NameNotStartsWithI         *string                        `json:"name_not_starts_with_i"`
-	NameEndsWithI              *string                        `json:"name_ends_with_i"`
-	NameNotEndsWithI           *string                        `json:"name_not_ends_with_i"`
-	NameIn                     []*string                      `json:"name_in"`
-	NameNotIn                  []*string                      `json:"name_not_in"`
-	Gender                     *MemberGenderType              `json:"gender"`
-	GenderNot                  *MemberGenderType              `json:"gender_not"`
-	GenderIn                   []*MemberGenderType            `json:"gender_in"`
-	GenderNotIn                []*MemberGenderType            `json:"gender_not_in"`
-	Phone                      *string                        `json:"phone"`
-	PhoneNot                   *string                        `json:"phone_not"`
-	PhoneContains              *string                        `json:"phone_contains"`
-	PhoneNotContains           *string                        `json:"phone_not_contains"`
-	PhoneStartsWith            *string                        `json:"phone_starts_with"`
-	PhoneNotStartsWith         *string                        `json:"phone_not_starts_with"`
-	PhoneEndsWith              *string                        `json:"phone_ends_with"`
-	PhoneNotEndsWith           *string                        `json:"phone_not_ends_with"`
-	PhoneI                     *string                        `json:"phone_i"`
-	PhoneNotI                  *string                        `json:"phone_not_i"`
-	PhoneContainsI             *string                        `json:"phone_contains_i"`
-	PhoneNotContainsI          *string                        `json:"phone_not_contains_i"`
-	PhoneStartsWithI           *string                        `json:"phone_starts_with_i"`
-	PhoneNotStartsWithI        *string                        `json:"phone_not_starts_with_i"`
-	PhoneEndsWithI             *string                        `json:"phone_ends_with_i"`
-	PhoneNotEndsWithI          *string                        `json:"phone_not_ends_with_i"`
-	PhoneIn                    []*string                      `json:"phone_in"`
-	PhoneNotIn                 []*string                      `json:"phone_not_in"`
-	Birthday                   *string                        `json:"birthday"`
-	BirthdayNot                *string                        `json:"birthday_not"`
-	BirthdayLt                 *string                        `json:"birthday_lt"`
-	BirthdayLte                *string                        `json:"birthday_lte"`
-	BirthdayGt                 *string                        `json:"birthday_gt"`
-	BirthdayGte                *string                        `json:"birthday_gte"`
-	BirthdayIn                 []*string                      `json:"birthday_in"`
-	BirthdayNotIn              []*string                      `json:"birthday_not_in"`
-	Address                    *string                        `json:"address"`
-	AddressNot                 *string                        `json:"address_not"`
-	AddressContains            *string                        `json:"address_contains"`
-	AddressNotContains         *string                        `json:"address_not_contains"`
-	AddressStartsWith          *string                        `json:"address_starts_with"`
-	AddressNotStartsWith       *string                        `json:"address_not_starts_with"`
-	AddressEndsWith            *string                        `json:"address_ends_with"`
-	AddressNotEndsWith         *string                        `json:"address_not_ends_with"`
-	AddressI                   *string                        `json:"address_i"`
-	AddressNotI                *string                        `json:"address_not_i"`
-	AddressContainsI           *string                        `json:"address_contains_i"`
-	AddressNotContainsI        *string                        `json:"address_not_contains_i"`
-	AddressStartsWithI         *string                        `json:"address_starts_with_i"`
-	AddressNotStartsWithI      *string                        `json:"address_not_starts_with_i"`
-	AddressEndsWithI           *string                        `json:"address_ends_with_i"`
-	AddressNotEndsWithI        *string                        `json:"address_not_ends_with_i"`
-	AddressIn                  []*string                      `json:"address_in"`
-	AddressNotIn               []*string                      `json:"address_not_in"`
-	Nickname                   *string                        `json:"nickname"`
-	NicknameNot                *string                        `json:"nickname_not"`
-	NicknameContains           *string                        `json:"nickname_contains"`
-	NicknameNotContains        *string                        `json:"nickname_not_contains"`
-	NicknameStartsWith         *string                        `json:"nickname_starts_with"`
-	NicknameNotStartsWith      *string                        `json:"nickname_not_starts_with"`
-	NicknameEndsWith           *string                        `json:"nickname_ends_with"`
-	NicknameNotEndsWith        *string                        `json:"nickname_not_ends_with"`
-	NicknameI                  *string                        `json:"nickname_i"`
-	NicknameNotI               *string                        `json:"nickname_not_i"`
-	NicknameContainsI          *string                        `json:"nickname_contains_i"`
-	NicknameNotContainsI       *string                        `json:"nickname_not_contains_i"`
-	NicknameStartsWithI        *string                        `json:"nickname_starts_with_i"`
-	NicknameNotStartsWithI     *string                        `json:"nickname_not_starts_with_i"`
-	NicknameEndsWithI          *string                        `json:"nickname_ends_with_i"`
-	NicknameNotEndsWithI       *string                        `json:"nickname_not_ends_with_i"`
-	NicknameIn                 []*string                      `json:"nickname_in"`
-	NicknameNotIn              []*string                      `json:"nickname_not_in"`
-	ProfileImage               *string                        `json:"profileImage"`
-	ProfileImageNot            *string                        `json:"profileImage_not"`
-	ProfileImageContains       *string                        `json:"profileImage_contains"`
-	ProfileImageNotContains    *string                        `json:"profileImage_not_contains"`
-	ProfileImageStartsWith     *string                        `json:"profileImage_starts_with"`
-	ProfileImageNotStartsWith  *string                        `json:"profileImage_not_starts_with"`
-	ProfileImageEndsWith       *string                        `json:"profileImage_ends_with"`
-	ProfileImageNotEndsWith    *string                        `json:"profileImage_not_ends_with"`
-	ProfileImageI              *string                        `json:"profileImage_i"`
-	ProfileImageNotI           *string                        `json:"profileImage_not_i"`
-	ProfileImageContainsI      *string                        `json:"profileImage_contains_i"`
-	ProfileImageNotContainsI   *string                        `json:"profileImage_not_contains_i"`
-	ProfileImageStartsWithI    *string                        `json:"profileImage_starts_with_i"`
-	ProfileImageNotStartsWithI *string                        `json:"profileImage_not_starts_with_i"`
-	ProfileImageEndsWithI      *string                        `json:"profileImage_ends_with_i"`
-	ProfileImageNotEndsWithI   *string                        `json:"profileImage_not_ends_with_i"`
-	ProfileImageIn             []*string                      `json:"profileImage_in"`
-	ProfileImageNotIn          []*string                      `json:"profileImage_not_in"`
-	City                       *string                        `json:"city"`
-	CityNot                    *string                        `json:"city_not"`
-	CityContains               *string                        `json:"city_contains"`
-	CityNotContains            *string                        `json:"city_not_contains"`
-	CityStartsWith             *string                        `json:"city_starts_with"`
-	CityNotStartsWith          *string                        `json:"city_not_starts_with"`
-	CityEndsWith               *string                        `json:"city_ends_with"`
-	CityNotEndsWith            *string                        `json:"city_not_ends_with"`
-	CityI                      *string                        `json:"city_i"`
-	CityNotI                   *string                        `json:"city_not_i"`
-	CityContainsI              *string                        `json:"city_contains_i"`
-	CityNotContainsI           *string                        `json:"city_not_contains_i"`
-	CityStartsWithI            *string                        `json:"city_starts_with_i"`
-	CityNotStartsWithI         *string                        `json:"city_not_starts_with_i"`
-	CityEndsWithI              *string                        `json:"city_ends_with_i"`
-	CityNotEndsWithI           *string                        `json:"city_not_ends_with_i"`
-	CityIn                     []*string                      `json:"city_in"`
-	CityNotIn                  []*string                      `json:"city_not_in"`
-	Country                    *string                        `json:"country"`
-	CountryNot                 *string                        `json:"country_not"`
-	CountryContains            *string                        `json:"country_contains"`
-	CountryNotContains         *string                        `json:"country_not_contains"`
-	CountryStartsWith          *string                        `json:"country_starts_with"`
-	CountryNotStartsWith       *string                        `json:"country_not_starts_with"`
-	CountryEndsWith            *string                        `json:"country_ends_with"`
-	CountryNotEndsWith         *string                        `json:"country_not_ends_with"`
-	CountryI                   *string                        `json:"country_i"`
-	CountryNotI                *string                        `json:"country_not_i"`
-	CountryContainsI           *string                        `json:"country_contains_i"`
-	CountryNotContainsI        *string                        `json:"country_not_contains_i"`
-	CountryStartsWithI         *string                        `json:"country_starts_with_i"`
-	CountryNotStartsWithI      *string                        `json:"country_not_starts_with_i"`
-	CountryEndsWithI           *string                        `json:"country_ends_with_i"`
-	CountryNotEndsWithI        *string                        `json:"country_not_ends_with_i"`
-	CountryIn                  []*string                      `json:"country_in"`
-	CountryNotIn               []*string                      `json:"country_not_in"`
-	District                   *string                        `json:"district"`
-	DistrictNot                *string                        `json:"district_not"`
-	DistrictContains           *string                        `json:"district_contains"`
-	DistrictNotContains        *string                        `json:"district_not_contains"`
-	DistrictStartsWith         *string                        `json:"district_starts_with"`
-	DistrictNotStartsWith      *string                        `json:"district_not_starts_with"`
-	DistrictEndsWith           *string                        `json:"district_ends_with"`
-	DistrictNotEndsWith        *string                        `json:"district_not_ends_with"`
-	DistrictI                  *string                        `json:"district_i"`
-	DistrictNotI               *string                        `json:"district_not_i"`
-	DistrictContainsI          *string                        `json:"district_contains_i"`
-	DistrictNotContainsI       *string                        `json:"district_not_contains_i"`
-	DistrictStartsWithI        *string                        `json:"district_starts_with_i"`
-	DistrictNotStartsWithI     *string                        `json:"district_not_starts_with_i"`
-	DistrictEndsWithI          *string                        `json:"district_ends_with_i"`
-	DistrictNotEndsWithI       *string                        `json:"district_not_ends_with_i"`
-	DistrictIn                 []*string                      `json:"district_in"`
-	DistrictNotIn              []*string                      `json:"district_not_in"`
-	SubscriptionEvery          *SubscriptionWhereInput        `json:"subscription_every"`
-	SubscriptionSome           *SubscriptionWhereInput        `json:"subscription_some"`
-	SubscriptionNone           *SubscriptionWhereInput        `json:"subscription_none"`
-	CreatedAt                  *string                        `json:"createdAt"`
-	CreatedAtNot               *string                        `json:"createdAt_not"`
-	CreatedAtLt                *string                        `json:"createdAt_lt"`
-	CreatedAtLte               *string                        `json:"createdAt_lte"`
-	CreatedAtGt                *string                        `json:"createdAt_gt"`
-	CreatedAtGte               *string                        `json:"createdAt_gte"`
-	CreatedAtIn                []*string                      `json:"createdAt_in"`
-	CreatedAtNotIn             []*string                      `json:"createdAt_not_in"`
-	UpdatedAt                  *string                        `json:"updatedAt"`
-	UpdatedAtNot               *string                        `json:"updatedAt_not"`
-	UpdatedAtLt                *string                        `json:"updatedAt_lt"`
-	UpdatedAtLte               *string                        `json:"updatedAt_lte"`
-	UpdatedAtGt                *string                        `json:"updatedAt_gt"`
-	UpdatedAtGte               *string                        `json:"updatedAt_gte"`
-	UpdatedAtIn                []*string                      `json:"updatedAt_in"`
-	UpdatedAtNotIn             []*string                      `json:"updatedAt_not_in"`
-	CreatedByIsNull            *bool                          `json:"createdBy_is_null"`
-	UpdatedByIsNull            *bool                          `json:"updatedBy_is_null"`
+	FirebaseID *string `json:"firebaseId"`
 }
 
 type MemberWhereUniqueInput struct {
@@ -1138,6 +1192,13 @@ type MerchandiseOrderByInput struct {
 	Comment   *OrderDirection `json:"comment"`
 	CreatedAt *OrderDirection `json:"createdAt"`
 	UpdatedAt *OrderDirection `json:"updatedAt"`
+}
+
+type MerchandiseRelateToOneInput struct {
+	Create        *MerchandiseCreateInput      `json:"create"`
+	Connect       *MerchandiseWhereUniqueInput `json:"connect"`
+	Disconnect    *MerchandiseWhereUniqueInput `json:"disconnect"`
+	DisconnectAll *bool                        `json:"disconnectAll"`
 }
 
 type MerchandiseUpdateInput struct {
@@ -1304,7 +1365,7 @@ type NewebpayPayment struct {
 
 type NewebpayPaymentCreateInput struct {
 	Subscription     *SubscriptionRelateToOneInput `json:"subscription"`
-	Invoice          *InvoiceRelateToOneInput      `json:"invoice"`
+	Invoice          *InvoiceRelateToManyInput     `json:"invoice"`
 	Amount           *int                          `json:"amount"`
 	Status           *string                       `json:"status"`
 	PaymentMethod    *string                       `json:"paymentMethod"`
@@ -1490,7 +1551,7 @@ type NewebpayPaymentRelateToOneInput struct {
 
 type NewebpayPaymentUpdateInput struct {
 	Subscription     *SubscriptionRelateToOneInput `json:"subscription"`
-	Invoice          *InvoiceRelateToOneInput      `json:"invoice"`
+	Invoice          *InvoiceRelateToManyInput     `json:"invoice"`
 	Amount           *int                          `json:"amount"`
 	Status           *string                       `json:"status"`
 	PaymentMethod    *string                       `json:"paymentMethod"`
@@ -1525,8 +1586,9 @@ type NewebpayPaymentWhereInput struct {
 	IDNotIn                        []string                        `json:"id_not_in"`
 	Subscription                   *SubscriptionWhereInput         `json:"subscription"`
 	SubscriptionIsNull             *bool                           `json:"subscription_is_null"`
-	Invoice                        *InvoiceWhereInput              `json:"invoice"`
-	InvoiceIsNull                  *bool                           `json:"invoice_is_null"`
+	InvoiceEvery                   *InvoiceWhereInput              `json:"invoice_every"`
+	InvoiceSome                    *InvoiceWhereInput              `json:"invoice_some"`
+	InvoiceNone                    *InvoiceWhereInput              `json:"invoice_none"`
 	Amount                         *int                            `json:"amount"`
 	AmountNot                      *int                            `json:"amount_not"`
 	AmountLt                       *int                            `json:"amount_lt"`
@@ -1946,87 +2008,110 @@ type PromotionWhereUniqueInput struct {
 }
 
 type Subscription struct {
-	ID                        string                         `json:"id"`
-	Member                    *Member                        `json:"member"`
-	PaymentMethod             *SubscriptionPaymentMethodType `json:"paymentMethod"`
-	NewebpayPayment           []*NewebpayPayment             `json:"newebpayPayment"`
-	NewebpayPaymentCount      *int                           `json:"newebpayPaymentCount"`
-	ApplepayPayment           []*ApplepayPayment             `json:"applepayPayment"`
-	ApplepayPaymentCount      *int                           `json:"applepayPaymentCount"`
-	AndroidpayPayment         []*AndroidpayPayment           `json:"androidpayPayment"`
-	AndroidpayPaymentCount    *int                           `json:"androidpayPaymentCount"`
-	Status                    *SubscriptionStatusType        `json:"status"`
-	Amount                    *float64                       `json:"amount"`
-	Currency                  *SubscriptionCurrencyType      `json:"currency"`
-	Desc                      *string                        `json:"desc"`
-	Comment                   *string                        `json:"comment"`
-	Email                     *string                        `json:"email"`
-	OrderNumber               *string                        `json:"orderNumber"`
-	IsActive                  *bool                          `json:"isActive"`
-	IsCanceled                *bool                          `json:"isCanceled"`
-	Frequency                 *SubscriptionFrequencyType     `json:"frequency"`
-	NextFrequency             *SubscriptionNextFrequencyType `json:"nextFrequency"`
-	PeriodFailureTimes        *int                           `json:"periodFailureTimes"`
-	PeriodLastSuccessDatetime *string                        `json:"periodLastSuccessDatetime"`
-	PeriodNextPayDatetime     *string                        `json:"periodNextPayDatetime"`
-	PeriodCreateDatetime      *string                        `json:"periodCreateDatetime"`
-	PeriodFirstDatetime       *string                        `json:"periodFirstDatetime"`
-	PeriodEndDatetime         *string                        `json:"periodEndDatetime"`
-	ChangePlanDatetime        *string                        `json:"changePlanDatetime"`
-	Note                      *string                        `json:"note"`
-	PromoteID                 *int                           `json:"promoteId"`
-	PostID                    *string                        `json:"postId"`
-	OneTimeStartDatetime      *string                        `json:"oneTimeStartDatetime"`
-	OneTimeEndDatetime        *string                        `json:"oneTimeEndDatetime"`
-	NewebpayPaymentInfo       *NewebpayPaymentInfo           `json:"newebpayPaymentInfo"`
-	Category                  *SubscriptionCategoryType      `json:"category"`
-	LoveCode                  *int                           `json:"loveCode"`
-	CarrierType               *string                        `json:"carrierType"`
-	CarrierNum                *string                        `json:"carrierNum"`
-	BuyerName                 *string                        `json:"buyerName"`
-	BuyerUbn                  *string                        `json:"buyerUBN"`
-	CreatedAt                 *string                        `json:"createdAt"`
-	UpdatedAt                 *string                        `json:"updatedAt"`
+	ID                                  string                            `json:"id"`
+	Member                              *Member                           `json:"member"`
+	OrderNumber                         *string                           `json:"orderNumber"`
+	PaymentMethod                       *SubscriptionPaymentMethodType    `json:"paymentMethod"`
+	NewebpayPayment                     []*NewebpayPayment                `json:"newebpayPayment"`
+	NewebpayPaymentCount                *int                              `json:"newebpayPaymentCount"`
+	AppStorePayment                     []*AppStorePayment                `json:"appStorePayment"`
+	AppStorePaymentCount                *int                              `json:"appStorePaymentCount"`
+	GooglePlayPayment                   []*GooglePlayPayment              `json:"googlePlayPayment"`
+	GooglePlayPaymentCount              *int                              `json:"googlePlayPaymentCount"`
+	Status                              *SubscriptionStatusType           `json:"status"`
+	Amount                              *float64                          `json:"amount"`
+	Currency                            *SubscriptionCurrencyType         `json:"currency"`
+	Desc                                *string                           `json:"desc"`
+	Comment                             *string                           `json:"comment"`
+	Email                               *string                           `json:"email"`
+	IsActive                            *bool                             `json:"isActive"`
+	IsCanceled                          *bool                             `json:"isCanceled"`
+	Frequency                           *SubscriptionFrequencyType        `json:"frequency"`
+	NextFrequency                       *SubscriptionNextFrequencyType    `json:"nextFrequency"`
+	PeriodFailureTimes                  *int                              `json:"periodFailureTimes"`
+	PeriodLastSuccessDatetime           *string                           `json:"periodLastSuccessDatetime"`
+	PeriodNextPayDatetime               *string                           `json:"periodNextPayDatetime"`
+	PeriodCreateDatetime                *string                           `json:"periodCreateDatetime"`
+	PeriodFirstDatetime                 *string                           `json:"periodFirstDatetime"`
+	PeriodEndDatetime                   *string                           `json:"periodEndDatetime"`
+	ChangePlanDatetime                  *string                           `json:"changePlanDatetime"`
+	GooglePlayStatus                    *SubscriptionGooglePlayStatusType `json:"googlePlayStatus"`
+	GooglePlayPurchaseToken             *string                           `json:"googlePlayPurchaseToken"`
+	GooglePlayNotificationEventDatetime *string                           `json:"googlePlayNotificationEventDatetime"`
+	GooglePlayPackageName               *string                           `json:"googlePlayPackageName"`
+	CancelReason                        *string                           `json:"cancelReason"`
+	RefundNote                          *string                           `json:"refundNote"`
+	Note                                *string                           `json:"note"`
+	PromoteID                           *int                              `json:"promoteId"`
+	PostID                              *string                           `json:"postId"`
+	OneTimeStartDatetime                *string                           `json:"oneTimeStartDatetime"`
+	OneTimeEndDatetime                  *string                           `json:"oneTimeEndDatetime"`
+	NewebpayPaymentInfo                 *NewebpayPaymentInfo              `json:"newebpayPaymentInfo"`
+	Category                            *SubscriptionCategoryType         `json:"category"`
+	LoveCode                            *int                              `json:"loveCode"`
+	CarrierType                         *string                           `json:"carrierType"`
+	CarrierNum                          *string                           `json:"carrierNum"`
+	BuyerName                           *string                           `json:"buyerName"`
+	BuyerUbn                            *string                           `json:"buyerUBN"`
+	PrintFlag                           *string                           `json:"printFlag"`
+	AaplOriginalTransactionID           *string                           `json:"aaplOriginalTransactionId"`
+	CreatedAt                           *string                           `json:"createdAt"`
+	UpdatedAt                           *string                           `json:"updatedAt"`
+}
+
+type SubscriptionAppUpsertInfo struct {
+	FirebaseID       string                          `json:"firebaseId"`
+	ProductID        string                          `json:"productId"`
+	Source           UpsertSubscriptionAppSourceType `json:"source"`
+	VerificationData string                          `json:"verificationData"`
+	PackageName      string                          `json:"packageName"`
 }
 
 type SubscriptionCreateInput struct {
-	Member                    *MemberRelateToOneInput              `json:"member"`
-	PaymentMethod             *SubscriptionPaymentMethodType       `json:"paymentMethod"`
-	NewebpayPayment           *NewebpayPaymentRelateToManyInput    `json:"newebpayPayment"`
-	ApplepayPayment           *ApplepayPaymentRelateToManyInput    `json:"applepayPayment"`
-	AndroidpayPayment         *AndroidpayPaymentRelateToManyInput  `json:"androidpayPayment"`
-	Status                    *SubscriptionStatusType              `json:"status"`
-	Amount                    *float64                             `json:"amount"`
-	Currency                  *SubscriptionCurrencyType            `json:"currency"`
-	Desc                      *string                              `json:"desc"`
-	Comment                   *string                              `json:"comment"`
-	Email                     *string                              `json:"email"`
-	OrderNumber               *string                              `json:"orderNumber"`
-	IsActive                  *bool                                `json:"isActive"`
-	IsCanceled                *bool                                `json:"isCanceled"`
-	Frequency                 *SubscriptionFrequencyType           `json:"frequency"`
-	NextFrequency             *SubscriptionNextFrequencyType       `json:"nextFrequency"`
-	PeriodFailureTimes        *int                                 `json:"periodFailureTimes"`
-	PeriodLastSuccessDatetime *string                              `json:"periodLastSuccessDatetime"`
-	PeriodNextPayDatetime     *string                              `json:"periodNextPayDatetime"`
-	PeriodCreateDatetime      *string                              `json:"periodCreateDatetime"`
-	PeriodFirstDatetime       *string                              `json:"periodFirstDatetime"`
-	PeriodEndDatetime         *string                              `json:"periodEndDatetime"`
-	ChangePlanDatetime        *string                              `json:"changePlanDatetime"`
-	Note                      *string                              `json:"note"`
-	PromoteID                 *int                                 `json:"promoteId"`
-	PostID                    *string                              `json:"postId"`
-	OneTimeStartDatetime      *string                              `json:"oneTimeStartDatetime"`
-	OneTimeEndDatetime        *string                              `json:"oneTimeEndDatetime"`
-	NewebpayPaymentInfo       *NewebpayPaymentInfoRelateToOneInput `json:"newebpayPaymentInfo"`
-	Category                  *SubscriptionCategoryType            `json:"category"`
-	LoveCode                  *int                                 `json:"loveCode"`
-	CarrierType               *string                              `json:"carrierType"`
-	CarrierNum                *string                              `json:"carrierNum"`
-	BuyerName                 *string                              `json:"buyerName"`
-	BuyerUbn                  *string                              `json:"buyerUBN"`
-	CreatedAt                 *string                              `json:"createdAt"`
-	UpdatedAt                 *string                              `json:"updatedAt"`
+	Member                              *MemberRelateToOneInput              `json:"member"`
+	OrderNumber                         *string                              `json:"orderNumber"`
+	PaymentMethod                       *SubscriptionPaymentMethodType       `json:"paymentMethod"`
+	NewebpayPayment                     *NewebpayPaymentRelateToManyInput    `json:"newebpayPayment"`
+	AppStorePayment                     *AppStorePaymentRelateToManyInput    `json:"appStorePayment"`
+	GooglePlayPayment                   *GooglePlayPaymentRelateToManyInput  `json:"googlePlayPayment"`
+	Status                              *SubscriptionStatusType              `json:"status"`
+	Amount                              *float64                             `json:"amount"`
+	Currency                            *SubscriptionCurrencyType            `json:"currency"`
+	Desc                                *string                              `json:"desc"`
+	Comment                             *string                              `json:"comment"`
+	Email                               *string                              `json:"email"`
+	IsActive                            *bool                                `json:"isActive"`
+	IsCanceled                          *bool                                `json:"isCanceled"`
+	Frequency                           *SubscriptionFrequencyType           `json:"frequency"`
+	NextFrequency                       *SubscriptionNextFrequencyType       `json:"nextFrequency"`
+	PeriodFailureTimes                  *int                                 `json:"periodFailureTimes"`
+	PeriodLastSuccessDatetime           *string                              `json:"periodLastSuccessDatetime"`
+	PeriodNextPayDatetime               *string                              `json:"periodNextPayDatetime"`
+	PeriodCreateDatetime                *string                              `json:"periodCreateDatetime"`
+	PeriodFirstDatetime                 *string                              `json:"periodFirstDatetime"`
+	PeriodEndDatetime                   *string                              `json:"periodEndDatetime"`
+	ChangePlanDatetime                  *string                              `json:"changePlanDatetime"`
+	GooglePlayStatus                    *SubscriptionGooglePlayStatusType    `json:"googlePlayStatus"`
+	GooglePlayPurchaseToken             *string                              `json:"googlePlayPurchaseToken"`
+	GooglePlayNotificationEventDatetime *string                              `json:"googlePlayNotificationEventDatetime"`
+	GooglePlayPackageName               *string                              `json:"googlePlayPackageName"`
+	CancelReason                        *string                              `json:"cancelReason"`
+	RefundNote                          *string                              `json:"refundNote"`
+	Note                                *string                              `json:"note"`
+	PromoteID                           *int                                 `json:"promoteId"`
+	PostID                              *string                              `json:"postId"`
+	OneTimeStartDatetime                *string                              `json:"oneTimeStartDatetime"`
+	OneTimeEndDatetime                  *string                              `json:"oneTimeEndDatetime"`
+	NewebpayPaymentInfo                 *NewebpayPaymentInfoRelateToOneInput `json:"newebpayPaymentInfo"`
+	Category                            *SubscriptionCategoryType            `json:"category"`
+	LoveCode                            *int                                 `json:"loveCode"`
+	CarrierType                         *string                              `json:"carrierType"`
+	CarrierNum                          *string                              `json:"carrierNum"`
+	BuyerName                           *string                              `json:"buyerName"`
+	BuyerUbn                            *string                              `json:"buyerUBN"`
+	AaplOriginalTransactionID           *string                              `json:"aaplOriginalTransactionId"`
+	CreatedAt                           *string                              `json:"createdAt"`
+	UpdatedAt                           *string                              `json:"updatedAt"`
 }
 
 type SubscriptionCreation struct {
@@ -2443,79 +2528,92 @@ type SubscriptionOneTimeCreateInfo struct {
 }
 
 type SubscriptionOrderByInput struct {
-	ID                        *OrderDirection `json:"id"`
-	PaymentMethod             *OrderDirection `json:"paymentMethod"`
-	Status                    *OrderDirection `json:"status"`
-	Amount                    *OrderDirection `json:"amount"`
-	Currency                  *OrderDirection `json:"currency"`
-	Desc                      *OrderDirection `json:"desc"`
-	Comment                   *OrderDirection `json:"comment"`
-	Email                     *OrderDirection `json:"email"`
-	OrderNumber               *OrderDirection `json:"orderNumber"`
-	IsActive                  *OrderDirection `json:"isActive"`
-	IsCanceled                *OrderDirection `json:"isCanceled"`
-	Frequency                 *OrderDirection `json:"frequency"`
-	NextFrequency             *OrderDirection `json:"nextFrequency"`
-	PeriodFailureTimes        *OrderDirection `json:"periodFailureTimes"`
-	PeriodLastSuccessDatetime *OrderDirection `json:"periodLastSuccessDatetime"`
-	PeriodNextPayDatetime     *OrderDirection `json:"periodNextPayDatetime"`
-	PeriodCreateDatetime      *OrderDirection `json:"periodCreateDatetime"`
-	PeriodFirstDatetime       *OrderDirection `json:"periodFirstDatetime"`
-	PeriodEndDatetime         *OrderDirection `json:"periodEndDatetime"`
-	ChangePlanDatetime        *OrderDirection `json:"changePlanDatetime"`
-	Note                      *OrderDirection `json:"note"`
-	PromoteID                 *OrderDirection `json:"promoteId"`
-	PostID                    *OrderDirection `json:"postId"`
-	OneTimeStartDatetime      *OrderDirection `json:"oneTimeStartDatetime"`
-	OneTimeEndDatetime        *OrderDirection `json:"oneTimeEndDatetime"`
-	Category                  *OrderDirection `json:"category"`
-	LoveCode                  *OrderDirection `json:"loveCode"`
-	CarrierType               *OrderDirection `json:"carrierType"`
-	CarrierNum                *OrderDirection `json:"carrierNum"`
-	BuyerName                 *OrderDirection `json:"buyerName"`
-	BuyerUbn                  *OrderDirection `json:"buyerUBN"`
-	CreatedAt                 *OrderDirection `json:"createdAt"`
-	UpdatedAt                 *OrderDirection `json:"updatedAt"`
+	ID                                  *OrderDirection `json:"id"`
+	OrderNumber                         *OrderDirection `json:"orderNumber"`
+	PaymentMethod                       *OrderDirection `json:"paymentMethod"`
+	Status                              *OrderDirection `json:"status"`
+	Amount                              *OrderDirection `json:"amount"`
+	Currency                            *OrderDirection `json:"currency"`
+	Desc                                *OrderDirection `json:"desc"`
+	Comment                             *OrderDirection `json:"comment"`
+	Email                               *OrderDirection `json:"email"`
+	IsActive                            *OrderDirection `json:"isActive"`
+	IsCanceled                          *OrderDirection `json:"isCanceled"`
+	Frequency                           *OrderDirection `json:"frequency"`
+	NextFrequency                       *OrderDirection `json:"nextFrequency"`
+	PeriodFailureTimes                  *OrderDirection `json:"periodFailureTimes"`
+	PeriodLastSuccessDatetime           *OrderDirection `json:"periodLastSuccessDatetime"`
+	PeriodNextPayDatetime               *OrderDirection `json:"periodNextPayDatetime"`
+	PeriodCreateDatetime                *OrderDirection `json:"periodCreateDatetime"`
+	PeriodFirstDatetime                 *OrderDirection `json:"periodFirstDatetime"`
+	PeriodEndDatetime                   *OrderDirection `json:"periodEndDatetime"`
+	ChangePlanDatetime                  *OrderDirection `json:"changePlanDatetime"`
+	GooglePlayStatus                    *OrderDirection `json:"googlePlayStatus"`
+	GooglePlayPurchaseToken             *OrderDirection `json:"googlePlayPurchaseToken"`
+	GooglePlayNotificationEventDatetime *OrderDirection `json:"googlePlayNotificationEventDatetime"`
+	GooglePlayPackageName               *OrderDirection `json:"googlePlayPackageName"`
+	CancelReason                        *OrderDirection `json:"cancelReason"`
+	RefundNote                          *OrderDirection `json:"refundNote"`
+	Note                                *OrderDirection `json:"note"`
+	PromoteID                           *OrderDirection `json:"promoteId"`
+	PostID                              *OrderDirection `json:"postId"`
+	OneTimeStartDatetime                *OrderDirection `json:"oneTimeStartDatetime"`
+	OneTimeEndDatetime                  *OrderDirection `json:"oneTimeEndDatetime"`
+	Category                            *OrderDirection `json:"category"`
+	LoveCode                            *OrderDirection `json:"loveCode"`
+	CarrierType                         *OrderDirection `json:"carrierType"`
+	CarrierNum                          *OrderDirection `json:"carrierNum"`
+	BuyerName                           *OrderDirection `json:"buyerName"`
+	BuyerUbn                            *OrderDirection `json:"buyerUBN"`
+	AaplOriginalTransactionID           *OrderDirection `json:"aaplOriginalTransactionId"`
+	CreatedAt                           *OrderDirection `json:"createdAt"`
+	UpdatedAt                           *OrderDirection `json:"updatedAt"`
 }
 
 type SubscriptionPrivateUpdateInput struct {
-	Member                    *MemberRelateToOneInput              `json:"member"`
-	PaymentMethod             *SubscriptionPaymentMethodType       `json:"paymentMethod"`
-	NewebpayPayment           *NewebpayPaymentRelateToManyInput    `json:"newebpayPayment"`
-	ApplepayPayment           *ApplepayPaymentRelateToManyInput    `json:"applepayPayment"`
-	AndroidpayPayment         *AndroidpayPaymentRelateToManyInput  `json:"androidpayPayment"`
-	Status                    *SubscriptionStatusType              `json:"status"`
-	Amount                    *float64                             `json:"amount"`
-	Currency                  *SubscriptionCurrencyType            `json:"currency"`
-	Desc                      *string                              `json:"desc"`
-	Comment                   *string                              `json:"comment"`
-	Email                     *string                              `json:"email"`
-	OrderNumber               *string                              `json:"orderNumber"`
-	IsActive                  *bool                                `json:"isActive"`
-	IsCanceled                *bool                                `json:"isCanceled"`
-	Frequency                 *SubscriptionFrequencyType           `json:"frequency"`
-	NextFrequency             *SubscriptionNextFrequencyType       `json:"nextFrequency"`
-	PeriodFailureTimes        *int                                 `json:"periodFailureTimes"`
-	PeriodLastSuccessDatetime *string                              `json:"periodLastSuccessDatetime"`
-	PeriodNextPayDatetime     *string                              `json:"periodNextPayDatetime"`
-	PeriodCreateDatetime      *string                              `json:"periodCreateDatetime"`
-	PeriodFirstDatetime       *string                              `json:"periodFirstDatetime"`
-	PeriodEndDatetime         *string                              `json:"periodEndDatetime"`
-	ChangePlanDatetime        *string                              `json:"changePlanDatetime"`
-	Note                      *string                              `json:"note"`
-	PromoteID                 *int                                 `json:"promoteId"`
-	PostID                    *string                              `json:"postId"`
-	OneTimeStartDatetime      *string                              `json:"oneTimeStartDatetime"`
-	OneTimeEndDatetime        *string                              `json:"oneTimeEndDatetime"`
-	NewebpayPaymentInfo       *NewebpayPaymentInfoRelateToOneInput `json:"newebpayPaymentInfo"`
-	Category                  *SubscriptionCategoryType            `json:"category"`
-	LoveCode                  *int                                 `json:"loveCode"`
-	CarrierType               *string                              `json:"carrierType"`
-	CarrierNum                *string                              `json:"carrierNum"`
-	BuyerName                 *string                              `json:"buyerName"`
-	BuyerUbn                  *string                              `json:"buyerUBN"`
-	CreatedAt                 *string                              `json:"createdAt"`
-	UpdatedAt                 *string                              `json:"updatedAt"`
+	Member                              *MemberRelateToOneInput              `json:"member"`
+	PaymentMethod                       *SubscriptionPaymentMethodType       `json:"paymentMethod"`
+	NewebpayPayment                     *NewebpayPaymentRelateToManyInput    `json:"newebpayPayment"`
+	AppStorePayment                     *AppStorePaymentRelateToManyInput    `json:"appStorePayment"`
+	GooglePlayPayment                   *GooglePlayPaymentRelateToManyInput  `json:"googlePlayPayment"`
+	Status                              *SubscriptionStatusType              `json:"status"`
+	Amount                              *float64                             `json:"amount"`
+	Currency                            *SubscriptionCurrencyType            `json:"currency"`
+	Desc                                *string                              `json:"desc"`
+	Comment                             *string                              `json:"comment"`
+	Email                               *string                              `json:"email"`
+	IsActive                            *bool                                `json:"isActive"`
+	IsCanceled                          *bool                                `json:"isCanceled"`
+	Frequency                           *SubscriptionFrequencyType           `json:"frequency"`
+	NextFrequency                       *SubscriptionNextFrequencyType       `json:"nextFrequency"`
+	PeriodFailureTimes                  *int                                 `json:"periodFailureTimes"`
+	PeriodLastSuccessDatetime           *string                              `json:"periodLastSuccessDatetime"`
+	PeriodNextPayDatetime               *string                              `json:"periodNextPayDatetime"`
+	PeriodCreateDatetime                *string                              `json:"periodCreateDatetime"`
+	PeriodFirstDatetime                 *string                              `json:"periodFirstDatetime"`
+	PeriodEndDatetime                   *string                              `json:"periodEndDatetime"`
+	ChangePlanDatetime                  *string                              `json:"changePlanDatetime"`
+	GooglePlayStatus                    *SubscriptionGooglePlayStatusType    `json:"googlePlayStatus"`
+	GooglePlayPurchaseToken             *string                              `json:"googlePlayPurchaseToken"`
+	GooglePlayNotificationEventDatetime *string                              `json:"googlePlayNotificationEventDatetime"`
+	GooglePlayPackageName               *string                              `json:"googlePlayPackageName"`
+	CancelReason                        *string                              `json:"cancelReason"`
+	RefundNote                          *string                              `json:"refundNote"`
+	Note                                *string                              `json:"note"`
+	PromoteID                           *int                                 `json:"promoteId"`
+	PostID                              *string                              `json:"postId"`
+	OneTimeStartDatetime                *string                              `json:"oneTimeStartDatetime"`
+	OneTimeEndDatetime                  *string                              `json:"oneTimeEndDatetime"`
+	NewebpayPaymentInfo                 *NewebpayPaymentInfoRelateToOneInput `json:"newebpayPaymentInfo"`
+	Category                            *SubscriptionCategoryType            `json:"category"`
+	LoveCode                            *int                                 `json:"loveCode"`
+	CarrierType                         *string                              `json:"carrierType"`
+	CarrierNum                          *string                              `json:"carrierNum"`
+	BuyerName                           *string                              `json:"buyerName"`
+	BuyerUbn                            *string                              `json:"buyerUBN"`
+	AaplOriginalTransactionID           *string                              `json:"aaplOriginalTransactionId"`
+	CreatedAt                           *string                              `json:"createdAt"`
+	UpdatedAt                           *string                              `json:"updatedAt"`
 }
 
 type SubscriptionRecurringCreateInfo struct {
@@ -2536,343 +2634,451 @@ type SubscriptionRelateToOneInput struct {
 	DisconnectAll *bool                         `json:"disconnectAll"`
 }
 
+type SubscriptionUpsert struct {
+	Success bool `json:"success"`
+}
+
 type SubscriptionWhereInput struct {
-	And                            []*SubscriptionWhereInput        `json:"AND"`
-	Or                             []*SubscriptionWhereInput        `json:"OR"`
-	ID                             *string                          `json:"id"`
-	IDNot                          *string                          `json:"id_not"`
-	IDLt                           *string                          `json:"id_lt"`
-	IDLte                          *string                          `json:"id_lte"`
-	IDGt                           *string                          `json:"id_gt"`
-	IDGte                          *string                          `json:"id_gte"`
-	IDIn                           []string                         `json:"id_in"`
-	IDNotIn                        []string                         `json:"id_not_in"`
-	Member                         *MemberWhereInput                `json:"member"`
-	MemberIsNull                   *bool                            `json:"member_is_null"`
-	PaymentMethod                  *SubscriptionPaymentMethodType   `json:"paymentMethod"`
-	PaymentMethodNot               *SubscriptionPaymentMethodType   `json:"paymentMethod_not"`
-	PaymentMethodIn                []*SubscriptionPaymentMethodType `json:"paymentMethod_in"`
-	PaymentMethodNotIn             []*SubscriptionPaymentMethodType `json:"paymentMethod_not_in"`
-	NewebpayPaymentEvery           *NewebpayPaymentWhereInput       `json:"newebpayPayment_every"`
-	NewebpayPaymentSome            *NewebpayPaymentWhereInput       `json:"newebpayPayment_some"`
-	NewebpayPaymentNone            *NewebpayPaymentWhereInput       `json:"newebpayPayment_none"`
-	ApplepayPaymentEvery           *ApplepayPaymentWhereInput       `json:"applepayPayment_every"`
-	ApplepayPaymentSome            *ApplepayPaymentWhereInput       `json:"applepayPayment_some"`
-	ApplepayPaymentNone            *ApplepayPaymentWhereInput       `json:"applepayPayment_none"`
-	AndroidpayPaymentEvery         *AndroidpayPaymentWhereInput     `json:"androidpayPayment_every"`
-	AndroidpayPaymentSome          *AndroidpayPaymentWhereInput     `json:"androidpayPayment_some"`
-	AndroidpayPaymentNone          *AndroidpayPaymentWhereInput     `json:"androidpayPayment_none"`
-	Status                         *SubscriptionStatusType          `json:"status"`
-	StatusNot                      *SubscriptionStatusType          `json:"status_not"`
-	StatusIn                       []*SubscriptionStatusType        `json:"status_in"`
-	StatusNotIn                    []*SubscriptionStatusType        `json:"status_not_in"`
-	Amount                         *float64                         `json:"amount"`
-	AmountNot                      *float64                         `json:"amount_not"`
-	AmountLt                       *float64                         `json:"amount_lt"`
-	AmountLte                      *float64                         `json:"amount_lte"`
-	AmountGt                       *float64                         `json:"amount_gt"`
-	AmountGte                      *float64                         `json:"amount_gte"`
-	AmountIn                       []*float64                       `json:"amount_in"`
-	AmountNotIn                    []*float64                       `json:"amount_not_in"`
-	Currency                       *SubscriptionCurrencyType        `json:"currency"`
-	CurrencyNot                    *SubscriptionCurrencyType        `json:"currency_not"`
-	CurrencyIn                     []*SubscriptionCurrencyType      `json:"currency_in"`
-	CurrencyNotIn                  []*SubscriptionCurrencyType      `json:"currency_not_in"`
-	Desc                           *string                          `json:"desc"`
-	DescNot                        *string                          `json:"desc_not"`
-	DescContains                   *string                          `json:"desc_contains"`
-	DescNotContains                *string                          `json:"desc_not_contains"`
-	DescStartsWith                 *string                          `json:"desc_starts_with"`
-	DescNotStartsWith              *string                          `json:"desc_not_starts_with"`
-	DescEndsWith                   *string                          `json:"desc_ends_with"`
-	DescNotEndsWith                *string                          `json:"desc_not_ends_with"`
-	DescI                          *string                          `json:"desc_i"`
-	DescNotI                       *string                          `json:"desc_not_i"`
-	DescContainsI                  *string                          `json:"desc_contains_i"`
-	DescNotContainsI               *string                          `json:"desc_not_contains_i"`
-	DescStartsWithI                *string                          `json:"desc_starts_with_i"`
-	DescNotStartsWithI             *string                          `json:"desc_not_starts_with_i"`
-	DescEndsWithI                  *string                          `json:"desc_ends_with_i"`
-	DescNotEndsWithI               *string                          `json:"desc_not_ends_with_i"`
-	DescIn                         []*string                        `json:"desc_in"`
-	DescNotIn                      []*string                        `json:"desc_not_in"`
-	Comment                        *string                          `json:"comment"`
-	CommentNot                     *string                          `json:"comment_not"`
-	CommentContains                *string                          `json:"comment_contains"`
-	CommentNotContains             *string                          `json:"comment_not_contains"`
-	CommentStartsWith              *string                          `json:"comment_starts_with"`
-	CommentNotStartsWith           *string                          `json:"comment_not_starts_with"`
-	CommentEndsWith                *string                          `json:"comment_ends_with"`
-	CommentNotEndsWith             *string                          `json:"comment_not_ends_with"`
-	CommentI                       *string                          `json:"comment_i"`
-	CommentNotI                    *string                          `json:"comment_not_i"`
-	CommentContainsI               *string                          `json:"comment_contains_i"`
-	CommentNotContainsI            *string                          `json:"comment_not_contains_i"`
-	CommentStartsWithI             *string                          `json:"comment_starts_with_i"`
-	CommentNotStartsWithI          *string                          `json:"comment_not_starts_with_i"`
-	CommentEndsWithI               *string                          `json:"comment_ends_with_i"`
-	CommentNotEndsWithI            *string                          `json:"comment_not_ends_with_i"`
-	CommentIn                      []*string                        `json:"comment_in"`
-	CommentNotIn                   []*string                        `json:"comment_not_in"`
-	Email                          *string                          `json:"email"`
-	EmailNot                       *string                          `json:"email_not"`
-	EmailContains                  *string                          `json:"email_contains"`
-	EmailNotContains               *string                          `json:"email_not_contains"`
-	EmailStartsWith                *string                          `json:"email_starts_with"`
-	EmailNotStartsWith             *string                          `json:"email_not_starts_with"`
-	EmailEndsWith                  *string                          `json:"email_ends_with"`
-	EmailNotEndsWith               *string                          `json:"email_not_ends_with"`
-	EmailI                         *string                          `json:"email_i"`
-	EmailNotI                      *string                          `json:"email_not_i"`
-	EmailContainsI                 *string                          `json:"email_contains_i"`
-	EmailNotContainsI              *string                          `json:"email_not_contains_i"`
-	EmailStartsWithI               *string                          `json:"email_starts_with_i"`
-	EmailNotStartsWithI            *string                          `json:"email_not_starts_with_i"`
-	EmailEndsWithI                 *string                          `json:"email_ends_with_i"`
-	EmailNotEndsWithI              *string                          `json:"email_not_ends_with_i"`
-	EmailIn                        []*string                        `json:"email_in"`
-	EmailNotIn                     []*string                        `json:"email_not_in"`
-	OrderNumber                    *string                          `json:"orderNumber"`
-	OrderNumberNot                 *string                          `json:"orderNumber_not"`
-	OrderNumberContains            *string                          `json:"orderNumber_contains"`
-	OrderNumberNotContains         *string                          `json:"orderNumber_not_contains"`
-	OrderNumberStartsWith          *string                          `json:"orderNumber_starts_with"`
-	OrderNumberNotStartsWith       *string                          `json:"orderNumber_not_starts_with"`
-	OrderNumberEndsWith            *string                          `json:"orderNumber_ends_with"`
-	OrderNumberNotEndsWith         *string                          `json:"orderNumber_not_ends_with"`
-	OrderNumberI                   *string                          `json:"orderNumber_i"`
-	OrderNumberNotI                *string                          `json:"orderNumber_not_i"`
-	OrderNumberContainsI           *string                          `json:"orderNumber_contains_i"`
-	OrderNumberNotContainsI        *string                          `json:"orderNumber_not_contains_i"`
-	OrderNumberStartsWithI         *string                          `json:"orderNumber_starts_with_i"`
-	OrderNumberNotStartsWithI      *string                          `json:"orderNumber_not_starts_with_i"`
-	OrderNumberEndsWithI           *string                          `json:"orderNumber_ends_with_i"`
-	OrderNumberNotEndsWithI        *string                          `json:"orderNumber_not_ends_with_i"`
-	OrderNumberIn                  []*string                        `json:"orderNumber_in"`
-	OrderNumberNotIn               []*string                        `json:"orderNumber_not_in"`
-	IsActive                       *bool                            `json:"isActive"`
-	IsActiveNot                    *bool                            `json:"isActive_not"`
-	IsCanceled                     *bool                            `json:"isCanceled"`
-	IsCanceledNot                  *bool                            `json:"isCanceled_not"`
-	Frequency                      *SubscriptionFrequencyType       `json:"frequency"`
-	FrequencyNot                   *SubscriptionFrequencyType       `json:"frequency_not"`
-	FrequencyIn                    []*SubscriptionFrequencyType     `json:"frequency_in"`
-	FrequencyNotIn                 []*SubscriptionFrequencyType     `json:"frequency_not_in"`
-	NextFrequency                  *SubscriptionNextFrequencyType   `json:"nextFrequency"`
-	NextFrequencyNot               *SubscriptionNextFrequencyType   `json:"nextFrequency_not"`
-	NextFrequencyIn                []*SubscriptionNextFrequencyType `json:"nextFrequency_in"`
-	NextFrequencyNotIn             []*SubscriptionNextFrequencyType `json:"nextFrequency_not_in"`
-	PeriodFailureTimes             *int                             `json:"periodFailureTimes"`
-	PeriodFailureTimesNot          *int                             `json:"periodFailureTimes_not"`
-	PeriodFailureTimesLt           *int                             `json:"periodFailureTimes_lt"`
-	PeriodFailureTimesLte          *int                             `json:"periodFailureTimes_lte"`
-	PeriodFailureTimesGt           *int                             `json:"periodFailureTimes_gt"`
-	PeriodFailureTimesGte          *int                             `json:"periodFailureTimes_gte"`
-	PeriodFailureTimesIn           []*int                           `json:"periodFailureTimes_in"`
-	PeriodFailureTimesNotIn        []*int                           `json:"periodFailureTimes_not_in"`
-	PeriodLastSuccessDatetime      *string                          `json:"periodLastSuccessDatetime"`
-	PeriodLastSuccessDatetimeNot   *string                          `json:"periodLastSuccessDatetime_not"`
-	PeriodLastSuccessDatetimeLt    *string                          `json:"periodLastSuccessDatetime_lt"`
-	PeriodLastSuccessDatetimeLte   *string                          `json:"periodLastSuccessDatetime_lte"`
-	PeriodLastSuccessDatetimeGt    *string                          `json:"periodLastSuccessDatetime_gt"`
-	PeriodLastSuccessDatetimeGte   *string                          `json:"periodLastSuccessDatetime_gte"`
-	PeriodLastSuccessDatetimeIn    []*string                        `json:"periodLastSuccessDatetime_in"`
-	PeriodLastSuccessDatetimeNotIn []*string                        `json:"periodLastSuccessDatetime_not_in"`
-	PeriodNextPayDatetime          *string                          `json:"periodNextPayDatetime"`
-	PeriodNextPayDatetimeNot       *string                          `json:"periodNextPayDatetime_not"`
-	PeriodNextPayDatetimeLt        *string                          `json:"periodNextPayDatetime_lt"`
-	PeriodNextPayDatetimeLte       *string                          `json:"periodNextPayDatetime_lte"`
-	PeriodNextPayDatetimeGt        *string                          `json:"periodNextPayDatetime_gt"`
-	PeriodNextPayDatetimeGte       *string                          `json:"periodNextPayDatetime_gte"`
-	PeriodNextPayDatetimeIn        []*string                        `json:"periodNextPayDatetime_in"`
-	PeriodNextPayDatetimeNotIn     []*string                        `json:"periodNextPayDatetime_not_in"`
-	PeriodCreateDatetime           *string                          `json:"periodCreateDatetime"`
-	PeriodCreateDatetimeNot        *string                          `json:"periodCreateDatetime_not"`
-	PeriodCreateDatetimeLt         *string                          `json:"periodCreateDatetime_lt"`
-	PeriodCreateDatetimeLte        *string                          `json:"periodCreateDatetime_lte"`
-	PeriodCreateDatetimeGt         *string                          `json:"periodCreateDatetime_gt"`
-	PeriodCreateDatetimeGte        *string                          `json:"periodCreateDatetime_gte"`
-	PeriodCreateDatetimeIn         []*string                        `json:"periodCreateDatetime_in"`
-	PeriodCreateDatetimeNotIn      []*string                        `json:"periodCreateDatetime_not_in"`
-	PeriodFirstDatetime            *int                             `json:"periodFirstDatetime"`
-	PeriodFirstDatetimeNot         *int                             `json:"periodFirstDatetime_not"`
-	PeriodFirstDatetimeLt          *int                             `json:"periodFirstDatetime_lt"`
-	PeriodFirstDatetimeLte         *int                             `json:"periodFirstDatetime_lte"`
-	PeriodFirstDatetimeGt          *int                             `json:"periodFirstDatetime_gt"`
-	PeriodFirstDatetimeGte         *int                             `json:"periodFirstDatetime_gte"`
-	PeriodFirstDatetimeIn          []*int                           `json:"periodFirstDatetime_in"`
-	PeriodFirstDatetimeNotIn       []*int                           `json:"periodFirstDatetime_not_in"`
-	PeriodEndDatetime              *int                             `json:"periodEndDatetime"`
-	PeriodEndDatetimeNot           *int                             `json:"periodEndDatetime_not"`
-	PeriodEndDatetimeLt            *int                             `json:"periodEndDatetime_lt"`
-	PeriodEndDatetimeLte           *int                             `json:"periodEndDatetime_lte"`
-	PeriodEndDatetimeGt            *int                             `json:"periodEndDatetime_gt"`
-	PeriodEndDatetimeGte           *int                             `json:"periodEndDatetime_gte"`
-	PeriodEndDatetimeIn            []*int                           `json:"periodEndDatetime_in"`
-	PeriodEndDatetimeNotIn         []*int                           `json:"periodEndDatetime_not_in"`
-	ChangePlanDatetime             *string                          `json:"changePlanDatetime"`
-	ChangePlanDatetimeNot          *string                          `json:"changePlanDatetime_not"`
-	ChangePlanDatetimeLt           *string                          `json:"changePlanDatetime_lt"`
-	ChangePlanDatetimeLte          *string                          `json:"changePlanDatetime_lte"`
-	ChangePlanDatetimeGt           *string                          `json:"changePlanDatetime_gt"`
-	ChangePlanDatetimeGte          *string                          `json:"changePlanDatetime_gte"`
-	ChangePlanDatetimeIn           []*string                        `json:"changePlanDatetime_in"`
-	ChangePlanDatetimeNotIn        []*string                        `json:"changePlanDatetime_not_in"`
-	Note                           *string                          `json:"note"`
-	NoteNot                        *string                          `json:"note_not"`
-	NoteContains                   *string                          `json:"note_contains"`
-	NoteNotContains                *string                          `json:"note_not_contains"`
-	NoteStartsWith                 *string                          `json:"note_starts_with"`
-	NoteNotStartsWith              *string                          `json:"note_not_starts_with"`
-	NoteEndsWith                   *string                          `json:"note_ends_with"`
-	NoteNotEndsWith                *string                          `json:"note_not_ends_with"`
-	NoteI                          *string                          `json:"note_i"`
-	NoteNotI                       *string                          `json:"note_not_i"`
-	NoteContainsI                  *string                          `json:"note_contains_i"`
-	NoteNotContainsI               *string                          `json:"note_not_contains_i"`
-	NoteStartsWithI                *string                          `json:"note_starts_with_i"`
-	NoteNotStartsWithI             *string                          `json:"note_not_starts_with_i"`
-	NoteEndsWithI                  *string                          `json:"note_ends_with_i"`
-	NoteNotEndsWithI               *string                          `json:"note_not_ends_with_i"`
-	NoteIn                         []*string                        `json:"note_in"`
-	NoteNotIn                      []*string                        `json:"note_not_in"`
-	PromoteID                      *int                             `json:"promoteId"`
-	PromoteIDNot                   *int                             `json:"promoteId_not"`
-	PromoteIDLt                    *int                             `json:"promoteId_lt"`
-	PromoteIDLte                   *int                             `json:"promoteId_lte"`
-	PromoteIDGt                    *int                             `json:"promoteId_gt"`
-	PromoteIDGte                   *int                             `json:"promoteId_gte"`
-	PromoteIDIn                    []*int                           `json:"promoteId_in"`
-	PromoteIDNotIn                 []*int                           `json:"promoteId_not_in"`
-	PostID                         *string                          `json:"postId"`
-	PostIDNot                      *string                          `json:"postId_not"`
-	PostIDContains                 *string                          `json:"postId_contains"`
-	PostIDNotContains              *string                          `json:"postId_not_contains"`
-	PostIDStartsWith               *string                          `json:"postId_starts_with"`
-	PostIDNotStartsWith            *string                          `json:"postId_not_starts_with"`
-	PostIDEndsWith                 *string                          `json:"postId_ends_with"`
-	PostIDNotEndsWith              *string                          `json:"postId_not_ends_with"`
-	PostIDI                        *string                          `json:"postId_i"`
-	PostIDNotI                     *string                          `json:"postId_not_i"`
-	PostIDContainsI                *string                          `json:"postId_contains_i"`
-	PostIDNotContainsI             *string                          `json:"postId_not_contains_i"`
-	PostIDStartsWithI              *string                          `json:"postId_starts_with_i"`
-	PostIDNotStartsWithI           *string                          `json:"postId_not_starts_with_i"`
-	PostIDEndsWithI                *string                          `json:"postId_ends_with_i"`
-	PostIDNotEndsWithI             *string                          `json:"postId_not_ends_with_i"`
-	PostIDIn                       []*string                        `json:"postId_in"`
-	PostIDNotIn                    []*string                        `json:"postId_not_in"`
-	OneTimeStartDatetime           *int                             `json:"oneTimeStartDatetime"`
-	OneTimeStartDatetimeNot        *int                             `json:"oneTimeStartDatetime_not"`
-	OneTimeStartDatetimeLt         *int                             `json:"oneTimeStartDatetime_lt"`
-	OneTimeStartDatetimeLte        *int                             `json:"oneTimeStartDatetime_lte"`
-	OneTimeStartDatetimeGt         *int                             `json:"oneTimeStartDatetime_gt"`
-	OneTimeStartDatetimeGte        *int                             `json:"oneTimeStartDatetime_gte"`
-	OneTimeStartDatetimeIn         []*int                           `json:"oneTimeStartDatetime_in"`
-	OneTimeStartDatetimeNotIn      []*int                           `json:"oneTimeStartDatetime_not_in"`
-	OneTimeEndDatetime             *int                             `json:"oneTimeEndDatetime"`
-	OneTimeEndDatetimeNot          *int                             `json:"oneTimeEndDatetime_not"`
-	OneTimeEndDatetimeLt           *int                             `json:"oneTimeEndDatetime_lt"`
-	OneTimeEndDatetimeLte          *int                             `json:"oneTimeEndDatetime_lte"`
-	OneTimeEndDatetimeGt           *int                             `json:"oneTimeEndDatetime_gt"`
-	OneTimeEndDatetimeGte          *int                             `json:"oneTimeEndDatetime_gte"`
-	OneTimeEndDatetimeIn           []*int                           `json:"oneTimeEndDatetime_in"`
-	OneTimeEndDatetimeNotIn        []*int                           `json:"oneTimeEndDatetime_not_in"`
-	NewebpayPaymentInfo            *NewebpayPaymentInfoWhereInput   `json:"newebpayPaymentInfo"`
-	NewebpayPaymentInfoIsNull      *bool                            `json:"newebpayPaymentInfo_is_null"`
-	Category                       *SubscriptionCategoryType        `json:"category"`
-	CategoryNot                    *SubscriptionCategoryType        `json:"category_not"`
-	CategoryIn                     []*SubscriptionCategoryType      `json:"category_in"`
-	CategoryNotIn                  []*SubscriptionCategoryType      `json:"category_not_in"`
-	LoveCode                       *int                             `json:"loveCode"`
-	LoveCodeNot                    *int                             `json:"loveCode_not"`
-	LoveCodeLt                     *int                             `json:"loveCode_lt"`
-	LoveCodeLte                    *int                             `json:"loveCode_lte"`
-	LoveCodeGt                     *int                             `json:"loveCode_gt"`
-	LoveCodeGte                    *int                             `json:"loveCode_gte"`
-	LoveCodeIn                     []*int                           `json:"loveCode_in"`
-	LoveCodeNotIn                  []*int                           `json:"loveCode_not_in"`
-	CarrierType                    *string                          `json:"carrierType"`
-	CarrierTypeNot                 *string                          `json:"carrierType_not"`
-	CarrierTypeIn                  []*string                        `json:"carrierType_in"`
-	CarrierTypeNotIn               []*string                        `json:"carrierType_not_in"`
-	CarrierNum                     *string                          `json:"carrierNum"`
-	CarrierNumNot                  *string                          `json:"carrierNum_not"`
-	CarrierNumContains             *string                          `json:"carrierNum_contains"`
-	CarrierNumNotContains          *string                          `json:"carrierNum_not_contains"`
-	CarrierNumStartsWith           *string                          `json:"carrierNum_starts_with"`
-	CarrierNumNotStartsWith        *string                          `json:"carrierNum_not_starts_with"`
-	CarrierNumEndsWith             *string                          `json:"carrierNum_ends_with"`
-	CarrierNumNotEndsWith          *string                          `json:"carrierNum_not_ends_with"`
-	CarrierNumI                    *string                          `json:"carrierNum_i"`
-	CarrierNumNotI                 *string                          `json:"carrierNum_not_i"`
-	CarrierNumContainsI            *string                          `json:"carrierNum_contains_i"`
-	CarrierNumNotContainsI         *string                          `json:"carrierNum_not_contains_i"`
-	CarrierNumStartsWithI          *string                          `json:"carrierNum_starts_with_i"`
-	CarrierNumNotStartsWithI       *string                          `json:"carrierNum_not_starts_with_i"`
-	CarrierNumEndsWithI            *string                          `json:"carrierNum_ends_with_i"`
-	CarrierNumNotEndsWithI         *string                          `json:"carrierNum_not_ends_with_i"`
-	CarrierNumIn                   []*string                        `json:"carrierNum_in"`
-	CarrierNumNotIn                []*string                        `json:"carrierNum_not_in"`
-	BuyerName                      *string                          `json:"buyerName"`
-	BuyerNameNot                   *string                          `json:"buyerName_not"`
-	BuyerNameContains              *string                          `json:"buyerName_contains"`
-	BuyerNameNotContains           *string                          `json:"buyerName_not_contains"`
-	BuyerNameStartsWith            *string                          `json:"buyerName_starts_with"`
-	BuyerNameNotStartsWith         *string                          `json:"buyerName_not_starts_with"`
-	BuyerNameEndsWith              *string                          `json:"buyerName_ends_with"`
-	BuyerNameNotEndsWith           *string                          `json:"buyerName_not_ends_with"`
-	BuyerNameI                     *string                          `json:"buyerName_i"`
-	BuyerNameNotI                  *string                          `json:"buyerName_not_i"`
-	BuyerNameContainsI             *string                          `json:"buyerName_contains_i"`
-	BuyerNameNotContainsI          *string                          `json:"buyerName_not_contains_i"`
-	BuyerNameStartsWithI           *string                          `json:"buyerName_starts_with_i"`
-	BuyerNameNotStartsWithI        *string                          `json:"buyerName_not_starts_with_i"`
-	BuyerNameEndsWithI             *string                          `json:"buyerName_ends_with_i"`
-	BuyerNameNotEndsWithI          *string                          `json:"buyerName_not_ends_with_i"`
-	BuyerNameIn                    []*string                        `json:"buyerName_in"`
-	BuyerNameNotIn                 []*string                        `json:"buyerName_not_in"`
-	BuyerUbn                       *string                          `json:"buyerUBN"`
-	BuyerUbnNot                    *string                          `json:"buyerUBN_not"`
-	BuyerUbnContains               *string                          `json:"buyerUBN_contains"`
-	BuyerUbnNotContains            *string                          `json:"buyerUBN_not_contains"`
-	BuyerUbnStartsWith             *string                          `json:"buyerUBN_starts_with"`
-	BuyerUbnNotStartsWith          *string                          `json:"buyerUBN_not_starts_with"`
-	BuyerUbnEndsWith               *string                          `json:"buyerUBN_ends_with"`
-	BuyerUbnNotEndsWith            *string                          `json:"buyerUBN_not_ends_with"`
-	BuyerUbnI                      *string                          `json:"buyerUBN_i"`
-	BuyerUbnNotI                   *string                          `json:"buyerUBN_not_i"`
-	BuyerUbnContainsI              *string                          `json:"buyerUBN_contains_i"`
-	BuyerUbnNotContainsI           *string                          `json:"buyerUBN_not_contains_i"`
-	BuyerUbnStartsWithI            *string                          `json:"buyerUBN_starts_with_i"`
-	BuyerUbnNotStartsWithI         *string                          `json:"buyerUBN_not_starts_with_i"`
-	BuyerUbnEndsWithI              *string                          `json:"buyerUBN_ends_with_i"`
-	BuyerUbnNotEndsWithI           *string                          `json:"buyerUBN_not_ends_with_i"`
-	BuyerUbnIn                     []*string                        `json:"buyerUBN_in"`
-	BuyerUbnNotIn                  []*string                        `json:"buyerUBN_not_in"`
-	CreatedAt                      *string                          `json:"createdAt"`
-	CreatedAtNot                   *string                          `json:"createdAt_not"`
-	CreatedAtLt                    *string                          `json:"createdAt_lt"`
-	CreatedAtLte                   *string                          `json:"createdAt_lte"`
-	CreatedAtGt                    *string                          `json:"createdAt_gt"`
-	CreatedAtGte                   *string                          `json:"createdAt_gte"`
-	CreatedAtIn                    []*string                        `json:"createdAt_in"`
-	CreatedAtNotIn                 []*string                        `json:"createdAt_not_in"`
-	UpdatedAt                      *string                          `json:"updatedAt"`
-	UpdatedAtNot                   *string                          `json:"updatedAt_not"`
-	UpdatedAtLt                    *string                          `json:"updatedAt_lt"`
-	UpdatedAtLte                   *string                          `json:"updatedAt_lte"`
-	UpdatedAtGt                    *string                          `json:"updatedAt_gt"`
-	UpdatedAtGte                   *string                          `json:"updatedAt_gte"`
-	UpdatedAtIn                    []*string                        `json:"updatedAt_in"`
-	UpdatedAtNotIn                 []*string                        `json:"updatedAt_not_in"`
-	CreatedByIsNull                *bool                            `json:"createdBy_is_null"`
-	UpdatedByIsNull                *bool                            `json:"updatedBy_is_null"`
+	And                                      []*SubscriptionWhereInput           `json:"AND"`
+	Or                                       []*SubscriptionWhereInput           `json:"OR"`
+	ID                                       *string                             `json:"id"`
+	IDNot                                    *string                             `json:"id_not"`
+	IDLt                                     *string                             `json:"id_lt"`
+	IDLte                                    *string                             `json:"id_lte"`
+	IDGt                                     *string                             `json:"id_gt"`
+	IDGte                                    *string                             `json:"id_gte"`
+	IDIn                                     []string                            `json:"id_in"`
+	IDNotIn                                  []string                            `json:"id_not_in"`
+	Member                                   *MemberWhereInput                   `json:"member"`
+	MemberIsNull                             *bool                               `json:"member_is_null"`
+	OrderNumber                              *string                             `json:"orderNumber"`
+	OrderNumberNot                           *string                             `json:"orderNumber_not"`
+	OrderNumberContains                      *string                             `json:"orderNumber_contains"`
+	OrderNumberNotContains                   *string                             `json:"orderNumber_not_contains"`
+	OrderNumberStartsWith                    *string                             `json:"orderNumber_starts_with"`
+	OrderNumberNotStartsWith                 *string                             `json:"orderNumber_not_starts_with"`
+	OrderNumberEndsWith                      *string                             `json:"orderNumber_ends_with"`
+	OrderNumberNotEndsWith                   *string                             `json:"orderNumber_not_ends_with"`
+	OrderNumberI                             *string                             `json:"orderNumber_i"`
+	OrderNumberNotI                          *string                             `json:"orderNumber_not_i"`
+	OrderNumberContainsI                     *string                             `json:"orderNumber_contains_i"`
+	OrderNumberNotContainsI                  *string                             `json:"orderNumber_not_contains_i"`
+	OrderNumberStartsWithI                   *string                             `json:"orderNumber_starts_with_i"`
+	OrderNumberNotStartsWithI                *string                             `json:"orderNumber_not_starts_with_i"`
+	OrderNumberEndsWithI                     *string                             `json:"orderNumber_ends_with_i"`
+	OrderNumberNotEndsWithI                  *string                             `json:"orderNumber_not_ends_with_i"`
+	OrderNumberIn                            []*string                           `json:"orderNumber_in"`
+	OrderNumberNotIn                         []*string                           `json:"orderNumber_not_in"`
+	PaymentMethod                            *SubscriptionPaymentMethodType      `json:"paymentMethod"`
+	PaymentMethodNot                         *SubscriptionPaymentMethodType      `json:"paymentMethod_not"`
+	PaymentMethodIn                          []*SubscriptionPaymentMethodType    `json:"paymentMethod_in"`
+	PaymentMethodNotIn                       []*SubscriptionPaymentMethodType    `json:"paymentMethod_not_in"`
+	NewebpayPaymentEvery                     *NewebpayPaymentWhereInput          `json:"newebpayPayment_every"`
+	NewebpayPaymentSome                      *NewebpayPaymentWhereInput          `json:"newebpayPayment_some"`
+	NewebpayPaymentNone                      *NewebpayPaymentWhereInput          `json:"newebpayPayment_none"`
+	AppStorePaymentEvery                     *AppStorePaymentWhereInput          `json:"appStorePayment_every"`
+	AppStorePaymentSome                      *AppStorePaymentWhereInput          `json:"appStorePayment_some"`
+	AppStorePaymentNone                      *AppStorePaymentWhereInput          `json:"appStorePayment_none"`
+	GooglePlayPaymentEvery                   *GooglePlayPaymentWhereInput        `json:"googlePlayPayment_every"`
+	GooglePlayPaymentSome                    *GooglePlayPaymentWhereInput        `json:"googlePlayPayment_some"`
+	GooglePlayPaymentNone                    *GooglePlayPaymentWhereInput        `json:"googlePlayPayment_none"`
+	Status                                   *SubscriptionStatusType             `json:"status"`
+	StatusNot                                *SubscriptionStatusType             `json:"status_not"`
+	StatusIn                                 []*SubscriptionStatusType           `json:"status_in"`
+	StatusNotIn                              []*SubscriptionStatusType           `json:"status_not_in"`
+	Amount                                   *float64                            `json:"amount"`
+	AmountNot                                *float64                            `json:"amount_not"`
+	AmountLt                                 *float64                            `json:"amount_lt"`
+	AmountLte                                *float64                            `json:"amount_lte"`
+	AmountGt                                 *float64                            `json:"amount_gt"`
+	AmountGte                                *float64                            `json:"amount_gte"`
+	AmountIn                                 []*float64                          `json:"amount_in"`
+	AmountNotIn                              []*float64                          `json:"amount_not_in"`
+	Currency                                 *SubscriptionCurrencyType           `json:"currency"`
+	CurrencyNot                              *SubscriptionCurrencyType           `json:"currency_not"`
+	CurrencyIn                               []*SubscriptionCurrencyType         `json:"currency_in"`
+	CurrencyNotIn                            []*SubscriptionCurrencyType         `json:"currency_not_in"`
+	Desc                                     *string                             `json:"desc"`
+	DescNot                                  *string                             `json:"desc_not"`
+	DescContains                             *string                             `json:"desc_contains"`
+	DescNotContains                          *string                             `json:"desc_not_contains"`
+	DescStartsWith                           *string                             `json:"desc_starts_with"`
+	DescNotStartsWith                        *string                             `json:"desc_not_starts_with"`
+	DescEndsWith                             *string                             `json:"desc_ends_with"`
+	DescNotEndsWith                          *string                             `json:"desc_not_ends_with"`
+	DescI                                    *string                             `json:"desc_i"`
+	DescNotI                                 *string                             `json:"desc_not_i"`
+	DescContainsI                            *string                             `json:"desc_contains_i"`
+	DescNotContainsI                         *string                             `json:"desc_not_contains_i"`
+	DescStartsWithI                          *string                             `json:"desc_starts_with_i"`
+	DescNotStartsWithI                       *string                             `json:"desc_not_starts_with_i"`
+	DescEndsWithI                            *string                             `json:"desc_ends_with_i"`
+	DescNotEndsWithI                         *string                             `json:"desc_not_ends_with_i"`
+	DescIn                                   []*string                           `json:"desc_in"`
+	DescNotIn                                []*string                           `json:"desc_not_in"`
+	Comment                                  *string                             `json:"comment"`
+	CommentNot                               *string                             `json:"comment_not"`
+	CommentContains                          *string                             `json:"comment_contains"`
+	CommentNotContains                       *string                             `json:"comment_not_contains"`
+	CommentStartsWith                        *string                             `json:"comment_starts_with"`
+	CommentNotStartsWith                     *string                             `json:"comment_not_starts_with"`
+	CommentEndsWith                          *string                             `json:"comment_ends_with"`
+	CommentNotEndsWith                       *string                             `json:"comment_not_ends_with"`
+	CommentI                                 *string                             `json:"comment_i"`
+	CommentNotI                              *string                             `json:"comment_not_i"`
+	CommentContainsI                         *string                             `json:"comment_contains_i"`
+	CommentNotContainsI                      *string                             `json:"comment_not_contains_i"`
+	CommentStartsWithI                       *string                             `json:"comment_starts_with_i"`
+	CommentNotStartsWithI                    *string                             `json:"comment_not_starts_with_i"`
+	CommentEndsWithI                         *string                             `json:"comment_ends_with_i"`
+	CommentNotEndsWithI                      *string                             `json:"comment_not_ends_with_i"`
+	CommentIn                                []*string                           `json:"comment_in"`
+	CommentNotIn                             []*string                           `json:"comment_not_in"`
+	Email                                    *string                             `json:"email"`
+	EmailNot                                 *string                             `json:"email_not"`
+	EmailContains                            *string                             `json:"email_contains"`
+	EmailNotContains                         *string                             `json:"email_not_contains"`
+	EmailStartsWith                          *string                             `json:"email_starts_with"`
+	EmailNotStartsWith                       *string                             `json:"email_not_starts_with"`
+	EmailEndsWith                            *string                             `json:"email_ends_with"`
+	EmailNotEndsWith                         *string                             `json:"email_not_ends_with"`
+	EmailI                                   *string                             `json:"email_i"`
+	EmailNotI                                *string                             `json:"email_not_i"`
+	EmailContainsI                           *string                             `json:"email_contains_i"`
+	EmailNotContainsI                        *string                             `json:"email_not_contains_i"`
+	EmailStartsWithI                         *string                             `json:"email_starts_with_i"`
+	EmailNotStartsWithI                      *string                             `json:"email_not_starts_with_i"`
+	EmailEndsWithI                           *string                             `json:"email_ends_with_i"`
+	EmailNotEndsWithI                        *string                             `json:"email_not_ends_with_i"`
+	EmailIn                                  []*string                           `json:"email_in"`
+	EmailNotIn                               []*string                           `json:"email_not_in"`
+	IsActive                                 *bool                               `json:"isActive"`
+	IsActiveNot                              *bool                               `json:"isActive_not"`
+	IsCanceled                               *bool                               `json:"isCanceled"`
+	IsCanceledNot                            *bool                               `json:"isCanceled_not"`
+	Frequency                                *SubscriptionFrequencyType          `json:"frequency"`
+	FrequencyNot                             *SubscriptionFrequencyType          `json:"frequency_not"`
+	FrequencyIn                              []*SubscriptionFrequencyType        `json:"frequency_in"`
+	FrequencyNotIn                           []*SubscriptionFrequencyType        `json:"frequency_not_in"`
+	NextFrequency                            *SubscriptionNextFrequencyType      `json:"nextFrequency"`
+	NextFrequencyNot                         *SubscriptionNextFrequencyType      `json:"nextFrequency_not"`
+	NextFrequencyIn                          []*SubscriptionNextFrequencyType    `json:"nextFrequency_in"`
+	NextFrequencyNotIn                       []*SubscriptionNextFrequencyType    `json:"nextFrequency_not_in"`
+	PeriodFailureTimes                       *int                                `json:"periodFailureTimes"`
+	PeriodFailureTimesNot                    *int                                `json:"periodFailureTimes_not"`
+	PeriodFailureTimesLt                     *int                                `json:"periodFailureTimes_lt"`
+	PeriodFailureTimesLte                    *int                                `json:"periodFailureTimes_lte"`
+	PeriodFailureTimesGt                     *int                                `json:"periodFailureTimes_gt"`
+	PeriodFailureTimesGte                    *int                                `json:"periodFailureTimes_gte"`
+	PeriodFailureTimesIn                     []*int                              `json:"periodFailureTimes_in"`
+	PeriodFailureTimesNotIn                  []*int                              `json:"periodFailureTimes_not_in"`
+	PeriodLastSuccessDatetime                *string                             `json:"periodLastSuccessDatetime"`
+	PeriodLastSuccessDatetimeNot             *string                             `json:"periodLastSuccessDatetime_not"`
+	PeriodLastSuccessDatetimeLt              *string                             `json:"periodLastSuccessDatetime_lt"`
+	PeriodLastSuccessDatetimeLte             *string                             `json:"periodLastSuccessDatetime_lte"`
+	PeriodLastSuccessDatetimeGt              *string                             `json:"periodLastSuccessDatetime_gt"`
+	PeriodLastSuccessDatetimeGte             *string                             `json:"periodLastSuccessDatetime_gte"`
+	PeriodLastSuccessDatetimeIn              []*string                           `json:"periodLastSuccessDatetime_in"`
+	PeriodLastSuccessDatetimeNotIn           []*string                           `json:"periodLastSuccessDatetime_not_in"`
+	PeriodNextPayDatetime                    *string                             `json:"periodNextPayDatetime"`
+	PeriodNextPayDatetimeNot                 *string                             `json:"periodNextPayDatetime_not"`
+	PeriodNextPayDatetimeLt                  *string                             `json:"periodNextPayDatetime_lt"`
+	PeriodNextPayDatetimeLte                 *string                             `json:"periodNextPayDatetime_lte"`
+	PeriodNextPayDatetimeGt                  *string                             `json:"periodNextPayDatetime_gt"`
+	PeriodNextPayDatetimeGte                 *string                             `json:"periodNextPayDatetime_gte"`
+	PeriodNextPayDatetimeIn                  []*string                           `json:"periodNextPayDatetime_in"`
+	PeriodNextPayDatetimeNotIn               []*string                           `json:"periodNextPayDatetime_not_in"`
+	PeriodCreateDatetime                     *string                             `json:"periodCreateDatetime"`
+	PeriodCreateDatetimeNot                  *string                             `json:"periodCreateDatetime_not"`
+	PeriodCreateDatetimeLt                   *string                             `json:"periodCreateDatetime_lt"`
+	PeriodCreateDatetimeLte                  *string                             `json:"periodCreateDatetime_lte"`
+	PeriodCreateDatetimeGt                   *string                             `json:"periodCreateDatetime_gt"`
+	PeriodCreateDatetimeGte                  *string                             `json:"periodCreateDatetime_gte"`
+	PeriodCreateDatetimeIn                   []*string                           `json:"periodCreateDatetime_in"`
+	PeriodCreateDatetimeNotIn                []*string                           `json:"periodCreateDatetime_not_in"`
+	PeriodFirstDatetime                      *int                                `json:"periodFirstDatetime"`
+	PeriodFirstDatetimeNot                   *int                                `json:"periodFirstDatetime_not"`
+	PeriodFirstDatetimeLt                    *int                                `json:"periodFirstDatetime_lt"`
+	PeriodFirstDatetimeLte                   *int                                `json:"periodFirstDatetime_lte"`
+	PeriodFirstDatetimeGt                    *int                                `json:"periodFirstDatetime_gt"`
+	PeriodFirstDatetimeGte                   *int                                `json:"periodFirstDatetime_gte"`
+	PeriodFirstDatetimeIn                    []*int                              `json:"periodFirstDatetime_in"`
+	PeriodFirstDatetimeNotIn                 []*int                              `json:"periodFirstDatetime_not_in"`
+	PeriodEndDatetime                        *int                                `json:"periodEndDatetime"`
+	PeriodEndDatetimeNot                     *int                                `json:"periodEndDatetime_not"`
+	PeriodEndDatetimeLt                      *int                                `json:"periodEndDatetime_lt"`
+	PeriodEndDatetimeLte                     *int                                `json:"periodEndDatetime_lte"`
+	PeriodEndDatetimeGt                      *int                                `json:"periodEndDatetime_gt"`
+	PeriodEndDatetimeGte                     *int                                `json:"periodEndDatetime_gte"`
+	PeriodEndDatetimeIn                      []*int                              `json:"periodEndDatetime_in"`
+	PeriodEndDatetimeNotIn                   []*int                              `json:"periodEndDatetime_not_in"`
+	ChangePlanDatetime                       *string                             `json:"changePlanDatetime"`
+	ChangePlanDatetimeNot                    *string                             `json:"changePlanDatetime_not"`
+	ChangePlanDatetimeLt                     *string                             `json:"changePlanDatetime_lt"`
+	ChangePlanDatetimeLte                    *string                             `json:"changePlanDatetime_lte"`
+	ChangePlanDatetimeGt                     *string                             `json:"changePlanDatetime_gt"`
+	ChangePlanDatetimeGte                    *string                             `json:"changePlanDatetime_gte"`
+	ChangePlanDatetimeIn                     []*string                           `json:"changePlanDatetime_in"`
+	ChangePlanDatetimeNotIn                  []*string                           `json:"changePlanDatetime_not_in"`
+	GooglePlayStatus                         *SubscriptionGooglePlayStatusType   `json:"googlePlayStatus"`
+	GooglePlayStatusNot                      *SubscriptionGooglePlayStatusType   `json:"googlePlayStatus_not"`
+	GooglePlayStatusIn                       []*SubscriptionGooglePlayStatusType `json:"googlePlayStatus_in"`
+	GooglePlayStatusNotIn                    []*SubscriptionGooglePlayStatusType `json:"googlePlayStatus_not_in"`
+	GooglePlayPurchaseToken                  *string                             `json:"googlePlayPurchaseToken"`
+	GooglePlayPurchaseTokenNot               *string                             `json:"googlePlayPurchaseToken_not"`
+	GooglePlayPurchaseTokenContains          *string                             `json:"googlePlayPurchaseToken_contains"`
+	GooglePlayPurchaseTokenNotContains       *string                             `json:"googlePlayPurchaseToken_not_contains"`
+	GooglePlayPurchaseTokenStartsWith        *string                             `json:"googlePlayPurchaseToken_starts_with"`
+	GooglePlayPurchaseTokenNotStartsWith     *string                             `json:"googlePlayPurchaseToken_not_starts_with"`
+	GooglePlayPurchaseTokenEndsWith          *string                             `json:"googlePlayPurchaseToken_ends_with"`
+	GooglePlayPurchaseTokenNotEndsWith       *string                             `json:"googlePlayPurchaseToken_not_ends_with"`
+	GooglePlayPurchaseTokenI                 *string                             `json:"googlePlayPurchaseToken_i"`
+	GooglePlayPurchaseTokenNotI              *string                             `json:"googlePlayPurchaseToken_not_i"`
+	GooglePlayPurchaseTokenContainsI         *string                             `json:"googlePlayPurchaseToken_contains_i"`
+	GooglePlayPurchaseTokenNotContainsI      *string                             `json:"googlePlayPurchaseToken_not_contains_i"`
+	GooglePlayPurchaseTokenStartsWithI       *string                             `json:"googlePlayPurchaseToken_starts_with_i"`
+	GooglePlayPurchaseTokenNotStartsWithI    *string                             `json:"googlePlayPurchaseToken_not_starts_with_i"`
+	GooglePlayPurchaseTokenEndsWithI         *string                             `json:"googlePlayPurchaseToken_ends_with_i"`
+	GooglePlayPurchaseTokenNotEndsWithI      *string                             `json:"googlePlayPurchaseToken_not_ends_with_i"`
+	GooglePlayPurchaseTokenIn                []*string                           `json:"googlePlayPurchaseToken_in"`
+	GooglePlayPurchaseTokenNotIn             []*string                           `json:"googlePlayPurchaseToken_not_in"`
+	GooglePlayNotificationEventDatetime      *string                             `json:"googlePlayNotificationEventDatetime"`
+	GooglePlayNotificationEventDatetimeNot   *string                             `json:"googlePlayNotificationEventDatetime_not"`
+	GooglePlayNotificationEventDatetimeLt    *string                             `json:"googlePlayNotificationEventDatetime_lt"`
+	GooglePlayNotificationEventDatetimeLte   *string                             `json:"googlePlayNotificationEventDatetime_lte"`
+	GooglePlayNotificationEventDatetimeGt    *string                             `json:"googlePlayNotificationEventDatetime_gt"`
+	GooglePlayNotificationEventDatetimeGte   *string                             `json:"googlePlayNotificationEventDatetime_gte"`
+	GooglePlayNotificationEventDatetimeIn    []*string                           `json:"googlePlayNotificationEventDatetime_in"`
+	GooglePlayNotificationEventDatetimeNotIn []*string                           `json:"googlePlayNotificationEventDatetime_not_in"`
+	GooglePlayPackageName                    *string                             `json:"googlePlayPackageName"`
+	GooglePlayPackageNameNot                 *string                             `json:"googlePlayPackageName_not"`
+	GooglePlayPackageNameContains            *string                             `json:"googlePlayPackageName_contains"`
+	GooglePlayPackageNameNotContains         *string                             `json:"googlePlayPackageName_not_contains"`
+	GooglePlayPackageNameStartsWith          *string                             `json:"googlePlayPackageName_starts_with"`
+	GooglePlayPackageNameNotStartsWith       *string                             `json:"googlePlayPackageName_not_starts_with"`
+	GooglePlayPackageNameEndsWith            *string                             `json:"googlePlayPackageName_ends_with"`
+	GooglePlayPackageNameNotEndsWith         *string                             `json:"googlePlayPackageName_not_ends_with"`
+	GooglePlayPackageNameI                   *string                             `json:"googlePlayPackageName_i"`
+	GooglePlayPackageNameNotI                *string                             `json:"googlePlayPackageName_not_i"`
+	GooglePlayPackageNameContainsI           *string                             `json:"googlePlayPackageName_contains_i"`
+	GooglePlayPackageNameNotContainsI        *string                             `json:"googlePlayPackageName_not_contains_i"`
+	GooglePlayPackageNameStartsWithI         *string                             `json:"googlePlayPackageName_starts_with_i"`
+	GooglePlayPackageNameNotStartsWithI      *string                             `json:"googlePlayPackageName_not_starts_with_i"`
+	GooglePlayPackageNameEndsWithI           *string                             `json:"googlePlayPackageName_ends_with_i"`
+	GooglePlayPackageNameNotEndsWithI        *string                             `json:"googlePlayPackageName_not_ends_with_i"`
+	GooglePlayPackageNameIn                  []*string                           `json:"googlePlayPackageName_in"`
+	GooglePlayPackageNameNotIn               []*string                           `json:"googlePlayPackageName_not_in"`
+	CancelReason                             *string                             `json:"cancelReason"`
+	CancelReasonNot                          *string                             `json:"cancelReason_not"`
+	CancelReasonContains                     *string                             `json:"cancelReason_contains"`
+	CancelReasonNotContains                  *string                             `json:"cancelReason_not_contains"`
+	CancelReasonStartsWith                   *string                             `json:"cancelReason_starts_with"`
+	CancelReasonNotStartsWith                *string                             `json:"cancelReason_not_starts_with"`
+	CancelReasonEndsWith                     *string                             `json:"cancelReason_ends_with"`
+	CancelReasonNotEndsWith                  *string                             `json:"cancelReason_not_ends_with"`
+	CancelReasonI                            *string                             `json:"cancelReason_i"`
+	CancelReasonNotI                         *string                             `json:"cancelReason_not_i"`
+	CancelReasonContainsI                    *string                             `json:"cancelReason_contains_i"`
+	CancelReasonNotContainsI                 *string                             `json:"cancelReason_not_contains_i"`
+	CancelReasonStartsWithI                  *string                             `json:"cancelReason_starts_with_i"`
+	CancelReasonNotStartsWithI               *string                             `json:"cancelReason_not_starts_with_i"`
+	CancelReasonEndsWithI                    *string                             `json:"cancelReason_ends_with_i"`
+	CancelReasonNotEndsWithI                 *string                             `json:"cancelReason_not_ends_with_i"`
+	CancelReasonIn                           []*string                           `json:"cancelReason_in"`
+	CancelReasonNotIn                        []*string                           `json:"cancelReason_not_in"`
+	RefundNote                               *string                             `json:"refundNote"`
+	RefundNoteNot                            *string                             `json:"refundNote_not"`
+	RefundNoteContains                       *string                             `json:"refundNote_contains"`
+	RefundNoteNotContains                    *string                             `json:"refundNote_not_contains"`
+	RefundNoteStartsWith                     *string                             `json:"refundNote_starts_with"`
+	RefundNoteNotStartsWith                  *string                             `json:"refundNote_not_starts_with"`
+	RefundNoteEndsWith                       *string                             `json:"refundNote_ends_with"`
+	RefundNoteNotEndsWith                    *string                             `json:"refundNote_not_ends_with"`
+	RefundNoteI                              *string                             `json:"refundNote_i"`
+	RefundNoteNotI                           *string                             `json:"refundNote_not_i"`
+	RefundNoteContainsI                      *string                             `json:"refundNote_contains_i"`
+	RefundNoteNotContainsI                   *string                             `json:"refundNote_not_contains_i"`
+	RefundNoteStartsWithI                    *string                             `json:"refundNote_starts_with_i"`
+	RefundNoteNotStartsWithI                 *string                             `json:"refundNote_not_starts_with_i"`
+	RefundNoteEndsWithI                      *string                             `json:"refundNote_ends_with_i"`
+	RefundNoteNotEndsWithI                   *string                             `json:"refundNote_not_ends_with_i"`
+	RefundNoteIn                             []*string                           `json:"refundNote_in"`
+	RefundNoteNotIn                          []*string                           `json:"refundNote_not_in"`
+	Note                                     *string                             `json:"note"`
+	NoteNot                                  *string                             `json:"note_not"`
+	NoteContains                             *string                             `json:"note_contains"`
+	NoteNotContains                          *string                             `json:"note_not_contains"`
+	NoteStartsWith                           *string                             `json:"note_starts_with"`
+	NoteNotStartsWith                        *string                             `json:"note_not_starts_with"`
+	NoteEndsWith                             *string                             `json:"note_ends_with"`
+	NoteNotEndsWith                          *string                             `json:"note_not_ends_with"`
+	NoteI                                    *string                             `json:"note_i"`
+	NoteNotI                                 *string                             `json:"note_not_i"`
+	NoteContainsI                            *string                             `json:"note_contains_i"`
+	NoteNotContainsI                         *string                             `json:"note_not_contains_i"`
+	NoteStartsWithI                          *string                             `json:"note_starts_with_i"`
+	NoteNotStartsWithI                       *string                             `json:"note_not_starts_with_i"`
+	NoteEndsWithI                            *string                             `json:"note_ends_with_i"`
+	NoteNotEndsWithI                         *string                             `json:"note_not_ends_with_i"`
+	NoteIn                                   []*string                           `json:"note_in"`
+	NoteNotIn                                []*string                           `json:"note_not_in"`
+	PromoteID                                *int                                `json:"promoteId"`
+	PromoteIDNot                             *int                                `json:"promoteId_not"`
+	PromoteIDLt                              *int                                `json:"promoteId_lt"`
+	PromoteIDLte                             *int                                `json:"promoteId_lte"`
+	PromoteIDGt                              *int                                `json:"promoteId_gt"`
+	PromoteIDGte                             *int                                `json:"promoteId_gte"`
+	PromoteIDIn                              []*int                              `json:"promoteId_in"`
+	PromoteIDNotIn                           []*int                              `json:"promoteId_not_in"`
+	PostID                                   *string                             `json:"postId"`
+	PostIDNot                                *string                             `json:"postId_not"`
+	PostIDContains                           *string                             `json:"postId_contains"`
+	PostIDNotContains                        *string                             `json:"postId_not_contains"`
+	PostIDStartsWith                         *string                             `json:"postId_starts_with"`
+	PostIDNotStartsWith                      *string                             `json:"postId_not_starts_with"`
+	PostIDEndsWith                           *string                             `json:"postId_ends_with"`
+	PostIDNotEndsWith                        *string                             `json:"postId_not_ends_with"`
+	PostIDI                                  *string                             `json:"postId_i"`
+	PostIDNotI                               *string                             `json:"postId_not_i"`
+	PostIDContainsI                          *string                             `json:"postId_contains_i"`
+	PostIDNotContainsI                       *string                             `json:"postId_not_contains_i"`
+	PostIDStartsWithI                        *string                             `json:"postId_starts_with_i"`
+	PostIDNotStartsWithI                     *string                             `json:"postId_not_starts_with_i"`
+	PostIDEndsWithI                          *string                             `json:"postId_ends_with_i"`
+	PostIDNotEndsWithI                       *string                             `json:"postId_not_ends_with_i"`
+	PostIDIn                                 []*string                           `json:"postId_in"`
+	PostIDNotIn                              []*string                           `json:"postId_not_in"`
+	OneTimeStartDatetime                     *int                                `json:"oneTimeStartDatetime"`
+	OneTimeStartDatetimeNot                  *int                                `json:"oneTimeStartDatetime_not"`
+	OneTimeStartDatetimeLt                   *int                                `json:"oneTimeStartDatetime_lt"`
+	OneTimeStartDatetimeLte                  *int                                `json:"oneTimeStartDatetime_lte"`
+	OneTimeStartDatetimeGt                   *int                                `json:"oneTimeStartDatetime_gt"`
+	OneTimeStartDatetimeGte                  *int                                `json:"oneTimeStartDatetime_gte"`
+	OneTimeStartDatetimeIn                   []*int                              `json:"oneTimeStartDatetime_in"`
+	OneTimeStartDatetimeNotIn                []*int                              `json:"oneTimeStartDatetime_not_in"`
+	OneTimeEndDatetime                       *int                                `json:"oneTimeEndDatetime"`
+	OneTimeEndDatetimeNot                    *int                                `json:"oneTimeEndDatetime_not"`
+	OneTimeEndDatetimeLt                     *int                                `json:"oneTimeEndDatetime_lt"`
+	OneTimeEndDatetimeLte                    *int                                `json:"oneTimeEndDatetime_lte"`
+	OneTimeEndDatetimeGt                     *int                                `json:"oneTimeEndDatetime_gt"`
+	OneTimeEndDatetimeGte                    *int                                `json:"oneTimeEndDatetime_gte"`
+	OneTimeEndDatetimeIn                     []*int                              `json:"oneTimeEndDatetime_in"`
+	OneTimeEndDatetimeNotIn                  []*int                              `json:"oneTimeEndDatetime_not_in"`
+	NewebpayPaymentInfo                      *NewebpayPaymentInfoWhereInput      `json:"newebpayPaymentInfo"`
+	NewebpayPaymentInfoIsNull                *bool                               `json:"newebpayPaymentInfo_is_null"`
+	Category                                 *SubscriptionCategoryType           `json:"category"`
+	CategoryNot                              *SubscriptionCategoryType           `json:"category_not"`
+	CategoryIn                               []*SubscriptionCategoryType         `json:"category_in"`
+	CategoryNotIn                            []*SubscriptionCategoryType         `json:"category_not_in"`
+	LoveCode                                 *int                                `json:"loveCode"`
+	LoveCodeNot                              *int                                `json:"loveCode_not"`
+	LoveCodeLt                               *int                                `json:"loveCode_lt"`
+	LoveCodeLte                              *int                                `json:"loveCode_lte"`
+	LoveCodeGt                               *int                                `json:"loveCode_gt"`
+	LoveCodeGte                              *int                                `json:"loveCode_gte"`
+	LoveCodeIn                               []*int                              `json:"loveCode_in"`
+	LoveCodeNotIn                            []*int                              `json:"loveCode_not_in"`
+	CarrierType                              *string                             `json:"carrierType"`
+	CarrierTypeNot                           *string                             `json:"carrierType_not"`
+	CarrierTypeIn                            []*string                           `json:"carrierType_in"`
+	CarrierTypeNotIn                         []*string                           `json:"carrierType_not_in"`
+	CarrierNum                               *string                             `json:"carrierNum"`
+	CarrierNumNot                            *string                             `json:"carrierNum_not"`
+	CarrierNumContains                       *string                             `json:"carrierNum_contains"`
+	CarrierNumNotContains                    *string                             `json:"carrierNum_not_contains"`
+	CarrierNumStartsWith                     *string                             `json:"carrierNum_starts_with"`
+	CarrierNumNotStartsWith                  *string                             `json:"carrierNum_not_starts_with"`
+	CarrierNumEndsWith                       *string                             `json:"carrierNum_ends_with"`
+	CarrierNumNotEndsWith                    *string                             `json:"carrierNum_not_ends_with"`
+	CarrierNumI                              *string                             `json:"carrierNum_i"`
+	CarrierNumNotI                           *string                             `json:"carrierNum_not_i"`
+	CarrierNumContainsI                      *string                             `json:"carrierNum_contains_i"`
+	CarrierNumNotContainsI                   *string                             `json:"carrierNum_not_contains_i"`
+	CarrierNumStartsWithI                    *string                             `json:"carrierNum_starts_with_i"`
+	CarrierNumNotStartsWithI                 *string                             `json:"carrierNum_not_starts_with_i"`
+	CarrierNumEndsWithI                      *string                             `json:"carrierNum_ends_with_i"`
+	CarrierNumNotEndsWithI                   *string                             `json:"carrierNum_not_ends_with_i"`
+	CarrierNumIn                             []*string                           `json:"carrierNum_in"`
+	CarrierNumNotIn                          []*string                           `json:"carrierNum_not_in"`
+	BuyerName                                *string                             `json:"buyerName"`
+	BuyerNameNot                             *string                             `json:"buyerName_not"`
+	BuyerNameContains                        *string                             `json:"buyerName_contains"`
+	BuyerNameNotContains                     *string                             `json:"buyerName_not_contains"`
+	BuyerNameStartsWith                      *string                             `json:"buyerName_starts_with"`
+	BuyerNameNotStartsWith                   *string                             `json:"buyerName_not_starts_with"`
+	BuyerNameEndsWith                        *string                             `json:"buyerName_ends_with"`
+	BuyerNameNotEndsWith                     *string                             `json:"buyerName_not_ends_with"`
+	BuyerNameI                               *string                             `json:"buyerName_i"`
+	BuyerNameNotI                            *string                             `json:"buyerName_not_i"`
+	BuyerNameContainsI                       *string                             `json:"buyerName_contains_i"`
+	BuyerNameNotContainsI                    *string                             `json:"buyerName_not_contains_i"`
+	BuyerNameStartsWithI                     *string                             `json:"buyerName_starts_with_i"`
+	BuyerNameNotStartsWithI                  *string                             `json:"buyerName_not_starts_with_i"`
+	BuyerNameEndsWithI                       *string                             `json:"buyerName_ends_with_i"`
+	BuyerNameNotEndsWithI                    *string                             `json:"buyerName_not_ends_with_i"`
+	BuyerNameIn                              []*string                           `json:"buyerName_in"`
+	BuyerNameNotIn                           []*string                           `json:"buyerName_not_in"`
+	BuyerUbn                                 *string                             `json:"buyerUBN"`
+	BuyerUbnNot                              *string                             `json:"buyerUBN_not"`
+	BuyerUbnContains                         *string                             `json:"buyerUBN_contains"`
+	BuyerUbnNotContains                      *string                             `json:"buyerUBN_not_contains"`
+	BuyerUbnStartsWith                       *string                             `json:"buyerUBN_starts_with"`
+	BuyerUbnNotStartsWith                    *string                             `json:"buyerUBN_not_starts_with"`
+	BuyerUbnEndsWith                         *string                             `json:"buyerUBN_ends_with"`
+	BuyerUbnNotEndsWith                      *string                             `json:"buyerUBN_not_ends_with"`
+	BuyerUbnI                                *string                             `json:"buyerUBN_i"`
+	BuyerUbnNotI                             *string                             `json:"buyerUBN_not_i"`
+	BuyerUbnContainsI                        *string                             `json:"buyerUBN_contains_i"`
+	BuyerUbnNotContainsI                     *string                             `json:"buyerUBN_not_contains_i"`
+	BuyerUbnStartsWithI                      *string                             `json:"buyerUBN_starts_with_i"`
+	BuyerUbnNotStartsWithI                   *string                             `json:"buyerUBN_not_starts_with_i"`
+	BuyerUbnEndsWithI                        *string                             `json:"buyerUBN_ends_with_i"`
+	BuyerUbnNotEndsWithI                     *string                             `json:"buyerUBN_not_ends_with_i"`
+	BuyerUbnIn                               []*string                           `json:"buyerUBN_in"`
+	BuyerUbnNotIn                            []*string                           `json:"buyerUBN_not_in"`
+	AaplOriginalTransactionID                *string                             `json:"aaplOriginalTransactionId"`
+	AaplOriginalTransactionIDNot             *string                             `json:"aaplOriginalTransactionId_not"`
+	AaplOriginalTransactionIDContains        *string                             `json:"aaplOriginalTransactionId_contains"`
+	AaplOriginalTransactionIDNotContains     *string                             `json:"aaplOriginalTransactionId_not_contains"`
+	AaplOriginalTransactionIDStartsWith      *string                             `json:"aaplOriginalTransactionId_starts_with"`
+	AaplOriginalTransactionIDNotStartsWith   *string                             `json:"aaplOriginalTransactionId_not_starts_with"`
+	AaplOriginalTransactionIDEndsWith        *string                             `json:"aaplOriginalTransactionId_ends_with"`
+	AaplOriginalTransactionIDNotEndsWith     *string                             `json:"aaplOriginalTransactionId_not_ends_with"`
+	AaplOriginalTransactionIDI               *string                             `json:"aaplOriginalTransactionId_i"`
+	AaplOriginalTransactionIDNotI            *string                             `json:"aaplOriginalTransactionId_not_i"`
+	AaplOriginalTransactionIDContainsI       *string                             `json:"aaplOriginalTransactionId_contains_i"`
+	AaplOriginalTransactionIDNotContainsI    *string                             `json:"aaplOriginalTransactionId_not_contains_i"`
+	AaplOriginalTransactionIDStartsWithI     *string                             `json:"aaplOriginalTransactionId_starts_with_i"`
+	AaplOriginalTransactionIDNotStartsWithI  *string                             `json:"aaplOriginalTransactionId_not_starts_with_i"`
+	AaplOriginalTransactionIDEndsWithI       *string                             `json:"aaplOriginalTransactionId_ends_with_i"`
+	AaplOriginalTransactionIDNotEndsWithI    *string                             `json:"aaplOriginalTransactionId_not_ends_with_i"`
+	AaplOriginalTransactionIDIn              []*string                           `json:"aaplOriginalTransactionId_in"`
+	AaplOriginalTransactionIDNotIn           []*string                           `json:"aaplOriginalTransactionId_not_in"`
+	CreatedAt                                *string                             `json:"createdAt"`
+	CreatedAtNot                             *string                             `json:"createdAt_not"`
+	CreatedAtLt                              *string                             `json:"createdAt_lt"`
+	CreatedAtLte                             *string                             `json:"createdAt_lte"`
+	CreatedAtGt                              *string                             `json:"createdAt_gt"`
+	CreatedAtGte                             *string                             `json:"createdAt_gte"`
+	CreatedAtIn                              []*string                           `json:"createdAt_in"`
+	CreatedAtNotIn                           []*string                           `json:"createdAt_not_in"`
+	UpdatedAt                                *string                             `json:"updatedAt"`
+	UpdatedAtNot                             *string                             `json:"updatedAt_not"`
+	UpdatedAtLt                              *string                             `json:"updatedAt_lt"`
+	UpdatedAtLte                             *string                             `json:"updatedAt_lte"`
+	UpdatedAtGt                              *string                             `json:"updatedAt_gt"`
+	UpdatedAtGte                             *string                             `json:"updatedAt_gte"`
+	UpdatedAtIn                              []*string                           `json:"updatedAt_in"`
+	UpdatedAtNotIn                           []*string                           `json:"updatedAt_not_in"`
+	CreatedByIsNull                          *bool                               `json:"createdBy_is_null"`
+	UpdatedByIsNull                          *bool                               `json:"updatedBy_is_null"`
 }
 
 type SubscriptionWhereUniqueInput struct {
-	ID          *string `json:"id"`
-	OrderNumber *string `json:"orderNumber"`
+	ID                        *string `json:"id"`
+	OrderNumber               *string `json:"orderNumber"`
+	GooglePlayPurchaseToken   *string `json:"googlePlayPurchaseToken"`
+	AaplOriginalTransactionID *string `json:"aaplOriginalTransactionId"`
 }
 
 // Modified From Private Schema
@@ -2917,101 +3123,226 @@ func (e OrderDirection) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-type SortAndroidpayPaymentsBy string
+type SortAppStorePaymentsBy string
 
 const (
-	SortAndroidpayPaymentsByIDAsc         SortAndroidpayPaymentsBy = "id_ASC"
-	SortAndroidpayPaymentsByIDDesc        SortAndroidpayPaymentsBy = "id_DESC"
-	SortAndroidpayPaymentsByCreatedAtAsc  SortAndroidpayPaymentsBy = "createdAt_ASC"
-	SortAndroidpayPaymentsByCreatedAtDesc SortAndroidpayPaymentsBy = "createdAt_DESC"
-	SortAndroidpayPaymentsByUpdatedAtAsc  SortAndroidpayPaymentsBy = "updatedAt_ASC"
-	SortAndroidpayPaymentsByUpdatedAtDesc SortAndroidpayPaymentsBy = "updatedAt_DESC"
+	SortAppStorePaymentsByIDAsc                     SortAppStorePaymentsBy = "id_ASC"
+	SortAppStorePaymentsByIDDesc                    SortAppStorePaymentsBy = "id_DESC"
+	SortAppStorePaymentsByAmountAsc                 SortAppStorePaymentsBy = "amount_ASC"
+	SortAppStorePaymentsByAmountDesc                SortAppStorePaymentsBy = "amount_DESC"
+	SortAppStorePaymentsByPurchaseDateAsc           SortAppStorePaymentsBy = "purchaseDate_ASC"
+	SortAppStorePaymentsByPurchaseDateDesc          SortAppStorePaymentsBy = "purchaseDate_DESC"
+	SortAppStorePaymentsByOriginalPurchaseDateAsc   SortAppStorePaymentsBy = "originalPurchaseDate_ASC"
+	SortAppStorePaymentsByOriginalPurchaseDateDesc  SortAppStorePaymentsBy = "originalPurchaseDate_DESC"
+	SortAppStorePaymentsByExpiryDateAsc             SortAppStorePaymentsBy = "expiryDate_ASC"
+	SortAppStorePaymentsByExpiryDateDesc            SortAppStorePaymentsBy = "expiryDate_DESC"
+	SortAppStorePaymentsByProductIDAsc              SortAppStorePaymentsBy = "productId_ASC"
+	SortAppStorePaymentsByProductIDDesc             SortAppStorePaymentsBy = "productId_DESC"
+	SortAppStorePaymentsByOriginalTransactionIDAsc  SortAppStorePaymentsBy = "originalTransactionId_ASC"
+	SortAppStorePaymentsByOriginalTransactionIDDesc SortAppStorePaymentsBy = "originalTransactionId_DESC"
+	SortAppStorePaymentsByTransactionIDAsc          SortAppStorePaymentsBy = "transactionId_ASC"
+	SortAppStorePaymentsByTransactionIDDesc         SortAppStorePaymentsBy = "transactionId_DESC"
+	SortAppStorePaymentsByCreatedAtAsc              SortAppStorePaymentsBy = "createdAt_ASC"
+	SortAppStorePaymentsByCreatedAtDesc             SortAppStorePaymentsBy = "createdAt_DESC"
+	SortAppStorePaymentsByUpdatedAtAsc              SortAppStorePaymentsBy = "updatedAt_ASC"
+	SortAppStorePaymentsByUpdatedAtDesc             SortAppStorePaymentsBy = "updatedAt_DESC"
 )
 
-var AllSortAndroidpayPaymentsBy = []SortAndroidpayPaymentsBy{
-	SortAndroidpayPaymentsByIDAsc,
-	SortAndroidpayPaymentsByIDDesc,
-	SortAndroidpayPaymentsByCreatedAtAsc,
-	SortAndroidpayPaymentsByCreatedAtDesc,
-	SortAndroidpayPaymentsByUpdatedAtAsc,
-	SortAndroidpayPaymentsByUpdatedAtDesc,
+var AllSortAppStorePaymentsBy = []SortAppStorePaymentsBy{
+	SortAppStorePaymentsByIDAsc,
+	SortAppStorePaymentsByIDDesc,
+	SortAppStorePaymentsByAmountAsc,
+	SortAppStorePaymentsByAmountDesc,
+	SortAppStorePaymentsByPurchaseDateAsc,
+	SortAppStorePaymentsByPurchaseDateDesc,
+	SortAppStorePaymentsByOriginalPurchaseDateAsc,
+	SortAppStorePaymentsByOriginalPurchaseDateDesc,
+	SortAppStorePaymentsByExpiryDateAsc,
+	SortAppStorePaymentsByExpiryDateDesc,
+	SortAppStorePaymentsByProductIDAsc,
+	SortAppStorePaymentsByProductIDDesc,
+	SortAppStorePaymentsByOriginalTransactionIDAsc,
+	SortAppStorePaymentsByOriginalTransactionIDDesc,
+	SortAppStorePaymentsByTransactionIDAsc,
+	SortAppStorePaymentsByTransactionIDDesc,
+	SortAppStorePaymentsByCreatedAtAsc,
+	SortAppStorePaymentsByCreatedAtDesc,
+	SortAppStorePaymentsByUpdatedAtAsc,
+	SortAppStorePaymentsByUpdatedAtDesc,
 }
 
-func (e SortAndroidpayPaymentsBy) IsValid() bool {
+func (e SortAppStorePaymentsBy) IsValid() bool {
 	switch e {
-	case SortAndroidpayPaymentsByIDAsc, SortAndroidpayPaymentsByIDDesc, SortAndroidpayPaymentsByCreatedAtAsc, SortAndroidpayPaymentsByCreatedAtDesc, SortAndroidpayPaymentsByUpdatedAtAsc, SortAndroidpayPaymentsByUpdatedAtDesc:
+	case SortAppStorePaymentsByIDAsc, SortAppStorePaymentsByIDDesc, SortAppStorePaymentsByAmountAsc, SortAppStorePaymentsByAmountDesc, SortAppStorePaymentsByPurchaseDateAsc, SortAppStorePaymentsByPurchaseDateDesc, SortAppStorePaymentsByOriginalPurchaseDateAsc, SortAppStorePaymentsByOriginalPurchaseDateDesc, SortAppStorePaymentsByExpiryDateAsc, SortAppStorePaymentsByExpiryDateDesc, SortAppStorePaymentsByProductIDAsc, SortAppStorePaymentsByProductIDDesc, SortAppStorePaymentsByOriginalTransactionIDAsc, SortAppStorePaymentsByOriginalTransactionIDDesc, SortAppStorePaymentsByTransactionIDAsc, SortAppStorePaymentsByTransactionIDDesc, SortAppStorePaymentsByCreatedAtAsc, SortAppStorePaymentsByCreatedAtDesc, SortAppStorePaymentsByUpdatedAtAsc, SortAppStorePaymentsByUpdatedAtDesc:
 		return true
 	}
 	return false
 }
 
-func (e SortAndroidpayPaymentsBy) String() string {
+func (e SortAppStorePaymentsBy) String() string {
 	return string(e)
 }
 
-func (e *SortAndroidpayPaymentsBy) UnmarshalGQL(v interface{}) error {
+func (e *SortAppStorePaymentsBy) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
 	}
 
-	*e = SortAndroidpayPaymentsBy(str)
+	*e = SortAppStorePaymentsBy(str)
 	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SortAndroidpayPaymentsBy", str)
+		return fmt.Errorf("%s is not a valid SortAppStorePaymentsBy", str)
 	}
 	return nil
 }
 
-func (e SortAndroidpayPaymentsBy) MarshalGQL(w io.Writer) {
+func (e SortAppStorePaymentsBy) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-type SortApplepayPaymentsBy string
+type SortGooglePlayPaymentsBy string
 
 const (
-	SortApplepayPaymentsByIDAsc         SortApplepayPaymentsBy = "id_ASC"
-	SortApplepayPaymentsByIDDesc        SortApplepayPaymentsBy = "id_DESC"
-	SortApplepayPaymentsByCreatedAtAsc  SortApplepayPaymentsBy = "createdAt_ASC"
-	SortApplepayPaymentsByCreatedAtDesc SortApplepayPaymentsBy = "createdAt_DESC"
-	SortApplepayPaymentsByUpdatedAtAsc  SortApplepayPaymentsBy = "updatedAt_ASC"
-	SortApplepayPaymentsByUpdatedAtDesc SortApplepayPaymentsBy = "updatedAt_DESC"
+	SortGooglePlayPaymentsByIDAsc                   SortGooglePlayPaymentsBy = "id_ASC"
+	SortGooglePlayPaymentsByIDDesc                  SortGooglePlayPaymentsBy = "id_DESC"
+	SortGooglePlayPaymentsByOrderIDAsc              SortGooglePlayPaymentsBy = "orderId_ASC"
+	SortGooglePlayPaymentsByOrderIDDesc             SortGooglePlayPaymentsBy = "orderId_DESC"
+	SortGooglePlayPaymentsByTransactionDatetimeAsc  SortGooglePlayPaymentsBy = "transactionDatetime_ASC"
+	SortGooglePlayPaymentsByTransactionDatetimeDesc SortGooglePlayPaymentsBy = "transactionDatetime_DESC"
+	SortGooglePlayPaymentsByAmountAsc               SortGooglePlayPaymentsBy = "amount_ASC"
+	SortGooglePlayPaymentsByAmountDesc              SortGooglePlayPaymentsBy = "amount_DESC"
+	SortGooglePlayPaymentsByCurrencyAsc             SortGooglePlayPaymentsBy = "currency_ASC"
+	SortGooglePlayPaymentsByCurrencyDesc            SortGooglePlayPaymentsBy = "currency_DESC"
+	SortGooglePlayPaymentsByCreatedAtAsc            SortGooglePlayPaymentsBy = "createdAt_ASC"
+	SortGooglePlayPaymentsByCreatedAtDesc           SortGooglePlayPaymentsBy = "createdAt_DESC"
+	SortGooglePlayPaymentsByUpdatedAtAsc            SortGooglePlayPaymentsBy = "updatedAt_ASC"
+	SortGooglePlayPaymentsByUpdatedAtDesc           SortGooglePlayPaymentsBy = "updatedAt_DESC"
 )
 
-var AllSortApplepayPaymentsBy = []SortApplepayPaymentsBy{
-	SortApplepayPaymentsByIDAsc,
-	SortApplepayPaymentsByIDDesc,
-	SortApplepayPaymentsByCreatedAtAsc,
-	SortApplepayPaymentsByCreatedAtDesc,
-	SortApplepayPaymentsByUpdatedAtAsc,
-	SortApplepayPaymentsByUpdatedAtDesc,
+var AllSortGooglePlayPaymentsBy = []SortGooglePlayPaymentsBy{
+	SortGooglePlayPaymentsByIDAsc,
+	SortGooglePlayPaymentsByIDDesc,
+	SortGooglePlayPaymentsByOrderIDAsc,
+	SortGooglePlayPaymentsByOrderIDDesc,
+	SortGooglePlayPaymentsByTransactionDatetimeAsc,
+	SortGooglePlayPaymentsByTransactionDatetimeDesc,
+	SortGooglePlayPaymentsByAmountAsc,
+	SortGooglePlayPaymentsByAmountDesc,
+	SortGooglePlayPaymentsByCurrencyAsc,
+	SortGooglePlayPaymentsByCurrencyDesc,
+	SortGooglePlayPaymentsByCreatedAtAsc,
+	SortGooglePlayPaymentsByCreatedAtDesc,
+	SortGooglePlayPaymentsByUpdatedAtAsc,
+	SortGooglePlayPaymentsByUpdatedAtDesc,
 }
 
-func (e SortApplepayPaymentsBy) IsValid() bool {
+func (e SortGooglePlayPaymentsBy) IsValid() bool {
 	switch e {
-	case SortApplepayPaymentsByIDAsc, SortApplepayPaymentsByIDDesc, SortApplepayPaymentsByCreatedAtAsc, SortApplepayPaymentsByCreatedAtDesc, SortApplepayPaymentsByUpdatedAtAsc, SortApplepayPaymentsByUpdatedAtDesc:
+	case SortGooglePlayPaymentsByIDAsc, SortGooglePlayPaymentsByIDDesc, SortGooglePlayPaymentsByOrderIDAsc, SortGooglePlayPaymentsByOrderIDDesc, SortGooglePlayPaymentsByTransactionDatetimeAsc, SortGooglePlayPaymentsByTransactionDatetimeDesc, SortGooglePlayPaymentsByAmountAsc, SortGooglePlayPaymentsByAmountDesc, SortGooglePlayPaymentsByCurrencyAsc, SortGooglePlayPaymentsByCurrencyDesc, SortGooglePlayPaymentsByCreatedAtAsc, SortGooglePlayPaymentsByCreatedAtDesc, SortGooglePlayPaymentsByUpdatedAtAsc, SortGooglePlayPaymentsByUpdatedAtDesc:
 		return true
 	}
 	return false
 }
 
-func (e SortApplepayPaymentsBy) String() string {
+func (e SortGooglePlayPaymentsBy) String() string {
 	return string(e)
 }
 
-func (e *SortApplepayPaymentsBy) UnmarshalGQL(v interface{}) error {
+func (e *SortGooglePlayPaymentsBy) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
 	}
 
-	*e = SortApplepayPaymentsBy(str)
+	*e = SortGooglePlayPaymentsBy(str)
 	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SortApplepayPaymentsBy", str)
+		return fmt.Errorf("%s is not a valid SortGooglePlayPaymentsBy", str)
 	}
 	return nil
 }
 
-func (e SortApplepayPaymentsBy) MarshalGQL(w io.Writer) {
+func (e SortGooglePlayPaymentsBy) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type SortGroupsBy string
+
+const (
+	SortGroupsByIDAsc              SortGroupsBy = "id_ASC"
+	SortGroupsByIDDesc             SortGroupsBy = "id_DESC"
+	SortGroupsByCompanyAsc         SortGroupsBy = "company_ASC"
+	SortGroupsByCompanyDesc        SortGroupsBy = "company_DESC"
+	SortGroupsByTaxIDNumberAsc     SortGroupsBy = "taxIdNumber_ASC"
+	SortGroupsByTaxIDNumberDesc    SortGroupsBy = "taxIdNumber_DESC"
+	SortGroupsByStartDateAsc       SortGroupsBy = "startDate_ASC"
+	SortGroupsByStartDateDesc      SortGroupsBy = "startDate_DESC"
+	SortGroupsByEndDateAsc         SortGroupsBy = "endDate_ASC"
+	SortGroupsByEndDateDesc        SortGroupsBy = "endDate_DESC"
+	SortGroupsByRequesterEmailAsc  SortGroupsBy = "requesterEmail_ASC"
+	SortGroupsByRequesterEmailDesc SortGroupsBy = "requesterEmail_DESC"
+	SortGroupsByApprovedByAsc      SortGroupsBy = "approvedBy_ASC"
+	SortGroupsByApprovedByDesc     SortGroupsBy = "approvedBy_DESC"
+	SortGroupsByNoteAsc            SortGroupsBy = "note_ASC"
+	SortGroupsByNoteDesc           SortGroupsBy = "note_DESC"
+	SortGroupsByInvoiceAsc         SortGroupsBy = "invoice_ASC"
+	SortGroupsByInvoiceDesc        SortGroupsBy = "invoice_DESC"
+	SortGroupsByCreatedAtAsc       SortGroupsBy = "createdAt_ASC"
+	SortGroupsByCreatedAtDesc      SortGroupsBy = "createdAt_DESC"
+	SortGroupsByUpdatedAtAsc       SortGroupsBy = "updatedAt_ASC"
+	SortGroupsByUpdatedAtDesc      SortGroupsBy = "updatedAt_DESC"
+)
+
+var AllSortGroupsBy = []SortGroupsBy{
+	SortGroupsByIDAsc,
+	SortGroupsByIDDesc,
+	SortGroupsByCompanyAsc,
+	SortGroupsByCompanyDesc,
+	SortGroupsByTaxIDNumberAsc,
+	SortGroupsByTaxIDNumberDesc,
+	SortGroupsByStartDateAsc,
+	SortGroupsByStartDateDesc,
+	SortGroupsByEndDateAsc,
+	SortGroupsByEndDateDesc,
+	SortGroupsByRequesterEmailAsc,
+	SortGroupsByRequesterEmailDesc,
+	SortGroupsByApprovedByAsc,
+	SortGroupsByApprovedByDesc,
+	SortGroupsByNoteAsc,
+	SortGroupsByNoteDesc,
+	SortGroupsByInvoiceAsc,
+	SortGroupsByInvoiceDesc,
+	SortGroupsByCreatedAtAsc,
+	SortGroupsByCreatedAtDesc,
+	SortGroupsByUpdatedAtAsc,
+	SortGroupsByUpdatedAtDesc,
+}
+
+func (e SortGroupsBy) IsValid() bool {
+	switch e {
+	case SortGroupsByIDAsc, SortGroupsByIDDesc, SortGroupsByCompanyAsc, SortGroupsByCompanyDesc, SortGroupsByTaxIDNumberAsc, SortGroupsByTaxIDNumberDesc, SortGroupsByStartDateAsc, SortGroupsByStartDateDesc, SortGroupsByEndDateAsc, SortGroupsByEndDateDesc, SortGroupsByRequesterEmailAsc, SortGroupsByRequesterEmailDesc, SortGroupsByApprovedByAsc, SortGroupsByApprovedByDesc, SortGroupsByNoteAsc, SortGroupsByNoteDesc, SortGroupsByInvoiceAsc, SortGroupsByInvoiceDesc, SortGroupsByCreatedAtAsc, SortGroupsByCreatedAtDesc, SortGroupsByUpdatedAtAsc, SortGroupsByUpdatedAtDesc:
+		return true
+	}
+	return false
+}
+
+func (e SortGroupsBy) String() string {
+	return string(e)
+}
+
+func (e *SortGroupsBy) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SortGroupsBy(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SortGroupsBy", str)
+	}
+	return nil
+}
+
+func (e SortGroupsBy) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
@@ -3758,77 +4089,93 @@ func (e SortSubscriptionHistoriesBy) MarshalGQL(w io.Writer) {
 type SortSubscriptionsBy string
 
 const (
-	SortSubscriptionsByIDAsc                         SortSubscriptionsBy = "id_ASC"
-	SortSubscriptionsByIDDesc                        SortSubscriptionsBy = "id_DESC"
-	SortSubscriptionsByPaymentMethodAsc              SortSubscriptionsBy = "paymentMethod_ASC"
-	SortSubscriptionsByPaymentMethodDesc             SortSubscriptionsBy = "paymentMethod_DESC"
-	SortSubscriptionsByStatusAsc                     SortSubscriptionsBy = "status_ASC"
-	SortSubscriptionsByStatusDesc                    SortSubscriptionsBy = "status_DESC"
-	SortSubscriptionsByAmountAsc                     SortSubscriptionsBy = "amount_ASC"
-	SortSubscriptionsByAmountDesc                    SortSubscriptionsBy = "amount_DESC"
-	SortSubscriptionsByCurrencyAsc                   SortSubscriptionsBy = "currency_ASC"
-	SortSubscriptionsByCurrencyDesc                  SortSubscriptionsBy = "currency_DESC"
-	SortSubscriptionsByDescAsc                       SortSubscriptionsBy = "desc_ASC"
-	SortSubscriptionsByDescDesc                      SortSubscriptionsBy = "desc_DESC"
-	SortSubscriptionsByCommentAsc                    SortSubscriptionsBy = "comment_ASC"
-	SortSubscriptionsByCommentDesc                   SortSubscriptionsBy = "comment_DESC"
-	SortSubscriptionsByEmailAsc                      SortSubscriptionsBy = "email_ASC"
-	SortSubscriptionsByEmailDesc                     SortSubscriptionsBy = "email_DESC"
-	SortSubscriptionsByOrderNumberAsc                SortSubscriptionsBy = "orderNumber_ASC"
-	SortSubscriptionsByOrderNumberDesc               SortSubscriptionsBy = "orderNumber_DESC"
-	SortSubscriptionsByIsActiveAsc                   SortSubscriptionsBy = "isActive_ASC"
-	SortSubscriptionsByIsActiveDesc                  SortSubscriptionsBy = "isActive_DESC"
-	SortSubscriptionsByIsCanceledAsc                 SortSubscriptionsBy = "isCanceled_ASC"
-	SortSubscriptionsByIsCanceledDesc                SortSubscriptionsBy = "isCanceled_DESC"
-	SortSubscriptionsByFrequencyAsc                  SortSubscriptionsBy = "frequency_ASC"
-	SortSubscriptionsByFrequencyDesc                 SortSubscriptionsBy = "frequency_DESC"
-	SortSubscriptionsByNextFrequencyAsc              SortSubscriptionsBy = "nextFrequency_ASC"
-	SortSubscriptionsByNextFrequencyDesc             SortSubscriptionsBy = "nextFrequency_DESC"
-	SortSubscriptionsByPeriodFailureTimesAsc         SortSubscriptionsBy = "periodFailureTimes_ASC"
-	SortSubscriptionsByPeriodFailureTimesDesc        SortSubscriptionsBy = "periodFailureTimes_DESC"
-	SortSubscriptionsByPeriodLastSuccessDatetimeAsc  SortSubscriptionsBy = "periodLastSuccessDatetime_ASC"
-	SortSubscriptionsByPeriodLastSuccessDatetimeDesc SortSubscriptionsBy = "periodLastSuccessDatetime_DESC"
-	SortSubscriptionsByPeriodNextPayDatetimeAsc      SortSubscriptionsBy = "periodNextPayDatetime_ASC"
-	SortSubscriptionsByPeriodNextPayDatetimeDesc     SortSubscriptionsBy = "periodNextPayDatetime_DESC"
-	SortSubscriptionsByPeriodCreateDatetimeAsc       SortSubscriptionsBy = "periodCreateDatetime_ASC"
-	SortSubscriptionsByPeriodCreateDatetimeDesc      SortSubscriptionsBy = "periodCreateDatetime_DESC"
-	SortSubscriptionsByPeriodFirstDatetimeAsc        SortSubscriptionsBy = "periodFirstDatetime_ASC"
-	SortSubscriptionsByPeriodFirstDatetimeDesc       SortSubscriptionsBy = "periodFirstDatetime_DESC"
-	SortSubscriptionsByPeriodEndDatetimeAsc          SortSubscriptionsBy = "periodEndDatetime_ASC"
-	SortSubscriptionsByPeriodEndDatetimeDesc         SortSubscriptionsBy = "periodEndDatetime_DESC"
-	SortSubscriptionsByChangePlanDatetimeAsc         SortSubscriptionsBy = "changePlanDatetime_ASC"
-	SortSubscriptionsByChangePlanDatetimeDesc        SortSubscriptionsBy = "changePlanDatetime_DESC"
-	SortSubscriptionsByNoteAsc                       SortSubscriptionsBy = "note_ASC"
-	SortSubscriptionsByNoteDesc                      SortSubscriptionsBy = "note_DESC"
-	SortSubscriptionsByPromoteIDAsc                  SortSubscriptionsBy = "promoteId_ASC"
-	SortSubscriptionsByPromoteIDDesc                 SortSubscriptionsBy = "promoteId_DESC"
-	SortSubscriptionsByPostIDAsc                     SortSubscriptionsBy = "postId_ASC"
-	SortSubscriptionsByPostIDDesc                    SortSubscriptionsBy = "postId_DESC"
-	SortSubscriptionsByOneTimeStartDatetimeAsc       SortSubscriptionsBy = "oneTimeStartDatetime_ASC"
-	SortSubscriptionsByOneTimeStartDatetimeDesc      SortSubscriptionsBy = "oneTimeStartDatetime_DESC"
-	SortSubscriptionsByOneTimeEndDatetimeAsc         SortSubscriptionsBy = "oneTimeEndDatetime_ASC"
-	SortSubscriptionsByOneTimeEndDatetimeDesc        SortSubscriptionsBy = "oneTimeEndDatetime_DESC"
-	SortSubscriptionsByCategoryAsc                   SortSubscriptionsBy = "category_ASC"
-	SortSubscriptionsByCategoryDesc                  SortSubscriptionsBy = "category_DESC"
-	SortSubscriptionsByLoveCodeAsc                   SortSubscriptionsBy = "loveCode_ASC"
-	SortSubscriptionsByLoveCodeDesc                  SortSubscriptionsBy = "loveCode_DESC"
-	SortSubscriptionsByCarrierTypeAsc                SortSubscriptionsBy = "carrierType_ASC"
-	SortSubscriptionsByCarrierTypeDesc               SortSubscriptionsBy = "carrierType_DESC"
-	SortSubscriptionsByCarrierNumAsc                 SortSubscriptionsBy = "carrierNum_ASC"
-	SortSubscriptionsByCarrierNumDesc                SortSubscriptionsBy = "carrierNum_DESC"
-	SortSubscriptionsByBuyerNameAsc                  SortSubscriptionsBy = "buyerName_ASC"
-	SortSubscriptionsByBuyerNameDesc                 SortSubscriptionsBy = "buyerName_DESC"
-	SortSubscriptionsByBuyerUbnAsc                   SortSubscriptionsBy = "buyerUBN_ASC"
-	SortSubscriptionsByBuyerUbnDesc                  SortSubscriptionsBy = "buyerUBN_DESC"
-	SortSubscriptionsByCreatedAtAsc                  SortSubscriptionsBy = "createdAt_ASC"
-	SortSubscriptionsByCreatedAtDesc                 SortSubscriptionsBy = "createdAt_DESC"
-	SortSubscriptionsByUpdatedAtAsc                  SortSubscriptionsBy = "updatedAt_ASC"
-	SortSubscriptionsByUpdatedAtDesc                 SortSubscriptionsBy = "updatedAt_DESC"
+	SortSubscriptionsByIDAsc                                   SortSubscriptionsBy = "id_ASC"
+	SortSubscriptionsByIDDesc                                  SortSubscriptionsBy = "id_DESC"
+	SortSubscriptionsByOrderNumberAsc                          SortSubscriptionsBy = "orderNumber_ASC"
+	SortSubscriptionsByOrderNumberDesc                         SortSubscriptionsBy = "orderNumber_DESC"
+	SortSubscriptionsByPaymentMethodAsc                        SortSubscriptionsBy = "paymentMethod_ASC"
+	SortSubscriptionsByPaymentMethodDesc                       SortSubscriptionsBy = "paymentMethod_DESC"
+	SortSubscriptionsByStatusAsc                               SortSubscriptionsBy = "status_ASC"
+	SortSubscriptionsByStatusDesc                              SortSubscriptionsBy = "status_DESC"
+	SortSubscriptionsByAmountAsc                               SortSubscriptionsBy = "amount_ASC"
+	SortSubscriptionsByAmountDesc                              SortSubscriptionsBy = "amount_DESC"
+	SortSubscriptionsByCurrencyAsc                             SortSubscriptionsBy = "currency_ASC"
+	SortSubscriptionsByCurrencyDesc                            SortSubscriptionsBy = "currency_DESC"
+	SortSubscriptionsByDescAsc                                 SortSubscriptionsBy = "desc_ASC"
+	SortSubscriptionsByDescDesc                                SortSubscriptionsBy = "desc_DESC"
+	SortSubscriptionsByCommentAsc                              SortSubscriptionsBy = "comment_ASC"
+	SortSubscriptionsByCommentDesc                             SortSubscriptionsBy = "comment_DESC"
+	SortSubscriptionsByEmailAsc                                SortSubscriptionsBy = "email_ASC"
+	SortSubscriptionsByEmailDesc                               SortSubscriptionsBy = "email_DESC"
+	SortSubscriptionsByIsActiveAsc                             SortSubscriptionsBy = "isActive_ASC"
+	SortSubscriptionsByIsActiveDesc                            SortSubscriptionsBy = "isActive_DESC"
+	SortSubscriptionsByIsCanceledAsc                           SortSubscriptionsBy = "isCanceled_ASC"
+	SortSubscriptionsByIsCanceledDesc                          SortSubscriptionsBy = "isCanceled_DESC"
+	SortSubscriptionsByFrequencyAsc                            SortSubscriptionsBy = "frequency_ASC"
+	SortSubscriptionsByFrequencyDesc                           SortSubscriptionsBy = "frequency_DESC"
+	SortSubscriptionsByNextFrequencyAsc                        SortSubscriptionsBy = "nextFrequency_ASC"
+	SortSubscriptionsByNextFrequencyDesc                       SortSubscriptionsBy = "nextFrequency_DESC"
+	SortSubscriptionsByPeriodFailureTimesAsc                   SortSubscriptionsBy = "periodFailureTimes_ASC"
+	SortSubscriptionsByPeriodFailureTimesDesc                  SortSubscriptionsBy = "periodFailureTimes_DESC"
+	SortSubscriptionsByPeriodLastSuccessDatetimeAsc            SortSubscriptionsBy = "periodLastSuccessDatetime_ASC"
+	SortSubscriptionsByPeriodLastSuccessDatetimeDesc           SortSubscriptionsBy = "periodLastSuccessDatetime_DESC"
+	SortSubscriptionsByPeriodNextPayDatetimeAsc                SortSubscriptionsBy = "periodNextPayDatetime_ASC"
+	SortSubscriptionsByPeriodNextPayDatetimeDesc               SortSubscriptionsBy = "periodNextPayDatetime_DESC"
+	SortSubscriptionsByPeriodCreateDatetimeAsc                 SortSubscriptionsBy = "periodCreateDatetime_ASC"
+	SortSubscriptionsByPeriodCreateDatetimeDesc                SortSubscriptionsBy = "periodCreateDatetime_DESC"
+	SortSubscriptionsByPeriodFirstDatetimeAsc                  SortSubscriptionsBy = "periodFirstDatetime_ASC"
+	SortSubscriptionsByPeriodFirstDatetimeDesc                 SortSubscriptionsBy = "periodFirstDatetime_DESC"
+	SortSubscriptionsByPeriodEndDatetimeAsc                    SortSubscriptionsBy = "periodEndDatetime_ASC"
+	SortSubscriptionsByPeriodEndDatetimeDesc                   SortSubscriptionsBy = "periodEndDatetime_DESC"
+	SortSubscriptionsByChangePlanDatetimeAsc                   SortSubscriptionsBy = "changePlanDatetime_ASC"
+	SortSubscriptionsByChangePlanDatetimeDesc                  SortSubscriptionsBy = "changePlanDatetime_DESC"
+	SortSubscriptionsByGooglePlayStatusAsc                     SortSubscriptionsBy = "googlePlayStatus_ASC"
+	SortSubscriptionsByGooglePlayStatusDesc                    SortSubscriptionsBy = "googlePlayStatus_DESC"
+	SortSubscriptionsByGooglePlayPurchaseTokenAsc              SortSubscriptionsBy = "googlePlayPurchaseToken_ASC"
+	SortSubscriptionsByGooglePlayPurchaseTokenDesc             SortSubscriptionsBy = "googlePlayPurchaseToken_DESC"
+	SortSubscriptionsByGooglePlayNotificationEventDatetimeAsc  SortSubscriptionsBy = "googlePlayNotificationEventDatetime_ASC"
+	SortSubscriptionsByGooglePlayNotificationEventDatetimeDesc SortSubscriptionsBy = "googlePlayNotificationEventDatetime_DESC"
+	SortSubscriptionsByGooglePlayPackageNameAsc                SortSubscriptionsBy = "googlePlayPackageName_ASC"
+	SortSubscriptionsByGooglePlayPackageNameDesc               SortSubscriptionsBy = "googlePlayPackageName_DESC"
+	SortSubscriptionsByCancelReasonAsc                         SortSubscriptionsBy = "cancelReason_ASC"
+	SortSubscriptionsByCancelReasonDesc                        SortSubscriptionsBy = "cancelReason_DESC"
+	SortSubscriptionsByRefundNoteAsc                           SortSubscriptionsBy = "refundNote_ASC"
+	SortSubscriptionsByRefundNoteDesc                          SortSubscriptionsBy = "refundNote_DESC"
+	SortSubscriptionsByNoteAsc                                 SortSubscriptionsBy = "note_ASC"
+	SortSubscriptionsByNoteDesc                                SortSubscriptionsBy = "note_DESC"
+	SortSubscriptionsByPromoteIDAsc                            SortSubscriptionsBy = "promoteId_ASC"
+	SortSubscriptionsByPromoteIDDesc                           SortSubscriptionsBy = "promoteId_DESC"
+	SortSubscriptionsByPostIDAsc                               SortSubscriptionsBy = "postId_ASC"
+	SortSubscriptionsByPostIDDesc                              SortSubscriptionsBy = "postId_DESC"
+	SortSubscriptionsByOneTimeStartDatetimeAsc                 SortSubscriptionsBy = "oneTimeStartDatetime_ASC"
+	SortSubscriptionsByOneTimeStartDatetimeDesc                SortSubscriptionsBy = "oneTimeStartDatetime_DESC"
+	SortSubscriptionsByOneTimeEndDatetimeAsc                   SortSubscriptionsBy = "oneTimeEndDatetime_ASC"
+	SortSubscriptionsByOneTimeEndDatetimeDesc                  SortSubscriptionsBy = "oneTimeEndDatetime_DESC"
+	SortSubscriptionsByCategoryAsc                             SortSubscriptionsBy = "category_ASC"
+	SortSubscriptionsByCategoryDesc                            SortSubscriptionsBy = "category_DESC"
+	SortSubscriptionsByLoveCodeAsc                             SortSubscriptionsBy = "loveCode_ASC"
+	SortSubscriptionsByLoveCodeDesc                            SortSubscriptionsBy = "loveCode_DESC"
+	SortSubscriptionsByCarrierTypeAsc                          SortSubscriptionsBy = "carrierType_ASC"
+	SortSubscriptionsByCarrierTypeDesc                         SortSubscriptionsBy = "carrierType_DESC"
+	SortSubscriptionsByCarrierNumAsc                           SortSubscriptionsBy = "carrierNum_ASC"
+	SortSubscriptionsByCarrierNumDesc                          SortSubscriptionsBy = "carrierNum_DESC"
+	SortSubscriptionsByBuyerNameAsc                            SortSubscriptionsBy = "buyerName_ASC"
+	SortSubscriptionsByBuyerNameDesc                           SortSubscriptionsBy = "buyerName_DESC"
+	SortSubscriptionsByBuyerUbnAsc                             SortSubscriptionsBy = "buyerUBN_ASC"
+	SortSubscriptionsByBuyerUbnDesc                            SortSubscriptionsBy = "buyerUBN_DESC"
+	SortSubscriptionsByAaplOriginalTransactionIDAsc            SortSubscriptionsBy = "aaplOriginalTransactionId_ASC"
+	SortSubscriptionsByAaplOriginalTransactionIDDesc           SortSubscriptionsBy = "aaplOriginalTransactionId_DESC"
+	SortSubscriptionsByCreatedAtAsc                            SortSubscriptionsBy = "createdAt_ASC"
+	SortSubscriptionsByCreatedAtDesc                           SortSubscriptionsBy = "createdAt_DESC"
+	SortSubscriptionsByUpdatedAtAsc                            SortSubscriptionsBy = "updatedAt_ASC"
+	SortSubscriptionsByUpdatedAtDesc                           SortSubscriptionsBy = "updatedAt_DESC"
 )
 
 var AllSortSubscriptionsBy = []SortSubscriptionsBy{
 	SortSubscriptionsByIDAsc,
 	SortSubscriptionsByIDDesc,
+	SortSubscriptionsByOrderNumberAsc,
+	SortSubscriptionsByOrderNumberDesc,
 	SortSubscriptionsByPaymentMethodAsc,
 	SortSubscriptionsByPaymentMethodDesc,
 	SortSubscriptionsByStatusAsc,
@@ -3843,8 +4190,6 @@ var AllSortSubscriptionsBy = []SortSubscriptionsBy{
 	SortSubscriptionsByCommentDesc,
 	SortSubscriptionsByEmailAsc,
 	SortSubscriptionsByEmailDesc,
-	SortSubscriptionsByOrderNumberAsc,
-	SortSubscriptionsByOrderNumberDesc,
 	SortSubscriptionsByIsActiveAsc,
 	SortSubscriptionsByIsActiveDesc,
 	SortSubscriptionsByIsCanceledAsc,
@@ -3867,6 +4212,18 @@ var AllSortSubscriptionsBy = []SortSubscriptionsBy{
 	SortSubscriptionsByPeriodEndDatetimeDesc,
 	SortSubscriptionsByChangePlanDatetimeAsc,
 	SortSubscriptionsByChangePlanDatetimeDesc,
+	SortSubscriptionsByGooglePlayStatusAsc,
+	SortSubscriptionsByGooglePlayStatusDesc,
+	SortSubscriptionsByGooglePlayPurchaseTokenAsc,
+	SortSubscriptionsByGooglePlayPurchaseTokenDesc,
+	SortSubscriptionsByGooglePlayNotificationEventDatetimeAsc,
+	SortSubscriptionsByGooglePlayNotificationEventDatetimeDesc,
+	SortSubscriptionsByGooglePlayPackageNameAsc,
+	SortSubscriptionsByGooglePlayPackageNameDesc,
+	SortSubscriptionsByCancelReasonAsc,
+	SortSubscriptionsByCancelReasonDesc,
+	SortSubscriptionsByRefundNoteAsc,
+	SortSubscriptionsByRefundNoteDesc,
 	SortSubscriptionsByNoteAsc,
 	SortSubscriptionsByNoteDesc,
 	SortSubscriptionsByPromoteIDAsc,
@@ -3889,6 +4246,8 @@ var AllSortSubscriptionsBy = []SortSubscriptionsBy{
 	SortSubscriptionsByBuyerNameDesc,
 	SortSubscriptionsByBuyerUbnAsc,
 	SortSubscriptionsByBuyerUbnDesc,
+	SortSubscriptionsByAaplOriginalTransactionIDAsc,
+	SortSubscriptionsByAaplOriginalTransactionIDDesc,
 	SortSubscriptionsByCreatedAtAsc,
 	SortSubscriptionsByCreatedAtDesc,
 	SortSubscriptionsByUpdatedAtAsc,
@@ -3897,7 +4256,7 @@ var AllSortSubscriptionsBy = []SortSubscriptionsBy{
 
 func (e SortSubscriptionsBy) IsValid() bool {
 	switch e {
-	case SortSubscriptionsByIDAsc, SortSubscriptionsByIDDesc, SortSubscriptionsByPaymentMethodAsc, SortSubscriptionsByPaymentMethodDesc, SortSubscriptionsByStatusAsc, SortSubscriptionsByStatusDesc, SortSubscriptionsByAmountAsc, SortSubscriptionsByAmountDesc, SortSubscriptionsByCurrencyAsc, SortSubscriptionsByCurrencyDesc, SortSubscriptionsByDescAsc, SortSubscriptionsByDescDesc, SortSubscriptionsByCommentAsc, SortSubscriptionsByCommentDesc, SortSubscriptionsByEmailAsc, SortSubscriptionsByEmailDesc, SortSubscriptionsByOrderNumberAsc, SortSubscriptionsByOrderNumberDesc, SortSubscriptionsByIsActiveAsc, SortSubscriptionsByIsActiveDesc, SortSubscriptionsByIsCanceledAsc, SortSubscriptionsByIsCanceledDesc, SortSubscriptionsByFrequencyAsc, SortSubscriptionsByFrequencyDesc, SortSubscriptionsByNextFrequencyAsc, SortSubscriptionsByNextFrequencyDesc, SortSubscriptionsByPeriodFailureTimesAsc, SortSubscriptionsByPeriodFailureTimesDesc, SortSubscriptionsByPeriodLastSuccessDatetimeAsc, SortSubscriptionsByPeriodLastSuccessDatetimeDesc, SortSubscriptionsByPeriodNextPayDatetimeAsc, SortSubscriptionsByPeriodNextPayDatetimeDesc, SortSubscriptionsByPeriodCreateDatetimeAsc, SortSubscriptionsByPeriodCreateDatetimeDesc, SortSubscriptionsByPeriodFirstDatetimeAsc, SortSubscriptionsByPeriodFirstDatetimeDesc, SortSubscriptionsByPeriodEndDatetimeAsc, SortSubscriptionsByPeriodEndDatetimeDesc, SortSubscriptionsByChangePlanDatetimeAsc, SortSubscriptionsByChangePlanDatetimeDesc, SortSubscriptionsByNoteAsc, SortSubscriptionsByNoteDesc, SortSubscriptionsByPromoteIDAsc, SortSubscriptionsByPromoteIDDesc, SortSubscriptionsByPostIDAsc, SortSubscriptionsByPostIDDesc, SortSubscriptionsByOneTimeStartDatetimeAsc, SortSubscriptionsByOneTimeStartDatetimeDesc, SortSubscriptionsByOneTimeEndDatetimeAsc, SortSubscriptionsByOneTimeEndDatetimeDesc, SortSubscriptionsByCategoryAsc, SortSubscriptionsByCategoryDesc, SortSubscriptionsByLoveCodeAsc, SortSubscriptionsByLoveCodeDesc, SortSubscriptionsByCarrierTypeAsc, SortSubscriptionsByCarrierTypeDesc, SortSubscriptionsByCarrierNumAsc, SortSubscriptionsByCarrierNumDesc, SortSubscriptionsByBuyerNameAsc, SortSubscriptionsByBuyerNameDesc, SortSubscriptionsByBuyerUbnAsc, SortSubscriptionsByBuyerUbnDesc, SortSubscriptionsByCreatedAtAsc, SortSubscriptionsByCreatedAtDesc, SortSubscriptionsByUpdatedAtAsc, SortSubscriptionsByUpdatedAtDesc:
+	case SortSubscriptionsByIDAsc, SortSubscriptionsByIDDesc, SortSubscriptionsByOrderNumberAsc, SortSubscriptionsByOrderNumberDesc, SortSubscriptionsByPaymentMethodAsc, SortSubscriptionsByPaymentMethodDesc, SortSubscriptionsByStatusAsc, SortSubscriptionsByStatusDesc, SortSubscriptionsByAmountAsc, SortSubscriptionsByAmountDesc, SortSubscriptionsByCurrencyAsc, SortSubscriptionsByCurrencyDesc, SortSubscriptionsByDescAsc, SortSubscriptionsByDescDesc, SortSubscriptionsByCommentAsc, SortSubscriptionsByCommentDesc, SortSubscriptionsByEmailAsc, SortSubscriptionsByEmailDesc, SortSubscriptionsByIsActiveAsc, SortSubscriptionsByIsActiveDesc, SortSubscriptionsByIsCanceledAsc, SortSubscriptionsByIsCanceledDesc, SortSubscriptionsByFrequencyAsc, SortSubscriptionsByFrequencyDesc, SortSubscriptionsByNextFrequencyAsc, SortSubscriptionsByNextFrequencyDesc, SortSubscriptionsByPeriodFailureTimesAsc, SortSubscriptionsByPeriodFailureTimesDesc, SortSubscriptionsByPeriodLastSuccessDatetimeAsc, SortSubscriptionsByPeriodLastSuccessDatetimeDesc, SortSubscriptionsByPeriodNextPayDatetimeAsc, SortSubscriptionsByPeriodNextPayDatetimeDesc, SortSubscriptionsByPeriodCreateDatetimeAsc, SortSubscriptionsByPeriodCreateDatetimeDesc, SortSubscriptionsByPeriodFirstDatetimeAsc, SortSubscriptionsByPeriodFirstDatetimeDesc, SortSubscriptionsByPeriodEndDatetimeAsc, SortSubscriptionsByPeriodEndDatetimeDesc, SortSubscriptionsByChangePlanDatetimeAsc, SortSubscriptionsByChangePlanDatetimeDesc, SortSubscriptionsByGooglePlayStatusAsc, SortSubscriptionsByGooglePlayStatusDesc, SortSubscriptionsByGooglePlayPurchaseTokenAsc, SortSubscriptionsByGooglePlayPurchaseTokenDesc, SortSubscriptionsByGooglePlayNotificationEventDatetimeAsc, SortSubscriptionsByGooglePlayNotificationEventDatetimeDesc, SortSubscriptionsByGooglePlayPackageNameAsc, SortSubscriptionsByGooglePlayPackageNameDesc, SortSubscriptionsByCancelReasonAsc, SortSubscriptionsByCancelReasonDesc, SortSubscriptionsByRefundNoteAsc, SortSubscriptionsByRefundNoteDesc, SortSubscriptionsByNoteAsc, SortSubscriptionsByNoteDesc, SortSubscriptionsByPromoteIDAsc, SortSubscriptionsByPromoteIDDesc, SortSubscriptionsByPostIDAsc, SortSubscriptionsByPostIDDesc, SortSubscriptionsByOneTimeStartDatetimeAsc, SortSubscriptionsByOneTimeStartDatetimeDesc, SortSubscriptionsByOneTimeEndDatetimeAsc, SortSubscriptionsByOneTimeEndDatetimeDesc, SortSubscriptionsByCategoryAsc, SortSubscriptionsByCategoryDesc, SortSubscriptionsByLoveCodeAsc, SortSubscriptionsByLoveCodeDesc, SortSubscriptionsByCarrierTypeAsc, SortSubscriptionsByCarrierTypeDesc, SortSubscriptionsByCarrierNumAsc, SortSubscriptionsByCarrierNumDesc, SortSubscriptionsByBuyerNameAsc, SortSubscriptionsByBuyerNameDesc, SortSubscriptionsByBuyerUbnAsc, SortSubscriptionsByBuyerUbnDesc, SortSubscriptionsByAaplOriginalTransactionIDAsc, SortSubscriptionsByAaplOriginalTransactionIDDesc, SortSubscriptionsByCreatedAtAsc, SortSubscriptionsByCreatedAtDesc, SortSubscriptionsByUpdatedAtAsc, SortSubscriptionsByUpdatedAtDesc:
 		return true
 	}
 	return false
@@ -3924,7 +4283,6 @@ func (e SortSubscriptionsBy) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-// For Custom Mutation
 type CreateSubscriptionStatusType string
 
 const (
@@ -3961,6 +4319,45 @@ func (e *CreateSubscriptionStatusType) UnmarshalGQL(v interface{}) error {
 }
 
 func (e CreateSubscriptionStatusType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type GooglePlayPaymentCurrencyType string
+
+const (
+	GooglePlayPaymentCurrencyTypeTwd GooglePlayPaymentCurrencyType = "TWD"
+)
+
+var AllGooglePlayPaymentCurrencyType = []GooglePlayPaymentCurrencyType{
+	GooglePlayPaymentCurrencyTypeTwd,
+}
+
+func (e GooglePlayPaymentCurrencyType) IsValid() bool {
+	switch e {
+	case GooglePlayPaymentCurrencyTypeTwd:
+		return true
+	}
+	return false
+}
+
+func (e GooglePlayPaymentCurrencyType) String() string {
+	return string(e)
+}
+
+func (e *GooglePlayPaymentCurrencyType) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = GooglePlayPaymentCurrencyType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid googlePlayPaymentCurrencyType", str)
+	}
+	return nil
+}
+
+func (e GooglePlayPaymentCurrencyType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
@@ -4179,6 +4576,7 @@ const (
 	MemberTypeTypeSubscribeYearly  MemberTypeType = "subscribe_yearly"
 	MemberTypeTypeSubscribeMonthly MemberTypeType = "subscribe_monthly"
 	MemberTypeTypeSubscribeOneTime MemberTypeType = "subscribe_one_time"
+	MemberTypeTypeSubscribeGroup   MemberTypeType = "subscribe_group"
 	MemberTypeTypeMarketing        MemberTypeType = "marketing"
 	MemberTypeTypeNone             MemberTypeType = "none"
 )
@@ -4187,13 +4585,14 @@ var AllMemberTypeType = []MemberTypeType{
 	MemberTypeTypeSubscribeYearly,
 	MemberTypeTypeSubscribeMonthly,
 	MemberTypeTypeSubscribeOneTime,
+	MemberTypeTypeSubscribeGroup,
 	MemberTypeTypeMarketing,
 	MemberTypeTypeNone,
 }
 
 func (e MemberTypeType) IsValid() bool {
 	switch e {
-	case MemberTypeTypeSubscribeYearly, MemberTypeTypeSubscribeMonthly, MemberTypeTypeSubscribeOneTime, MemberTypeTypeMarketing, MemberTypeTypeNone:
+	case MemberTypeTypeSubscribeYearly, MemberTypeTypeSubscribeMonthly, MemberTypeTypeSubscribeOneTime, MemberTypeTypeSubscribeGroup, MemberTypeTypeMarketing, MemberTypeTypeNone:
 		return true
 	}
 	return false
@@ -4548,6 +4947,61 @@ func (e SubscriptionFrequencyType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+type SubscriptionGooglePlayStatusType string
+
+const (
+	SubscriptionGooglePlayStatusTypePurchased     SubscriptionGooglePlayStatusType = "purchased"
+	SubscriptionGooglePlayStatusTypeRenewed       SubscriptionGooglePlayStatusType = "renewed"
+	SubscriptionGooglePlayStatusTypeExpired       SubscriptionGooglePlayStatusType = "expired"
+	SubscriptionGooglePlayStatusTypeOnHold        SubscriptionGooglePlayStatusType = "on_hold"
+	SubscriptionGooglePlayStatusTypeInGracePeriod SubscriptionGooglePlayStatusType = "in_grace_period"
+	SubscriptionGooglePlayStatusTypeCanceled      SubscriptionGooglePlayStatusType = "canceled"
+	SubscriptionGooglePlayStatusTypeRestarted     SubscriptionGooglePlayStatusType = "restarted"
+	SubscriptionGooglePlayStatusTypeRevoked       SubscriptionGooglePlayStatusType = "revoked"
+	SubscriptionGooglePlayStatusTypeRecovered     SubscriptionGooglePlayStatusType = "recovered"
+)
+
+var AllSubscriptionGooglePlayStatusType = []SubscriptionGooglePlayStatusType{
+	SubscriptionGooglePlayStatusTypePurchased,
+	SubscriptionGooglePlayStatusTypeRenewed,
+	SubscriptionGooglePlayStatusTypeExpired,
+	SubscriptionGooglePlayStatusTypeOnHold,
+	SubscriptionGooglePlayStatusTypeInGracePeriod,
+	SubscriptionGooglePlayStatusTypeCanceled,
+	SubscriptionGooglePlayStatusTypeRestarted,
+	SubscriptionGooglePlayStatusTypeRevoked,
+	SubscriptionGooglePlayStatusTypeRecovered,
+}
+
+func (e SubscriptionGooglePlayStatusType) IsValid() bool {
+	switch e {
+	case SubscriptionGooglePlayStatusTypePurchased, SubscriptionGooglePlayStatusTypeRenewed, SubscriptionGooglePlayStatusTypeExpired, SubscriptionGooglePlayStatusTypeOnHold, SubscriptionGooglePlayStatusTypeInGracePeriod, SubscriptionGooglePlayStatusTypeCanceled, SubscriptionGooglePlayStatusTypeRestarted, SubscriptionGooglePlayStatusTypeRevoked, SubscriptionGooglePlayStatusTypeRecovered:
+		return true
+	}
+	return false
+}
+
+func (e SubscriptionGooglePlayStatusType) String() string {
+	return string(e)
+}
+
+func (e *SubscriptionGooglePlayStatusType) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SubscriptionGooglePlayStatusType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid subscriptionGooglePlayStatusType", str)
+	}
+	return nil
+}
+
+func (e SubscriptionGooglePlayStatusType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
 type SubscriptionHistoryActionType string
 
 const (
@@ -4771,19 +5225,19 @@ type SubscriptionPaymentMethodType string
 
 const (
 	SubscriptionPaymentMethodTypeNewebpay   SubscriptionPaymentMethodType = "newebpay"
-	SubscriptionPaymentMethodTypeApplepay   SubscriptionPaymentMethodType = "applepay"
-	SubscriptionPaymentMethodTypeAndroidpay SubscriptionPaymentMethodType = "androidpay"
+	SubscriptionPaymentMethodTypeAppStore   SubscriptionPaymentMethodType = "app_store"
+	SubscriptionPaymentMethodTypeGooglePlay SubscriptionPaymentMethodType = "google_play"
 )
 
 var AllSubscriptionPaymentMethodType = []SubscriptionPaymentMethodType{
 	SubscriptionPaymentMethodTypeNewebpay,
-	SubscriptionPaymentMethodTypeApplepay,
-	SubscriptionPaymentMethodTypeAndroidpay,
+	SubscriptionPaymentMethodTypeAppStore,
+	SubscriptionPaymentMethodTypeGooglePlay,
 }
 
 func (e SubscriptionPaymentMethodType) IsValid() bool {
 	switch e {
-	case SubscriptionPaymentMethodTypeNewebpay, SubscriptionPaymentMethodTypeApplepay, SubscriptionPaymentMethodTypeAndroidpay:
+	case SubscriptionPaymentMethodTypeNewebpay, SubscriptionPaymentMethodTypeAppStore, SubscriptionPaymentMethodTypeGooglePlay:
 		return true
 	}
 	return false
@@ -4859,58 +5313,19 @@ func (e SubscriptionStatusType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-type UpdateMemberStateType string
-
-const (
-	UpdateMemberStateTypeInactive UpdateMemberStateType = "inactive"
-)
-
-var AllUpdateMemberStateType = []UpdateMemberStateType{
-	UpdateMemberStateTypeInactive,
-}
-
-func (e UpdateMemberStateType) IsValid() bool {
-	switch e {
-	case UpdateMemberStateTypeInactive:
-		return true
-	}
-	return false
-}
-
-func (e UpdateMemberStateType) String() string {
-	return string(e)
-}
-
-func (e *UpdateMemberStateType) UnmarshalGQL(v interface{}) error {
-	str, ok := v.(string)
-	if !ok {
-		return fmt.Errorf("enums must be strings")
-	}
-
-	*e = UpdateMemberStateType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid updateMemberStateType", str)
-	}
-	return nil
-}
-
-func (e UpdateMemberStateType) MarshalGQL(w io.Writer) {
-	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
 type UpdateSubscriptionNextFrequencyType string
 
 const (
-	UpdateSubscriptionNextFrequencyTypeYearly UpdateSubscriptionNextFrequencyType = "yearly"
+	UpdateSubscriptionNextFrequencyTypeNone UpdateSubscriptionNextFrequencyType = "none"
 )
 
 var AllUpdateSubscriptionNextFrequencyType = []UpdateSubscriptionNextFrequencyType{
-	UpdateSubscriptionNextFrequencyTypeYearly,
+	UpdateSubscriptionNextFrequencyTypeNone,
 }
 
 func (e UpdateSubscriptionNextFrequencyType) IsValid() bool {
 	switch e {
-	case UpdateSubscriptionNextFrequencyTypeYearly:
+	case UpdateSubscriptionNextFrequencyTypeNone:
 		return true
 	}
 	return false
@@ -4937,41 +5352,43 @@ func (e UpdateSubscriptionNextFrequencyType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-type UpdateSubscriptionStatusType string
+type UpsertSubscriptionAppSourceType string
 
 const (
-	UpdateSubscriptionStatusTypeCancelled UpdateSubscriptionStatusType = "cancelled"
+	UpsertSubscriptionAppSourceTypeAppStore   UpsertSubscriptionAppSourceType = "app_store"
+	UpsertSubscriptionAppSourceTypeGooglePlay UpsertSubscriptionAppSourceType = "google_play"
 )
 
-var AllUpdateSubscriptionStatusType = []UpdateSubscriptionStatusType{
-	UpdateSubscriptionStatusTypeCancelled,
+var AllUpsertSubscriptionAppSourceType = []UpsertSubscriptionAppSourceType{
+	UpsertSubscriptionAppSourceTypeAppStore,
+	UpsertSubscriptionAppSourceTypeGooglePlay,
 }
 
-func (e UpdateSubscriptionStatusType) IsValid() bool {
+func (e UpsertSubscriptionAppSourceType) IsValid() bool {
 	switch e {
-	case UpdateSubscriptionStatusTypeCancelled:
+	case UpsertSubscriptionAppSourceTypeAppStore, UpsertSubscriptionAppSourceTypeGooglePlay:
 		return true
 	}
 	return false
 }
 
-func (e UpdateSubscriptionStatusType) String() string {
+func (e UpsertSubscriptionAppSourceType) String() string {
 	return string(e)
 }
 
-func (e *UpdateSubscriptionStatusType) UnmarshalGQL(v interface{}) error {
+func (e *UpsertSubscriptionAppSourceType) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
 	}
 
-	*e = UpdateSubscriptionStatusType(str)
+	*e = UpsertSubscriptionAppSourceType(str)
 	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid updateSubscriptionStatusType", str)
+		return fmt.Errorf("%s is not a valid upsertSubscriptionAppSourceType", str)
 	}
 	return nil
 }
 
-func (e UpdateSubscriptionStatusType) MarshalGQL(w io.Writer) {
+func (e UpsertSubscriptionAppSourceType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }

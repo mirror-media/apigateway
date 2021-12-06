@@ -38,6 +38,31 @@ type Resolver struct {
 	NewebpayStore payment.NewebPayStore
 }
 
+type WebhookPlayStoreResponse struct {
+	Status  string `json:"status"`
+	Message string `json:"message"`
+	Data    Data   `json:"data"`
+}
+
+type WebhookAppStoreResponse struct {
+	Status  string `json:"status"`
+	Message string `json:"message"`
+}
+
+type Data struct {
+	ID                      string `json:"id"`
+	OrderNumber             string `json:"orderNumber"`
+	Frequency               string `json:"frequency"`
+	NextFrequency           string `json:"nextFrequency"`
+	IsActive                bool   `json:"isActive"`
+	GooglePlayStatus        string `json:"googlePlayStatus"`
+	GooglePlayPurchaseToken string `json:"googlePlayPurchaseToken"`
+	GooglePlayPackageName   string `json:"googlePlayPackageName"`
+	PeriodFirstDatetime     string `json:"periodFirstDatetime"`
+	PeriodEndDatetime       string `json:"periodEndDatetime"`
+	PeriodCreateDatetime    string `json:"periodCreateDatetime"`
+}
+
 func (r Resolver) RetrieveExistingSubscriptionFromRemote(ctx context.Context, subscriptionID string) (firebaseID, frequency string, err error) {
 	req := graphql.NewRequest("query ($id: ID!) { subscription(where: {id: $id}) { frequency, member { firebaseId } } }")
 	req.Var("id", subscriptionID)
