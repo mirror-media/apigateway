@@ -2,7 +2,7 @@
 
 ## Preliminaries
 
-1. Go 1.17+
+1. Go 1.16+
 2. Run `go mod download` in the directory of `APIGATEWAY`
 
 ## Build
