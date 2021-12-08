@@ -29,6 +29,8 @@ Provides APIs for:
 
 Architecture-wise, please check `doc/infra.png` to see how it interact with other services.
 
+![infra diagram](https://github.com/mirror-media/apigateway/blob/61a180a336d70eb4cf6b1976d750783ac980efa3/doc/infra.png)
+
 ### CMD
 
 APIGATEWAY composites two process, `apigateway` and `membermutation`, which are located in the `cmd` folder. The handling of GraphQL mutation falls to `membermutation`. Anything else is the responsibility of `apigateway`, which is also the entrypoint of the whole service and relay GraphQL mutation to `membermutation`.
