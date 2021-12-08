@@ -29,7 +29,7 @@ Provides APIs for:
 
 Architecture-wise, please check `doc/infra.png` to see how it interact with other services.
 
-![infra diagram](https://github.com/mirror-media/apigateway/blob/61a180a336d70eb4cf6b1976d750783ac980efa3/doc/infra.png)
+![infra diagram](https://user-images.githubusercontent.com/21715194/145249364-c8e6e845-18ef-4d39-a9a4-42209eacc588.png)
 
 ### CMD
 
