@@ -78,3 +78,4 @@ Implementation can be updated manually after it.
 ## Known Issues:
 - ~~#68: "null" is a keyworkd and can't be used in graphql variables due to a hack in PR#66~~ (Fiexed in #70)
 - an empty array of input is parsed as null #95
+- Cache doesn't work properly #137
