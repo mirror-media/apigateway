@@ -133,7 +133,7 @@ func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cach
 		if cmd := rdb.Get(context.TODO(), redisKey); cmd == nil {
 			// cache doesn't exist, do fetch reverse proxy
 			logger.Infof("cache for uri(%s) cannot be fetched", c.Request.RequestURI)
-		} else if body, err = cmd.Bytes(); err != nil {
+		} else if body, err = cmd.Bytes(); err != nil && err != "redis: nil" {
 			// cache can't be understood, do fetch reverse proxy
 			logger.Warnf("cache for uri(%s) cannot be converted to bytes, error message: %s", c.Request.RequestURI, err)
 		} else {
