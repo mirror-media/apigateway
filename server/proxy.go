@@ -12,7 +12,6 @@ import (
 	"strconv"
 	"strings"
 	"time"
-	"reflect"
 
 	"firebase.google.com/go/v4/auth"
 	"github.com/gin-gonic/gin"
@@ -134,9 +133,9 @@ func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cach
 		if cmd := rdb.Get(context.TODO(), redisKey); cmd == nil {
 			// cache doesn't exist, do fetch reverse proxy
 			logger.Infof("cache for uri(%s) cannot be fetched", c.Request.RequestURI)
-		} else if body, err = cmd.Val(); err != nil {
+		} else if body, err = cmd.Bytes(); err != nil {
 			// cache can't be understood, do fetch reverse proxy
-			logger.Warnf("cache for uri(%s) cannot be converted to bytes, the type is %s", c.Request.RequestURI, reflect.TypeOf(cmd))
+			logger.Warnf("cache for uri(%s) cannot be converted to bytes, error message: %s", c.Request.RequestURI, err)
 		} else {
 			switch path := c.Request.URL.Path; {
 			case strings.HasSuffix(path, "/getposts") || strings.HasSuffix(path, "/posts") || strings.HasSuffix(path, "/post"):
