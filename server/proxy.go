@@ -135,7 +135,9 @@ func NewSingleHostReverseProxy(target *url.URL, pathBaseToStrip string, rdb cach
 			logger.Infof("cache for uri(%s) cannot be fetched", c.Request.RequestURI)
 		} else if body, err = cmd.Bytes(); err != nil {
 			// cache can't be understood, do fetch reverse proxy
-			logger.Warnf("cache for uri(%s) cannot be converted to bytes", c.Request.RequestURI)
+			if cmd.Val() != "" {
+				logger.Warnf("cache for uri(%s) cannot be converted to bytes", c.Request.RequestURI)
+			}
 		} else {
 			switch path := c.Request.URL.Path; {
 			case strings.HasSuffix(path, "/getposts") || strings.HasSuffix(path, "/posts") || strings.HasSuffix(path, "/post"):
