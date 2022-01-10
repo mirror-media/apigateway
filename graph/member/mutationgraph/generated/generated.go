@@ -5973,6 +5973,7 @@ input memberUpdateInput {
   city: String
   country: String
   district: String
+  state: memberStateType
 }
 
 input MembersUpdateInput {
