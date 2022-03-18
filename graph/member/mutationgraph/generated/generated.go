@@ -6059,6 +6059,7 @@ input subscriptionAppUpsertInfo {
 
 enum updateSubscriptionNextFrequencyType {
   none
+  yearly
 }
 
 input subscriptionUpdateInput {

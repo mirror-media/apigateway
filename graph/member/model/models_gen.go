@@ -5316,16 +5316,18 @@ func (e SubscriptionStatusType) MarshalGQL(w io.Writer) {
 type UpdateSubscriptionNextFrequencyType string
 
 const (
-	UpdateSubscriptionNextFrequencyTypeNone UpdateSubscriptionNextFrequencyType = "none"
+	UpdateSubscriptionNextFrequencyTypeNone   UpdateSubscriptionNextFrequencyType = "none"
+	UpdateSubscriptionNextFrequencyTypeYearly UpdateSubscriptionNextFrequencyType = "yearly"
 )
 
 var AllUpdateSubscriptionNextFrequencyType = []UpdateSubscriptionNextFrequencyType{
 	UpdateSubscriptionNextFrequencyTypeNone,
+	UpdateSubscriptionNextFrequencyTypeYearly,
 }
 
 func (e UpdateSubscriptionNextFrequencyType) IsValid() bool {
 	switch e {
-	case UpdateSubscriptionNextFrequencyTypeNone:
+	case UpdateSubscriptionNextFrequencyTypeNone, UpdateSubscriptionNextFrequencyTypeYearly:
 		return true
 	}
 	return false
