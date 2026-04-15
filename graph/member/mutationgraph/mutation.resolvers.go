@@ -7,6 +7,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -18,7 +19,7 @@ import (
 	"github.com/mirror-media/apigateway/graph/member/model"
 	"github.com/mirror-media/apigateway/graph/member/mutationgraph/generated"
 	"github.com/mirror-media/apigateway/payment"
-	"github.com/pkg/errors"
+	pkgerrors "github.com/pkg/errors"
 	"github.com/rs/xid"
 	"github.com/sirupsen/logrus"
 )
@@ -293,7 +294,7 @@ mutation ($id: ID!, $orderNumber: String!) {
 
 	err = r.Client.Run(ctx, req, nil)
 	if err != nil {
-		err = errors.Wrapf(err, "update odernumber to subscription(%s) encounter error", resp.SubscriptionInfo.ID)
+		err = pkgerrors.Wrapf(err, "update odernumber to subscription(%s) encounter error", resp.SubscriptionInfo.ID)
 		logrus.WithField("mutation", "createsubscription.updatesubscription").Error(err)
 		return nil, err
 	}
@@ -421,7 +422,7 @@ func (r *mutationResolver) CreatesSubscriptionOneTime(ctx context.Context, data 
 
 	err = r.Client.Run(ctx, req, nil)
 	if err != nil {
-		err = errors.Wrapf(err, "update odernumber to subscription(%s) encounter error", resp.SubscriptionInfo.ID)
+		err = pkgerrors.Wrapf(err, "update odernumber to subscription(%s) encounter error", resp.SubscriptionInfo.ID)
 		logrus.WithField("mutation", "createsubscription.updatesubscription").Error(err)
 		return nil, err
 	}

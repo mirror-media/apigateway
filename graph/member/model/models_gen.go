@@ -4573,16 +4573,18 @@ func (e MemberStateType) MarshalGQL(w io.Writer) {
 type MemberTypeType string
 
 const (
-	MemberTypeTypeSubscribeYearly  MemberTypeType = "subscribe_yearly"
-	MemberTypeTypeSubscribeMonthly MemberTypeType = "subscribe_monthly"
-	MemberTypeTypeSubscribeOneTime MemberTypeType = "subscribe_one_time"
-	MemberTypeTypeSubscribeGroup   MemberTypeType = "subscribe_group"
-	MemberTypeTypeMarketing        MemberTypeType = "marketing"
-	MemberTypeTypeNone             MemberTypeType = "none"
+	MemberTypeTypeSubscribeYearly     MemberTypeType = "subscribe_yearly"
+	MemberTypeTypeSubscribeHalfyearly MemberTypeType = "subscribe_halfyearly"
+	MemberTypeTypeSubscribeMonthly    MemberTypeType = "subscribe_monthly"
+	MemberTypeTypeSubscribeOneTime    MemberTypeType = "subscribe_one_time"
+	MemberTypeTypeSubscribeGroup      MemberTypeType = "subscribe_group"
+	MemberTypeTypeMarketing           MemberTypeType = "marketing"
+	MemberTypeTypeNone                MemberTypeType = "none"
 )
 
 var AllMemberTypeType = []MemberTypeType{
 	MemberTypeTypeSubscribeYearly,
+	MemberTypeTypeSubscribeHalfyearly,
 	MemberTypeTypeSubscribeMonthly,
 	MemberTypeTypeSubscribeOneTime,
 	MemberTypeTypeSubscribeGroup,
@@ -4592,7 +4594,7 @@ var AllMemberTypeType = []MemberTypeType{
 
 func (e MemberTypeType) IsValid() bool {
 	switch e {
-	case MemberTypeTypeSubscribeYearly, MemberTypeTypeSubscribeMonthly, MemberTypeTypeSubscribeOneTime, MemberTypeTypeSubscribeGroup, MemberTypeTypeMarketing, MemberTypeTypeNone:
+	case MemberTypeTypeSubscribeYearly, MemberTypeTypeSubscribeHalfyearly, MemberTypeTypeSubscribeMonthly, MemberTypeTypeSubscribeOneTime, MemberTypeTypeSubscribeGroup, MemberTypeTypeMarketing, MemberTypeTypeNone:
 		return true
 	}
 	return false
@@ -4702,20 +4704,22 @@ func (e MerchandiseStateType) MarshalGQL(w io.Writer) {
 type NewebpayPaymentFrequencyType string
 
 const (
-	NewebpayPaymentFrequencyTypeOneTime NewebpayPaymentFrequencyType = "one_time"
-	NewebpayPaymentFrequencyTypeYearly  NewebpayPaymentFrequencyType = "yearly"
-	NewebpayPaymentFrequencyTypeMonthly NewebpayPaymentFrequencyType = "monthly"
+	NewebpayPaymentFrequencyTypeOneTime    NewebpayPaymentFrequencyType = "one_time"
+	NewebpayPaymentFrequencyTypeYearly     NewebpayPaymentFrequencyType = "yearly"
+	NewebpayPaymentFrequencyTypeHalfyearly NewebpayPaymentFrequencyType = "halfyearly"
+	NewebpayPaymentFrequencyTypeMonthly    NewebpayPaymentFrequencyType = "monthly"
 )
 
 var AllNewebpayPaymentFrequencyType = []NewebpayPaymentFrequencyType{
 	NewebpayPaymentFrequencyTypeOneTime,
 	NewebpayPaymentFrequencyTypeYearly,
+	NewebpayPaymentFrequencyTypeHalfyearly,
 	NewebpayPaymentFrequencyTypeMonthly,
 }
 
 func (e NewebpayPaymentFrequencyType) IsValid() bool {
 	switch e {
-	case NewebpayPaymentFrequencyTypeOneTime, NewebpayPaymentFrequencyTypeYearly, NewebpayPaymentFrequencyTypeMonthly:
+	case NewebpayPaymentFrequencyTypeOneTime, NewebpayPaymentFrequencyTypeYearly, NewebpayPaymentFrequencyTypeHalfyearly, NewebpayPaymentFrequencyTypeMonthly:
 		return true
 	}
 	return false
@@ -4907,20 +4911,22 @@ func (e SubscriptionCurrencyType) MarshalGQL(w io.Writer) {
 type SubscriptionFrequencyType string
 
 const (
-	SubscriptionFrequencyTypeOneTime SubscriptionFrequencyType = "one_time"
-	SubscriptionFrequencyTypeYearly  SubscriptionFrequencyType = "yearly"
-	SubscriptionFrequencyTypeMonthly SubscriptionFrequencyType = "monthly"
+	SubscriptionFrequencyTypeOneTime    SubscriptionFrequencyType = "one_time"
+	SubscriptionFrequencyTypeYearly     SubscriptionFrequencyType = "yearly"
+	SubscriptionFrequencyTypeHalfyearly SubscriptionFrequencyType = "halfyearly"
+	SubscriptionFrequencyTypeMonthly    SubscriptionFrequencyType = "monthly"
 )
 
 var AllSubscriptionFrequencyType = []SubscriptionFrequencyType{
 	SubscriptionFrequencyTypeOneTime,
 	SubscriptionFrequencyTypeYearly,
+	SubscriptionFrequencyTypeHalfyearly,
 	SubscriptionFrequencyTypeMonthly,
 }
 
 func (e SubscriptionFrequencyType) IsValid() bool {
 	switch e {
-	case SubscriptionFrequencyTypeOneTime, SubscriptionFrequencyTypeYearly, SubscriptionFrequencyTypeMonthly:
+	case SubscriptionFrequencyTypeOneTime, SubscriptionFrequencyTypeYearly, SubscriptionFrequencyTypeHalfyearly, SubscriptionFrequencyTypeMonthly:
 		return true
 	}
 	return false
@@ -5087,20 +5093,22 @@ func (e SubscriptionHistoryCurrencyType) MarshalGQL(w io.Writer) {
 type SubscriptionHistoryFrequencyType string
 
 const (
-	SubscriptionHistoryFrequencyTypeOneTime SubscriptionHistoryFrequencyType = "one_time"
-	SubscriptionHistoryFrequencyTypeYearly  SubscriptionHistoryFrequencyType = "yearly"
-	SubscriptionHistoryFrequencyTypeMonthly SubscriptionHistoryFrequencyType = "monthly"
+	SubscriptionHistoryFrequencyTypeOneTime    SubscriptionHistoryFrequencyType = "one_time"
+	SubscriptionHistoryFrequencyTypeYearly     SubscriptionHistoryFrequencyType = "yearly"
+	SubscriptionHistoryFrequencyTypeHalfyearly SubscriptionHistoryFrequencyType = "halfyearly"
+	SubscriptionHistoryFrequencyTypeMonthly    SubscriptionHistoryFrequencyType = "monthly"
 )
 
 var AllSubscriptionHistoryFrequencyType = []SubscriptionHistoryFrequencyType{
 	SubscriptionHistoryFrequencyTypeOneTime,
 	SubscriptionHistoryFrequencyTypeYearly,
+	SubscriptionHistoryFrequencyTypeHalfyearly,
 	SubscriptionHistoryFrequencyTypeMonthly,
 }
 
 func (e SubscriptionHistoryFrequencyType) IsValid() bool {
 	switch e {
-	case SubscriptionHistoryFrequencyTypeOneTime, SubscriptionHistoryFrequencyTypeYearly, SubscriptionHistoryFrequencyTypeMonthly:
+	case SubscriptionHistoryFrequencyTypeOneTime, SubscriptionHistoryFrequencyTypeYearly, SubscriptionHistoryFrequencyTypeHalfyearly, SubscriptionHistoryFrequencyTypeMonthly:
 		return true
 	}
 	return false
@@ -5181,20 +5189,22 @@ func (e SubscriptionHistoryStatusType) MarshalGQL(w io.Writer) {
 type SubscriptionNextFrequencyType string
 
 const (
-	SubscriptionNextFrequencyTypeNone    SubscriptionNextFrequencyType = "none"
-	SubscriptionNextFrequencyTypeYearly  SubscriptionNextFrequencyType = "yearly"
-	SubscriptionNextFrequencyTypeMonthly SubscriptionNextFrequencyType = "monthly"
+	SubscriptionNextFrequencyTypeNone       SubscriptionNextFrequencyType = "none"
+	SubscriptionNextFrequencyTypeYearly     SubscriptionNextFrequencyType = "yearly"
+	SubscriptionNextFrequencyTypeHalfyearly SubscriptionNextFrequencyType = "halfyearly"
+	SubscriptionNextFrequencyTypeMonthly    SubscriptionNextFrequencyType = "monthly"
 )
 
 var AllSubscriptionNextFrequencyType = []SubscriptionNextFrequencyType{
 	SubscriptionNextFrequencyTypeNone,
 	SubscriptionNextFrequencyTypeYearly,
+	SubscriptionNextFrequencyTypeHalfyearly,
 	SubscriptionNextFrequencyTypeMonthly,
 }
 
 func (e SubscriptionNextFrequencyType) IsValid() bool {
 	switch e {
-	case SubscriptionNextFrequencyTypeNone, SubscriptionNextFrequencyTypeYearly, SubscriptionNextFrequencyTypeMonthly:
+	case SubscriptionNextFrequencyTypeNone, SubscriptionNextFrequencyTypeYearly, SubscriptionNextFrequencyTypeHalfyearly, SubscriptionNextFrequencyTypeMonthly:
 		return true
 	}
 	return false
@@ -5316,18 +5326,20 @@ func (e SubscriptionStatusType) MarshalGQL(w io.Writer) {
 type UpdateSubscriptionNextFrequencyType string
 
 const (
-	UpdateSubscriptionNextFrequencyTypeNone   UpdateSubscriptionNextFrequencyType = "none"
-	UpdateSubscriptionNextFrequencyTypeYearly UpdateSubscriptionNextFrequencyType = "yearly"
+	UpdateSubscriptionNextFrequencyTypeNone       UpdateSubscriptionNextFrequencyType = "none"
+	UpdateSubscriptionNextFrequencyTypeYearly     UpdateSubscriptionNextFrequencyType = "yearly"
+	UpdateSubscriptionNextFrequencyTypeHalfyearly UpdateSubscriptionNextFrequencyType = "halfyearly"
 )
 
 var AllUpdateSubscriptionNextFrequencyType = []UpdateSubscriptionNextFrequencyType{
 	UpdateSubscriptionNextFrequencyTypeNone,
 	UpdateSubscriptionNextFrequencyTypeYearly,
+	UpdateSubscriptionNextFrequencyTypeHalfyearly,
 }
 
 func (e UpdateSubscriptionNextFrequencyType) IsValid() bool {
 	switch e {
-	case UpdateSubscriptionNextFrequencyTypeNone, UpdateSubscriptionNextFrequencyTypeYearly:
+	case UpdateSubscriptionNextFrequencyTypeNone, UpdateSubscriptionNextFrequencyTypeYearly, UpdateSubscriptionNextFrequencyTypeHalfyearly:
 		return true
 	}
 	return false

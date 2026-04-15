@@ -266,9 +266,10 @@ func (s NewebPayStore) CreateNewebpayMPGPayload(newebpayMGPInfo NewebpayMGPInfo,
 
 func validatePurchaseCode(purchaseInfo PurchaseInfo) error {
 	codes := map[string]interface{}{
-		model.SubscriptionFrequencyTypeMonthly.String(): nil,
-		model.SubscriptionFrequencyTypeYearly.String():  nil,
-		model.SubscriptionFrequencyTypeOneTime.String(): nil,
+		model.SubscriptionFrequencyTypeMonthly.String():    nil,
+		model.SubscriptionFrequencyTypeYearly.String():     nil,
+		model.SubscriptionFrequencyTypeHalfyearly.String(): nil,
+		model.SubscriptionFrequencyTypeOneTime.String():    nil,
 	}
 
 	if _, ok := codes[purchaseInfo.Code]; !ok {

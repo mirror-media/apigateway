@@ -2748,6 +2748,7 @@ type memberInfo {
 
 enum memberTypeType {
   subscribe_yearly
+  subscribe_halfyearly
   subscribe_monthly
   subscribe_one_time
   subscribe_group
@@ -3487,6 +3488,7 @@ type newebpayPayment {
 enum newebpayPaymentFrequencyType {
   one_time
   yearly
+  halfyearly
   monthly
 }
 
@@ -4554,12 +4556,14 @@ enum subscriptionCurrencyType {
 enum subscriptionFrequencyType {
   one_time
   yearly
+  halfyearly
   monthly
 }
 
 enum subscriptionNextFrequencyType {
   none
   yearly
+  halfyearly
   monthly
 }
 
@@ -5324,6 +5328,7 @@ enum subscriptionHistoryCurrencyType {
 enum subscriptionHistoryFrequencyType {
   one_time
   yearly
+  halfyearly
   monthly
 }
 
@@ -6060,6 +6065,7 @@ input subscriptionAppUpsertInfo {
 enum updateSubscriptionNextFrequencyType {
   none
   yearly
+  halfyearly
 }
 
 input subscriptionUpdateInput {
