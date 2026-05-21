@@ -29,7 +29,7 @@ steps:
         case "$BRANCH_NAME" in
           dev)     CLUSTER=dev ;;
           staging) CLUSTER=mirrormedia-staging ;;
-          main)    CLUSTER=mirrormedia-prod ;;
+          main)    CLUSTER=mirrormedia-production ;;
           *) echo "unsupported branch: $BRANCH_NAME" >&2; exit 1 ;;
         esac
         gcloud container clusters get-credentials "$$CLUSTER" --zone asia-east1-a
