@@ -1,16 +1,42 @@
 steps:
   - name: gcr.io/cloud-builders/docker
+    entrypoint: bash
     args:
-      - build
-      - "-f"
-      - "build/ci/mm/${BRANCH_NAME}/Dockerfile"
-      - "-t"
-      - "gcr.io/${PROJECT_ID}/apigateway:${BRANCH_NAME}_${SHORT_SHA}"
-      - .
+      - -c
+      - |
+        set -e
+        case "$BRANCH_NAME" in
+          dev)          PORT=80 ;;
+          staging|main) PORT=8080 ;;
+          *) echo "unsupported branch: $BRANCH_NAME" >&2; exit 1 ;;
+        esac
+        docker build \
+          --build-arg PORT=$$PORT \
+          -t gcr.io/$PROJECT_ID/apigateway:${BRANCH_NAME}_${SHORT_SHA} \
+          .
+
   - name: gcr.io/cloud-builders/docker
     args:
       - push
-      - gcr.io/$PROJECT_ID/apigateway
+      - gcr.io/$PROJECT_ID/apigateway:${BRANCH_NAME}_${SHORT_SHA}
+
+  - name: gcr.io/cloud-builders/kubectl
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        set -e
+        case "$BRANCH_NAME" in
+          dev)     CLUSTER=dev ;;
+          staging) CLUSTER=mirrormedia-staging ;;
+          main)    CLUSTER=mirrormedia-prod ;;
+          *) echo "unsupported branch: $BRANCH_NAME" >&2; exit 1 ;;
+        esac
+        gcloud container clusters get-credentials "$$CLUSTER" --zone asia-east1-a
+        kubectl set image deploy/apigateway \
+          apigateway=gcr.io/$PROJECT_ID/apigateway:${BRANCH_NAME}_${SHORT_SHA} \
+          -n default
+
 timeout: 1200s
 images:
-  - gcr.io/$PROJECT_ID/apigateway
+  - gcr.io/$PROJECT_ID/apigateway:${BRANCH_NAME}_${SHORT_SHA}
